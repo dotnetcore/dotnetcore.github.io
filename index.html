@@ -5,17 +5,17 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ASP.NET Core tutorials | Microsoft Docs </title>
+    <title>Introduction to ASP.NET Core | Microsoft Docs </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="ASP.NET Core tutorials | Microsoft Docs ">
+    <meta name="title" content="Introduction to ASP.NET Core | Microsoft Docs ">
     <meta name="generator" content="docfx 2.18.2.0">
     
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
     <meta property="docfx:navrel" content="/foo">
-    <meta property="docfx:tocrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
     
     
   </head>
@@ -33,8 +33,8 @@
                 <span class="icon-bar"></span>
               </button>
               
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="">
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -65,68 +65,63 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="tutorials/index">
-<h1 id="aspnet-core-tutorials">ASP.NET Core tutorials</h1>
+            <article class="content wrap" id="_content" data-uid="index">
+<h1 id="introduction-to-aspnet-core">Introduction to ASP.NET Core</h1>
 
-<p>The following step-by-step guides for developing ASP.NET Core applications are available:</p>
-<h2 id="building-web-applications">Building web applications</h2>
+<p>By <a href="https://github.com/danroth27">Daniel Roth</a>, <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, and <a href="https://twitter.com/dicshaunary">Shaun Luttin</a></p>
+<p>ASP.NET Core is a significant redesign of ASP.NET. This topic introduces the new concepts in ASP.NET Core and explains how they help you develop modern web apps.  </p>
+<h2 id="what-is-aspnet-core">What is ASP.NET Core?</h2>
+<p>ASP.NET Core is a new open-source and cross-platform framework for building modern cloud based internet connected applications, such as web apps, IoT apps and mobile backends. ASP.NET Core apps can run on <a href="https://www.microsoft.com/net/core/platform">.NET Core</a> or on the full .NET Framework. It was architected to provide an optimized development framework for apps that are deployed to the cloud or run on-premises. It consists of modular components with minimal overhead, so you retain flexibility while constructing your solutions. You can develop and run your ASP.NET Core apps cross-platform on Windows, Mac and Linux. ASP.NET Core is open source at <a href="https://github.com/aspnet/home">GitHub</a>.</p>
+<h2 id="why-build-aspnet-core">Why build ASP.NET Core?</h2>
+<p>The first preview release of ASP.NET came out almost 15 years ago as part of the .NET Framework.  Since then millions of developers have used it to build and run great web apps, and over the years we have added and evolved many capabilities to it.</p>
+<p>ASP.NET Core has a number of architectural changes that result in a much leaner and modular framework.  ASP.NET Core is no longer based on <em>System.Web.dll</em>. It is based on a set of granular and well factored <a href="http://www.nuget.org/">NuGet</a> packages. This allows you to optimize your app to include just the NuGet packages you need. The benefits of a smaller app surface area include tighter security, reduced servicing, improved performance, and decreased costs in a pay-for-what-you-use model.</p>
+<p>With ASP.NET Core you gain the following foundational improvements:</p>
 <ul>
-<li><a class="xref" href="first-mvc-app-xplat/index.html">Create an ASP.NET Core MVC app with Visual Studio Code on Mac or Linux </a></li>
-<li><a class="xref" href="first-mvc-app/index.html">Create an ASP.NET Core MVC app with Visual Studio</a></li>
-<li><a href="../data/ef-mvc/index.html">Getting started with ASP.NET Core and Entity Framework Core using Visual Studio</a></li>
-<li><a href="your-first-mac-aspnet.html">Your first ASP.NET Core application on a Mac or Linux using Visual Studio Code</a></li>
-<li><a href="../client-side/yeoman.html">Building projects with Yeoman</a></li>
-<li><a href="../mvc/views/tag-helpers/authoring.html">Authoring Tag Helpers</a></li>
-<li><a href="../mvc/views/view-components.html#walkthrough-creating-a-simple-view-component">Creating a simple view component</a></li>
-<li><a href="dotnet-watch.html">Developing ASP.NET Core applications using dotnet watch</a></li>
+<li><p>A unified story for building web UI and web APIs</p>
+</li>
+<li><p>Integration of <a href="client-side/index.html">modern client-side frameworks</a> and development workflows</p>
+</li>
+<li><p>A cloud-ready environment-based <a href="fundamentals/configuration.html">configuration system</a></p>
+</li>
+<li><p>Built-in <a href="fundamentals/dependency-injection.html">dependency injection</a></p>
+</li>
+<li><p>New light-weight and modular HTTP request pipeline</p>
+</li>
+<li><p>Ability to host on IIS or self-host in your own process</p>
+</li>
+<li><p>Built on <a href="https://microsoft.com/net/core">.NET Core</a>, which supports true side-by-side app versioning</p>
+</li>
+<li><p>Ships entirely as <a href="https://nuget.org">NuGet</a>  packages</p>
+</li>
+<li><p>New tooling that simplifies modern web development</p>
+</li>
+<li><p>Build and run cross-platform ASP.NET apps on Windows, Mac and Linux</p>
+</li>
+<li><p>Open source and community focused</p>
+</li>
 </ul>
-<h2 id="building-web-apis">Building web APIs</h2>
+<h2 id="build-web-apis-and-web-ui-using-aspnet-core-mvc">Build web APIs and web UI using ASP.NET Core MVC</h2>
 <ul>
-<li><a class="xref" href="first-web-api-mac.html">Create a Web API with ASP.NET Core and Visual Studio for Mac</a></li>
-<li><a href="first-web-api.html">Create a Web API with ASP.NET Core and Visual Studio for Windows</a></li>
-<li><a href="web-api-vsc.html">Create a Web API with ASP.NET Core and Visual Studio Code</a></li>
-<li><a href="web-api-help-pages-using-swagger.html">ASP.NET Web API Help Pages using Swagger</a></li>
-<li><a href="../mobile/native-mobile-backend.html">Creating backend web services for native mobile applications</a></li>
-</ul>
-<h2 id="working-with-data">Working with data</h2>
-<ul>
-<li><a href="../data/ef-mvc/index.html">Getting started with ASP.NET Core and Entity Framework Core using Visual Studio</a></li>
-<li><a href="https://docs.microsoft.com/ef/core/get-started/aspnetcore/new-db">ASP.NET Core with EF Core - new database</a></li>
-<li><a href="https://docs.microsoft.com/ef/core/get-started/aspnetcore/existing-db">ASP.NET Core with EF Core - existing database</a></li>
-</ul>
-<h2 id="authentication-and-authorization">Authentication and authorization</h2>
-<ul>
-<li><a href="../security/authentication/social/index.html">Enabling authentication using Facebook, Google and other external providers</a></li>
-<li><a href="../security/authentication/accconfirm.html">Account Confirmation and Password Recovery</a></li>
-<li><a href="../security/authentication/2fa.html">Two-factor authentication with SMS</a></li>
+<li><p>You can build HTTP services that reach a broad range of clients, including browsers and mobile devices.  Support for <a href="mvc/models/formatting.html">multiple data formats and content negotiation</a> is built-in. ASP.NET Core is an ideal platform for building web APIs and RESTful apps on .NET Core. See <a href="tutorials/index.html#building-web-apis">Building web APIs</a>.  </p>
+</li>
+<li><p>You can create well-factored and testable web apps that follow the Model-View-Controller (MVC) pattern. See <a href="mvc/index.html">MVC</a> and <a href="testing/index.html">Testing</a>.</p>
+</li>
+<li><p><a href="http://www.asp.net/web-pages/overview/getting-started/introducing-razor-syntax-c">Razor</a> provides a productive language to create <a href="mvc/views/index.html">Views</a></p>
+</li>
+<li><p><a href="mvc/views/tag-helpers/intro.html">Tag Helpers</a> enable server-side code to participate in creating and rendering HTML elements in Razor files</p>
+</li>
+<li><p><a href="mvc/models/model-binding.html">Model Binding</a> automatically maps data from HTTP requests to action method parameters</p>
+</li>
+<li><p><a href="mvc/models/validation.html">Model Validation</a> automatically performs client and server side validation</p>
+</li>
 </ul>
 <h2 id="client-side-development">Client-side development</h2>
-<ul>
-<li><a href="../client-side/using-gulp.html">Using Gulp</a></li>
-<li><a href="../client-side/using-grunt.html">Using Grunt</a></li>
-<li><a href="../client-side/bower.html">Manage client-side packages with Bower</a></li>
-<li><a href="../client-side/bootstrap.html">Building beautiful, responsive sites with Bootstrap</a></li>
-</ul>
-<h2 id="testing">Testing</h2>
-<ul>
-<li><a href="https://docs.microsoft.com/dotnet/articles/core/testing/unit-testing-with-dotnet-test">Unit Testing in .NET Core using dotnet test</a></li>
-</ul>
-<h2 id="publishing-and-deployment">Publishing and deployment</h2>
-<ul>
-<li><a href="publish-to-azure-webapp-using-vs.html">Deploy an ASP.NET Core web app to Azure using Visual Studio</a></li>
-<li><a href="../publishing/azure-continuous-deployment.html">Publishing to an Azure Web App with Continuous Deployment</a></li>
-<li><a href="https://docs.microsoft.com/azure/vs-azure-tools-docker-hosting-web-apps-in-docker">Deploy an ASP.NET container to a remote Docker host</a></li>
-<li><a href="../publishing/vsts-continuous-deployment.html">Use VSTS to Build and Publish to an Azure Web App with Continuous Deployment</a></li>
-<li><a href="nano-server.html">ASP.NET Core on Nano Server</a></li>
-<li><a href="https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-add-a-web-frontend">ASP.NET Core and Azure Service Fabric</a></li>
-</ul>
-<p><a name="download"></a> </p>
-<h2 id="how-to-download-a-sample">How to download a sample</h2>
-<ol>
-<li><a href="https://github.com/aspnet/docs/archive/master.zip">Download the ASP.NET repository zip file</a>.</li>
-<li>Unzip the <em>Docs-master.zip</em> file.</li>
-<li>Use the URL in the sample link to help you navigate to the sample directory. </li>
-</ol>
+<p>ASP.NET Core is designed to integrate seamlessly with a variety of client-side frameworks, including <a href="client-side/angular.html">AngularJS</a>, <a href="client-side/knockout.html">KnockoutJS</a> and <a href="client-side/bootstrap.html">Bootstrap</a>. See <a href="client-side/index.html">Client-Side Development</a> for more details.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>For getting-started tutorials, see <a href="tutorials/index.html">ASP.NET Core Tutorials</a></p>
+<p>For in-depth introduction to ASP.NET Core concepts and architecture, see <a href="fundamentals/index.html">ASP.NET Core Fundamentals</a>.</p>
+<p>An ASP.NET Core app can use the .NET Core or .NET Framework runtime. For more information, see <a href="https://docs.microsoft.com/dotnet/articles/standard/choosing-core-framework-server">Choosing between .NET Core and .NET Framework</a>.</p>
+<p>If you’d like to connect with the ASP.NET Core development team’s progress and plans, tune in to the weekly <a href="https://live.asp.net/">ASP.NET Community Standup</a>.</p>
 </article>
           </div>
           
@@ -135,7 +130,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/tutorials/index.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/index.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
                   </li>
                 </ul>
               </div>
@@ -161,8 +156,8 @@
       </footer>
     </div>
     
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
   </body>
 </html>
