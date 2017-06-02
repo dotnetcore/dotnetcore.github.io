@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ASP.NET Core fundamentals | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="ASP.NET Core fundamentals | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="fundamentals/index">
+<h1 id="aspnet-core-fundamentals-overview">ASP.NET Core fundamentals overview</h1>
+
+<p>An ASP.NET Core app is simply a console app that creates a web server in its <code>Main</code> method:</p>
+<pre><code class="lang-csharp" name="Main">using System;
+using Microsoft.AspNetCore.Hosting;
+
+namespace aspnetcoreapp
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseStartup&lt;Startup&gt;()
+                .Build();
+
+            host.Run();
+        }
+    }
+}
+</code></pre><p><code>Main</code> uses <code>WebHostBuilder</code>, which follows the builder pattern, to create a web application host. The builder has methods that define the web server (for example <code>UseKestrel</code>) and the startup class (<code>UseStartup</code>). In the example above, the <a href="servers/kestrel.html">Kestrel</a> web server is used, but other web servers can be specified. We&#39;ll show more about <code>UseStartup</code> in the next section. <code>WebHostBuilder</code> provides many optional methods, including <code>UseIISIntegration</code> for hosting in IIS and IIS Express, and <code>UseContentRoot</code> for specifying the root content directory. The <code>Build</code> and <code>Run</code> methods build the <code>IWebHost</code> object that will host the app and start it listening for incoming HTTP requests.</p>
+<h2 id="startup">Startup</h2>
+<p>The <code>UseStartup</code> method on <code>WebHostBuilder</code> specifies the <code>Startup</code> class for your app.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="7">public class Program
+{
+    public static void Main(string[] args)
+    {
+        var host = new WebHostBuilder()
+            .UseKestrel()
+            .UseStartup&lt;Startup&gt;()
+            .Build();
+
+        host.Run();
+    }
+}
+</code></pre><p>The <code>Startup</code> class is where you define the request handling pipeline and where any services needed by the app are configured. The <code>Startup</code> class must be public and contain the following methods:</p>
+<pre><code class="lang-csharp">public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+    }
+}
+</code></pre><ul>
+<li><p><code>ConfigureServices</code> defines the services (see <a href="#services">Services</a> below) used by your app (such as the ASP.NET MVC Core framework, Entity Framework Core, Identity, etc.)</p>
+</li>
+<li><p><code>Configure</code> defines the <a href="middleware.html">middleware</a> in the request pipeline</p>
+</li>
+</ul>
+<p>For more information, see <a href="startup.html">Application startup</a>.</p>
+<h2 id="services">Services</h2>
+<p>A service is a component that is intended for common consumption in an application. Services are made available through dependency injection (DI). ASP.NET Core includes a simple built-in inversion of control (IoC) container that supports constructor injection by default. The built-in container can be easily replaced with your container of choice. In addition to its loose coupling benefit, DI makes services available throughout your app. For example, <a href="logging.html">logging</a> is available throughout your app.</p>
+<p>For more information, see <a href="dependency-injection.html">Dependency injection</a> .</p>
+<h2 id="middleware">Middleware</h2>
+<p>In ASP.NET Core you compose your request pipeline using <a href="middleware.html">Middleware</a>. ASP.NET Core middleware performs asynchronous logic on an <code>HttpContext</code> and then either invokes the next middleware in the sequence or terminates the request directly. You generally &quot;Use&quot; middleware by taking a dependency on a NuGet package and invoking a corresponding <code>UseXYZ</code> extension method on the <code>IApplicationBuilder</code> in the <code>Configure</code> method.</p>
+<p>ASP.NET Core comes with a rich set of built-in middleware:</p>
+<ul>
+<li><p><a href="static-files.html">Static files</a></p>
+</li>
+<li><p><a href="routing.html">Routing</a></p>
+</li>
+<li><p><a href="../security/authentication/index.html">Authentication</a></p>
+</li>
+</ul>
+<p>You can use any <a href="http://owin.org">OWIN</a>-based middleware with ASP.NET Core, and you can write your own custom middleware.</p>
+<p>For more information, see <a href="middleware.html">Middleware</a> and <a href="owin.html">Open Web Interface for .NET (OWIN)</a>.</p>
+<h2 id="servers">Servers</h2>
+<p>The ASP.NET Core hosting model does not directly listen for requests; rather it relies on an HTTP server implementation to forward the request to the application. The forwarded request is wrapped as a set of feature interfaces that the application then composes into an <code>HttpContext</code>.  ASP.NET Core includes a managed cross-platform web server, called <a href="servers/kestrel.html">Kestrel</a> that you would typically run behind a production web server like <a href="https://iis.net">IIS</a> or <a href="http://nginx.org">nginx</a>.</p>
+<p>For more information, see <a href="servers/index.html">Servers</a> and <a href="hosting.html">Hosting</a>.</p>
+<h2 id="content-root">Content root</h2>
+<p>The content root is the base path to any content used by the app, such as its views and web content. By default the content root is the same as application base path for the executable hosting the app; an alternative location can be specified with <em>WebHostBuilder</em>.</p>
+<h2 id="web-root">Web root</h2>
+<p>The web root of your app is the directory in your project for public, static resources like css, js, and image files. The static files middleware will only serve files from the web root directory (and sub-directories) by default. The web root path defaults to <em><content root="">/wwwroot</content></em>, but you can specify a different location using the <em>WebHostBuilder</em>.</p>
+<h2 id="configuration">Configuration</h2>
+<p>ASP.NET Core uses a new configuration model for handling simple name-value pairs. The new configuration model is not based on <code>System.Configuration</code> or <em>web.config</em>; rather, it pulls from an ordered set of configuration providers. The built-in configuration providers support a variety of file formats (XML, JSON, INI) and environment variables to enable environment-based configuration. You can also write your own custom configuration providers.</p>
+<p>For more information, see <a href="configuration.html">Configuration</a>.</p>
+<h2 id="environments">Environments</h2>
+<p>Environments, like &quot;Development&quot; and &quot;Production&quot;, are a first-class notion in ASP.NET Core and can  be set using environment variables.</p>
+<p>For more information, see <a href="environments.html">Working with Multiple Environments</a>.</p>
+<h2 id="net-core-vs-net-framework-runtime">.NET Core vs. .NET Framework runtime</h2>
+<p>An ASP.NET Core app can use the .NET Core or .NET Framework runtime. For more information, see <a href="https://docs.microsoft.com/dotnet/articles/standard/choosing-core-framework-server">Choosing between .NET Core and .NET Framework</a>.</p>
+<h2 id="additional-information">Additional information</h2>
+<p>See also the following topics:</p>
+<ul>
+<li><a href="logging.html">Logging</a></li>
+<li><a href="error-handling.html">Error Handling</a></li>
+<li><a href="localization.html">Globalization and localization</a></li>
+<li><a href="file-providers.html">File Providers</a></li>
+<li><a href="app-state.html">Managing Application State</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/fundamentals/index.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

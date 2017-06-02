@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Application Startup in ASP.NET Core | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Application Startup in ASP.NET Core | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="fundamentals/startup">
+<h1 id="application-startup-in-aspnet-core">Application Startup in ASP.NET Core</h1>
+
+<p>By <a href="http://ardalis.com">Steve Smith</a> and <a href="https://github.com/tdykstra/">Tom Dykstra</a></p>
+<p>The <code>Startup</code> class configures the request pipeline that handles all requests made to the application.</p>
+<h2 id="the-startup-class">The Startup class</h2>
+<p>ASP.NET Core apps require a <code>Startup</code> class. By convention, the <code>Startup</code> class is named &quot;Startup&quot;. You specify the startup class name in the <code>Main</code> programs <a href="https://docs.microsoft.com/aspnet/core/api/microsoft.aspnetcore.hosting.webhostbuilderextensions">WebHostBuilderExtensions</a> <a href="https://docs.microsoft.com/aspnet/core/api/microsoft.aspnetcore.hosting.webhostbuilderextensions#Microsoft_AspNetCore_Hosting_WebHostBuilderExtensions_UseStartup__1_Microsoft_AspNetCore_Hosting_IWebHostBuilder_"><code>UseStartup&lt;TStartup&gt;</code></a> method.</p>
+<p>You can define separate <code>Startup</code> classes for different environments, and the appropriate one will be selected at runtime. If you specify <code>startupAssembly</code> in the WebHost configuration or options, hosting will load that startup assembly and search for a <code>Startup</code> or <code>Startup[Environment]</code> type. See <a href="https://github.com/aspnet/Hosting/blob/rel/1.1.0/src/Microsoft.AspNetCore.Hosting/Internal/StartupLoader.cs">FindStartupType</a> in <code>StartupLoader</code> and <a href="environments.html#startup-conventions">Working with multiple environments</a>. <code>UseStartup&lt;TStartup&gt;</code> is the recommended approach.</p>
+<p>The <code>Startup</code> class constructor can accept dependencies that are provided through <a href="dependency-injection.html">dependency injection</a>. You can use <code>IHostingEnvironment</code> to set up <a href="configuration.html">configuration</a> sources and <code>ILoggerFactory</code> to set up <a href="logging.html">logging</a> providers. </p>
+<p>The <code>Startup</code> class must include a <code>Configure</code> method and can optionally include a <code>ConfigureServices</code> method, both of which are called when the application starts. The class can also include <a href="environments.html#startup-conventions">environment-specific versions of these methods</a>.</p>
+<p>Learn about <a href="error-handling.html#startup-exception-handling">handling exceptions during application startup</a>.</p>
+<h2 id="the-configure-method">The Configure method</h2>
+<p>The <code>Configure</code> method is used to specify how the ASP.NET application will respond to HTTP requests. The request pipeline is configured by adding <a href="middleware.html">middleware</a> components to an <code>IApplicationBuilder</code> instance that is provided by dependency injection.</p>
+<p>In the following example from the default web site template, several extension methods are used to configure the pipeline with support for <a href="http://vswebessentials.com/features/browserlink">BrowserLink</a>, error pages, static files, ASP.NET MVC, and Identity.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="8,9,10,14,17,19,21">public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    loggerFactory.AddConsole(Configuration.GetSection(&quot;Logging&quot;));
+    loggerFactory.AddDebug();
+
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+        app.UseDatabaseErrorPage();
+        app.UseBrowserLink();
+    }
+    else
+    {
+        app.UseExceptionHandler(&quot;/Home/Error&quot;);
+    }
+
+    app.UseStaticFiles();
+
+    app.UseIdentity();
+
+    app.UseMvc(routes =&gt;
+    {
+        routes.MapRoute(
+            name: &quot;default&quot;,
+            template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
+    });
+}
+</code></pre><p>Each <code>Use</code> extension method adds a <a href="middleware.html">middleware</a> component to the request pipeline. For instance, the <code>UseMvc</code> extension method adds the <a href="routing.html">routing</a> middleware to the request pipeline and configures <a href="../mvc/index.html">MVC</a> as the default handler.</p>
+<p>For more information about how to use <code>IApplicationBuilder</code>, see <a href="middleware.html">Middleware</a>.</p>
+<p>Additional services, like <code>IHostingEnvironment</code> and <code>ILoggerFactory</code> may also be specified in the method signature, in which case these services will be <a href="dependency-injection.html">injected</a> if they are available. </p>
+<h2 id="the-configureservices-method">The ConfigureServices method</h2>
+<p>The <a href="https://docs.microsoft.com/en-us/aspnet/core/api/microsoft.aspnetcore.hosting.startupbase#Microsoft_AspNetCore_Hosting_StartupBase_ConfigureServices_Microsoft_Extensions_DependencyInjection_IServiceCollection_">ConfigureServices</a> method is optional; but if used, it&#39;s called before the <code>Configure</code> method by the runtime (some features are added before they&#39;re wired up to the request pipeline). <a href="configuration.html">Configuration options</a> are set in this method.</p>
+<p>For features that require substantial setup there are <code>Add[Service]</code> extension methods on <a href="https://docs.microsoft.com/en-us/aspnet/core/api/microsoft.extensions.dependencyinjection.iservicecollection">IServiceCollection</a>. This example from the default web site template configures the app to use services for Entity Framework, Identity, and MVC:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="4,7,11">public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddDbContext&lt;ApplicationDbContext&gt;(options =&gt;
+        options.UseSqlServer(Configuration.GetConnectionString(&quot;DefaultConnection&quot;)));
+
+    services.AddIdentity&lt;ApplicationUser, IdentityRole&gt;()
+        .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;()
+        .AddDefaultTokenProviders();
+
+    services.AddMvc();
+
+    // Add application services.
+    services.AddTransient&lt;IEmailSender, AuthMessageSender&gt;();
+    services.AddTransient&lt;ISmsSender, AuthMessageSender&gt;();
+}
+</code></pre><p>Adding services to the services container makes them available within your application via <a href="dependency-injection.html">dependency injection</a>.</p>
+<h2 id="services-available-in-startup">Services Available in Startup</h2>
+<p>ASP.NET Core dependency injection provides application services during an application&#39;s startup. You can request these services by including the appropriate interface as a parameter on your <code>Startup</code> class&#39;s constructor or one of its <code>Configure</code> or <code>ConfigureServices</code> methods. </p>
+<p>Looking at each method in the <code>Startup</code> class in the order in which they are called, the following services may be requested as parameters:</p>
+<ul>
+<li>In the constructor:  <code>IHostingEnvironment</code>, <code>ILoggerFactory</code></li>
+<li>In the <code>ConfigureServices</code> method:  <code>IServiceCollection</code></li>
+<li>In the <code>Configure</code> method:  <code>IApplicationBuilder</code>, <code>IHostingEnvironment</code>, <code>ILoggerFactory</code>, <code>IApplicationLifetime</code></li>
+</ul>
+<h2 id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="environments.html">Working with Multiple Environments</a></li>
+<li><a href="middleware.html">Middleware</a></li>
+<li><a href="logging.html">Logging</a></li>
+<li><a href="configuration.html">Configuration</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/fundamentals/startup.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
