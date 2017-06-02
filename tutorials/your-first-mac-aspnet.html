@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Build an ASP.NET Core app on a Mac or Linux using Visual Studio Code | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Build an ASP.NET Core app on a Mac or Linux using Visual Studio Code | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/your-first-mac-aspnet">
+<h1 id="build-an-aspnet-core-app-on-a-mac-or-linux-using-visual-studio-code">Build an ASP.NET Core app on a Mac or Linux using Visual Studio Code</h1>
+
+<p>This article will show you how to write your first ASP.NET Core application on macOS or Linux.</p>
+<h2 id="setting-up-your-development-environment">Setting up your development environment</h2>
+<p>Download and install <a href="https://microsoft.com/net/core">.NET Core</a> and <a href="https://code.visualstudio.com">Visual Studio Code</a> with the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp">C# extension</a>.</p>
+<h2 id="scaffolding-applications-using-dotnet-new">Scaffolding applications using dotnet new</h2>
+<p>We will be using <code>dotnet new</code> to generate a new web application using the &quot;Empty Web Template&quot;. Create a working directory for your project called <em>firstapp</em> . cd to <em>firstapp</em>.</p>
+<p>Start Visual Studio Code and open the <em>firstapp</em> folder. Press Ctrl + &#39;`&#39; (the back-quote character) to open an embedded terminal in VS Code. Alternatively, use a separate terminal window.
+Run the <code>dotnet new</code> command to create a new web application, passing the <code>mvc</code> parameter as the template type.</p>
+<pre><code class="lang-console">dotnet new mvc
+</code></pre><p>If you get an error running <code>dotnet new mvc</code>, install the latest <a href="https://microsoft.com/net/core">.NET Core</a>. When the CLI command completes; the following output and files are produced.</p>
+<pre><code class="lang-console">Content generation time: 79.6691 ms
+The template &quot;Empty ASP.NET Core Web Application&quot; created successfully.
+</code></pre><!-- the ~ format is perferred but not working on DocFX. It does work on OPS. See bug https://mseng.visualstudio.com/DefaultCollection/VSChina/_workitems#_a=edit&id=959814
+[!INCLUDE[template files](~/includes/template-files.md)]
+-->
+<ul>
+<li>Startup.cs : <a href="../fundamentals/startup.html">Startup Class</a> - class configures the request pipeline that handles all requests made to the application.</li>
+<li>Program.cs : <a href="../fundamentals/index.html">Program Class</a> that contains the Main entry point of the application.</li>
+<li>firstapp.csproj : <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/preview3/tools/csproj">Project file</a> MSBuild Project file format for ASP.NET Core applications. Contains Project to Project references, NuGet References and other project related items.</li>
+<li>appsettings.json / appsettings.Development.json : Environment base app settings configuration file. <a class="xref" href="../fundamentals/configuration.html">See Configuration</a>.</li>
+<li>bower.json : Bower package dependencies for the project.</li>
+<li>.bowerrc : Bower configuration file which defines where to install the components when Bower downloads the assets.</li>
+<li>bundleconfig.json : configuration files for bundling and minifying front-end JavaScript and CSS assets.</li>
+<li>Views : Contains the Razor views. Views are the components that display the app&#39;s user interface (UI). Generally, this UI displays the model data.</li>
+<li>Controllers : Contains MVC Controllers, initially <em>HomeController.cs</em>. Controllers are classes that handle browser requests.</li>
+<li>wwwroot : Web application root folder.</li>
+</ul>
+<p>For more information see <a class="xref" href="../mvc/overview.html">The MVC pattern</a>.</p>
+<h2 id="developing-aspnet-core-applications-on-a-mac-and-linux-with-visual-studio-code">Developing ASP.NET Core applications on a Mac and Linux with Visual Studio Code</h2>
+<p>Open the project folder in Visual Studio Code (VS Code) and select the <em>Startup.cs</em> file.. VS Code will prompt to restore the needed project dependencies and add build/debug dependencies. Tap <strong>Yes</strong> to add the build and debug assets and then tap <strong>Restore</strong> to restore the project dependencies.</p>
+<p><img src="your-first-mac-aspnet/_static/debug-add-items-prompt.png" alt="Info messages: 2. 2. Required assets to build and debug are missing from your project. Add them?"></p>
+<p>For <strong>Restore</strong>,  alternately, you can run <code>dotnet restore</code> from the terminal or enter <code>⌘⇧P</code> or <code>Ctrl+Shift+P</code> in VS Code and then type <code>.NET</code> as shown:</p>
+<p><img src="your-first-mac-aspnet/_static/dot-restore.png" alt="Command bar showing autocompletion option on typing &#39;dot&#39; for &#39;dotnet: Restore Packages&#39;"></p>
+<p>VS Code provides a streamlined, clean interface for working with files and a productive coding enviromment. </p>
+<p>In the left navigation bar, there are five icons, representing four viewlets:</p>
+<ul>
+<li>Explore</li>
+<li>Search</li>
+<li>Git</li>
+<li>Debug</li>
+<li>Extensions</li>
+</ul>
+<p>The Explorer viewlet provides folder navigation and a view of the files you have open. It displays a badge to indicate files with unsaved changes. You can create new folders and files in the viewlet. You can select <strong>Save All</strong> from a menu option that appears on mouse over.</p>
+<p>The Search viewlet allows you to search the folder tree of files you have open. The search is for filenames and file contents.</p>
+<p><em>VS Code</em> will integrate with Git if it is installed on your system. You can initialize a new repository, make commits, and push changes from the Git viewlet.</p>
+<p><img src="your-first-mac-aspnet/_static/vscode-git.png" alt="GIT sidebar indicating &#39;This workspace isn&#39;t yet under git source control&#39; with an &#39;Initialize git repository&#39; button"></p>
+<p>The Debug viewlet supports interactive debugging of applications.</p>
+<p>VS Code&#39;s editor has a ton of great features. You&#39;ll notice unused using statements are underlined and can be removed automatically by using <code>⌘ .</code> or <code>Ctrl + .</code> when the lightbulb icon appears. Classes and methods also display how many references there are in the project to them.</p>
+<p>More on editor in <a href="https://code.visualstudio.com">Visual Studio Code</a>.</p>
+<h2 id="using-the-vs-code-debugger">Using the VS Code debugger</h2>
+<p>The sample is configured to use <a href="../fundamentals/servers/kestrel.html">Kestrel</a> for the web server.</p>
+<p>Run the app in the debugger:</p>
+<ul>
+<li><p>Tap the Debug icon in the View Bar on the left pane</p>
+</li>
+<li><p>Tap the &quot;Play (F5)&quot; icon to launch the app</p>
+</li>
+</ul>
+<p><img src="your-first-mac-aspnet/_static/launch-debugger.png" alt="DEBUG sidebar showing the triangle play button"></p>
+<p>Your default browser will automatically launch and navigate to <code>http://localhost:5000</code></p>
+<p><img src="your-first-mac-aspnet/_static/myfirstapp.png" alt="Browser window"></p>
+<ul>
+<li>To stop the application, close the browser and hit the &quot;Stop&quot; icon on the debug bar</li>
+</ul>
+<p><img src="your-first-mac-aspnet/_static/debugger.png" alt="VS Code Debug bar"></p>
+<h3 id="using-the-dotnet-commands">Using the dotnet commands</h3>
+<ul>
+<li><p>Run <code>dotnet run</code> command to launch the app from terminal/bash</p>
+</li>
+<li><p>Navigate to <code>http://localhost:5000</code></p>
+</li>
+<li><p>To stop the web server enter <code>⌃+C</code> or <code>Ctrl+C</code>.</p>
+</li>
+</ul>
+<h2 id="publishing-to-azure">Publishing to Azure</h2>
+<p>VS Code provides Git integration to push updates to production, hosted on <a href="http://azure.microsoft.com">Microsoft Azure</a>.</p>
+<h3 id="initialize-git">Initialize Git</h3>
+<p>Initialize Git in the folder you&#39;re working in. Tap on the Git viewlet and click the <code>Initialize Git repository</code> button.</p>
+<p><img src="your-first-mac-aspnet/_static/vscode-git-commit.png" alt="GIT sidebar"></p>
+<p>Add a commit message and tap enter or tap the checkmark icon to commit the staged files.</p>
+<p><img src="your-first-mac-aspnet/_static/init-commit.png" alt="GIT sidebar showing file changes"></p>
+<p>Git is tracking changes, so if you make an update to a file, the Git viewlet will display the files that have changed since your last commit.</p>
+<h3 id="initialize-azure-website">Initialize Azure Website</h3>
+<p>You can deploy to Azure Web Apps directly using Git.</p>
+<ul>
+<li>If you don&#39;t have an Azure account, you can <a href="http://azure.microsoft.com/en-us/pricing/free-trial/">create a free trial</a>.</li>
+</ul>
+<p>Create a Web App in the Azure Portal to host your new application.</p>
+<p><img src="your-first-mac-aspnet/_static/create-web-app.png" alt="Microsoft Azure Portal: New button: Web + Mobile selection in the Marketplace list reveals a Web App button under Featured Apps"></p>
+<p>Configure the Web App in Azure to support <a href="https://azure.microsoft.com/en-us/documentation/articles/app-service-deploy-local-git/">continuous deployment using Git</a>.</p>
+<p>Record the Git URL for the Web App from the Azure portal.</p>
+<p><img src="your-first-mac-aspnet/_static/azure-portal.png" alt="Azure Portal for web application: Overview panel"></p>
+<p>In a Terminal window, add a remote named <code>azure</code> with the Git URL you noted previously.</p>
+<p><code>git remote add azure https://shayneboyer@myfirstappmac.scm.azurewebsites.net:443/MyFirstAppMac.git</code></p>
+<p>Push to master.  <code>git push azure master</code> to deploy.</p>
+<p>   <img src="your-first-mac-aspnet/_static/git-push-azure-master.png" alt="Command window showing a successful deployment"></p>
+<p>Browse to the newly deployed web app.</p>
+<p><img src="your-first-mac-aspnet/_static/azure.png" alt="Browser window"></p>
+<p>Looking at the Deployment Details in the Azure Portal, you can see the logs and steps each time there is a commit to the branch.</p>
+<p><img src="your-first-mac-aspnet/_static/deployment.png" alt="Azure Portal for web application: Deployment Details"></p>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="https://code.visualstudio.com">Visual Studio Code</a></li>
+<li><a href="../fundamentals/index.html">Fundamentals</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/tutorials/your-first-mac-aspnet.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Enabling authentication using Facebook, Google and other external  | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Enabling authentication using Facebook, Google and other external  | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="security/authentication/social/index">
+<h1 id="enabling-authentication-using-facebook-google-and-other-external-providers">Enabling authentication using Facebook, Google and other external providers</h1>
+
+<p><a name="security-authentication-social-logins"></a></p>
+<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, <a href="https://github.com/rustd">Pranav Rastogi</a>, and <a href="https://github.com/01binary">Valeriy Novytskyy</a></p>
+<p>This tutorial demonstrates how to build an ASP.NET Core app that enables users to log in using OAuth 2.0/1.0a with credentials from external authentication providers.</p>
+<p><a href="facebook-logins.html">Facebook</a>, <a href="twitter-logins.html">Twitter</a>, <a href="google-logins.html">Google</a>, and <a href="microsoft-logins.html">Microsoft</a> providers are covered in the following sections. See <a href="https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers">AspNet.Security.OAuth.Providers</a> and <a href="https://github.com/aspnet-contrib/AspNet.Security.OpenId.Providers">AspNet.Security.OpenId.Providers</a> for additional providers.</p>
+<p><img src="index/_static/social.png" alt="Social media icons for Facebook, Twitter, Google plus, and Windows"></p>
+<p>Enabling users to sign in with their existing credentials is convenient for the users and shifts many of the complexities of managing the sign-in process onto a third party. For examples of how social logins can drive traffic and customer conversions, see case studies by <a href="https://developers.facebook.com/case-studies">Facebook</a> and <a href="https://dev.twitter.com/resources/case-studies">Twitter</a>.</p>
+<div class="NOTE"><h5>Note</h5><p>Packages presented here abstract a great deal of complexity of the OAuth authentication flow, but understanding the details may become necessary when troubleshooting. Many resources are available; for example, see <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2">Introduction to OAuth 2</a> or <a href="http://www.bubblecode.net/en/2016/01/22/understanding-oauth2/">Understanding OAuth 2</a>. Some issues can be resolved by looking at the <a href="https://github.com/aspnet/Security/tree/dev/src">ASP.NET Core source code for the provider packages</a>.</p>
+</div>
+<h2 id="create-a-new-aspnet-core-project">Create a New ASP.NET Core Project</h2>
+<div class="NOTE"><h5>Note</h5><p>This tutorial requires the latest update (<strong>Update 3</strong>) for Visual Studio 2015 and ASP.NET Core.</p>
+</div>
+<ul>
+<li>In Visual Studio, create a new project (from the Start Page, or via <strong>File &gt; New &gt; Project</strong>):</li>
+</ul>
+<p><img src="index/_static/new-project.png" alt="New Project dialog"></p>
+<ul>
+<li>Tap <strong>Web Application</strong> and verify <strong>Authentication</strong> is set to <strong>Individual User Accounts</strong>:</li>
+</ul>
+<p><img src="index/_static/select-project.png" alt="New Web Application dialog"></p>
+<h2 id="enable-ssl">Enable SSL</h2>
+<p>Some external authentication providers reject requests coming from origins that don&#39;t use the <strong>https</strong> protocol. This reflects the trend of major providers like <a href="https://security.googleblog.com/2014/08/https-as-ranking-signal_6.html">Google</a> moving their public API services to https and discontinuing the use of unencrypted endpoints. We encourage you to follow this trend and enable SSL for your entire site. For Visual Studio 2017 RC1, see instructions below.</p>
+<ul>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Properties</strong>.</p>
+</li>
+<li><p>On the left pane, tap <strong>Debug</strong>.</p>
+</li>
+<li><p>Check <strong>Enable SSL</strong>.</p>
+</li>
+<li><p>Copy the SSL URL and paste it into the <strong>App URL</strong>:</p>
+</li>
+</ul>
+<p><img src="index/_static/ssl.png" alt="Debug tab of application properties"></p>
+<p>Visual Studio 2017 RC1:</p>
+<p>Edit the <em>properties/launchsettings.json</em> file. Add an sslPort between 44300 and 44399:</p>
+<pre><code>{
+  &quot;iisSettings&quot;: {
+    &quot;windowsAuthentication&quot;: false,
+    &quot;anonymousAuthentication&quot;: true,
+    &quot;iisExpress&quot;: {
+      &quot;applicationUrl&quot;: &quot;http://localhost:62183/&quot;,
+      &quot;sslPort&quot;: 0
+    }
+  },
+</code></pre><ul>
+<li>Modify the <code>services.AddMvc();</code> code in <code>Startup.cs</code> under <code>ConfigureServices</code> to reject all requests that are not coming over <em>https</em>:</li>
+</ul>
+<pre><code class="lang-csharp">services.AddMvc(options =&gt;
+{
+    options.SslPort = 44321;
+    options.Filters.Add(new RequireHttpsAttribute ());
+});
+</code></pre><ul>
+<li>Test the app to ensure that static files are still being served and publicly exposed routes are accessible.<ul>
+<li>There shouldn&#39;t be any warnings logged to the browser console in Developer Tools.</li>
+<li>Attempting to navigate to the previous URL that used the <em>http</em> protocol should now result in <strong>connection rejected</strong> errors from the browser or a blank page.</li>
+</ul>
+</li>
+</ul>
+<h2 id="use-secretmanager-to-store-tokens-assigned-by-login-providers">Use SecretManager to store tokens assigned by login providers</h2>
+<p>The template used to create the sample project in this tutorial has code in <code>Startup.cs</code> which reads the configuration values from a secret store:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="11">public Startup(IHostingEnvironment env)
+{
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(env.ContentRootPath)
+        .AddJsonFile(&quot;appsettings.json&quot;, optional: true, reloadOnChange: true)
+        .AddJsonFile($&quot;appsettings.{env.EnvironmentName}.json&quot;, optional: true);
+
+    if (env.IsDevelopment())
+    {
+        // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+        builder.AddUserSecrets&lt;Startup&gt;();
+    }
+
+    builder.AddEnvironmentVariables();
+    Configuration = builder.Build();
+}
+
+</code></pre><p>As a best practice, it is not recommended to store the secrets in a configuration file in the application since they can be checked into source control which may be publicly accessible.</p>
+<p>The <strong>SecretManager</strong> tool stores sensitive application settings in the user profile folder on the local machine. These settings are then seamlessly merged with settings from all other sources during application startup.</p>
+<div class="NOTE"><h5>Note</h5><p>Most login providers assign <strong>Application Id</strong> and <strong>Application Secret</strong> during the registration process. These values are effectively the <em>user name</em> and <em>password</em> your application uses to access their API, and constitute the &quot;secrets&quot; linked to your application configuration with the help of <strong>Secret Manager</strong> instead of storing them in configuration files directly.</p>
+</div>
+<p>Install the <a href="../../app-secrets.html">Secret Manager tool</a> so that you can use it to store tokens assigned by each login provider below.</p>
+<h2 id="setup-login-providers-required-by-your-application">Setup login providers required by your application</h2>
+<p>Use the following pages to configure your application to use the respective providers:</p>
+<ul>
+<li><a href="facebook-logins.html">Facebook</a> instructions</li>
+<li><a href="twitter-logins.html">Twitter</a> instructions</li>
+<li><a href="google-logins.html">Google</a> instructions</li>
+<li><a href="microsoft-logins.html">Microsoft</a> instructions</li>
+<li><a href="other-logins.html">Other provider</a> instructions</li>
+</ul>
+<div class="NOTE"><h5>Note</h5><p>Call <code>app.UseIdentity</code> (in <code>Configure</code>) before any other external providers.</p>
+</div>
+<h2 id="optionally-set-password">Optionally set password</h2>
+<p>When you register with an external login provider, you do not have a password registered with the app. This alleviates you from creating and remembering a password for the site, but it also makes you dependent on the external login provider. If the external login provider is unavailable, you won&#39;t be able to log in to the web site.</p>
+<p>To create a password and sign in using your email that you set during the sign in process with external providers:</p>
+<ul>
+<li>Tap the <strong>Hello <email alias=""></email></strong> link at the top right corner to navigate to the <strong>Manage</strong> view.</li>
+</ul>
+<p><img src="index/_static/pass1a.png" alt="Web application Manage view"></p>
+<ul>
+<li>Tap <strong>Create</strong></li>
+</ul>
+<p><img src="index/_static/pass2a.png" alt="Set your password page"></p>
+<ul>
+<li>Set a valid password and you can use this to sign in with your email.</li>
+</ul>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><p>This article introduced external authentication and explained the prerequisites required to add external logins to your ASP.NET Core app.</p>
+</li>
+<li><p>Reference provider-specific pages to configure logins for the providers required by your app.</p>
+</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/security/authentication/social/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

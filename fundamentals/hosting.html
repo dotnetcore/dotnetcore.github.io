@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hosting in ASP.NET Core| Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Hosting in ASP.NET Core| Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="fundamentals/hosting">
+<h1 id="introduction-to-hosting-in-aspnet-core">Introduction to hosting in ASP.NET Core</h1>
+
+<p>By <a href="http://ardalis.com">Steve Smith</a></p>
+<p>To run an ASP.NET Core app, you need to configure and launch a host using <code>WebHostBuilder</code>.</p>
+<h2 id="what-is-a-host">What is a Host?</h2>
+<p>ASP.NET Core apps require a <em>host</em> in which to execute. A host must implement the <code>IWebHost</code> interface, which exposes collections of features and services, and a <code>Start</code> method. The host is typically created using an instance of a <code>WebHostBuilder</code>, which builds and returns a  <code>WebHost</code> instance. The <code>WebHost</code> references the server that will handle requests. Learn more about <a href="servers/index.html">servers</a>.</p>
+<h3 id="what-is-the-difference-between-a-host-and-a-server">What is the difference between a host and a server?</h3>
+<p>The host is responsible for application startup and lifetime management. The server is responsible for accepting HTTP requests. Part of the host&#39;s responsibility includes ensuring the application&#39;s services and the server are available and properly configured. You can think of the host as being a wrapper around the server. The host is configured to use a particular server; the server is unaware of its host.</p>
+<h2 id="setting-up-a-host">Setting up a Host</h2>
+<p>You create a host using an instance of <code>WebHostBuilder</code>. This is typically done in your app&#39;s entry point: <code>public static void Main</code>, (which in the project templates is located in a <em>Program.cs</em> file). A typical <em>Program.cs</em>, shown below, demonstrates how to use a <code>WebHostBuilder</code> to build a host.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="14,15,16,17,18,19,20,21">using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+
+namespace WebApplication1
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup&lt;Startup&gt;()
+                .Build();
+
+            host.Run();
+        }
+    }
+}
+</code></pre><p>The <code>WebHostBuilder</code> is responsible for creating the host that will bootstrap the server for the app. <code>WebHostBuilder</code> requires you provide a server that implements <code>IServer</code> (<code>UseKestrel</code> in the code above). <code>UseKestrel</code> specifies the Kestrel server will be used by the app.</p>
+<p>The server&#39;s <em>content root</em> determines where it searches for content files, like MVC View files. The default content root is the folder from which the application is run.</p>
+<div class="NOTE"><h5>Note</h5><p>Specifying <code>Directory.GetCurrentDirectory</code> as the content root will use the web project&#39;s root folder as the app&#39;s content root when the app is started from this folder (for example, calling <code>dotnet run</code> from the web project folder). This is the default used in Visual Studio and <code>dotnet new</code> templates.</p>
+</div>
+<p>If the app should work with IIS, the <code>UseIISIntegration</code> method should be called as part of building the host. Note that this does not configure a <em>server</em>, like <code>UseKestrel</code> does. To use IIS with ASP.NET Core, you must specify both <code>UseKestrel</code> and <code>UseIISIntegration</code>. Kestrel is designed to be run behind a proxy and should not be deployed directly facing the Internet. <code>UseIISIntegration</code> specifies IIS as the reverse proxy server.</p>
+<div class="NOTE"><h5>Note</h5><p><code>UseKestrel</code> and <code>UseIISIntegration</code> are very different actions. IIS is only used as a reverse proxy. <code>UseKestrel</code> creates the web server and hosts the code. <code>UseIISIntegration</code> specifies IIS as the reverse proxy server. It also examines environment variables used by IIS/IISExpress and makes decisions like which dynamic port use, which headers to set, etc. However, it doesn&#39;t deal with or create an <code>IServer</code>.</p>
+</div>
+<p>A minimal implementation of configuring a host (and an ASP.NET Core app) would include just a server and configuration of the app&#39;s request pipeline:</p>
+<pre><code class="lang-csharp">var host = new WebHostBuilder()
+    .UseKestrel()
+    .Configure(app =&gt;
+    {
+        app.Run(async (context) =&gt; await context.Response.WriteAsync(&quot;Hi!&quot;));
+    })
+    .Build();
+
+host.Run();
+</code></pre><div class="NOTE"><h5>Note</h5><p>When setting up a host, you can provide <code>Configure</code> and <code>ConfigureServices</code> methods, instead of or in addition to specifying a <code>Startup</code> class (which must also define these methods - see <a href="startup.html">Application Startup</a>). Multiple calls to <code>ConfigureServices</code> will append to one another; calls to <code>Configure</code> or <code>UseStartup</code> will replace previous settings.</p>
+</div>
+<h2 id="configuring-a-host">Configuring a Host</h2>
+<p>The <code>WebHostBuilder</code> provides methods for setting most of the available configuration values for the host, which can also be set directly using <code>UseSetting</code> and associated key. For example, to specify the application name:</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseSetting(&quot;applicationName&quot;, &quot;MyApp&quot;)
+</code></pre><h3 id="host-configuration-values">Host Configuration Values</h3>
+<p><strong>Application Name</strong> <code>string</code></p>
+<p>Key: <code>applicationName</code>. This configuration setting specifies the value that will be returned from <code>IHostingEnvironment.ApplicationName</code>.</p>
+<p><strong>Capture Startup Errors</strong> <code>bool</code></p>
+<p>Key: <code>captureStartupErrors</code>. Defaults to <code>false</code>. When <code>false</code>, errors during startup result in the host exiting. When <code>true</code>, the host will capture any exceptions from the <code>Startup</code> class and attempt to start the server. It will display an error page (generic, or detailed, based on the Detailed Errors setting, below) for every request. Set using the <code>CaptureStartupErrors</code> method.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .CaptureStartupErrors(true)
+</code></pre><p><strong>Content Root</strong> <code>string</code></p>
+<p>Key: <code>contentRoot</code>. Defaults to the folder where the application assembly resides (for Kestrel; IIS will use the web project root by default). This setting determines where ASP.NET Core will begin searching for content files, such as MVC Views. Also used as the base path for the <a href="#web-root-setting">Web Root Setting</a>. Set using the <code>UseContentRoot</code> method. Path must exist, or host will fail to start.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseContentRoot(&quot;c:\\mywebsite&quot;)
+</code></pre><p><strong>Detailed Errors</strong> <code>bool</code></p>
+<p>Key: <code>detailedErrors</code>. Defaults to <code>false</code>. When <code>true</code> (or when Environment is set to &quot;Development&quot;), the app will display details of startup exceptions, instead of just a generic error page. Set using <code>UseSetting</code>.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseSetting(&quot;detailedErrors&quot;, &quot;true&quot;)
+</code></pre><p>When Detailed Errors is set to <code>false</code> and Capture Startup Errors is <code>true</code>, a generic error page is displayed in response to every request to the server.</p>
+<p><img src="hosting/_static/generic-error-page.png" alt="Generic error page"></p>
+<p>When Detailed Errors is set to <code>true</code> and Capture Startup Errors is <code>true</code>, a detailed error page is displayed in response to every request to the server.</p>
+<p><img src="hosting/_static/detailed-error-page.png" alt="Detailed error page"></p>
+<p><strong>Environment</strong> <code>string</code></p>
+<p>Key: <code>environment</code>. Defaults to &quot;Production&quot;. May be set to any value. Framework-defined values include &quot;Development&quot;, &quot;Staging&quot;, and &quot;Production&quot;. Values are not case sensitive. See <a href="environments.html">Working with Multiple Environments</a>. Set using the <code>UseEnvironment</code> method.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseEnvironment(&quot;Development&quot;)
+</code></pre><div class="NOTE"><h5>Note</h5><p>By default, the environment is read from the <code>ASPNETCORE_ENVIRONMENT</code> environment variable. When using Visual Studio, environment variables may be set in the <em>launchSettings.json</em> file.</p>
+</div>
+<p><strong>Server URLs</strong> <code>string</code></p>
+<p>Key: <code>urls</code>. Set to a semicolon (;) separated list of URL prefixes to which the server should respond. For example, <code>http://localhost:123</code>. The domain/host name can be replaced with &quot;*&quot; to indicate the server should listen to requests on any IP address or host using the specified port and protocol (for example, <code>http://*:5000</code> or <code>https://*:5001</code>). The protocol (<code>http://</code> or <code>https://</code>) must be included with each URL. The prefixes are interpreted by the configured server; supported formats will vary between servers.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseUrls(&quot;http://*:5000;http://localhost:5001;https://hostname:5002&quot;)
+</code></pre><p><strong>Startup Assembly</strong> <code>string</code></p>
+<p>Key: <code>startupAssembly</code>. Determines the assembly to search for the <code>Startup</code> class. Set using the <code>UseStartup</code> method. May instead reference specific type using <code>WebHostBuilder.UseStartup&lt;StartupType&gt;</code>. If multiple <code>UseStartup</code> methods are called, the last one takes precedence.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseStartup(&quot;StartupAssemblyName&quot;)
+</code></pre><p><a name="web-root-setting"></a></p>
+<p><strong>Web Root</strong> <code>string</code></p>
+<p>Key: <code>webroot</code>. If not specified the default is <code>(Content Root Path)\wwwroot</code>, if it exists. If this path doesn&#39;t exist, then a no-op file provider is used. Set using <code>UseWebRoot</code>.</p>
+<pre><code class="lang-csharp">new WebHostBuilder()
+    .UseWebRoot(&quot;public&quot;)
+</code></pre><h3 id="overriding-configuration">Overriding Configuration</h3>
+<p>Use <a href="configuration.html">Configuration</a> to set configuration values to be used by the host. These values may be subsequently overridden. This is specified using <code>UseConfiguration</code>.</p>
+<!-- literal_block {"ids": [], "linenos": false, "xml:space": "preserve", "language": "csharp", "highlight_args": {"hl_lines": [3, 4, 5, 6, 9]}} -->
+<pre><code class="lang-csharp">public static void Main(string[] args)
+{
+    var config = new ConfigurationBuilder()
+        .AddJsonFile(&quot;hosting.json&quot;, optional: true)
+        .AddCommandLine(args)
+        .Build();
+
+    var host = new WebHostBuilder()
+        .UseConfiguration(config)
+        .UseKestrel()
+        .Configure(app =&gt;
+        {
+            app.Run(async (context) =&gt; await context.Response.WriteAsync(&quot;Hi!&quot;));
+        })
+        .Build();
+
+    host.Run();
+}
+</code></pre><p>In the example above, command-line arguments may be passed in to configure the host, or configuration settings may optionally be specified in a <em>hosting.json</em> file. To specify the host run on a particular URL, you could pass in the desired value from a command prompt:</p>
+<pre><code class="lang-console">dotnet run --urls &quot;http://*:5000&quot;
+</code></pre><p>The <code>Run</code> method starts the web app and blocks the calling thread until the host is shutdown.</p>
+<pre><code class="lang-csharp">host.Run();
+</code></pre><p>You can run the host in a non-blocking manner by calling its <code>Start</code> method:</p>
+<pre><code class="lang-csharp">using (host)
+{
+    host.Start();
+    Console.ReadLine();
+}
+</code></pre><p>Pass a list of URLs to the <code>Start</code> method and it will listen on the URLs specified:</p>
+<pre><code class="lang-csharp">var urls = new List&lt;string&gt;()
+{
+    &quot;http://*:5000&quot;,
+    &quot;http://localhost:5001&quot;
+};
+
+var host = new WebHostBuilder()
+    .UseKestrel()
+    .UseStartup&lt;Startup&gt;()
+    .Start(urls.ToArray());
+
+using (host)
+{
+    Console.ReadLine();
+}
+</code></pre><h3 id="ordering-importance">Ordering Importance</h3>
+<p><code>WebHostBuilder</code> settings are first read from certain environment variables, if set. These environment variables must use the format <code>ASPNETCORE_{configurationKey}</code>, so for example to set the URLs the server will listen on by default, you would set <code>ASPNETCORE_URLS</code>.</p>
+<p>You can override any of these environment variable values by specifying configuration (using <code>UseConfiguration</code>) or by setting the value explicitly (using <code>UseUrls</code> for instance). The host will use whichever option sets the value last. For this reason, <code>UseIISIntegration</code> must appear after <code>UseUrls</code>, because it replaces the URL with one dynamically provided by IIS. If you want to programmatically set the default URL to one value, but allow it to be overridden with configuration, you could configure the host as follows:</p>
+<pre><code class="lang-csharp">var config = new ConfigurationBuilder()
+    .AddCommandLine(args)
+    .Build();
+
+var host = new WebHostBuilder()
+    .UseUrls(&quot;http://*:1000&quot;) // default URL
+    .UseConfiguration(config) // override from command line
+    .UseKestrel()
+    .Build();
+</code></pre><h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><p><a href="../publishing/iis.html">Publishing to IIS</a></p>
+</li>
+<li><p><a href="../publishing/linuxproduction.html">Publish to a Linux Production Environment</a></p>
+</li>
+<li><p>Hosting ASP.NET Core as a Windows Service</p>
+</li>
+<li><p>Hosting ASP.NET Core Embedded in Another Application</p>
+</li>
+<li><p><a href="../publishing/apache-proxy.html">Using Apache Web Server as a reverse-proxy</a></p>
+</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/fundamentals/hosting.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

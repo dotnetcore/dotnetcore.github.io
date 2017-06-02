@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Response Caching Middleware | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Response Caching Middleware | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="performance/caching/middleware">
+<h1 id="response-caching-middleware">Response Caching Middleware</h1>
+
+<p>By <a href="https://github.com/GuardRex">Luke Latham</a> and <a href="https://github.com/JunTaoLuo">John Luo</a></p>
+<p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/performance/caching/middleware/sample">View or download sample code</a></p>
+<p>This document provides details on how to configure the Response Caching Middleware in ASP.NET Core applications. The middleware determines when responses are cacheable, stores responses, and serves responses from cache. For an introduction to HTTP caching and the <code>ResponseCache</code> attribute, see <a href="response.html">Response Caching</a>.</p>
+<h2 id="package">Package</h2>
+<p>To include the middleware in your project, add a reference to the  <a href="https://www.nuget.org/packages/Microsoft.AspNetCore.ResponseCaching/"><code>Microsoft.AspNetCore.ResponseCaching</code></a> package. The middleware depends on .NET Framework 4.5.1 or .NET Standard 1.3 or later. This feature is available for apps that target ASP.NET Core 1.1.0 or later.</p>
+<h2 id="configuration">Configuration</h2>
+<p>In <code>ConfgureServices</code>, add the middleware to your service collection.</p>
+<pre><code class="lang-csharp" name="Main">public void ConfigureServices(IServiceCollection services)
+{
+    services.AddResponseCaching();
+}
+</code></pre><p>Configure the application to use the middleware when processing requests. The sample application adds a <a href="https://tools.ietf.org/html/rfc7234#section-5.2"><code>Cache-Control</code></a> header to the response that will cache cacheable responses for up to 10 seconds. The sample also sends a <a href="https://tools.ietf.org/html/rfc7231#section-7.1.4"><code>Vary</code></a> header to configure the cache to serve the response only if the <a href="https://tools.ietf.org/html/rfc7231#section-5.3.4"><code>Accept-Encoding</code></a> header of subsequent requests matches that from the original request.</p>
+<pre><code class="lang-csharp" name="Main">public void Configure(IApplicationBuilder app)
+{
+    app.UseResponseCaching();
+    app.Run(async (context) =&gt;
+    {
+        context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+        {
+            Public = true,
+            MaxAge = TimeSpan.FromSeconds(10)
+        };
+        context.Response.Headers[HeaderNames.Vary] = new string[] { &quot;Accept-Encoding&quot; };
+
+        await context.Response.WriteAsync(&quot;Hello World! &quot; + DateTime.UtcNow);
+    });
+}
+</code></pre><p>The Response Caching Middleware only caches 200 (OK) server responses. Any other responses, including <a class="xref" href="../../fundamentals/error-handling.html">error pages</a>, will be ignored by the middleware.</p>
+<div class="WARNING"><h5>Warning</h5><p>Responses containing content for authenticated clients must be marked as not cacheable to prevent the middleware from storing and serving those responses. See <a href="#conditions-for-caching">Conditions for caching</a> for details on how the middleware determines if a response is cacheable.</p>
+</div>
+<h2 id="options">Options</h2>
+<p>The middleware offers two options for controlling response caching.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UseCaseSensitivePaths</td>
+<td><p>Determines if responses will be cached on case-sensitive paths.</p><p>The default value is <code>false</code>.</p></td>
+</tr>
+<tr>
+<td>MaximumBodySize</td>
+<td><p>The largest cacheable size for the response body in bytes.</p>The default value is <code>64 * 1024 * 1024</code> [64 MB (67,108,864 bytes)].<p></td>
+</tr>
+</tbody>
+</table>
+<p>The following example configures the middleware to cache responses smaller than or equal to 1,024 bytes using case-sensitive paths, storing the responses to <code>/page1</code> and <code>/Page1</code> separately.</p>
+<pre><code class="lang-csharp">services.AddResponseCaching(options =&gt;
+{
+    options.UseCaseSensitivePaths = true;
+    options.MaximumBodySize = 1024;
+});
+</code></pre><h2 id="varybyquerykeys-feature">VaryByQueryKeys feature</h2>
+<p>When using MVC, the <code>ResponseCache</code> attribute specifies the parameters necessary for setting appropriate headers for response caching. The only parameter of the <code>ResponseCache</code> attribute that strictly requires the middleware is <code>VaryByQueryKeys</code>, which does not correspond to an actual HTTP header. For more information, see <a href="response.html#responsecache-attribute">ResponseCache Attribute</a>.</p>
+<p>When not using MVC, you can vary response caching with the <code>VaryByQueryKeys</code> feature by using the <code>ResponseCachingFeature</code> directly from the <code>IFeatureCollection</code> of the <code>HttpContext</code>.</p>
+<pre><code class="lang-csharp">var responseCachingFeature = context.HttpContext.Features.Get&lt;IResponseCachingFeature&gt;();
+if (responseCachingFeature != null)
+{
+    responseCachingFeature.VaryByQueryKeys = new[] { &quot;MyKey&quot; };
+}
+</code></pre><h2 id="http-headers-used-by-response-caching-middleware">HTTP headers used by Response Caching Middleware</h2>
+<p>Response caching by the middleware is configured via your HTTP response headers. The relevant headers are listed below with notes on how they affect caching.</p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization</td>
+<td><p>The response is not cached if the header exists.</p></td>
+</tr>
+<tr>
+<td>Cache-Control</td>
+<td><p>The middleware will only consider caching responses explicitly marked with the <code>public</code> cache directive.</p><p>You can control caching with the following parameters:</p><ul><li>max-age</li><li>max-stale</li><li>min-fresh</li><li>must-revalidate</li><li>no-cache</li><li>no-store</li><li>only-if-cached</li><li>private</li><li>public</li><li>s-maxage</li><li>proxy-revalidate</li></ul><p>For more information, see <a href="https://tools.ietf.org/html/rfc7234#section-5.2.1">RFC 7231: Request Cache-Control Directives</a>.</p></td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td><p>A <code>Pragma: no-cache</code> header in the request produces the same effect as <code>Cache-Control: no-cache</code>. This header is overridden by the relevant directives in the <code>Cache-Control</code> header if present.</p><p>Considered for backward compatibility with HTTP/1.0.</p></td>
+</tr>
+<tr>
+<td>Set-Cookie</td>
+<td><p>The response is not cached if the header exists.</p></td>
+</tr>
+<tr>
+<td>Vary</td>
+<td><p>You can vary the cached response by another header. For example, you can cache responses by encoding by including the <code>Vary: Accept-Encoding</code> header, which would cache responses to requests with headers <code>Accept-Encoding: gzip</code> and <code>Accept-Encoding: text/plain</code> separately. A response with a header value of <code>*</code> is never stored.</p></td>
+</tr>
+<tr>
+<td>Expires</td>
+<td><p>A response deemed stale by this header will not be stored or retrieved unless overridden by other <code>Cache-Control</code> headers.</p></td>
+</tr>
+<tr>
+<td>If-None-Match</td>
+<td><p>The full response will be served from cache if the value is not <code>*</code> and the <code>ETag</code> of the response doesn&#39;t match any of the values provided. Otherwise, a 304 (Not Modified) response will be served.</p></td>
+</tr>
+<tr>
+<td>If-Modified-Since</td>
+<td><p>If the <code>If-None-Match</code> header is not present, a full response will be served from cache if the cached response date is newer than the value provided. Otherwise, a 304 (Not Modified) response will be served.</p></td>
+</tr>
+<tr>
+<td>Date</td>
+<td><p>When serving from cache, the <code>Date</code> header is set by the middleware if it wasn&#39;t provided on the original response.</p></td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td><p>When serving from cache, the <code>Content-Length</code> header is set by the middleware if it wasn&#39;t provided on the original response.</p></td>
+</tr>
+<tr>
+<td>Age</td>
+<td><p>The <code>Age</code> header sent in the original response will be ignored. The middleware will compute a new value when serving a cached response.</p></td>
+</tr>
+</tbody>
+</table>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If caching behavior is not as you expect, confirm that responses are cacheable and capable of being served from the cache by examining the request&#39;s incoming headers and the response&#39;s outgoing headers. The conditions by which a response will be cached are listed below.</p>
+<p>Enabling logging can help when debugging. For example, the middleware logs why a response is or is not cached and whether it was retrieved from cache. See <a class="xref" href="../../fundamentals/logging.html">Logging in ASP.NET Core</a> for more information on enabling logging in your application.</p>
+<p>When testing and troubleshooting caching behavior, a browser may set request headers that affect caching in undesirable ways. For example, a browser may set the <code>Cache-Control</code> header to <code>no-cache</code> when you refresh the page. Instead of using a browser, use a tool like <a href="http://www.telerik.com/fiddler">Fiddler</a>, <a href="http://getfirebug.com/">Firebug</a>, or <a href="https://www.getpostman.com/">Postman</a>, all of which allow you to explicitly set request headers.</p>
+<h3 id="conditions-for-caching">Conditions for caching</h3>
+<ul>
+<li>The request must result in a 200 (OK) response from the server.</li>
+<li>The request method must be GET or HEAD.</li>
+<li>Terminal middleware, such as Static File Middleware, must not process the response prior to the Response Caching Middleware.</li>
+<li>The <code>Authorization</code> header must not be present.</li>
+<li><code>Cache-Control</code> header parameters must be valid, and the response must be marked <code>public</code> and not marked <code>private</code>.</li>
+<li>The <code>Pragma: no-cache</code> header/value must not be present if the <code>Cache-Control</code> header is not present, as the <code>Cache-Control</code> header overrides the <code>Pragma</code> header when present.</li>
+<li>The <code>Set-Cookie</code> header must not be present.</li>
+<li><code>Vary</code> header parameters must be valid and not equal to <code>*</code>.</li>
+<li>The <code>Content-Length</code> header value (if set) must match the size of the response body.</li>
+<li>The <code>HttpSendFileFeature</code> is not used.</li>
+<li>The response must not be stale as specified by the <code>Expires</code> header and the <code>max-age</code> and <code>s-maxage</code> cache directives.</li>
+<li>Response buffering is successful, and the total length of the response is smaller than the configured limit.</li>
+<li>The response must be cacheable according to the <a href="https://tools.ietf.org/html/rfc7234">RFC 7234</a> specifications. For example, the <code>no-store</code> directive must not exist in request or response header fields. See <em>Section 3: Storing Responses in Caches</em> of the RFC document for details.</li>
+</ul>
+<div class="NOTE"><h5>Note</h5><p>The Antiforgery system for generating secure tokens to prevent Cross-Site Request Forgery (CSRF) attacks will set the <code>Cache-Control</code> and <code>Pragma</code> headers to <code>no-cache</code> so that responses will not be cached.</p>
+</div>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a class="xref" href="../../fundamentals/startup.html">Application Startup</a></li>
+<li><a class="xref" href="../../fundamentals/middleware.html">Middleware</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/performance/caching/middleware.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

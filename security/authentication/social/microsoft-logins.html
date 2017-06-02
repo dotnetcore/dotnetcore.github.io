@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Microsoft Account external login setup | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Microsoft Account external login setup | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="security/authentication/microsoft-logins">
+<h1 id="configuring-microsoft-account-authentication">Configuring Microsoft Account authentication</h1>
+
+<p><a name="security-authentication-microsoft-logins"></a></p>
+<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, <a href="https://github.com/rustd">Pranav Rastogi</a>, and <a href="https://github.com/01binary">Valeriy Novytskyy</a></p>
+<p>This tutorial shows you how to enable your users to sign in with their Microsoft account using a sample ASP.NET Core project created on the <a href="index.html">previous page</a>.</p>
+<h2 id="creating-the-app-in-microsoft-developer-portal">Creating the app in Microsoft Developer Portal</h2>
+<ul>
+<li>Navigate to <a href="https://apps.dev.microsoft.com">https://apps.dev.microsoft.com</a>:</li>
+</ul>
+<p><img src="index/_static/MicrosoftDev.png" alt="Microsoft Developer Portal open in Microsoft Edge"></p>
+<ul>
+<li>Tap <strong>sign in</strong>:</li>
+</ul>
+<p><img src="index/_static/MicrosoftDevLogin.png" alt="Sign in dialog"></p>
+<p>If you don&#39;t already have a Microsoft account, tap <strong><a href="https://signup.live.com/signup?wa=wsignin1.0&amp;rpsnv=13&amp;ct=1478151035&amp;rver=6.7.6643.0&amp;wp=SAPI_LONG&amp;wreply=https%3a%2f%2fapps.dev.microsoft.com%2fLoginPostBack&amp;id=293053&amp;aadredir=1&amp;contextid=D70D4F21246BAB50&amp;bk=1478151036&amp;uiflavor=web&amp;uaid=f0c3de863a914c358b8dc01b1ff49e85&amp;mkt=EN-US&amp;lc=1033&amp;lic=1">Create one!</a></strong>. After signing in you are redirected to <strong>My applications</strong> page:</p>
+<p><img src="index/_static/MicrosoftDevApps.png" alt="My applications dialog"></p>
+<ul>
+<li>Tap <strong>Add an app</strong> in the upper right corner and enter your <strong>application name</strong>:</li>
+</ul>
+<p><img src="index/_static/MicrosoftDevAppCreate.png" alt="New Application Registration dialog"></p>
+<ul>
+<li>The <strong>Registration</strong> page is displayed:</li>
+</ul>
+<p><img src="index/_static/MicrosoftDevAppReg.png" alt="Registration page"></p>
+<ul>
+<li>Tap <strong>Add Platform</strong> in the <strong>Platforms</strong> section and select the <strong>Web</strong> platform:</li>
+</ul>
+<p><img src="index/_static/MicrosoftDevAppPlatform.png" alt="Add Platform dialog"></p>
+<ul>
+<li>In the new <strong>Web</strong> platform section, enter your current site URL with <em>signin-microsoft</em> appended into the <strong>Redirect URIs</strong> field. For example, <code>https://localhost:44320/signin-microsoft</code>:</li>
+</ul>
+<p><img src="index/_static/MicrosoftRedirectUri.png" alt="Web Platform section"></p>
+<div class="NOTE"><h5>Note</h5><p>When deploying the site you&#39;ll need to register a new public url.</p>
+</div>
+<div class="NOTE"><h5>Note</h5><p>You don&#39;t need to configure <strong>signin-microsoft</strong> as a route in your app. The Microsoft Account middleware automatically intercepts requests at this route and handles them to implement the OAuth flow.</p>
+</div>
+<ul>
+<li><p>Don&#39;t forget to tap <strong>Add Url</strong> to ensure the Url was added.</p>
+</li>
+<li><p>Tap <strong>Save</strong> to save changes.</p>
+</li>
+</ul>
+<h2 id="storing-microsoft-applicationid-and-secret">Storing Microsoft ApplicationId and Secret</h2>
+<p>Link sensitive settings like Microsoft <code>ApplicationId</code> and <code>Secret</code> to your application configuration by using the <a href="../../app-secrets.html">Secret Manager tool</a> instead of storing them in your configuration file directly, as described in the <a href="index.html">social login overview page</a>.</p>
+<ul>
+<li><p>Note the <code>Application Id</code> displayed on the <strong>Registration</strong> page.</p>
+</li>
+<li><p>Tap <strong>Generate New Password</strong> in the <strong>Application Secrets</strong> section. This displays a box where you can copy the application secret:</p>
+</li>
+</ul>
+<p><img src="index/_static/MicrosoftDevPassword.png" alt="New password generated dialog"></p>
+<ul>
+<li><p>Execute the following commands in your project working directory to store the Microsoft secrets:</p>
+<!-- literal_block {"ids": [], "xml:space": "preserve"} -->
+<pre><code>dotnet user-secrets set Authentication:Microsoft:ClientId &lt;client-id&gt;
+dotnet user-secrets set Authentication:Microsoft:ClientSecret &lt;client-secret&gt;
+</code></pre></li>
+</ul>
+<p>The following code reads the configuration values stored by the <a href="../../app-secrets.html#security-app-secrets">Secret Manager</a>:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="11">public Startup(IHostingEnvironment env)
+{
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(env.ContentRootPath)
+        .AddJsonFile(&quot;appsettings.json&quot;, optional: true, reloadOnChange: true)
+        .AddJsonFile($&quot;appsettings.{env.EnvironmentName}.json&quot;, optional: true);
+
+    if (env.IsDevelopment())
+    {
+        // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+        builder.AddUserSecrets&lt;Startup&gt;();
+    }
+
+    builder.AddEnvironmentVariables();
+    Configuration = builder.Build();
+}
+
+</code></pre><h2 id="enable-microsoft-account-middleware">Enable Microsoft Account middleware</h2>
+<div class="NOTE"><h5>Note</h5><p>Use NuGet to install the <a href="https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.MicrosoftAccount">Microsoft.AspNetCore.Authentication.MicrosoftAccount</a> package if it hasn&#39;t already been installed. Alternatively, execute the following commands in your project directory:</p>
+<p><code>dotnet add package Microsoft.AspNetCore.Authentication.MicrosoftAccount</code></p>
+</div>
+<p>Add the Microsoft Account middleware in the <code>Configure</code> method in <code>Startup.cs</code>:</p>
+<pre><code class="lang-csharp">app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
+{
+    ClientId = Configuration[&quot;Authentication:Microsoft:ClientId&quot;],
+    ClientSecret = Configuration[&quot;Authentication:Microsoft:ClientSecret&quot;]
+});
+</code></pre><h2 id="sign-in-with-microsoft-account">Sign in with Microsoft Account</h2>
+<p>Run your application and click <strong>Log in</strong>. An option to sign in with Microsoft appears:</p>
+<p><img src="index/_static/DoneMicrosoft.png" alt="Web application Log in page: User not authenticated"></p>
+<p>When you click on Microsoft, you are redirected to Microsoft for authentication:</p>
+<p><img src="index/_static/MicrosoftLogin.png" alt="Microsoft authentication dialog"></p>
+<p>After entering your Microsoft Account credentials, you are redirected back to the web site where you can set your email.</p>
+<p>You are now logged in using your Microsoft credentials:</p>
+<p><img src="index/_static/Done.png" alt="Web application: User authenticated"></p>
+<div class="NOTE"><h5>Note</h5><p>If the Microsoft Account provider redirects you to a sign in error page, note the error title and description directly following the <code>#</code> (hashtag) in the Uri. The most common cause is your application Uri not matching any of the <strong>Redirect URIs</strong> specified for the <strong>Web</strong> platform. In this case, ensure protocol, host, and port are all correct. Your application should be using <code>https</code> protocol and the redirect uri should end with <strong>signin-microsoft</strong> as that&#39;s the route Microsoft Account middleware requests the login provider to redirect to.</p>
+</div>
+<p><img src="index/_static/MicrosoftLoginError.png" alt="Microsoft error page: We&#39;re unable to complete your request. Microsoft account is experiencing technical problems. Please try again later."></p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><p>This article showed how you can authenticate with Microsoft. You can follow a similar approach to authenticate with other providers listed on the <a href="index.html">previous page</a>.</p>
+</li>
+<li><p>Once you publish your web site to Azure web app, you should reset the <code>Secret</code> in the Microsoft developer portal.</p>
+</li>
+<li><p>Set the <code>Authentication:Microsoft:ClientId</code> and <code>Authentication:Microsoft:ClientSecret</code> as application settings in the Azure portal. The configuration system is set up to read keys from environment variables.</p>
+</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/security/authentication/social/microsoft-logins.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>
