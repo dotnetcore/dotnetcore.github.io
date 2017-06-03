@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -462,7 +462,7 @@ public class CustomCompilationService : DefaultRoslynCompilationService, ICompil
     services.AddSingleton&lt;ICompilationService, CustomCompilationService&gt;();
 }
 </code></pre><p>Set a break point on the <code>Compile</code> method of <code>CustomCompilationService</code> and view <code>compilationContent</code>.</p>
-<p><img src="razor/_static/tvr.png" alt="Text Visualizer view of compilationContent"></p>
+<p><img src="razor/static/tvr.png" alt="Text Visualizer view of compilationContent"></p>
 <div class="NOTE"><h5>备注</h5><p>View lookups are case sensitive. If your controller routing seeks a view named <code>Index</code> (<em>Index.cshtml</em>) but you&#39;ve named your view file <code>index</code> (<em>index.cshtml</em>), you&#39;ll receive an exception: <code>InvalidOperationException: The view &#39;Index&#39; was not found.</code></p>
 </div>
 </article>

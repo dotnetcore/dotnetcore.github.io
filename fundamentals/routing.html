@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -152,7 +152,7 @@ routes.MapRoute(
     constraints: new { id = new IntRouteConstraint() },
     dataTokens: new { locale = &quot;en-US&quot; });
 </code></pre><p>This template will match a URL path like <code>/en-US/Products/5</code> and will extract the values <code>{ controller = Products, action = Details, id = 5 }</code> and the data tokens <code>{ locale = en-US }</code>.</p>
-<p><img src="routing/_static/tokens.png" alt="Locals Windows tokens"></p>
+<p><img src="routing/static/tokens.png" alt="Locals Windows tokens"></p>
 <p><a name="id1"></a></p>
 <h3 id="url-generation-1">URL generation</h3>
 <p>The <code>Route</code> class can also perform URL generation by combining a set of route values with its route template. This is logically the reverse process of matching the URL path.</p>

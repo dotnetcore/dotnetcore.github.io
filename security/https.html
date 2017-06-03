@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,7 +72,7 @@
 </div>
 <p>You can configure your application to use HTTPS during development to simulate HTTPS in your production environment. Enabling HTTPS may be required to enable integration with various identity providers (like <a href="https://azure.microsoft.com/en-us/services/active-directory">Azure AD</a> and <a href="https://azure.microsoft.com/en-us/services/active-directory-b2c">Azure AD B2C</a>).</p>
 <p>On Windows if you’ve installed Visual Studio or IIS Express, the IIS Express Development Certificate will be in your LocalMachine certificate store. You can update your project properties in Visual Studio to use this certificate when running behind IIS Express.</p>
-<p><img src="enforcing-ssl/_static/ssl.png" alt="Debug tab of web application properties"></p>
+<p><img src="enforcing-ssl/static/ssl.png" alt="Debug tab of web application properties"></p>
 <p>You can also configure Kestrel to listen over HTTPS by configuring an endpoint with the desired IP address, port, and certificate. The certificate can be configured inline, or in the top level <code>Certificates</code> section and then referenced by name:</p>
 <pre><code class="lang-json">{
   &quot;Kestrel&quot;: {

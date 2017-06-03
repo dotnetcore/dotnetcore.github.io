@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -75,29 +75,29 @@
 <ul>
 <li>Navigate to <a href="https://apps.dev.microsoft.com">https://apps.dev.microsoft.com</a>:</li>
 </ul>
-<p><img src="index/_static/MicrosoftDev.png" alt="Microsoft Developer Portal open in Microsoft Edge"></p>
+<p><img src="index/static/microsoftdev.png" alt="Microsoft Developer Portal open in Microsoft Edge"></p>
 <ul>
 <li>Tap <strong>sign in</strong>:</li>
 </ul>
-<p><img src="index/_static/MicrosoftDevLogin.png" alt="Sign in dialog"></p>
+<p><img src="index/static/microsoftdevlogin.png" alt="Sign in dialog"></p>
 <p>If you don&#39;t already have a Microsoft account, tap <strong><a href="https://signup.live.com/signup?wa=wsignin1.0&amp;rpsnv=13&amp;ct=1478151035&amp;rver=6.7.6643.0&amp;wp=SAPI_LONG&amp;wreply=https%3a%2f%2fapps.dev.microsoft.com%2fLoginPostBack&amp;id=293053&amp;aadredir=1&amp;contextid=D70D4F21246BAB50&amp;bk=1478151036&amp;uiflavor=web&amp;uaid=f0c3de863a914c358b8dc01b1ff49e85&amp;mkt=EN-US&amp;lc=1033&amp;lic=1">Create one!</a></strong>. After signing in you are redirected to <strong>My applications</strong> page:</p>
-<p><img src="index/_static/MicrosoftDevApps.png" alt="My applications dialog"></p>
+<p><img src="index/static/microsoftdevapps.png" alt="My applications dialog"></p>
 <ul>
 <li>Tap <strong>Add an app</strong> in the upper right corner and enter your <strong>application name</strong>:</li>
 </ul>
-<p><img src="index/_static/MicrosoftDevAppCreate.png" alt="New Application Registration dialog"></p>
+<p><img src="index/static/microsoftdevappcreate.png" alt="New Application Registration dialog"></p>
 <ul>
 <li>The <strong>Registration</strong> page is displayed:</li>
 </ul>
-<p><img src="index/_static/MicrosoftDevAppReg.png" alt="Registration page"></p>
+<p><img src="index/static/microsoftdevappreg.png" alt="Registration page"></p>
 <ul>
 <li>Tap <strong>Add Platform</strong> in the <strong>Platforms</strong> section and select the <strong>Web</strong> platform:</li>
 </ul>
-<p><img src="index/_static/MicrosoftDevAppPlatform.png" alt="Add Platform dialog"></p>
+<p><img src="index/static/microsoftdevappplatform.png" alt="Add Platform dialog"></p>
 <ul>
 <li>In the new <strong>Web</strong> platform section, enter your current site URL with <em>signin-microsoft</em> appended into the <strong>Redirect URIs</strong> field. For example, <code>https://localhost:44320/signin-microsoft</code>:</li>
 </ul>
-<p><img src="index/_static/MicrosoftRedirectUri.png" alt="Web Platform section"></p>
+<p><img src="index/static/microsoftredirecturi.png" alt="Web Platform section"></p>
 <div class="NOTE"><h5>备注</h5><p>When deploying the site you&#39;ll need to register a new public url.</p>
 </div>
 <div class="NOTE"><h5>备注</h5><p>You don&#39;t need to configure <strong>signin-microsoft</strong> as a route in your app. The Microsoft Account middleware automatically intercepts requests at this route and handles them to implement the OAuth flow.</p>
@@ -116,7 +116,7 @@
 <li><p>Tap <strong>Generate New Password</strong> in the <strong>Application Secrets</strong> section. This displays a box where you can copy the application secret:</p>
 </li>
 </ul>
-<p><img src="index/_static/MicrosoftDevPassword.png" alt="New password generated dialog"></p>
+<p><img src="index/static/microsoftdevpassword.png" alt="New password generated dialog"></p>
 <ul>
 <li><p>Execute the following commands in your project working directory to store the Microsoft secrets:</p>
 <!-- literal_block {"ids": [], "xml:space": "preserve"} -->
@@ -154,15 +154,15 @@ dotnet user-secrets set Authentication:Microsoft:ClientSecret &lt;client-secret&
 });
 </code></pre><h2 id="sign-in-with-microsoft-account">Sign in with Microsoft Account</h2>
 <p>Run your application and click <strong>Log in</strong>. An option to sign in with Microsoft appears:</p>
-<p><img src="index/_static/DoneMicrosoft.png" alt="Web application Log in page: User not authenticated"></p>
+<p><img src="index/static/donemicrosoft.png" alt="Web application Log in page: User not authenticated"></p>
 <p>When you click on Microsoft, you are redirected to Microsoft for authentication:</p>
-<p><img src="index/_static/MicrosoftLogin.png" alt="Microsoft authentication dialog"></p>
+<p><img src="index/static/microsoftlogin.png" alt="Microsoft authentication dialog"></p>
 <p>After entering your Microsoft Account credentials, you are redirected back to the web site where you can set your email.</p>
 <p>You are now logged in using your Microsoft credentials:</p>
-<p><img src="index/_static/Done.png" alt="Web application: User authenticated"></p>
+<p><img src="index/static/done.png" alt="Web application: User authenticated"></p>
 <div class="NOTE"><h5>备注</h5><p>If the Microsoft Account provider redirects you to a sign in error page, note the error title and description directly following the <code>#</code> (hashtag) in the Uri. The most common cause is your application Uri not matching any of the <strong>Redirect URIs</strong> specified for the <strong>Web</strong> platform. In this case, ensure protocol, host, and port are all correct. Your application should be using <code>https</code> protocol and the redirect uri should end with <strong>signin-microsoft</strong> as that&#39;s the route Microsoft Account middleware requests the login provider to redirect to.</p>
 </div>
-<p><img src="index/_static/MicrosoftLoginError.png" alt="Microsoft error page: We&#39;re unable to complete your request. Microsoft account is experiencing technical problems. Please try again later."></p>
+<p><img src="index/static/microsoftloginerror.png" alt="Microsoft error page: We&#39;re unable to complete your request. Microsoft account is experiencing technical problems. Please try again later."></p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li><p>This article showed how you can authenticate with Microsoft. You can follow a similar approach to authenticate with other providers listed on the <a href="index.html">previous page</a>.</p>

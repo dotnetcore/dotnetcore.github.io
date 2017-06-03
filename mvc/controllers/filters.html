@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -75,7 +75,7 @@
 <p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/mvc/controllers/filters/sample">View or download sample from GitHub</a>.</p>
 <h2 id="how-do-filters-work">How do filters work?</h2>
 <p>Filters run within the <em>MVC action invocation pipeline</em>, sometimes referred to as the <em>filter pipeline</em>.  The filter pipeline runs after MVC selects the action to execute.</p>
-<p><img src="filters/_static/filter-pipeline-1.png" alt="The request is processed through Other Middleware, Routing Middleware, Action Selection, and the MVC Action Invocation Pipeline. The request processing continues back through Action Selection, Routing Middleware, and various Other Middleware before becoming a response sent to the client."></p>
+<p><img src="filters/static/filter-pipeline-1.png" alt="The request is processed through Other Middleware, Routing Middleware, Action Selection, and the MVC Action Invocation Pipeline. The request processing continues back through Action Selection, Routing Middleware, and various Other Middleware before becoming a response sent to the client."></p>
 <h3 id="filter-types">Filter types</h3>
 <p>Each filter type is executed at a different stage in the filter pipeline.</p>
 <ul>
@@ -91,7 +91,7 @@
 </li>
 </ul>
 <p>The following diagram shows how these filter types interact in the filter pipeline.</p>
-<p><img src="filters/_static/filter-pipeline-2.png" alt="The request is processed through Authorization Filters, Resource Filters, Model Binding, Action Filters, Action Execution and Action Result Conversion, Exception Filters, Result Filters, and Result Execution. On the way out, the request is only processed by Result Filters and Resource Filters before becoming a response sent to the client."></p>
+<p><img src="filters/static/filter-pipeline-2.png" alt="The request is processed through Authorization Filters, Resource Filters, Model Binding, Action Filters, Action Execution and Action Result Conversion, Exception Filters, Result Filters, and Result Execution. On the way out, the request is only processed by Result Filters and Resource Filters before becoming a response sent to the client."></p>
 <h2 id="implementation">Implementation</h2>
 <p>Filters support both synchronous and asynchronous implementations through different interface definitions. Choose either the sync or async variant depending on the kind of task you need to perform. </p>
 <p>Synchronous filters that can run code both before and after their pipeline stage define On<em>Stage</em>Executing and On<em>Stage</em>Executed methods. For example, <code>OnActionExecuting</code> is called before the action method is called, and <code>OnActionExecuted</code> is called after the action method returns.</p>
@@ -209,7 +209,7 @@ public class SampleController : Controller
         return Content(&quot;Successful access to resource - header should be set.&quot;);
     }
 </code></pre><p>The result of the <code>Index</code> action is shown below - the response headers are displayed on the bottom right.</p>
-<p><img src="filters/_static/add-header.png" alt="Developer Tools of Microsoft Edge showing response headers, including Author Steve Smith @ardalis"></p>
+<p><img src="filters/static/add-header.png" alt="Developer Tools of Microsoft Edge showing response headers, including Author Steve Smith @ardalis"></p>
 <p>Several of the filter interfaces have corresponding attributes that can be used as base classes for custom implementations.</p>
 <p>Filter attributes:</p>
 <ul>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -216,7 +216,7 @@ namespace MvcMovie.Models
 <ul>
 <li>Run the app and tap the <strong>Mvc Movie</strong> link.</li>
 <li><p>Tap the <strong>Create New</strong> link and create a movie.</p>
-<p><img src="../first-mvc-app/adding-model/_static/movies.png" alt="Create view with fields for genre, price, release date, and title"></p>
+<p><img src="../first-mvc-app/adding-model/static/movies.png" alt="Create view with fields for genre, price, release date, and title"></p>
 </li>
 <li><p>You may not be able to enter decimal points or commas in the <code>Price</code> field. To support <a href="http://jqueryvalidation.org/">jQuery validation</a> for non-English locales that use a comma (&quot;,&quot;) for a decimal point, and non US-English date formats, you must take steps to globalize your app. See <a href="#additional-resources">Additional resources</a> for more information. For now, just enter whole numbers like 10.</p>
 </li>
@@ -242,7 +242,7 @@ namespace MvcMovie.Models
 }
 </code></pre><p>We&#39;ll talk about <code>DataAnnotations</code> later in the tutorial.</p>
 <p>Tapping <strong>Create</strong> causes the form to be posted to the server, where the movie information is saved in a database. You are then redirected to the <em>/Movies</em> URL, where you can see the newly created movie in the listing.</p>
-<p><img src="../first-mvc-app/adding-model/_static/h.png" alt="Movies view showing newly created movie listing"></p>
+<p><img src="../first-mvc-app/adding-model/static/h.png" alt="Movies view showing newly created movie listing"></p>
 <p>Create a couple more movie entries. Try the <strong>Edit</strong>, <strong>Details</strong>, and <strong>Delete</strong> links, which are all functional.</p>
 <h2 id="dependency-injection">Dependency Injection</h2>
 <p>Open the <em>Startup.cs</em> file and examine <code>ConfigureServices</code>:</p>

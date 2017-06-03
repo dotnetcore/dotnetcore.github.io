@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -100,13 +100,13 @@
 <p>For CBC-mode encryption + HMAC validation operations, | K_E | is the length of the symmetric block cipher key, and | K_H | is the digest size of the HMAC routine. For GCM encryption + validation operations, | K_H | = 0.</p>
 <h2 id="cbc-mode-encryption--hmac-validation">CBC-mode encryption + HMAC validation</h2>
 <p>Once K_E is generated via the above mechanism, we generate a random initialization vector and run the symmetric block cipher algorithm to encipher the plaintext. The initialization vector and ciphertext are then run through the HMAC routine initialized with the key K_H to produce the MAC. This process and the return value is represented graphically below.</p>
-<p><img src="subkeyderivation/_static/cbcprocess.png" alt="CBC-mode process and return"></p>
+<p><img src="subkeyderivation/static/cbcprocess.png" alt="CBC-mode process and return"></p>
 <p><em>output:= keyModifier || iv || E_cbc (K_E,iv,data) || HMAC(K_H, iv || E_cbc (K_E,iv,data))</em></p>
 <div class="NOTE"><h5>备注</h5><p>The IDataProtector.Protect implementation will <a href="authenticated-encryption-details.html#data-protection-implementation-authenticated-encryption-details">prepend the magic header and key id</a> to output before returning it to the caller. Because the magic header and key id are implicitly part of <a class="xref" href="subkeyderivation.html#data-protection-implementation-subkey-derivation-aad">AAD</a>, and because the key modifier is fed as input to the KDF, this means that every single byte of the final returned payload is authenticated by the MAC.</p>
 </div>
 <h2 id="galoiscounter-mode-encryption--validation">Galois/Counter Mode encryption + validation</h2>
 <p>Once K_E is generated via the above mechanism, we generate a random 96-bit nonce and run the symmetric block cipher algorithm to encipher the plaintext and produce the 128-bit authentication tag.</p>
-<p><img src="subkeyderivation/_static/galoisprocess.png" alt="GCM-mode process and return"></p>
+<p><img src="subkeyderivation/static/galoisprocess.png" alt="GCM-mode process and return"></p>
 <p><em>output := keyModifier || nonce || E_gcm (K_E,nonce,data) || authTag</em></p>
 <div class="NOTE"><h5>备注</h5><p>Even though GCM natively supports the concept of AAD, we&#39;re still feeding AAD only to the original KDF, opting to pass an empty string into GCM for its AAD parameter. The reason for this is two-fold. First, <a href="context-headers.html#data-protection-implementation-context-headers">to support agility</a> we never want to use K_M directly as the encryption key. Additionally, GCM imposes very strict uniqueness requirements on its inputs. The probability that the GCM encryption routine is ever invoked on two or more distinct sets of input data with the same (key, nonce) pair must not exceed 2^32. If we fix K_E we cannot perform more than 2^32 encryption operations before we run afoul of the 2^-32 limit. This might seem like a very large number of operations, but a high-traffic web server can go through 4 billion requests in mere days, well within the normal lifetime for these keys. To stay compliant of the 2^-32 probability limit, we continue to use a 128-bit key modifier and 96-bit
   nonce, which radically extends the usable operation count for any given K_M. For simplicity of design we share the KDF code path between CBC and GCM operations, and since AAD is already considered in the KDF there is no need to forward it to the GCM routine.</p>

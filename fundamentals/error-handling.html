@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -89,11 +89,11 @@
 <div class="WARNING"><h5>警告</h5><p>Enable the developer exception page <strong>only when the app is running in the Development environment</strong>. You don&#39;t want to share detailed exception information publicly when the app runs in production. <a href="environments.html">Learn more about configuring environments</a>.</p>
 </div>
 <p>To see the developer exception page, run the sample application with the environment set to <code>Development</code>, and add <code>?throw=true</code> to the base URL of the app. The page includes several tabs with information about the exception and the request. The first tab includes a stack trace. </p>
-<p><img src="error-handling/_static/developer-exception-page.png" alt="Stack trace"></p>
+<p><img src="error-handling/static/developer-exception-page.png" alt="Stack trace"></p>
 <p>The next tab shows the query string parameters, if any.</p>
-<p><img src="error-handling/_static/developer-exception-page-query.png" alt="Query string parameters"></p>
+<p><img src="error-handling/static/developer-exception-page-query.png" alt="Query string parameters"></p>
 <p>This request didn&#39;t have any cookies, but if it did, they would appear on the <strong>Cookies</strong> tab. You can see the headers that were passed in the last tab.</p>
-<p><img src="error-handling/_static/developer-exception-page-headers.png" alt="Headers"></p>
+<p><img src="error-handling/static/developer-exception-page-headers.png" alt="Headers"></p>
 <h2 id="configuring-a-custom-exception-handling-page">Configuring a custom exception handling page</h2>
 <p>It&#39;s a good idea to configure an exception handler page to use when the app is not running in the <code>Development</code> environment.</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="11">public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -118,7 +118,7 @@ public IActionResult Index()
 <p>By default, your app will not provide a rich status code page for HTTP status codes such as 500 (Internal Server Error) or 404 (Not Found). You can configure the <code>StatusCodePagesMiddleware</code> by adding a line to the <code>Configure</code> method:</p>
 <pre><code class="lang-csharp">app.UseStatusCodePages();
 </code></pre><p>By default, this middleware adds simple, text-only handlers for common status codes, such as 404:</p>
-<p><img src="error-handling/_static/default-404-status-code.png" alt="404 page"></p>
+<p><img src="error-handling/static/default-404-status-code.png" alt="404 page"></p>
 <p>The middleware supports several different extension methods. One takes a lambda expression, another takes a content type and format string.</p>
 <pre><code class="lang-csharp" name="Main">app.UseStatusCodePages(async context =&gt;
 {

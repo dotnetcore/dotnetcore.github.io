@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,8 +72,8 @@
 <p>The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.1 and Visual Studio 2017. For information about the tutorial series, see <a href="intro.html">the first tutorial in the series</a>.</p>
 <p>In the previous tutorial you displayed related data; in this tutorial you&#39;ll update related data by updating foreign key fields and navigation properties.</p>
 <p>The following illustrations show some of the pages that you&#39;ll work with.</p>
-<p><img src="update-related-data/_static/course-edit.png" alt="Course Edit page"></p>
-<p><img src="update-related-data/_static/instructor-edit-courses.png" alt="Instructor Edit page"></p>
+<p><img src="update-related-data/static/course-edit.png" alt="Course Edit page"></p>
+<p><img src="update-related-data/static/instructor-edit-courses.png" alt="Instructor Edit page"></p>
 <h2 id="customize-the-create-and-edit-pages-for-courses">Customize the Create and Edit Pages for Courses</h2>
 <p>When a new course entity is created, it must have a relationship to an existing department. To facilitate this, the scaffolded code includes controller methods and Create and Edit views that include a drop-down list for selecting the department. The drop-down list sets the <code>Course.DepartmentID</code> foreign key property, and that&#39;s all the Entity Framework needs in order to load the <code>Department</code> navigation property with the appropriate Department entity. You&#39;ll use the scaffolded code, but change it slightly to add error handling and sort the drop-down list.</p>
 <p>In <em>CoursesController.cs</em>, delete the four Create and Edit methods and replace them with the following code:</p>
@@ -286,10 +286,10 @@ public async Task&lt;IActionResult&gt; EditPost(int? id)
 </code></pre><p>In <em>Views/Course/Details.cshtml</em>, make the same change that you just did for <em>Delete.cshtml</em>.</p>
 <h3 id="test-the-course-pages">Test the Course pages</h3>
 <p>Run the <strong>Create</strong> page (display the Course Index page and click <strong>Create New</strong>) and enter data for a new course:</p>
-<p><img src="update-related-data/_static/course-create.png" alt="Course Create page"></p>
+<p><img src="update-related-data/static/course-create.png" alt="Course Create page"></p>
 <p>Click <strong>Create</strong>. The Courses Index page is displayed with the new course added to the list. The department name in the Index page list comes from the navigation property, showing that the relationship was established correctly.</p>
 <p>Run the <strong>Edit</strong> page (click <strong>Edit</strong> on a course in the Course Index page ).</p>
-<p><img src="update-related-data/_static/course-edit.png" alt="Course Edit page"></p>
+<p><img src="update-related-data/static/course-edit.png" alt="Course Edit page"></p>
 <p>Change data on the page and click <strong>Save</strong>. The Courses Index page is displayed with the updated course data.</p>
 <h2 id="add-an-edit-page-for-instructors">Add an Edit Page for Instructors</h2>
 <p>When you edit an instructor record, you want to be able to update the instructor&#39;s office assignment. The Instructor entity has a one-to-zero-or-one relationship with the OfficeAssignment entity, which means your code has to handle the following situations:</p>
@@ -392,10 +392,10 @@ public async Task&lt;IActionResult&gt; EditPost(int? id)
     &lt;/div&gt;
 &lt;/div&gt;
 </code></pre><p>Run the page (select the <strong>Instructors</strong> tab and then click <strong>Edit</strong> on an instructor). Change the <strong>Office Location</strong> and click <strong>Save</strong>.</p>
-<p><img src="update-related-data/_static/instructor-edit-office.png" alt="Instructor Edit page"></p>
+<p><img src="update-related-data/static/instructor-edit-office.png" alt="Instructor Edit page"></p>
 <h2 id="add-course-assignments-to-the-instructor-edit-page">Add Course assignments to the Instructor Edit page</h2>
 <p>Instructors may teach any number of courses. Now you&#39;ll enhance the Instructor Edit page by adding the ability to change course assignments using a group of check boxes, as shown in the following screen shot:</p>
-<p><img src="update-related-data/_static/instructor-edit-courses.png" alt="Instructor Edit page with courses"></p>
+<p><img src="update-related-data/static/instructor-edit-courses.png" alt="Instructor Edit page with courses"></p>
 <p>The relationship between the Course and Instructor entities is many-to-many. To add and remove relationships, you add and remove entities to and from the CourseAssignments join entity set.</p>
 <p>The UI that enables you to change which courses an instructor is assigned to is a group of check boxes. A check box for every course in the database is displayed, and the ones that the instructor is currently assigned to are selected. The user can select or clear check boxes to change course assignments. If the number of courses were much greater, you would probably want to use a different method of presenting the data in the view, but you&#39;d use the same method of manipulating a join entity to create or delete relationships.</p>
 <h3 id="update-the-instructors-controller-1">Update the Instructors controller</h3>
@@ -662,7 +662,7 @@ public async Task&lt;IActionResult&gt; Edit(int? id, string[] selectedCourses)
 </code></pre><p>This code creates an HTML table that has three columns. In each column is a check box followed by a caption that consists of the course number and title. The check boxes all have the same name (&quot;selectedCourses&quot;), which informs the model binder that they are to be treated as a group. The value attribute of each check box is set to the value of <code>CourseID</code>. When the page is posted, the model binder passes an array to the controller that consists of the <code>CourseID</code> values for only the check boxes which are selected.</p>
 <p>When the check boxes are initially rendered, those that are for courses assigned to the instructor have checked attributes, which selects them (displays them checked).</p>
 <p>Run the Instructor Index page, and click <strong>Edit</strong> on an instructor to see the <strong>Edit</strong> page.</p>
-<p><img src="update-related-data/_static/instructor-edit-courses.png" alt="Instructor Edit page with courses"></p>
+<p><img src="update-related-data/static/instructor-edit-courses.png" alt="Instructor Edit page with courses"></p>
 <p>Change some course assignments and click Save. The changes you make are reflected on the Index page.</p>
 <div class="NOTE"><h5>备注</h5><p>The approach taken here to edit instructor course data works well when there is a limited number of courses. For collections that are much larger, a different UI and a different updating method would be required.</p>
 </div>

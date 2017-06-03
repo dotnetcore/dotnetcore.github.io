@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -208,28 +208,28 @@ namespace Web2FA.Services
 <ul>
 <li>Run the app and register a new user</li>
 </ul>
-<p><img src="2fa/_static/login2fa1.png" alt="Web application Register view open in Microsoft Edge"></p>
+<p><img src="2fa/static/login2fa1.png" alt="Web application Register view open in Microsoft Edge"></p>
 <ul>
 <li>Tap on your user name, which activates the <code>Index</code> action method in Manage controller. Then tap the phone number <strong>Add</strong> link.</li>
 </ul>
-<p><img src="2fa/_static/login2fa2.png" alt="Manage view"></p>
+<p><img src="2fa/static/login2fa2.png" alt="Manage view"></p>
 <ul>
 <li>Add a phone number that will receive the verification code, and tap <strong>Send verification code</strong>.</li>
 </ul>
-<p><img src="2fa/_static/login2fa3.png" alt="Add Phone Number page"></p>
+<p><img src="2fa/static/login2fa3.png" alt="Add Phone Number page"></p>
 <ul>
 <li>You will get a text message with the verification code. Enter it and tap <strong>Submit</strong></li>
 </ul>
-<p><img src="2fa/_static/login2fa4.png" alt="Verify Phone Number page"></p>
+<p><img src="2fa/static/login2fa4.png" alt="Verify Phone Number page"></p>
 <p>If you don&#39;t get a text message, see twilio log page.</p>
 <ul>
 <li>The Manage view shows your phone number was added successfully.</li>
 </ul>
-<p><img src="2fa/_static/login2fa5.png" alt="Manage view"></p>
+<p><img src="2fa/static/login2fa5.png" alt="Manage view"></p>
 <ul>
 <li>Tap <strong>Enable</strong> to enable two-factor authentication.</li>
 </ul>
-<p><img src="2fa/_static/login2fa6.png" alt="Manage view"></p>
+<p><img src="2fa/static/login2fa6.png" alt="Manage view"></p>
 <h3 id="test-two-factor-authentication">Test two-factor authentication</h3>
 <ul>
 <li><p>Log off.</p>
@@ -239,14 +239,14 @@ namespace Web2FA.Services
 <li><p>The user account has enabled two-factor authentication, so you have to provide the second factor of authentication . In this tutorial you have enabled phone verification. The built in templates also allow you to set up email as the second factor. You can set up additional second factors for authentication such as QR codes. Tap <strong>Submit</strong>.</p>
 </li>
 </ul>
-<p><img src="2fa/_static/login2fa7.png" alt="Send Verification Code view"></p>
+<p><img src="2fa/static/login2fa7.png" alt="Send Verification Code view"></p>
 <ul>
 <li><p>Enter the code you get in the SMS message.</p>
 </li>
 <li><p>Clicking on the <strong>Remember this browser</strong> check box will exempt you from needing to use 2FA to log on when using the same device and browser. Enabling 2FA and clicking on <strong>Remember this browser</strong> will provide you with strong 2FA protection from malicious users trying to access your account, as long as they don&#39;t have access to your device. You can do this on any private device you regularly use. By setting  <strong>Remember this browser</strong>, you get the added security of 2FA from devices you don&#39;t regularly use, and you get the convenience on not having to go through 2FA on your own devices.</p>
 </li>
 </ul>
-<p><img src="2fa/_static/login2fa8.png" alt="Verify view"></p>
+<p><img src="2fa/static/login2fa8.png" alt="Verify view"></p>
 <h2 id="account-lockout-for-protecting-against-brute-force-attacks">Account lockout for protecting against brute force attacks</h2>
 <p>We recommend you use account lockout with 2FA. Once a user logs in (through a local account or social account), each failed attempt at 2FA is stored, and if the maximum attempts (default is 5) is reached, the user is locked out for five minutes (you can set the lock out time with <code>DefaultAccountLockoutTimeSpan</code>). The following configures Account to be locked out for 10 minutes after 10 failed attempts.</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="13-17">public void ConfigureServices(IServiceCollection services)

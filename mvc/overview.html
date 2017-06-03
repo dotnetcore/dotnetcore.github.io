@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -73,7 +73,7 @@
 <h2 id="what-is-the-mvc-pattern">What is the MVC pattern?</h2>
 <p>The Model-View-Controller (MVC) architectural pattern separates an application into three main groups of components: Models, Views, and Controllers. This pattern helps to achieve <a href="http://deviq.com/separation-of-concerns/">separation of concerns</a>. Using this pattern, user requests are routed to a Controller which is responsible for working with the Model to perform user actions and/or retrieve results of queries. The Controller chooses the View to display to the user, and provides it with any Model data it requires.</p>
 <p>The following diagram shows the three main components and which ones reference the others:</p>
-<p><img src="overview/_static/mvc.png" alt="MVC Pattern"></p>
+<p><img src="overview/static/mvc.png" alt="MVC Pattern"></p>
 <p>This delineation of responsibilities helps you scale the application in terms of complexity because it’s easier to code, debug, and test something (model, view, or controller) that has a single job (and follows the <a href="http://deviq.com/single-responsibility-principle/">Single Responsibility Principle</a>). It&#39;s more difficult to update, test, and debug code that has dependencies spread across two or more of these three areas. For example, user interface logic tends to change more frequently than business logic. If presentation code and business logic are combined in a single object, you have to modify an object containing business logic every time you change the user interface. This is likely to introduce errors and require the retesting of all business logic after every minimal user interface change.</p>
 <div class="NOTE"><h5>备注</h5><p>Both the view and the controller depend on the model. However, the model depends on neither the view nor the controller. This is one of the key benefits of the separation. This separation allows the model to be built and tested independent of the visual presentation.</p>
 </div>

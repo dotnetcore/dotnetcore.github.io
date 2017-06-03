@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -81,9 +81,9 @@
 <p>Since this is a Visual Studio feature, the easiest way to add the package is to open the <strong>Package Manager Console</strong> (<strong>View &gt; Other Windows &gt; Package Manager Console</strong>) and run the following command:</p>
 <pre><code class="lang-console">install-package Microsoft.VisualStudio.Web.BrowserLink.Loader
 </code></pre><p>Alternatively, you can use <strong>NuGet Package Manager</strong>.  Right-click the project name in <strong>Solution Explorer</strong>, and choose <strong>Manage NuGet Packages</strong>. </p>
-<p><img src="using-browserlink/_static/open-nuget-package-manager.png" alt="Open NuGet Package Manager"></p>
+<p><img src="using-browserlink/static/open-nuget-package-manager.png" alt="Open NuGet Package Manager"></p>
 <p>Then find and install the package.</p>
-<p><img src="using-browserlink/_static/add-package-with-nuget-package-manager.png" alt="Add package with NuGet Package Manager"></p>
+<p><img src="using-browserlink/static/add-package-with-nuget-package-manager.png" alt="Add package with NuGet Package Manager"></p>
 <h3 id="add-configuration-code">Add configuration code</h3>
 <p>Open the <em>Startup.cs</em> file, and in the <code>Configure</code> method add the following code:</p>
 <pre><code class="lang-csharp">app.UseBrowserLink();
@@ -96,7 +96,7 @@
 </code></pre><p>For more information, see <a href="../fundamentals/environments.html">Working with Multiple Environments</a>.</p>
 <h2 id="how-to-use-browser-link">How to use Browser Link</h2>
 <p>When you have an ASP.NET Core project open, Visual Studio shows the Browser Link toolbar control next to the <strong>Debug Target</strong> toolbar control:</p>
-<p><img src="using-browserlink/_static/browserLink-dropdown-menu.png" alt="Browser Link drop-down menu"></p>
+<p><img src="using-browserlink/static/browserlink-dropdown-menu.png" alt="Browser Link drop-down menu"></p>
 <p>From the Browser Link toolbar control, you can:</p>
 <ul>
 <li>Refresh the web application in several browsers at once</li>
@@ -108,23 +108,23 @@
 </div>
 <h2 id="refresh-the-web-application-in-several-browsers-at-once">Refresh the web application in several browsers at once</h2>
 <p>To choose a single web browser to launch when starting the project, use the drop-down menu in the <strong>Debug Target</strong> toolbar control:</p>
-<p><img src="using-browserlink/_static/debug-target-dropdown-menu.png" alt="F5 drop-down menu"></p>
+<p><img src="using-browserlink/static/debug-target-dropdown-menu.png" alt="F5 drop-down menu"></p>
 <p>To open multiple browsers at once, choose <strong>Browse with...</strong> from the same drop-down.  Hold down the CTRL key to select the browsers you want, and then click <strong>Browse</strong>:</p>
-<p><img src="using-browserlink/_static/open-many-browsers-at-once.png" alt="Open many browsers at once"></p>
+<p><img src="using-browserlink/static/open-many-browsers-at-once.png" alt="Open many browsers at once"></p>
 <p>Here&#39;s a sample screenshot showing Visual Studio with the Index view open and two open browsers:</p>
-<p><img src="using-browserlink/_static/sync-with-two-browsers-example.png" alt="Sync with two browsers example"></p>
+<p><img src="using-browserlink/static/sync-with-two-browsers-example.png" alt="Sync with two browsers example"></p>
 <p>Hover over the Browser Link toolbar control to see the browsers that are connected to the project:</p>
-<p><img src="using-browserlink/_static/hoover-tip.png" alt="Hover tip"></p>
+<p><img src="using-browserlink/static/hoover-tip.png" alt="Hover tip"></p>
 <p>Change the Index view, and all connected browsers are updated when you click the Browser Link refresh button:</p>
-<p><img src="using-browserlink/_static/browsers-sync-to-changes.png" alt="browsers-sync-to-changes"></p>
+<p><img src="using-browserlink/static/browsers-sync-to-changes.png" alt="browsers-sync-to-changes"></p>
 <p>Browser Link also works with browsers that you launch from outside Visual Studio and navigate to the application URL.</p>
 <h3 id="the-browser-link-dashboard">The Browser Link Dashboard</h3>
 <p>Open the Browser Link Dashboard from the Browser Link drop down menu to manage the connection with open browsers:</p>
-<p><img src="using-browserlink/_static/open-browserlink-dashboard.png" alt="open-browserslink-dashboard"></p>
+<p><img src="using-browserlink/static/open-browserlink-dashboard.png" alt="open-browserslink-dashboard"></p>
 <p>If no browser is connected, you can start a non debugging session clicking the <em>View in Browser</em> link:</p>
-<p><img src="using-browserlink/_static/browserlink-dashboard-no-connections.png" alt="browserlink-dashboard-no-connections"></p>
+<p><img src="using-browserlink/static/browserlink-dashboard-no-connections.png" alt="browserlink-dashboard-no-connections"></p>
 <p>Otherwise, the connected browsers are shown, with the path to the page that each browser is showing:</p>
-<p><img src="using-browserlink/_static/browserlink-dashboard-two-connections.png" alt="browserlink-dashboard-two-connections"></p>
+<p><img src="using-browserlink/static/browserlink-dashboard-two-connections.png" alt="browserlink-dashboard-two-connections"></p>
 <p>If you like, you can click on a listed browser name to refresh that single browser.</p>
 <h3 id="enable-or-disable-browser-link">Enable or disable Browser Link</h3>
 <p>When you re-enable Browser Link after disabling it, you have to refresh the browsers to reconnect them.</p>

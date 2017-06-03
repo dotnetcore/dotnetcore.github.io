@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -159,7 +159,7 @@ namespace ViewInjectSample.Model.Services
 }
 </code></pre><p>The sample repository uses an in-memory collection. The implementation shown above (which operates on all of the data in memory) is not recommended for large, remotely accessed data sets.</p>
 <p>The sample displays data from the model bound to the view and the service injected into the view:</p>
-<p><img src="dependency-injection/_static/screenshot.png" alt="To Do view listing total items, completed items, average priority, and a list of tasks with their priority levels and boolean values indicating completion."></p>
+<p><img src="dependency-injection/static/screenshot.png" alt="To Do view listing total items, completed items, average priority, and a list of tasks with their priority levels and boolean values indicating completion."></p>
 <h2 id="populating-lookup-data">Populating Lookup Data</h2>
 <p>View injection can be useful to populate options in UI elements, such as dropdown lists. Consider a user profile form that includes options for specifying gender, state, and other preferences. Rendering such a form using a standard MVC approach would require the controller to request data access services for each of these sets of options, and then populate a model or <code>ViewBag</code> with each set of options to be bound.</p>
 <p>An alternative approach injects services directly into the view to obtain the options. This minimizes the amount of code required by the controller, moving this view element construction logic into the view itself. The controller action to display a profile editing form only needs to pass the form the profile instance:</p>
@@ -186,7 +186,7 @@ namespace ViewInjectSample.Controllers
     }
 }
 </code></pre><p>The HTML form used to update these preferences includes dropdown lists for three of the properties:</p>
-<p><img src="dependency-injection/_static/updateprofile.png" alt="Update Profile view with a form allowing the entry of name, gender, state, and favorite Color."></p>
+<p><img src="dependency-injection/static/updateprofile.png" alt="Update Profile view with a form allowing the entry of name, gender, state, and favorite Color."></p>
 <p>These lists are populated by a service that has been injected into the view:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="4,16,17,21,22,26,27">@using System.Threading.Tasks
 @using ViewInjectSample.Model.Services
@@ -252,7 +252,7 @@ namespace ViewInjectSample.Model.Services
 </div>
 <h2 id="overriding-services">Overriding Services</h2>
 <p>In addition to injecting new services, this technique can also be used to override previously injected services on a page. The figure below shows all of the fields available on the page used in the first example:</p>
-<p><img src="dependency-injection/_static/razor-fields.png" alt="Intellisense contextual menu on a typed @ symbol listing Html, Component, StatsService, and Url fields"></p>
+<p><img src="dependency-injection/static/razor-fields.png" alt="Intellisense contextual menu on a typed @ symbol listing Html, Component, StatsService, and Url fields"></p>
 <p>As you can see, the default fields include <code>Html</code>, <code>Component</code>, and <code>Url</code> (as well as the <code>StatsService</code> that we injected). If for instance you wanted to replace the default HTML Helpers with your own, you could easily do so using <code>@inject</code>:</p>
 <pre><code class="lang-html" name="Main" highlight-lines="3,11">@using System.Threading.Tasks
 @using ViewInjectSample.Helpers

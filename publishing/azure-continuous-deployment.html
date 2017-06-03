@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -90,17 +90,17 @@
 <li><p>From the <strong>File</strong> menu, select <strong>New</strong> &gt; <strong>Project</strong>.</p>
 </li>
 <li><p>Select the <strong>ASP.NET Web Application</strong> project template. It appears under <strong>Installed</strong> &gt; <strong>Templates</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Web</strong>. Name the project <code>SampleWebAppDemo</code>. Select the <strong>Create new Git respository</strong> option and click <strong>OK</strong>.</p>
-<p><img src="azure-continuous-deployment/_static/01-new-project.png" alt="New Project dialog"></p>
+<p><img src="azure-continuous-deployment/static/01-new-project.png" alt="New Project dialog"></p>
 </li>
 <li><p>In the <strong>New ASP.NET Project</strong> dialog, select the ASP.NET Core <strong>Empty</strong> template, then click <strong>OK</strong>.</p>
-<p><img src="azure-continuous-deployment/_static/02-web-site-template.png" alt="New ASP.NET Project dialog"></p>
+<p><img src="azure-continuous-deployment/static/02-web-site-template.png" alt="New ASP.NET Project dialog"></p>
 </li>
 </ol>
 <h3 id="running-the-web-app-locally">Running the web app locally</h3>
 <ol>
 <li><p>Once Visual Studio finishes creating the app, run the app by selecting <strong>Debug</strong> -&gt; <strong>Start Debugging</strong>. As an alternative, you can press <strong>F5</strong>.</p>
 <p>It may take time to initialize Visual Studio and the new app. Once it is complete, the browser will show the running app.</p>
-<p><img src="azure-continuous-deployment/_static/04-browser-runapp.png" alt="Browser window showing running application that displays &#39;Hello World!&#39;"></p>
+<p><img src="azure-continuous-deployment/static/04-browser-runapp.png" alt="Browser window showing running application that displays &#39;Hello World!&#39;"></p>
 </li>
 <li><p>After reviewing the running Web app, close the browser and click the &quot;Stop Debugging&quot; icon in the toolbar of Visual Studio to stop the app.</p>
 </li>
@@ -111,17 +111,17 @@
 <li>Log in to the <a href="https://portal.azure.com">Azure Portal</a></li>
 <li>TAP <strong>NEW</strong> at the top left of the Portal</li>
 <li><p>TAP <strong>Web + Mobile</strong> &gt; <strong>Web App</strong></p>
-<p> <img src="azure-continuous-deployment/_static/05-azure-newwebapp.png" alt="Microsoft Azure Portal: New button: Web + Mobile under Marketplace: Web App button under Featured Apps"></p>
+<p> <img src="azure-continuous-deployment/static/05-azure-newwebapp.png" alt="Microsoft Azure Portal: New button: Web + Mobile under Marketplace: Web App button under Featured Apps"></p>
 </li>
 <li><p>In the <strong>Web App</strong> blade, enter a unique value for the <strong>App Service Name</strong>.</p>
-<p><img src="azure-continuous-deployment/_static/06-azure-newappblade.png" alt="Web App blade"></p>
+<p><img src="azure-continuous-deployment/static/06-azure-newappblade.png" alt="Web App blade"></p>
 <div class="NOTE"><h5>备注</h5><p>The <strong>App Service Name</strong> name needs to be unique. The portal will enforce this rule when you attempt to enter the name. After you enter a different value, you&#39;ll need to substitute that value for each occurrence of <strong>SampleWebAppDemo</strong> that you see in this tutorial.</p>
 </div>
 <p>&nbsp;</p>
 <p>Also in the <strong>Web App</strong> blade, select an existing <strong>App Service Plan/Location</strong> or create a new one. If you create a new plan, select the pricing tier, location, and other options. For more information on App Service plans, <a href="https://azure.microsoft.com/en-us/documentation/articles/azure-web-sites-web-hosting-plans-in-depth-overview/">Azure App Service plans in-depth overview</a>.</p>
 </li>
 <li><p>Click <strong>Create</strong>. Azure will provision and start your web app.</p>
-<p><img src="azure-continuous-deployment/_static/07-azure-webappblade.png" alt="Azure Portal: Sample Web App Demo 01 Essentials blade"></p>
+<p><img src="azure-continuous-deployment/static/07-azure-webappblade.png" alt="Azure Portal: Sample Web App Demo 01 Essentials blade"></p>
 </li>
 </ol>
 <h2 id="enable-git-publishing-for-the-new-web-app">Enable Git publishing for the new web app</h2>
@@ -138,7 +138,7 @@
 <li><p>If the <strong>Settings</strong> blade is not shown, select <strong>Settings</strong> in the <strong>Web App</strong> blade.</p>
 </li>
 <li><p>In the <strong>Settings</strong> blade, select <strong>Deployment source</strong> &gt; <strong>Choose Source</strong> &gt; <strong>Local Git Repository</strong>.</p>
-<p><img src="azure-continuous-deployment/_static/08-azure-localrepository.png" alt="Settings blade: Deployment source blade: Choose source blade"></p>
+<p><img src="azure-continuous-deployment/static/08-azure-localrepository.png" alt="Settings blade: Deployment source blade: Choose source blade"></p>
 </li>
 <li><p>Click <strong>OK</strong>.</p>
 </li>
@@ -155,7 +155,7 @@
 <li><p>In the <strong>Web App</strong> blade, click <strong>Settings</strong> &gt; <strong>Properties</strong>. The URL of the remote Git repository that you&#39;ll deploy to is shown under <strong>GIT URL</strong>.</p>
 </li>
 <li><p>Copy the <strong>GIT URL</strong> value for later use in the tutorial.</p>
-<p><img src="azure-continuous-deployment/_static/09-azure-giturl.png" alt="Azure Portal: application Properties blade"></p>
+<p><img src="azure-continuous-deployment/static/09-azure-giturl.png" alt="Azure Portal: application Properties blade"></p>
 </li>
 </ol>
 <h2 id="publish-your-web-app-to-azure-app-service">Publish your web app to Azure App Service</h2>
@@ -171,7 +171,7 @@
 <p>&nbsp;</p>
 <ol>
 <li><p>In <strong>Solution Explorer</strong> right-click <strong>Solution &#39;SampleWebAppDemo&#39;</strong> and select <strong>Commit</strong>. The <strong>Team Explorer</strong> will be displayed.</p>
-<p><img src="azure-continuous-deployment/_static/10-team-explorer.png" alt="Team Explorer Connect tab"></p>
+<p><img src="azure-continuous-deployment/static/10-team-explorer.png" alt="Team Explorer Connect tab"></p>
 </li>
 <li><p>In <strong>Team Explorer</strong>, select the <strong>Home</strong> (home icon) &gt; <strong>Settings</strong> &gt; <strong>Repository Settings</strong>.</p>
 </li>
@@ -180,7 +180,7 @@
 <li><p>Set the <strong>Name</strong> of the remote to <strong>Azure-SampleApp</strong>.</p>
 </li>
 <li><p>Set the value for <strong>Fetch</strong> to the <strong>Git URL</strong> that you copied from Azure earlier in this tutorial. Note that this is the URL that ends with <strong>.git</strong>.</p>
-<p><img src="azure-continuous-deployment/_static/11-add-remote.png" alt="Edit Remote dialog"></p>
+<p><img src="azure-continuous-deployment/static/11-add-remote.png" alt="Edit Remote dialog"></p>
 <div class="NOTE"><h5>备注</h5><p>As an alternative, you can specify the remote repository from the <strong>Command Window</strong> by opening the <strong>Command Window</strong>, changing to your project directory, and entering the command. For example:<code>git remote add Azure-SampleApp https://me@sampleapp.scm.azurewebsites.net:443/SampleApp.git</code></p>
 </div>
 </li>
@@ -189,7 +189,7 @@
 <li><p>Select <strong>Home</strong> &gt; <strong>Changes</strong> to return to the <strong>Changes</strong> view.</p>
 </li>
 <li><p>Enter a commit message, such as <strong>Initial Push #1</strong> and click <strong>Commit</strong>. This action will create a <em>commit</em> locally. Next, you need to <em>sync</em> with Azure.</p>
-<p><img src="azure-continuous-deployment/_static/12-initial-commit.png" alt="Team Explorer Connect tab"></p>
+<p><img src="azure-continuous-deployment/static/12-initial-commit.png" alt="Team Explorer Connect tab"></p>
 <div class="NOTE"><h5>备注</h5><p>As an alternative, you can commit your changes from the <strong>Command Window</strong> by opening the <strong>Command Window</strong>, changing to your project directory, and entering the git commands. For example:</p>
 <p><code>git add .</code></p>
 <p><code>git commit -am &quot;Initial Push #1&quot;</code></p>
@@ -218,7 +218,7 @@ Branch master set up to track remote branch master from Azure-SampleApp.
 <p>You can verify that you successfully transferred the web app from your local environment to Azure. You&#39;ll see the listed successful deployment.</p>
 <ol>
 <li><p>In the <a href="https://portal.azure.com">Azure Portal</a>, select your web app. Then, select <strong>Settings</strong> &gt; <strong>Continuous deployment</strong>.</p>
-<p><img src="azure-continuous-deployment/_static/13-verify-deployment.png" alt="Azure Portal: Settings blade: Deployments blade showing successful deployment"></p>
+<p><img src="azure-continuous-deployment/static/13-verify-deployment.png" alt="Azure Portal: Settings blade: Deployments blade showing successful deployment"></p>
 </li>
 </ol>
 <h2 id="run-the-app-in-azure">Run the app in Azure</h2>

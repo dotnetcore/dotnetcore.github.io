@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -84,7 +84,7 @@ public JsonResult Get()
     return Json(_authorRepository.List());
 }
 </code></pre><p>Sample response from this action:</p>
-<p><img src="formatting/_static/json-response.png" alt="Network tab of Developer Tools in Microsoft Edge showing the Content type of the response is application/json"></p>
+<p><img src="formatting/static/json-response.png" alt="Network tab of Developer Tools in Microsoft Edge showing the Content type of the response is application/json"></p>
 <p>Note that the content type of the response is <code>application/json</code>, shown both in the list of network requests and in the Response Headers section. Also note the list of options presented by the browser (in this case, Microsoft Edge) in the Accept header in the Request Headers section. The current technique is ignoring this header; obeying it is discussed below.</p>
 <p>To return plain text formatted data, use <code>ContentResult</code> and the <code>Content</code> helper:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3,5">// GET api/authors/about
@@ -94,7 +94,7 @@ public ContentResult About()
     return Content(&quot;An API listing authors of docs.asp.net.&quot;);
 }
 </code></pre><p>A response from this action:</p>
-<p><img src="formatting/_static/text-response.png" alt="Network tab of Developer Tools in Microsoft Edge showing the Content type of the response is text/plain"></p>
+<p><img src="formatting/static/text-response.png" alt="Network tab of Developer Tools in Microsoft Edge showing the Content type of the response is text/plain"></p>
 <p>Note in this case the <code>Content-Type</code> returned is <code>text/plain</code>. You can also achieve this same behavior using just a string response type:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3,5">// GET api/authors/version
 [HttpGet(&quot;version&quot;)]
@@ -119,7 +119,7 @@ public IActionResult Search(string namelike)
     return Ok(result);
 }
 </code></pre><p>A JSON-formatted response will be returned unless another format was requested and the server can return the requested format. You can use a tool like <a href="http://www.telerik.com/fiddler">Fiddler</a> to create a request that includes an Accept header and specify another format. In that case, if the server has a <em>formatter</em> that can produce a response in the requested format, the result will be returned in the client-preferred format.</p>
-<p><img src="formatting/_static/fiddler-composer.png" alt="Fiddler console showing a manually-created GET request with an Accept header value of application/xml"></p>
+<p><img src="formatting/static/fiddler-composer.png" alt="Fiddler console showing a manually-created GET request with an Accept header value of application/xml"></p>
 <p>In the above screenshot, the Fiddler Composer has been used to generate a request, specifying <code>Accept: application/xml</code>. By default, ASP.NET Core MVC only supports JSON, so even when another format is specified, the result returned is still JSON-formatted. You&#39;ll see how to add additional formatters in the next section.</p>
 <p>Controller actions can return POCOs (Plain Old CLR Objects), in which case ASP.NET MVC will automatically create an <code>ObjectResult</code> for you that wraps the object. The client will get the formatted serialized object (JSON format is the default; you can configure XML or other formats). If the object being returned is <code>null</code>, then the framework will return a <code>204 No Content</code> response.</p>
 <p>Returning an object type:</p>
@@ -165,10 +165,10 @@ negotiation taking place - the server is determining what format it will use.</p
   options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 });
 </code></pre><p>Once you&#39;ve added support for XML formatting, your controller methods should return the appropriate format based on the request&#39;s <code>Accept</code> header, as this Fiddler example demonstrates:</p>
-<p><img src="formatting/_static/xml-response.png" alt="Fiddler console: The Raw tab for the request shows the Accept header value is application/xml. The Raw tab for the response shows the Content-Type header value of application/xml."></p>
+<p><img src="formatting/static/xml-response.png" alt="Fiddler console: The Raw tab for the request shows the Accept header value is application/xml. The Raw tab for the response shows the Content-Type header value of application/xml."></p>
 <p>You can see in the Inspectors tab that the Raw GET request was made with an <code>Accept: application/xml</code> header set. The response pane shows the <code>Content-Type: application/xml</code> header, and the <code>Author</code> object has been serialized to XML.</p>
 <p>Use the Composer tab to modify the request to specify <code>application/json</code> in the <code>Accept</code> header. Execute the request, and the response will be formatted as JSON:</p>
-<p><img src="formatting/_static/json-response-fiddler.png" alt="Fiddler console: The Raw tab for the request shows the Accept header value is application/json. The Raw tab for the response shows the Content-Type header value of application/json."></p>
+<p><img src="formatting/static/json-response-fiddler.png" alt="Fiddler console: The Raw tab for the request shows the Accept header value is application/json. The Raw tab for the response shows the Content-Type header value of application/json."></p>
 <p>In this screenshot, you can see the request sets a header of <code>Accept: application/json</code> and the response specifies the same as its <code>Content-Type</code>. The <code>Author</code> object is shown in the body of the response, in JSON format.</p>
 <h3 id="forcing-a-particular-format">Forcing a Particular Format</h3>
 <p>If you would like to restrict the response formats for a specific action you can, you can apply the <code>[Produces]</code> filter. The <code>[Produces]</code> filter specifies the response formats for a specific action (or controller). Like most <a href="../controllers/filters.html">Filters</a>, this can be applied at the action, controller, or global scope.</p>

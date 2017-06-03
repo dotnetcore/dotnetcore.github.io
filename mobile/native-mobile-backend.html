@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -73,14 +73,14 @@
 <p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/mobile/native-mobile-backend/sample">View or download sample backend services code</a></p>
 <h2 id="the-sample-native-mobile-app">The Sample Native Mobile App</h2>
 <p>This tutorial demonstrates how to create backend services using ASP.NET Core MVC to support native mobile apps. It uses the <a href="https://developer.xamarin.com/guides/xamarin-forms/web-services/consuming/rest/">Xamarin Forms ToDoRest app</a> as its native client, which includes separate native clients for Android, iOS, Windows Universal, and Window Phone devices. You can follow the linked tutorial to create the native app (and install the necessary free Xamarin tools), as well as download the Xamarin sample solution. The Xamarin sample includes an ASP.NET Web API 2 services project, which this article&#39;s ASP.NET Core app replaces (with no changes required by the client).</p>
-<p><img src="native-mobile-backend/_static/todo-android.png" alt="To Do Rest application running on an Android smartphone"></p>
+<p><img src="native-mobile-backend/static/todo-android.png" alt="To Do Rest application running on an Android smartphone"></p>
 <h3 id="features">Features</h3>
 <p>The ToDoRest app supports listing, adding, deleting, and updating To-Do items. Each item has an ID, a Name, Notes, and a property indicating whether it&#39;s been Done yet.</p>
 <p>The main view of the items, as shown above, lists each item&#39;s name and indicates if it is done with a checkmark.</p>
 <p>Tapping the <code>+</code> icon opens an add item dialog:</p>
-<p><img src="native-mobile-backend/_static/todo-android-new-item.png" alt="Add item dialog"></p>
+<p><img src="native-mobile-backend/static/todo-android-new-item.png" alt="Add item dialog"></p>
 <p>Tapping an item on the main list screen opens up an edit dialog where the item&#39;s Name, Notes, and Done settings can be modified, or the item can be deleted:</p>
-<p><img src="native-mobile-backend/_static/todo-android-edit-item.png" alt="Edit item dialog"></p>
+<p><img src="native-mobile-backend/static/todo-android-edit-item.png" alt="Edit item dialog"></p>
 <p>This sample is configured by default to use backend services hosted at developer.xamarin.com, which allow read-only operations. To test it out yourself against the ASP.NET Core app created in the next section running on your computer, you&#39;ll need to update the app&#39;s <code>RestUrl</code> constant. Navigate to the <code>ToDoREST</code> project and open the <em>Constants.cs</em> file. Replace the <code>RestUrl</code> with a URL that includes your machine&#39;s IP address (not localhost or 127.0.0.1, since this address is used from the device emulator, not from your machine). Include the port number as well (5000). In order to test that your services work with a device, ensure you don&#39;t have an active firewall blocking access to this port.</p>
 <!-- literal_block {"ids": [], "names": [], "highlight_args": {}, "backrefs": [], "dupnames": [], "linenos": false, "classes": [], "xml:space": "preserve", "language": "csharp"} -->
 <pre><code class="lang-csharp">// URL of REST service (Xamarin ReadOnly Service)
@@ -90,7 +90,7 @@
 public static string RestUrl = &quot;http://192.168.1.207:5000/api/todoitems/{0}&quot;;
 </code></pre><h2 id="creating-the-aspnet-core-project">Creating the ASP.NET Core Project</h2>
 <p>Create a new ASP.NET Core Web Application in Visual Studio. Choose the Web API template and No Authentication. Name the project <em>ToDoApi</em>.</p>
-<p><img src="native-mobile-backend/_static/web-api-template.png" alt="New ASP.NET Web Application dialog with Web API project template selected"></p>
+<p><img src="native-mobile-backend/static/web-api-template.png" alt="New ASP.NET Web Application dialog with Web API project template selected"></p>
 <p>The application should respond to all requests made to port 5000. Update <em>Program.cs</em> to include <code>.UseUrls(&quot;http://*:5000&quot;)</code> to achieve this:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3">var host = new WebHostBuilder()
     .UseKestrel()
@@ -261,7 +261,7 @@ public IActionResult List()
 }
 </code></pre><p>The <code>List</code> method returns a 200 OK response code and all of the ToDo items, serialized as JSON.</p>
 <p>You can test your new API method using a variety of tools, such as <a href="https://www.getpostman.com/docs/">Postman</a>, shown here:</p>
-<p><img src="native-mobile-backend/_static/postman-get.png" alt="Postman console showing a GET request for todoitems and the body of the response showing the JSON for three items returned"></p>
+<p><img src="native-mobile-backend/static/postman-get.png" alt="Postman console showing a GET request for todoitems and the body of the response showing the JSON for three items returned"></p>
 <h3 id="creating-items">Creating Items</h3>
 <p>By convention, creating new data items is mapped to the HTTP POST verb. The <code>Create</code> method has an <code>[HttpPost]</code> attribute applied to it, and accepts an ID parameter and a <code>ToDoItem</code> instance. The HTTP verb attributes, like <code>[HttpPost]</code>, optionally accept a route template string (<code>{id}</code> in this example). This has the same effect as adding a <code>[Route]</code> attribute to the action. Since the <code>item</code> argument will be passed in the body of the POST, this parameter is decorated with the <code>[FromBody]</code> attribute.</p>
 <p>Inside the method, the item is checked for validity and prior existence in the data store, and if no issues occur, it is added using the repository. Checking <code>ModelState.IsValid</code> performs <a href="../mvc/models/validation.html">model validation</a>, and should be done in every API method that accepts user input.</p>
@@ -298,7 +298,7 @@ public IActionResult Create(string id, [FromBody]ToDoItem item)
     CouldNotDeleteItem
 }
 </code></pre><p>Test adding new items using Postman by choosing the POST verb providing the new object in JSON format in the Body of the request. You should also add a request header specifying a <code>Content-Type</code> of <code>application/json</code>.</p>
-<p><img src="native-mobile-backend/_static/postman-post.png" alt="Postman console showing a POST and response"></p>
+<p><img src="native-mobile-backend/static/postman-post.png" alt="Postman console showing a POST and response"></p>
 <p>The method returns the newly created item in the response.</p>
 <h3 id="updating-items">Updating Items</h3>
 <p>Modifying records is done using HTTP PUT requests. Other than this change, the <code>Edit</code> method is almost identical to <code>Create</code>. Note that if the record isn&#39;t found, the <code>Edit</code> action will return a <code>NotFound</code> (404) response.</p>
@@ -325,7 +325,7 @@ public IActionResult Edit(string id, [FromBody] ToDoItem item)
     return NoContent();
 }
 </code></pre><p>To test with Postman, change the verb to PUT and add the ID of the record being updated to the URL. Specify the updated object data in the Body of the request.</p>
-<p><img src="native-mobile-backend/_static/postman-put.png" alt="Postman console showing a PUT and response"></p>
+<p><img src="native-mobile-backend/static/postman-put.png" alt="Postman console showing a PUT and response"></p>
 <p>This method returns a <code>NoContent</code> (204) response when successful, for consistency with the pre-existing API.</p>
 <h3 id="deleting-items">Deleting Items</h3>
 <p>Deleting records is accomplished by making DELETE requests to the service, and passing the ID of the item to be deleted. As with updates, requests for items that don&#39;t exist will receive <code>NotFound</code> responses. Otherwise, a successful request will get a <code>NoContent</code> (204) response.</p>
@@ -348,7 +348,7 @@ public IActionResult Delete(string id)
     return NoContent();
 }
 </code></pre><p>Note that when testing the delete functionality, nothing is required in the Body of the request.</p>
-<p><img src="native-mobile-backend/_static/postman-delete.png" alt="Postman console showing a DELETE and response"></p>
+<p><img src="native-mobile-backend/static/postman-delete.png" alt="Postman console showing a DELETE and response"></p>
 <h2 id="common-web-api-conventions">Common Web API Conventions</h2>
 <p>As you develop the backend services for your app, you will want to come up with a consistent set of conventions or policies for handling cross-cutting concerns. For example, in the service shown above, requests for specific records that weren&#39;t found received a <code>NotFound</code> response, rather than a <code>BadRequest</code> response. Similarly, commands made to this service that passed in model bound types always checked <code>ModelState.IsValid</code> and returned a <code>BadRequest</code> for invalid model types.</p>
 <p>Once you&#39;ve identified a common policy for your APIs, you can usually encapsulate it in a <a href="../mvc/controllers/filters.html">filter</a>. Learn more about <a href="https://msdn.microsoft.com/en-us/magazine/mt767699.aspx">how to encapsulate common API policies in ASP.NET Core MVC applications</a>.</p>

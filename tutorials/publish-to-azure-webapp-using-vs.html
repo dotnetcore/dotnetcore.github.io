@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -83,9 +83,9 @@
 </ul>
 <h2 id="create-a-web-app">Create a web app</h2>
 <p>In the Visual Studio Start Page, tap <strong>New Project...</strong>.</p>
-<p><img src="publish-to-azure-webapp-using-vs/_static/new_project.png" alt="Start Page"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/new_project.png" alt="Start Page"></p>
 <p>Alternatively, you can use the menus to create a new project. Tap <strong>File &gt; New &gt; Project...</strong>.</p>
-<p><img src="publish-to-azure-webapp-using-vs/_static/alt_new_project.png" alt="File menu"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/alt_new_project.png" alt="File menu"></p>
 <p>Complete the <strong>New Project</strong> dialog:</p>
 <ul>
 <li><p>In the left pane, tap <strong>Web</strong></p>
@@ -95,7 +95,7 @@
 <li><p>Tap <strong>OK</strong></p>
 </li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/new_prj.png" alt="New Project dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/new_prj.png" alt="New Project dialog"></p>
 <p>In the <strong>New ASP.NET Core Web Application (.NET Core)</strong> dialog:</p>
 <ul>
 <li><p>Tap <strong>Web Application</strong></p>
@@ -107,7 +107,7 @@
 <li><p>Tap <strong>OK</strong></p>
 </li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/noath.png" alt="New ASP.NET Core Web Application (.NET Core) dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/noath.png" alt="New ASP.NET Core Web Application (.NET Core) dialog"></p>
 <h2 id="test-the-app-locally">Test the app locally</h2>
 <ul>
 <li><p>Press <strong>Ctrl-F5</strong> to run the app locally</p>
@@ -115,11 +115,11 @@
 <li><p>Tap the <strong>About</strong> and <strong>Contact</strong> links. Depending on the size of your device, you might need to tap the navigation icon to show the links</p>
 </li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/show.png" alt="Web application open in Microsoft Edge on localhost"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/show.png" alt="Web application open in Microsoft Edge on localhost"></p>
 <ul>
 <li>Tap <strong>Register</strong> and register a new user. You can use a fictitious email address. When you submit, you&#39;ll get the following error:</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/mig.png" alt="Internal Server Error: A database operation failed while processing the request. SQL exception: Cannot open the database. Applying existing migrations for Application DB context may resolve this issue."></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/mig.png" alt="Internal Server Error: A database operation failed while processing the request. SQL exception: Cannot open the database. Applying existing migrations for Application DB context may resolve this issue."></p>
 <p>You can fix the problem in two different ways:</p>
 <ul>
 <li><p>Tap <strong>Apply Migrations</strong> and, once the page updates, refresh the page; or</p>
@@ -130,14 +130,14 @@
 </code></pre></li>
 </ul>
 <p>The app displays the email used to register the new user and a <strong>Log off</strong> link.</p>
-<p><img src="publish-to-azure-webapp-using-vs/_static/hello.png" alt="Web application open in Microsoft Edge. The Register link is replaced by the text Hello abc@example.com!"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/hello.png" alt="Web application open in Microsoft Edge. The Register link is replaced by the text Hello abc@example.com!"></p>
 <h2 id="deploy-the-app-to-azure">Deploy the app to Azure</h2>
 <p>Right-click on the project in Solution Explorer and select <strong>Publish...</strong>.</p>
-<p><img src="publish-to-azure-webapp-using-vs/_static/pub.png" alt="Contextual menu open with Publish link highlighted"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/pub.png" alt="Contextual menu open with Publish link highlighted"></p>
 <p>In the <strong>Publish</strong> dialog, tap <strong>Microsoft Azure App Service</strong>.</p>
-<p><img src="publish-to-azure-webapp-using-vs/_static/maas1.png" alt="Publish dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/maas1.png" alt="Publish dialog"></p>
 <p>Tap <strong>New...</strong> to create a new resource group. Creating a new resource group will make it easier to delete all the Azure resources you create in this tutorial.</p>
-<p><img src="publish-to-azure-webapp-using-vs/_static/newrg1.png" alt="App Service dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/newrg1.png" alt="App Service dialog"></p>
 <p>Create a new resource group and app service plan:</p>
 <ul>
 <li><p>Tap <strong>New...</strong> for the resource group and enter a name for the new resource group</p>
@@ -147,33 +147,33 @@
 <li><p>Tap <strong>Explore additional Azure services</strong> to create a new database</p>
 </li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/cas.png" alt="New Resource Group dialog: Hosting panel"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/cas.png" alt="New Resource Group dialog: Hosting panel"></p>
 <ul>
 <li>Tap the green <strong>+</strong> icon to create a new SQL Database</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/sql.png" alt="New Resource Group dialog: Services panel"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/sql.png" alt="New Resource Group dialog: Services panel"></p>
 <ul>
 <li>Tap <strong>New...</strong> on the <strong>Configure SQL Database</strong> dialog to create a new database server.</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/conf.png" alt="Configure SQL Database dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/conf.png" alt="Configure SQL Database dialog"></p>
 <ul>
 <li>Enter an administrator user name and password, and then tap <strong>OK</strong>. Don&#39;t forget the user name and password you create in this step. You can keep the default <strong>Server Name</strong></li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/conf_servername.png" alt="Configure SQL Server dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/conf_servername.png" alt="Configure SQL Server dialog"></p>
 <div class="NOTE"><h5>备注</h5><p>&quot;admin&quot; is not allowed as the administrator user name.</p>
 </div>
 <ul>
 <li>Tap <strong>OK</strong> on the  <strong>Configure SQL Database</strong> dialog</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/conf_final.png" alt="Configure SQL Database dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/conf_final.png" alt="Configure SQL Database dialog"></p>
 <ul>
 <li>Tap <strong>Create</strong> on the <strong>Create App Service</strong> dialog</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/create_as.png" alt="Create App Service dialog"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/create_as.png" alt="Create App Service dialog"></p>
 <ul>
 <li>Tap <strong>Next</strong> in the <strong>Publish</strong> dialog</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/pubc.png" alt="Publish dialog: Connection panel"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/pubc.png" alt="Publish dialog: Connection panel"></p>
 <ul>
 <li><p>On the <strong>Settings</strong> stage of the <strong>Publish</strong> dialog:</p>
 <ul>
@@ -186,7 +186,7 @@
 <li><p>Tap <strong>Publish</strong> and wait until Visual Studio finishes publishing your app</p>
 </li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/pubs.png" alt="Publish dialog: Settings panel"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/pubs.png" alt="Publish dialog: Settings panel"></p>
 <p>Visual Studio will publish your app to Azure and launch the cloud app in your browser.</p>
 <h3 id="test-your-app-in-azure">Test your app in Azure</h3>
 <ul>
@@ -195,7 +195,7 @@
 <li><p>Register a new user</p>
 </li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/final.png" alt="Web application opened in Microsoft Edge on Azure App Service"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/final.png" alt="Web application opened in Microsoft Edge on Azure App Service"></p>
 <h3 id="update-the-app">Update the app</h3>
 <ul>
 <li>Edit the <code>Views/Home/About.cshtml</code> Razor view file and change its contents. For example:</li>
@@ -211,7 +211,7 @@
 </code></pre><ul>
 <li>Right-click on the project and tap <strong>Publish...</strong> again</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/pub.png" alt="Contextual menu open with Publish link highlighted"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/pub.png" alt="Contextual menu open with Publish link highlighted"></p>
 <ul>
 <li>After the app is published, verify the changes you made are available on Azure</li>
 </ul>
@@ -220,11 +220,11 @@
 <ul>
 <li>Select <strong>Resource groups</strong>, then tap the resource group you created</li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/portalrg.png" alt="Azure Portal: Resource Groups in sidebar menu"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/portalrg.png" alt="Azure Portal: Resource Groups in sidebar menu"></p>
 <ul>
 <li>In the <strong>Resource group</strong> blade, tap <strong>Delete</strong></li>
 </ul>
-<p><img src="publish-to-azure-webapp-using-vs/_static/rgd.png" alt="Azure Portal: Resource Groups blade"></p>
+<p><img src="publish-to-azure-webapp-using-vs/static/rgd.png" alt="Azure Portal: Resource Groups blade"></p>
 <ul>
 <li>Enter the name of the resource group and tap <strong>Delete</strong>. Your app and all other resources created in this tutorial are now deleted from Azure</li>
 </ul>

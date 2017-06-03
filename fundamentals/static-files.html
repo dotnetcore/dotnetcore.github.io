@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -136,7 +136,7 @@
         }
     });
 }
-</code></pre><p><img src="static-files/_static/add-header.png" alt="Response headers showing the Cache-Control header has been added"></p>
+</code></pre><p><img src="static-files/static/add-header.png" alt="Response headers showing the Cache-Control header has been added"></p>
 <h2 id="static-file-authorization">Static file authorization</h2>
 <p>The static file module provides <strong>no</strong> authorization checks. Any files served by it, including those under <em>wwwroot</em> are publicly available. To serve files based on authorization:</p>
 <ul>
@@ -171,7 +171,7 @@
     services.AddDirectoryBrowser();
 }
 </code></pre><p>The code above allows directory browsing of the <em>wwwroot/images</em> folder using the URL http://&lt;app&gt;/MyImages, with links to each file and folder:</p>
-<p><img src="static-files/_static/dir-browse.png" alt="directory browsing"></p>
+<p><img src="static-files/static/dir-browse.png" alt="directory browsing"></p>
 <p>See <a href="#considerations">Considerations</a> on the security risks when enabling browsing.</p>
 <p>Note the two <code>app.UseStaticFiles</code> calls. The first one is required to serve the CSS, images and JavaScript in the <em>wwwroot</em> folder, and the second call for directory browsing of the <em>wwwroot/images</em> folder using the URL http://&lt;app&gt;/MyImages:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3,5">public void Configure(IApplicationBuilder app)
@@ -284,7 +284,7 @@
 </tbody>
 </table>
 <p>If no default named files are in the <em>MyStaticFiles</em> directory, http://&lt;app&gt;/StaticFiles returns the directory listing with clickable links:</p>
-<p><img src="static-files/_static/db2.PNG" alt="Static files list"></p>
+<p><img src="static-files/static/db2.png" alt="Static files list"></p>
 <div class="NOTE"><h5>备注</h5><p><code>UseDefaultFiles</code> and <code>UseDirectoryBrowser</code> will take the url http://&lt;app&gt;/StaticFiles without the trailing slash and cause a client side redirect to http://&lt;app&gt;/StaticFiles/ (adding the trailing slash). Without the trailing slash relative URLs within the documents would be incorrect.</p>
 </div>
 <h2 id="fileextensioncontenttypeprovider">FileExtensionContentTypeProvider</h2>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -74,13 +74,13 @@
 </div>
 <h2 id="create-the-starter-aspnet-mvc-project">Create the starter ASP.NET MVC project</h2>
 <p>To demonstrate the upgrade, we&#39;ll start by creating a ASP.NET MVC app. Create it with the name <em>WebApp1</em> so the namespace will match the ASP.NET Core project we create in the next step.</p>
-<p><img src="mvc/_static/new-project.png" alt="Visual Studio New Project dialog"></p>
-<p><img src="mvc/_static/new-project-select-mvc-template.png" alt="New Web Application dialog: MVC project template selected in ASP.NET templates panel"></p>
+<p><img src="mvc/static/new-project.png" alt="Visual Studio New Project dialog"></p>
+<p><img src="mvc/static/new-project-select-mvc-template.png" alt="New Web Application dialog: MVC project template selected in ASP.NET templates panel"></p>
 <p><em>Optional:</em> Change the name of the Solution from <em>WebApp1</em> to <em>Mvc5</em>. Visual Studio will display the new solution name (<em>Mvc5</em>), which will make it easier to tell this project from the next project.</p>
 <h2 id="create-the-aspnet-core-project">Create the ASP.NET Core project</h2>
 <p>Create a new <em>empty</em> ASP.NET Core web app with the same name as the previous project (<em>WebApp1</em>) so the namespaces in the two projects match. Having the same namespace makes it easier to copy code between the two projects. You&#39;ll have to create this project in a different directory than the previous project to use the same name.</p>
-<p><img src="mvc/_static/new_core.png" alt="New Project dialog"></p>
-<p><img src="mvc/_static/new-project-select-empty-aspnet5-template.png" alt="New ASP.NET Web Application dialog: Empty project template selected in ASP.NET Core Templates panel"></p>
+<p><img src="mvc/static/new_core.png" alt="New Project dialog"></p>
+<p><img src="mvc/static/new-project-select-empty-aspnet5-template.png" alt="New ASP.NET Web Application dialog: Empty project template selected in ASP.NET Core Templates panel"></p>
 <ul>
 <li><em>Optional:</em> Create a new ASP.NET Core app using the <em>Web Application</em> project template. Name the project <em>WebApp1</em>, and select an authentication option of <strong>Individual User Accounts</strong>. Rename this app to <em>FullAspNetCore</em>. Creating this project will save you time in the conversion. You can look at the template-generated code to see the end result or to copy code to the conversion project. It&#39;s also helpful when you get stuck on a conversion step to compare with the template-generated project.</li>
 </ul>
@@ -144,7 +144,7 @@ namespace WebApp1
 <li><p>Add an <strong>MVC controller class</strong> with the name <em>HomeController.cs</em> to the <em>Controllers</em> folder.</p>
 </li>
 </ul>
-<p><img src="mvc/_static/add_mvc_ctl.png" alt="Add New Item dialog"></p>
+<p><img src="mvc/static/add_mvc_ctl.png" alt="Add New Item dialog"></p>
 <ul>
 <li><p>Add a <em>Views</em> folder.</p>
 </li>
@@ -153,13 +153,13 @@ namespace WebApp1
 <li><p>Add an <em>Index.cshtml</em> MVC view page to the <em>Views/Home</em> folder.</p>
 </li>
 </ul>
-<p><img src="mvc/_static/view.png" alt="Add New Item dialog"></p>
+<p><img src="mvc/static/view.png" alt="Add New Item dialog"></p>
 <p>The project structure is shown below:</p>
-<p><img src="mvc/_static/project-structure-controller-view.png" alt="Solution Explorer showing files and folders of WebApp1"></p>
+<p><img src="mvc/static/project-structure-controller-view.png" alt="Solution Explorer showing files and folders of WebApp1"></p>
 <p>Replace the contents of the <em>Views/Home/Index.cshtml</em> file with the following:</p>
 <pre><code class="lang-html">&lt;h1&gt;Hello world!&lt;/h1&gt;
 </code></pre><p>Run the app.</p>
-<p><img src="mvc/_static/hello-world.png" alt="Web application open in Microsoft Edge"></p>
+<p><img src="mvc/static/hello-world.png" alt="Web application open in Microsoft Edge"></p>
 <p>See <a href="../mvc/controllers/index.html">Controllers</a> and <a href="../mvc/views/index.html">Views</a> for more information.</p>
 <p>Now that we have a minimal working ASP.NET Core project, we can start migrating functionality from the ASP.NET MVC project. We will need to move the following:</p>
 <ul>
@@ -193,7 +193,7 @@ namespace WebApp1
 </ul>
 </li>
 </ul>
-<p><img src="mvc/_static/contact-page.png" alt="Contact page"></p>
+<p><img src="mvc/static/contact-page.png" alt="Contact page"></p>
 <p>Note the lack of styling and menu items. We&#39;ll fix that in the next section.</p>
 <h2 id="static-content">Static content</h2>
 <p>In previous versions of  ASP.NET MVC, static content was hosted from the root of the web project and was intermixed with server-side files. In ASP.NET Core, static content is hosted in the <em>wwwroot</em> folder. You&#39;ll want to copy the static content from your old ASP.NET MVC app to the <em>wwwroot</em> folder in your ASP.NET Core project. In this sample conversion:</p>
@@ -215,7 +215,7 @@ namespace WebApp1
 </code></pre></li>
 </ul>
 <p>Upon saving the file, Bower will automatically download the dependencies to the <em>wwwroot/lib</em> folder. You can use the <strong>Search Solution Explorer</strong> box to find the path of the assets:</p>
-<p><img src="mvc/_static/search.png" alt="jquery assets shown in the Solution Explorer search results"></p>
+<p><img src="mvc/static/search.png" alt="jquery assets shown in the Solution Explorer search results"></p>
 <p>See <a href="../client-side/bower.html">Manage Client-Side Packages with Bower</a> for more information.</p>
 <p><a name="migrate-layout-file"></a></p>
 <h2 id="migrate-the-layout-file">Migrate the layout file</h2>

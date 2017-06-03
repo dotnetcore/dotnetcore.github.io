@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -197,9 +197,9 @@ public void Configure(IApplicationBuilder app)
 </code></pre><div class="NOTE"><h5>备注</h5><p>Use a tool like <a href="http://www.telerik.com/fiddler">Fiddler</a>, <a href="http://getfirebug.com/">Firebug</a>, or <a href="https://www.getpostman.com/">Postman</a> to set the <code>Accept-Encoding</code> request header and study the response headers, size, and body.</p>
 </div>
 <p>Submit a request to the sample application without the <code>Accept-Encoding</code> header and observe that the response is uncompressed. The <code>Content-Encoding</code> and <code>Vary</code> headers are not present on the response.</p>
-<p><img src="response-compression/_static/request-uncompressed.png" alt="Fiddler window showing result of a request without the Accept-Encoding header. The response is not compressed."></p>
+<p><img src="response-compression/static/request-uncompressed.png" alt="Fiddler window showing result of a request without the Accept-Encoding header. The response is not compressed."></p>
 <p>Submit a request to the sample application with the <code>Accept-Encoding: gzip</code> header and observe that the response is compressed. The <code>Content-Encoding</code> and <code>Vary</code> headers are present on the response.</p>
-<p><img src="response-compression/_static/request-compressed.png" alt="Fiddler window showing result of a request with the Accept-Encoding header and a value of gzip. The Vary and Content-Encoding headers are added to the response. The response is compressed."></p>
+<p><img src="response-compression/static/request-compressed.png" alt="Fiddler window showing result of a request with the Accept-Encoding header and a value of gzip. The Vary and Content-Encoding headers are added to the response. The response is compressed."></p>
 <h2 id="providers">Providers</h2>
 <h3 id="gzipcompressionprovider">GzipCompressionProvider</h3>
 <p>Use the <code>GzipCompressionProvider</code> to compress responses with Gzip. This is the default compression provider if none are specified. You can set the compression level with the <code>GzipCompressionProviderOptions</code>. The default is <code>CompressionLevel.Fastest</code>.</p>
@@ -275,7 +275,7 @@ public void Configure(IApplicationBuilder app)
     }
 }
 </code></pre><p>Submit a request to the sample application with the <code>Accept-Encoding: mycustomcompression</code> header and observe the response headers. The <code>Vary</code> and <code>Content-Encoding</code> headers are present on the response. The response body (not shown) isn&#39;t compressed by the sample, as there is no compression implementation in the <code>CustomCompressionProvider</code> class of the sample. However, the sample shows where you would implement such a compression algorithm.</p>
-<p><img src="response-compression/_static/request-custom-compression.png" alt="Fiddler window showing result of a request with the Accept-Encoding header and a value of mycustomcompression. The Vary and Content-Encoding headers are added to the response."></p>
+<p><img src="response-compression/static/request-custom-compression.png" alt="Fiddler window showing result of a request with the Accept-Encoding header and a value of mycustomcompression. The Vary and Content-Encoding headers are added to the response."></p>
 <h2 id="compression-with-secure-protocol">Compression with secure protocol</h2>
 <p>Compressed responses over secure connections can be controlled with the <code>EnableForHttps</code> option, which is disabled by default. Using compression with dynamically generated pages can lead to security problems such as the <a href="https://en.wikipedia.org/wiki/CRIME_(security_exploit)">CRIME</a> and <a href="https://en.wikipedia.org/wiki/BREACH_(security_exploit)">BREACH</a> attacks.</p>
 <h2 id="adding-the-vary-header">Adding the Vary header</h2>

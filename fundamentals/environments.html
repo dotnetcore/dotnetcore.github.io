@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -80,7 +80,7 @@
 <p>This should be the environment used when developing an application. It is typically used to enable features that you wouldn&#39;t want to be available when the app runs in production, such as the <a class="xref" href="error-handling.html#the-developer-exception-page">developer exception page</a>.</p>
 <p>If you&#39;re using Visual Studio, the environment can be configured in your project&#39;s debug profiles. Debug profiles specify the <a class="xref" href="servers/index.html">server</a> to use when launching the application and any environment variables to be set. Your project can have multiple debug profiles that set environment variables differently. You manage these profiles by using the <strong>Debug</strong> tab of your web application project&#39;s <strong>Properties</strong> menu. The values you set in project properties are persisted in the <em>launchSettings.json</em> file, and you can also configure profiles by editing that file directly.</p>
 <p>The profile for IIS Express is shown here:</p>
-<p><img src="environments/_static/project-properties-debug.png" alt="Project Properties Setting Environment variables"></p>
+<p><img src="environments/static/project-properties-debug.png" alt="Project Properties Setting Environment variables"></p>
 <p>Here is a <code>launchSettings.json</code> file that includes profiles for <code>Development</code> and <code>Staging</code>:</p>
 <pre><code class="lang-json" name="Main" highlight-lines="15,22">{
   &quot;iisSettings&quot;: {
@@ -137,8 +137,8 @@
 </code></pre><p><strong>PowerShell</strong></p>
 <pre><code>$Env:ASPNETCORE_ENVIRONMENT = &quot;Development&quot;
 </code></pre><p>These commands take effect only for the current window. When the window is closed, the ASPNETCORE_ENVIRONMENT setting reverts to the default setting or machine value. In order to set the value globally on Windows open the <strong>Control Panel</strong> &gt; <strong>System</strong> &gt; <strong>Advanced system settings</strong> and add or edit the <code>ASPNETCORE_ENVIRONMENT</code> value.</p>
-<p><img src="environments/_static/systemsetting_environment.png" alt="System Advanced Properties"></p>
-<p><img src="environments/_static/windows_aspnetcore_environment.png" alt="ASPNET Core Environment Variable"> </p>
+<p><img src="environments/static/systemsetting_environment.png" alt="System Advanced Properties"></p>
+<p><img src="environments/static/windows_aspnetcore_environment.png" alt="ASPNET Core Environment Variable"> </p>
 <h3 id="macos">macOS</h3>
 <p>Setting the current environment for macOS can be done in-line when running the application;</p>
 <pre><code class="lang-bash">ASPNETCORE_ENVIRONMENT=Development dotnet run

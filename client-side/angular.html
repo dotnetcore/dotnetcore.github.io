@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -93,7 +93,7 @@
   }
 }
 </code></pre><p>Upon saving the <em>bower.json</em> file, Angular will be installed in your project&#39;s <em>wwwroot/lib</em> folder. Additionally, it will be listed within the <code>Dependencies/Bower</code> folder. See the screenshot below.</p>
-<p><img src="angular/_static/angular-solution-explorer.png" alt="Solution Explorer with AngularJS Project"></p>
+<p><img src="angular/static/angular-solution-explorer.png" alt="Solution Explorer with AngularJS Project"></p>
 <p>Next, add a <code>&lt;script&gt;</code> reference to the bottom of the <code>&lt;body&gt;</code> section of your HTML page or <em>_Layout.cshtml</em> file, as shown here:</p>
 <pre><code class="lang-html" name="Main" highlight-lines="4">&lt;environment names=&quot;Development&quot;&gt;
     &lt;script src=&quot;~/lib/jquery/dist/jquery.js&quot;&gt;&lt;/script&gt;
@@ -139,7 +139,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>To keep these samples independent of one another, I&#39;m not using the shared layout file. You can see that we decorated the body tag with the <code>ng-app</code> directive to indicate this page is an AngularJS application. The <code>{{2+2}}</code> is an Angular data binding expression that you will learn more about in a moment. Here is the result if you run this application:</p>
-<p><img src="angular/_static/simple-directive.png" alt="Simple Angular Directive"></p>
+<p><img src="angular/static/simple-directive.png" alt="Simple Angular Directive"></p>
 <p>Other primitive directives in AngularJS include:</p>
 <p><code>ng-controller</code>
    Determines which JavaScript controller is bound to which view.</p>
@@ -173,7 +173,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>Notice that you can display model values using either directives or data binding (<code>ng-bind</code>). The resulting page should look like this:</p>
-<p><img src="angular/_static/simple-databinding.png" alt="Simple Databinding"></p>
+<p><img src="angular/static/simple-databinding.png" alt="Simple Databinding"></p>
 <h3 id="templates">Templates</h3>
 <p><a href="https://docs.angularjs.org/guide/templates">Templates</a> in AngularJS are just plain HTML pages decorated with AngularJS directives and artifacts. A template in AngularJS is a mixture of directives, expressions, filters, and controls that combine with HTML to form the view.</p>
 <p>Add another view to demonstrate templates, and add the following to it:</p>
@@ -192,9 +192,9 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>The template has AngularJS directives like <code>ng-app</code>, <code>ng-init</code>, <code>ng-model</code> and data binding expression syntax to bind the <code>personName</code> property. Running in the browser, the view looks like the screenshot below:</p>
-<p><img src="angular/_static/simple-templates-1.png" alt="Simple Templates example 1"></p>
+<p><img src="angular/static/simple-templates-1.png" alt="Simple Templates example 1"></p>
 <p>If you change the name by typing in the input field, you will see the text next to the input field dynamically update, showing Angular two-way data binding in action.</p>
-<p><img src="angular/_static/simple-templates-2.png" alt="Simple Templates example 2"></p>
+<p><img src="angular/static/simple-templates-2.png" alt="Simple Templates example 2"></p>
 <h3 id="expressions">Expressions</h3>
 <p><a href="https://docs.angularjs.org/guide/expression">Expressions</a> in AngularJS are JavaScript-like code snippets that are written inside the <code>{{ expression }}</code> syntax. The data from these expressions is bound to HTML the same way as <code>ng-bind</code> directives. The main difference between AngularJS expressions and regular JavaScript expressions is that AngularJS expressions are evaluated against the <code>$scope</code> object in AngularJS.</p>
 <p>The AngularJS expressions in the sample below bind <code>personName</code> and a simple JavaScript calculated expression:</p>
@@ -214,7 +214,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>The example running in the browser displays the <code>personName</code> data and the results of the calculation:</p>
-<p><img src="angular/_static/simple-expressions.png" alt="Simple Expressions"></p>
+<p><img src="angular/static/simple-expressions.png" alt="Simple Expressions"></p>
 <h3 id="repeaters">Repeaters</h3>
 <p>Repeating in AngularJS is done via a primitive directive called <code>ng-repeat</code>. The <code>ng-repeat</code> directive repeats a given HTML element in a view over the length of a repeating data array. Repeaters in AngularJS can repeat over an array of strings or objects. Here is a sample usage of repeating over an array of strings:</p>
 <pre><code class="lang-html" name="Main" highlight-lines="8,10,11">@{
@@ -236,7 +236,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>The <a href="https://docs.angularjs.org/api/ng/directive/ngRepeat">repeat directive</a> outputs a series of list items in an unordered list, as you can see in the developer tools shown in this screenshot:</p>
-<p><img src="angular/_static/repeater.png" alt="Repeater Example"></p>
+<p><img src="angular/static/repeater.png" alt="Repeater Example"></p>
 <p>Here is an example that repeats over an array of objects. The <code>ng-init</code> directive establishes a <code>names</code> array, where each element is an object containing first and last names. The <code>ng-repeat</code> assignment, <code>name in names</code>, outputs a list item for every array element.</p>
 <pre><code class="lang-html" name="Main" highlight-lines="8,9,10,11,13,14">@{
     Layout = &quot;&quot;;
@@ -294,7 +294,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>Here is the resulting output:</p>
-<p><img src="angular/_static/repeaters2.png" alt="Repeater example 2"></p>
+<p><img src="angular/static/repeaters2.png" alt="Repeater example 2"></p>
 <h3 id="scope">$scope</h3>
 <p><code>$scope</code> is a JavaScript object that acts as glue between the view (template) and the controller (explained below). A view template in AngularJS only knows about the values attached to the <code>$scope</code> object in the controller.</p>
 <div class="NOTE"><h5>备注</h5><p>In the MVVM world, the <code>$scope</code> object in AngularJS is often defined as the ViewModel. The AngularJS team refers to the <code>$scope</code> object as the Data-Model. <a href="https://docs.angularjs.org/guide/scope">Learn more about Scopes in AngularJS</a>.</p>
@@ -323,7 +323,7 @@ personApp.controller(&#39;personController&#39;, [&#39;$scope&#39;, function ($s
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>Notice on line 9 that we are asking Angular to show the &quot;name&quot; property using expression syntax. Line 10 then refers to &quot;age&quot;, a property that does not exist. The running example shows the name set to &quot;Mary Jane&quot; and nothing for age. Missing properties are ignored.</p>
-<p><img src="angular/_static/scope.png" alt="Scope example"></p>
+<p><img src="angular/static/scope.png" alt="Scope example"></p>
 <h3 id="modules">Modules</h3>
 <p>A <a href="https://docs.angularjs.org/guide/module">module</a> in AngularJS is a collection of controllers, services, directives, etc. The <code>angular.module()</code> function call is used to create, register, and retrieve modules in AngularJS. All modules, including those shipped by the AngularJS team and third party libraries, should be registered using the <code>angular.module()</code> function.</p>
 <p>Below is a snippet of code that shows how to create a new module in AngularJS. The first parameter is the name of the module. The second parameter defines dependencies on other modules. Later in this article, we will be showing how to pass these dependencies to an <code>angular.module()</code> method call.</p>
@@ -359,7 +359,7 @@ personApp.controller(&#39;personController&#39;, function ($scope) {
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>The page shows &quot;Mary&quot; and &quot;Jane&quot; that correspond to the <code>firstName</code> and <code>lastName</code> properties attached to the <code>$scope</code> object:</p>
-<p><img src="angular/_static/controllers.png" alt="Controller example"></p>
+<p><img src="angular/static/controllers.png" alt="Controller example"></p>
 <h3 id="components">Components</h3>
 <p><a href="https://docs.angularjs.org/guide/component">Components</a> in Angular 1.5.x allow for the encapsulation and capability of creating individual HTML elements. In Angular 1.4.x you could achieve the same feature using the .directive() method.</p>
 <p>By using the .component() method, development is simplified gaining the functionality of the directive and the controller. Other benefits include; scope isolation, best practices are inherent, and migration to Angular 2 becomes an easier task. The <code>&lt;module name&gt;.component()</code> function call is used to create and register components in AngularJS.</p>
@@ -402,7 +402,7 @@ personApp.component(&#39;personComponent&#39;, {
     &lt;strong&gt;Last Name:&lt;/strong&gt; {{vm.lastName}}
 &lt;/div&gt;
 </code></pre><p>The page shows &quot;Aftab&quot; and &quot;Ansari&quot; that correspond to the <code>firstName</code> and <code>lastName</code> properties attached to the <code>vm</code> object:</p>
-<p><img src="angular/_static/components.png" alt="Components example"></p>
+<p><img src="angular/static/components.png" alt="Components example"></p>
 <h3 id="services">Services</h3>
 <p><a href="https://docs.angularjs.org/guide/services">Services</a> in AngularJS are commonly used for shared code that is abstracted away into a file which can be used throughout the lifetime of an Angular application. Services are lazily instantiated, meaning that there will not be an instance of a service unless a component that depends on the service gets used. Factories are an example of a service used in AngularJS applications. Factories are created using the <code>myApp.factory()</code> function call, where <code>myApp</code> is the module.</p>
 <p>Below is an example that shows how to use factories in AngularJS:</p>
@@ -531,7 +531,7 @@ namespace AngularSample.Controllers.Api
     }
 }
 </code></pre><p>Let&#39;s see the application in action:</p>
-<p><img src="angular/_static/rest-bound.png" alt="Controller displaying REST results"></p>
+<p><img src="angular/static/rest-bound.png" alt="Controller displaying REST results"></p>
 <p>You can <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/client-side/angular/sample">view the application&#39;s structure on GitHub</a>.</p>
 <div class="NOTE"><h5>备注</h5><p>For more on structuring AngularJS applications, see <a href="https://github.com/johnpapa/angular-styleguide">John Papa&#39;s Angular Style Guide</a></p>
 </div>
@@ -589,9 +589,9 @@ namespace AngularSample.Controllers.Api
     $scope.message = &quot;You are on the Persons List Page.&quot;;
 })
 </code></pre><p>If we run this application and navigate to the <code>people/spa#/persons</code> URL, we will see:</p>
-<p><img src="angular/_static/spa-persons.png" alt="Persons List View"></p>
+<p><img src="angular/static/spa-persons.png" alt="Persons List View"></p>
 <p>If we navigate to a detail page, for example <code>people/spa#/persons/2</code>, we will see the detail partial view:</p>
-<p><img src="angular/_static/spa-persons-2.png" alt="Person Detail View"></p>
+<p><img src="angular/static/spa-persons-2.png" alt="Person Detail View"></p>
 <p>You can view the full source and any files not shown in this article on <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/client-side/angular/sample">GitHub</a>.</p>
 <h3 id="event-handlers">Event Handlers</h3>
 <p>There are a number of directives in AngularJS that add event-handling capabilities to the input elements in your HTML DOM. Below is a list of the events that are built into AngularJS.</p>
@@ -650,7 +650,7 @@ namespace AngularSample.Controllers.Api
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>The running example demonstrates that the controller&#39;s <code>sayName</code> function is called automatically when the button is clicked.</p>
-<p><img src="angular/_static/events.png" alt="Click Event"></p>
+<p><img src="angular/static/events.png" alt="Click Event"></p>
 <p>For more detail on AngularJS built-in event handler directives, be sure to head to the <a href="https://docs.angularjs.org/api/ng/directive/ngClick">documentation website</a> of AngularJS.</p>
 <h2 id="additional-resources">Additional resources</h2>
 <ul>

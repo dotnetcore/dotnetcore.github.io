@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -91,9 +91,9 @@
 
 &lt;p&gt;Hello from our View Template!&lt;/p&gt;
 </code></pre><p>Navigate to <code>http://localhost:xxxx/HelloWorld</code>. The <code>Index</code> method in the <code>HelloWorldController</code> didn&#39;t do much work; it simply ran the statement <code>return View();</code>, which specified that the method should use a view template file to render a response to the browser. Because you didn&#39;t explicitly specify the name of the view template file to use, MVC defaulted to using the <em>Index.cshtml</em> view file in the <em>/Views/HelloWorld</em> folder. The image below shows the string &quot;Hello from our View Template!&quot; hard-coded in the view.</p>
-<p><img src="../first-mvc-app/adding-view/_static/hell_template.png" alt="Browser window"></p>
+<p><img src="../first-mvc-app/adding-view/static/hell_template.png" alt="Browser window"></p>
 <p>If your browser window is small (for example on a mobile device), you might need to toggle (tap) the <a href="http://getbootstrap.com/components/#navbar">Bootstrap navigation button</a> in the upper right to see the <strong>Home</strong>, <strong>About</strong>, and <strong>Contact</strong> links.</p>
-<p><img src="../first-mvc-app/adding-view/_static/1.png" alt="Browser window highlighting the Bootstrap navigation button"></p>
+<p><img src="../first-mvc-app/adding-view/static/1.png" alt="Browser window highlighting the Bootstrap navigation button"></p>
 <h2 id="changing-views-and-layout-pages">Changing views and layout pages</h2>
 <p>Tap the menu links (<strong>MvcMovie</strong>, <strong>Home</strong>, <strong>About</strong>). Each page shows the same menu layout. The menu layout is implemented in the <em>Views/Shared/_Layout.cshtml</em> file. Open the <em>Views/Shared/_Layout.cshtml</em> file.</p>
 <p><a class="xref" href="../../mvc/views/layout.html">Layout</a> templates allow you to specify the HTML container layout of your site in one place and then apply it across multiple pages in your site. Find the <code>@RenderBody()</code> line. <code>RenderBody</code> is a placeholder where all the view-specific pages you create show up, <em>wrapped</em> in the layout page. For example, if you select the <strong>About</strong> link, the <strong>Views/Home/About.cshtml</strong> view is rendered inside the <code>RenderBody</code> method.</p>
@@ -198,7 +198,7 @@
 <pre><code class="lang-HTML">&lt;title&gt;@ViewData[&quot;Title&quot;] - Movie App&lt;/title&gt;
 </code></pre><p>Save your change and navigate to <code>http://localhost:xxxx/HelloWorld</code>. Notice that the browser title, the primary heading, and the secondary headings have changed. (If you don&#39;t see changes in the browser, you might be viewing cached content. Press Ctrl+F5 in your browser to force the response from the server to be loaded.) The browser title is created with <code>ViewData[&quot;Title&quot;]</code> we set in the <em>Index.cshtml</em> view template and the additional &quot;- Movie App&quot; added in the layout file.</p>
 <p>Also notice how the content in the <em>Index.cshtml</em> view template was merged with the <em>Views/Shared/_Layout.cshtml</em> view template and a single HTML response was sent to the browser. Layout templates make it really easy to make changes that apply across all of the pages in your application. To learn more see <a href="../../mvc/views/layout.html">Layout</a>.</p>
-<p><img src="../first-mvc-app/adding-view/_static/hell3.png" alt="Movie List view"></p>
+<p><img src="../first-mvc-app/adding-view/static/hell3.png" alt="Movie List view"></p>
 <p>Our little bit of &quot;data&quot; (in this case the &quot;Hello from our View Template!&quot; message) is hard-coded, though. The MVC application has a &quot;V&quot; (view) and you&#39;ve got a &quot;C&quot; (controller), but no &quot;M&quot; (model) yet.</p>
 <h2 id="passing-data-from-the-controller-to-the-view">Passing Data from the Controller to the View</h2>
 <p>Controller actions are invoked in response to an incoming URL request. A controller class is where you write the code that handles the incoming browser requests. The controller retrieves data from a data source and decides what type of response to send back to the browser. View templates can be used from a controller to generate and format an HTML response to the browser.</p>
@@ -244,7 +244,7 @@ namespace MvcMovie.Controllers
 </code></pre><p>Save your changes and browse to the following URL:</p>
 <p><code>http://localhost:xxxx/HelloWorld/Welcome?name=Rick&amp;numtimes=4</code></p>
 <p>Data is taken from the URL and passed to the controller using the <a class="xref" href="../../mvc/models/model-binding.html">MVC model binder</a> . The controller packages the data into a <code>ViewData</code> dictionary and passes that object to the view. The view then renders the data as HTML to the browser.</p>
-<p><img src="../first-mvc-app/adding-view/_static/rick.png" alt="About view showing a Welcome label and the phrase Hello Rick shown four times"></p>
+<p><img src="../first-mvc-app/adding-view/static/rick.png" alt="About view showing a Welcome label and the phrase Hello Rick shown four times"></p>
 <p>In the sample above, we used the <code>ViewData</code> dictionary to pass data from the controller to a view. Later in the tutorial, we will use a view model to pass data from a controller to a view. The view model approach to passing data is generally much preferred over the <code>ViewData</code> dictionary approach. See <a href="http://www.mytecbits.com/microsoft/dot-net/viewmodel-viewdata-viewbag-tempdata-mvc">ViewModel vs ViewData vs ViewBag vs TempData vs Session in MVC</a> for more information.</p>
 <p>Well, that was a kind of an &quot;M&quot; for model, but not the database kind. Let&#39;s take what we&#39;ve learned and create a database of movies.</p>
 <div class="step-by-step"><p><a href="adding-controller.html">Previous - Add a controller</a>

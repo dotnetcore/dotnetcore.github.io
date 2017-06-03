@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -185,9 +185,9 @@
 </ul>
 <h3 id="visual-studio-2015--2017">Visual Studio 2015 / 2017</h3>
 <p>Open <code>bundleconfig.json</code> in Visual Studio, if your environment does not have the extension installed; a prompt is presented suggesting that there is one that could assist with this file type.</p>
-<p><img src="bundling-and-minification/_static/bundler-extension-suggestion.png" alt="BuildBundlerMinifier Extension Suggestion"></p>
+<p><img src="bundling-and-minification/static/bundler-extension-suggestion.png" alt="BuildBundlerMinifier Extension Suggestion"></p>
 <p>Select View Extensions, and install the <strong>Bundler &amp; Minifier</strong> extension (Requires Visual Studio restart).</p>
-<p><img src="bundling-and-minification/_static/view-extension.png" alt="BuildBundlerMinifier Extension Suggestion"></p>
+<p><img src="bundling-and-minification/static/view-extension.png" alt="BuildBundlerMinifier Extension Suggestion"></p>
 <p>When the restart is complete, you need to configure the build to run the processes of minifying and bundling the client-side assets. Right-click the <code>bundleconfig.json</code> file and select <em>Enable bundle on build...</em>.</p>
 <p>Build the project, and the <code>bundleconfig.json</code> is included in the build process to produce the output files based on the configuration.</p>
 <pre><code class="lang-console">1&gt;------ Build started: Project: BuildBundlerMinifierExample, Configuration: Debug Any CPU ------
@@ -269,7 +269,7 @@ footer
 <div class="NOTE"><h5>备注</h5><p>Conversion option only available in Visual Studio 2015 and 2017.</p>
 </div>
 <p>Right-click the <code>bundleconfig.json</code> and select <strong>Convert to Gulp...</strong>. This will generate the <code>gulpfile.js</code> and install the necessary npm packages.</p>
-<p><img src="bundling-and-minification/_static/convert-togulp.png" alt="Convert to Gulp"></p>
+<p><img src="bundling-and-minification/static/convert-togulp.png" alt="Convert to Gulp"></p>
 <p>The <code>gulpfile.js</code> produced reads the <code>bundleconfig.json</code> file for the configuration, therefore it can continue to be used for the inputs/outputs and settings.</p>
 <pre><code class="lang-javascript" name="Main">&quot;use strict&quot;;
 

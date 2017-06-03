@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -155,7 +155,7 @@
 }
 </code></pre><h2 id="walkthrough-creating-a-simple-view-component">Walkthrough: Creating a simple view component</h2>
 <p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/mvc/views/view-components/sample">Download</a>, build and test the starter code. It&#39;s a simple project with a <code>Todo</code> controller that displays a list of <em>Todo</em> items.</p>
-<p><img src="view-components/_static/2dos.png" alt="List of ToDos"></p>
+<p><img src="view-components/static/2dos.png" alt="List of ToDos"></p>
 <h3 id="add-a-viewcomponent-class">Add a ViewComponent class</h3>
 <p>Create a <em>ViewComponents</em> folder and add the following <code>PriorityListViewComponent</code> class:</p>
 <pre><code class="lang-csharp" name="Main">using Microsoft.AspNetCore.Mvc;
@@ -231,13 +231,13 @@ namespace ViewComponentSample.ViewComponents
 </ul>
 <p>The markup <code>@await Component.InvokeAsync</code> shows the syntax for calling view components. The first argument is the name of the component we want to invoke or call. Subsequent parameters are passed to the component. <code>InvokeAsync</code> can take an arbitrary number of arguments.</p>
 <p>Test the app. The following image shows the ToDo list and the priority items:</p>
-<p><img src="view-components/_static/pi.png" alt="todo list and priority items"></p>
+<p><img src="view-components/static/pi.png" alt="todo list and priority items"></p>
 <p>You can also call the view component directly from the controller:</p>
 <pre><code class="lang-csharp" name="Main">public IActionResult IndexVC()
 {
     return ViewComponent(&quot;PriorityList&quot;, new { maxPriority = 3, isDone = false });
 }
-</code></pre><p><img src="view-components/_static/indexvc.png" alt="priority items from IndexVC action"></p>
+</code></pre><p><img src="view-components/static/indexvc.png" alt="priority items from IndexVC action"></p>
 <h3 id="specifying-a-view-name">Specifying a view name</h3>
 <p>A complex view component might need to specify a non-default view under some conditions. The following code shows how to specify the &quot;PVC&quot; view  from the <code>InvokeAsync</code> method. Update the <code>InvokeAsync</code> method in the <code>PriorityListViewComponent</code> class.</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="4,5,6,7,8,9">public async Task&lt;IViewComponentResult&gt; InvokeAsync(
@@ -267,7 +267,7 @@ namespace ViewComponentSample.ViewComponents
 <!-- Views/TodoList/Index.cshtml is never imported, so change to test tutorial -->
 <pre><code class="lang-html" name="Main">@await Component.InvokeAsync(&quot;PriorityList&quot;, new { maxPriority = 4, isDone = true })
 </code></pre><p>Run the app and verify PVC view.</p>
-<p><img src="view-components/_static/pvc.png" alt="Priority View Component"></p>
+<p><img src="view-components/static/pvc.png" alt="Priority View Component"></p>
 <p>If the PVC view is not rendered, verify you are calling the view component with a priority of 4 or higher.</p>
 <h3 id="examine-the-view-path">Examine the view path</h3>
 <ul>
@@ -287,7 +287,7 @@ EnsureSuccessful
 <li>Add some markup to the <em>Shared</em> Todo view component view to indicate the view is from the <em>Shared</em> folder.</li>
 <li>Test the <strong>Shared</strong> component view.</li>
 </ul>
-<p><img src="view-components/_static/shared.png" alt="ToDo output with Shared component view"></p>
+<p><img src="view-components/static/shared.png" alt="ToDo output with Shared component view"></p>
 <h3 id="avoiding-magic-strings">Avoiding magic strings</h3>
 <p>If you want compile time safety, you can replace the hard-coded view component name with the class name. Create the view component without the &quot;ViewComponent&quot; suffix:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="10">using Microsoft.AspNetCore.Mvc;

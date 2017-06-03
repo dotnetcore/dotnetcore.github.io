@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -87,7 +87,7 @@
 <li><p>Setup some build variables to make later steps clearer and easier to retain consistent paths across build steps.</p>
 <p>Create a variable for <strong>PublishOutput</strong> and set it to your desired path. We have used <code>$(Build.StagingDirectory)/WebApplication</code></p>
 <p>Create a variable for <strong>DeployPackage</strong> and set it to the path you would like the zipped web package to be at. We have used <code>$(Build.StagingDirectory)/WebApplication.zip</code> to have it alongside our published output.</p>
-<p><img src="vsts-continuous-deployment/_static/setup-build-variables.png" alt="Variables tab"></p>
+<p><img src="vsts-continuous-deployment/static/setup-build-variables.png" alt="Variables tab"></p>
 <div class="NOTE"><h5>备注</h5><p>If you are using hosted build agents to build your ASP.NET Core application, the host will try to cache packages. As the hosted servers won&#39;t retain the cache, you can skip this step and reduce restore times by adding another variable here:  </p>
 </div>
 <ul>
@@ -108,7 +108,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="vsts-continuous-deployment/_static/dotnet-restore.png" alt="Build tab"></p>
+<p><img src="vsts-continuous-deployment/static/dotnet-restore.png" alt="Build tab"></p>
 </li>
 <li><p>Use another Command Line build step to publish the project.</p>
 <ul>
@@ -125,7 +125,7 @@
 <li><p>Replace src/WebApplication to the path of your app to be deployed as appropriate</p>
 </li>
 </ul>
-<p><img src="vsts-continuous-deployment/_static/dotnet-publish.png" alt="Build tab"></p>
+<p><img src="vsts-continuous-deployment/static/dotnet-publish.png" alt="Build tab"></p>
 </li>
 <li><p>Compress the published output so it can be deployed to Azure App Service. We will use the <a href="https://marketplace.visualstudio.com/items?itemName=Trackyon.trackyonadvantage">Trackyon Advantage</a> task we installed to zip the contents of our published output for deployment.</p>
 <ul>
@@ -140,7 +140,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="vsts-continuous-deployment/_static/compress-publish-output.png" alt="Build tab"></p>
+<p><img src="vsts-continuous-deployment/static/compress-publish-output.png" alt="Build tab"></p>
 </li>
 <li><p>Use the Azure Web App Deployment build step to publish the compressed publish output to your Azure Web App. The Web Deploy Package will be the output of the contents compressed in step 4. In this case, we re-use the variable for it&#39;s path we setup earlier.</p>
 <ul>
@@ -161,7 +161,7 @@
 </ul>
 </li>
 </ol>
-<p><img src="vsts-continuous-deployment/_static/web-app-deployment.png" alt="Build tab"></p>
+<p><img src="vsts-continuous-deployment/static/web-app-deployment.png" alt="Build tab"></p>
 <h2 id="use-vsts-release">Use VSTS Release</h2>
 <p>See <a href="https://www.visualstudio.com/en-us/docs/build/get-started/aspnet-4-ci-cd-azure-automatic">Use VSTS to Build and Publish to an Azure Web App with Continuous Deployment</a>, which shows how to configure a continuous delivery (CD) workflow for <a href="https://azure.microsoft.com/en-us/documentation/articles/app-service-changes-existing-services/">Azure App Service</a> using Visual Studio Team Services. Azure Continuous Delivery in Team Services simplifies setting up a robust deployment pipeline to publish updates for your app to Azure App Service. The pipeline can be configured from the Azure portal to build, run tests, deploy to a staging slot,  and then deploy to production.</p>
 <p>VSTS Release management can alternatively be used to manage the release pipeline from the VSTS build. We require a small change to the build pipeline and setup of the release process.</p>

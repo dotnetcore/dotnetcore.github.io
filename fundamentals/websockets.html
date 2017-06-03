@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -159,9 +159,9 @@ app.UseWebSockets(webSocketOptions);
 </code></pre><p>When you accept the WebSocket before beginning this loop, the middleware pipeline ends.  Upon closing the socket, the pipeline unwinds. That is, the request stops moving forward in the pipeline when you accept a WebSocket, just as it would when you hit an MVC action, for example.  But when you finish this loop and close the socket, the request proceeds back up the pipeline.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>The <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/websockets/sample">sample application</a> that accompanies this article is a simple echo application. It has a web page that makes WebSocket connections, and the server just resends back to the client any messages it receives. Run it from a command prompt (it&#39;s not set up to run from Visual Studio with IIS Express) and navigate to <a href="http://localhost:5000">http://localhost:5000</a>. The web page shows connection status at the upper left:</p>
-<p><img src="websockets/_static/start.png" alt="Initial state of web page"></p>
+<p><img src="websockets/static/start.png" alt="Initial state of web page"></p>
 <p>Select <strong>Connect</strong> to send a WebSocket request to the URL shown.  Enter a test message and select <strong>Send</strong>. When done, select <strong>Close Socket</strong>. The <strong>Communication Log</strong> section reports each open, send, and close action as it happens.</p>
-<p><img src="websockets/_static/end.png" alt="Initial state of web page"></p>
+<p><img src="websockets/static/end.png" alt="Initial state of web page"></p>
 </article>
           </div>
           

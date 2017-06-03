@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,7 +72,7 @@
 <p>The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.11 and Visual Studio 2017. For information about the tutorial series, see <a href="intro.html">the first tutorial in the series</a>.</p>
 <p>In the previous tutorial, you implemented a set of web pages for basic CRUD operations for Student entities. In this tutorial you&#39;ll add sorting, filtering, and paging functionality to the Students Index page. You&#39;ll also create a page that does simple grouping.</p>
 <p>The following illustration shows what the page will look like when you&#39;re done. The column headings are links that the user can click to sort by that column. Clicking a column heading repeatedly toggles between ascending and descending sort order.</p>
-<p><img src="sort-filter-page/_static/paging.png" alt="Students index page"></p>
+<p><img src="sort-filter-page/static/paging.png" alt="Students index page"></p>
 <h2 id="add-column-sort-links-to-the-students-index-page">Add Column Sort Links to the Students Index Page</h2>
 <p>To add sorting to the Student Index page, you&#39;ll change the <code>Index</code> method of the Students controller and add code to the Student Index view.</p>
 <h3 id="add-sorting-functionality-to-the-index-method">Add sorting Functionality to the Index method</h3>
@@ -211,7 +211,7 @@
 &lt;/table&gt;
 </code></pre><p>This code uses the information in <code>ViewData</code> properties to set up hyperlinks with the appropriate query string values.</p>
 <p>Run the page and click the <strong>Last Name</strong> and <strong>Enrollment Date</strong> column headings to verify that sorting works.</p>
-<p><img src="sort-filter-page/_static/name-order.png" alt="Students index page in name order"></p>
+<p><img src="sort-filter-page/static/name-order.png" alt="Students index page in name order"></p>
 <h2 id="add-a-search-box-to-the-students-index-page">Add a Search Box to the Students Index page</h2>
 <p>To add filtering to the Students Index page, you&#39;ll add a text box and a submit button to the view and make corresponding changes in the <code>Index</code> method. The text box will let you enter a string to search for in the first name and last name fields.</p>
 <h3 id="add-filtering-functionality-to-the-index-method">Add filtering functionality to the Index method</h3>
@@ -269,14 +269,14 @@
 &lt;table class=&quot;table&quot;&gt;
 </code></pre><p>This code uses the <code>&lt;form&gt;</code> <a href="https://docs.asp.net/en/latest/mvc/views/tag-helpers/intro.html">tag helper</a> to add the search text box and button. By default, the <code>&lt;form&gt;</code> tag helper submits form data with a POST, which means that parameters are passed in the HTTP message body and not in the URL as query strings. When you specify HTTP GET, the form data is passed in the URL as query strings, which enables users to bookmark the URL. The W3C guidelines recommend that you should use GET when the action does not result in an update.</p>
 <p>Run the page, enter a search string, and click Search to verify that filtering is working.</p>
-<p><img src="sort-filter-page/_static/filtering.png" alt="Students index page with filtering"></p>
+<p><img src="sort-filter-page/static/filtering.png" alt="Students index page with filtering"></p>
 <p>Notice that the URL contains the search string.</p>
 <pre><code class="lang-html">http://localhost:5813/Students?SearchString=an
 </code></pre><p>If you bookmark this page, you&#39;ll get the filtered list when you use the bookmark. Adding <code>method=&quot;get&quot;</code> to the <code>form</code> tag is what caused the query string to be generated.</p>
 <p>At this stage, if you click a column heading sort link you&#39;ll lose the filter value that you entered in the <strong>Search</strong> box. You&#39;ll fix that in the next section.</p>
 <h2 id="add-paging-functionality-to-the-students-index-page">Add paging functionality to the Students Index page</h2>
 <p>To add paging to the Students Index page, you&#39;ll create a <code>PaginatedList</code> class that uses <code>Skip</code> and <code>Take</code> statements to filter data on the server instead of always retrieving all rows of the table. Then you&#39;ll make additional changes in the <code>Index</code> method and add paging buttons to the <code>Index</code> view. The following illustration shows the paging buttons.</p>
-<p><img src="sort-filter-page/_static/paging.png" alt="Students index page with paging links"></p>
+<p><img src="sort-filter-page/static/paging.png" alt="Students index page with paging links"></p>
 <p>In the project folder create <code>PaginatedList.cs</code>, and then replace the template code with the following code.</p>
 <pre><code class="lang-csharp" name="Main">using System;
 using System.Collections.Generic;
@@ -485,7 +485,7 @@ else
    Previous
 &lt;/a&gt;
 </code></pre><p>Run the page.</p>
-<p><img src="sort-filter-page/_static/paging.png" alt="Students index page with paging links"></p>
+<p><img src="sort-filter-page/static/paging.png" alt="Students index page with paging links"></p>
 <p>Click the paging links in different sort orders to make sure paging works. Then enter a search string and try paging again to verify that paging also works correctly with sorting and filtering.</p>
 <h2 id="create-an-about-page-that-shows-student-statistics">Create an About page that shows Student statistics</h2>
 <p>For the Contoso University website&#39;s <strong>About</strong> page, you&#39;ll display how many students have enrolled for each enrollment date. This requires grouping and simple calculations on the groups. To accomplish this, you&#39;ll do the following:</p>
@@ -576,7 +576,7 @@ using ContosoUniversity.Models.SchoolViewModels;
     }
 &lt;/table&gt;
 </code></pre><p>Run the app and click the <strong>About</strong> link. The count of students for each enrollment date is displayed in a table.</p>
-<p><img src="sort-filter-page/_static/about.png" alt="About page"></p>
+<p><img src="sort-filter-page/static/about.png" alt="About page"></p>
 <h2 id="summary">Summary</h2>
 <p>In this tutorial you&#39;ve seen how to perform sorting, filtering, paging, and grouping. In the next tutorial you&#39;ll learn how to handle data model changes by using migrations.</p>
 <div class="step-by-step"><p><a href="crud.html">Previous</a>

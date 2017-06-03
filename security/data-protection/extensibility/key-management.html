@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -113,10 +113,10 @@
 </li>
 </ul>
 <p>Below are high-level diagrams which indicate how these components are wired together within XmlKeyManager.</p>
-<p>   <img src="key-management/_static/keycreation.png" alt="Key Creation"></p>
+<p>   <img src="key-management/static/keycreation.png" alt="Key Creation"></p>
 <p>   <em>Key Creation / CreateNewKey</em></p>
 <p>In the implementation of CreateNewKey, the IAuthenticatedEncryptorConfiguration component is used to create a unique IAuthenticatedEncryptorDescriptor, which is then serialized as XML. If a key escrow sink is present, the raw (unencrypted) XML is provided to the sink for long-term storage. The unencrypted XML is then run through an IXmlEncryptor (if required) to generate the encrypted XML document. This encrypted document is persisted to long-term storage via the IXmlRepository. (If no IXmlEncryptor is configured, the unencrypted document is persisted in the IXmlRepository.)</p>
-<p>   <img src="key-management/_static/keyretrieval.png" alt="Key Retrieval"></p>
+<p>   <img src="key-management/static/keyretrieval.png" alt="Key Retrieval"></p>
 <p>   <em>Key Retrieval / GetAllKeys</em></p>
 <p>In the implementation of GetAllKeys, the XML documents representing keys and revocations are read from the underlying IXmlRepository. If these documents are encrypted, the system will automatically decrypt them. XmlKeyManager creates the appropriate IAuthenticatedEncryptorDescriptorDeserializer instances to deserialize the documents back into IAuthenticatedEncryptorDescriptor instances, which are then wrapped in individual IKey instances. This collection of IKey instances is returned to the caller.</p>
 <p>Further information on the particular XML elements can be found in the <a href="../implementation/key-storage-format.html#data-protection-implementation-key-storage-format">key storage format document</a>.</p>

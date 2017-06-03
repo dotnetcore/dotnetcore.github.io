@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -87,7 +87,7 @@
     &lt;/div&gt;
 &lt;/form&gt;
 </code></pre><p>In order to support file uploads, HTML forms must specify an <code>enctype</code> of <code>multipart/form-data</code>. The <code>files</code> input element shown above supports uploading multiple files. Omit the <code>multiple</code> attribute on this input element to allow just a single file to be uploaded. The above markup renders in a browser as:</p>
-<p><img src="file-uploads/_static/upload-form.png" alt="File upload form"></p>
+<p><img src="file-uploads/static/upload-form.png" alt="File upload form"></p>
 <p>The individual files uploaded to the server can be accessed through <a class="xref" href="model-binding.html">Model Binding</a> using the <a href="https://docs.microsoft.com/aspnet/core/api/microsoft.aspnetcore.http.iformfile">IFormFile</a> interface. <code>IFormFile</code> has the following structure:</p>
 <pre><code class="lang-csharp">public interface IFormFile
 {

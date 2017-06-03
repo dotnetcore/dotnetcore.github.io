@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -139,9 +139,9 @@ host.Run();
 <pre><code class="lang-csharp">new WebHostBuilder()
     .UseSetting(&quot;detailedErrors&quot;, &quot;true&quot;)
 </code></pre><p>When Detailed Errors is set to <code>false</code> and Capture Startup Errors is <code>true</code>, a generic error page is displayed in response to every request to the server.</p>
-<p><img src="hosting/_static/generic-error-page.png" alt="Generic error page"></p>
+<p><img src="hosting/static/generic-error-page.png" alt="Generic error page"></p>
 <p>When Detailed Errors is set to <code>true</code> and Capture Startup Errors is <code>true</code>, a detailed error page is displayed in response to every request to the server.</p>
-<p><img src="hosting/_static/detailed-error-page.png" alt="Detailed error page"></p>
+<p><img src="hosting/static/detailed-error-page.png" alt="Detailed error page"></p>
 <p><strong>Environment</strong> <code>string</code></p>
 <p>Key: <code>environment</code>. Defaults to &quot;Production&quot;. May be set to any value. Framework-defined values include &quot;Development&quot;, &quot;Staging&quot;, and &quot;Production&quot;. Values are not case sensitive. See <a href="environments.html">Working with Multiple Environments</a>. Set using the <code>UseEnvironment</code> method.</p>
 <pre><code class="lang-csharp">new WebHostBuilder()

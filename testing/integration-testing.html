@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -172,7 +172,7 @@
     }
 }
 </code></pre><p>Note that you&#39;re not really trying to test the correctness of the prime number checker with these tests but rather that the web application is doing what you expect. You already have unit test coverage that gives you confidence in <code>PrimeService</code>, as you can see here:</p>
-<p><img src="integration-testing/_static/test-explorer.png" alt="Test Explorer"></p>
+<p><img src="integration-testing/static/test-explorer.png" alt="Test Explorer"></p>
 <p>You can learn more about the unit tests in the <a href="https://docs.microsoft.com/dotnet/articles/core/testing/unit-testing-with-dotnet-test">Unit testing</a> article.</p>
 <h2 id="refactoring-to-use-middleware">Refactoring to use middleware</h2>
 <p>Refactoring is the process of changing an application&#39;s code to improve its design without changing its behavior. It should ideally be done when there is a suite of passing tests, since these help ensure the system&#39;s behavior remains the same before and after the changes. Looking at the way in which the prime checking logic is implemented in the web application&#39;s <code>Configure</code> method, you see:</p>

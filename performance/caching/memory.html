@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -144,7 +144,7 @@ public class Startup
 &lt;h3&gt;Current Time: @DateTime.Now.TimeOfDay.ToString()&lt;/h3&gt;
 &lt;h3&gt;Cached Time: @(Model == null ? &quot;No cached entry found&quot; : Model.Value.TimeOfDay.ToString())&lt;/h3&gt;
 </code></pre><p>The cached <code>DateTime</code> value will remain in the cache while there are requests within the timeout period (and no eviction due to memory pressure). The image below shows the current time and an older time retrieved from cache:</p>
-<p><img src="memory/_static/time.png" alt="Index view with two different times displayed"></p>
+<p><img src="memory/static/time.png" alt="Index view with two different times displayed"></p>
 <p>The following code uses <a href="https://docs.microsoft.com/en-us/aspnet/core/api/microsoft.extensions.caching.memory.cacheextensions#Microsoft_Extensions_Caching_Memory_CacheExtensions_GetOrCreate__1_Microsoft_Extensions_Caching_Memory_IMemoryCache_System_Object_System_Func_Microsoft_Extensions_Caching_Memory_ICacheEntry___0__">GetOrCreate</a> and <a href="https://docs.microsoft.com/en-us/aspnet/core/api/microsoft.extensions.caching.memory.cacheextensions#Microsoft_Extensions_Caching_Memory_CacheExtensions_GetOrCreateAsync__1_Microsoft_Extensions_Caching_Memory_IMemoryCache_System_Object_System_Func_Microsoft_Extensions_Caching_Memory_ICacheEntry_System_Threading_Tasks_Task___0___">GetOrCreateAsync</a> to cache data. </p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3-7,14-19">public IActionResult CacheGetOrCreate()
 {

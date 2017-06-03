@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -196,7 +196,7 @@ Configuration = builder.Build();
 </ul>
 </li>
 </ol>
-<p><img src="key-vault-configuration/_static/sample-output.png" alt="Browser window showing secret values loaded via the Azure Key Vault Configuration Provider"></p>
+<p><img src="key-vault-configuration/static/sample-output.png" alt="Browser window showing secret values loaded via the Azure Key Vault Configuration Provider"></p>
 <h2 id="reloading-secrets">Reloading secrets</h2>
 <p>Secrets are cached until <code>IConfigurationRoot.Reload()</code> is called. Expired, disabled, and updated secrets in the key vault are not respected by the application until <code>Reload</code> is executed.</p>
 <pre><code class="lang-csharp">Configuration.Reload();

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -79,9 +79,9 @@
 </ul>
 <h2 id="kestrel">Kestrel</h2>
 <p>Kestrel is the web server that is included by default in ASP.NET Core new-project templates. If your application accepts requests only from an internal network, you can use Kestrel by itself.</p>
-<p><img src="overview/_static/kestrel-to-internal.png" alt="Kestrel to internal network"></p>
+<p><img src="overview/static/kestrel-to-internal.png" alt="Kestrel to internal network"></p>
 <p>If you expose your application to the Internet, you must use IIS, Nginx, or Apache as a <em>reverse proxy server</em>. A reverse proxy server receives HTTP requests from the Internet and forwards them to Kestrel after some preliminary handling, as shown in the following diagram.</p>
-<p><img src="overview/_static/kestrel-to-internet.png" alt="Kestrel to Internet"></p>
+<p><img src="overview/static/kestrel-to-internet.png" alt="Kestrel to Internet"></p>
 <p>The most important reason for using a reverse proxy for edge deployments (exposed to traffic from the Internet) is security. Kestrel is relatively new and does not yet have a full complement of defenses against attacks. This includes but isn&#39;t limited to appropriate timeouts, size limits, and concurrent connection limits. For more information about when to use Kestrel with a reverse proxy, see <a href="kestrel.html">Kestrel</a>.</p>
 <p>You can&#39;t use IIS, Nginx, or Apache without Kestrel or a <a href="#custom-servers">custom server implementation</a>. ASP.NET Core was designed to run in its own process so that it can behave consistently across platforms. IIS, Nginx, and Apache dictate their own startup process and environment; to use them directly, ASP.NET Core would have to adapt to the needs of each one. Using a web server implementation such as Kestrel gives ASP.NET Core control over the startup process and environment. So rather than trying to adapt ASP.NET Core to IIS, Nginx, or Apache, you just set up those web servers to proxy requests to Kestrel. This arrangement allows your <code>Program.Main</code> and <code>Startup</code> classes to be essentially the same no matter where you deploy.</p>
 <h3 id="iis-with-kestrel">IIS with Kestrel</h3>
@@ -92,9 +92,9 @@
 <p>For information about how to use Apache on Linux as a reverse proxy server for Kestrel, see <a href="../../publishing/apache-proxy.html">Using Apache Web Server as a reverse proxy</a>.</p>
 <h2 id="weblistener">WebListener</h2>
 <p>If you run your ASP.NET Core app on Windows, WebListener is an alternative that you can use for scenarios where you want to expose your app to the Internet but you can&#39;t use IIS. </p>
-<p><img src="overview/_static/weblistener-to-internet.png" alt="WebListener"></p>
+<p><img src="overview/static/weblistener-to-internet.png" alt="WebListener"></p>
 <p>WebListener can also be used in place of Kestrel for applications that are exposed only to an internal network, if you need one of its features that Kestrel doesn&#39;t support. </p>
-<p><img src="overview/_static/weblistener-to-internal.png" alt="WebListener"></p>
+<p><img src="overview/static/weblistener-to-internal.png" alt="WebListener"></p>
 <p>For internal network scenarios, Kestrel is generally recommended for best performance, but in some scenarios you might want to use a feature that only WebListener offers. For information about WebListener features, see <a href="weblistener.html">WebListener</a>.</p>
 <h2 id="notes-about-aspnet-core-server-infrastructure">Notes about ASP.NET Core server infrastructure</h2>
 <p>The <a href="http://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Builder/IApplicationBuilder/index.html#Microsoft.AspNetCore.Builder.IApplicationBuilder.md"><code>IApplicationBuilder</code></a> available in the <code>Startup</code> class <code>Configure</code> method exposes the <code>ServerFeatures</code> property of type <a href="http://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Http/Features/IFeatureCollection/index.html#Microsoft.AspNetCore.Http.Features.IFeatureCollection.md"><code>IFeatureCollection</code></a>. Kestrel and WebListener both expose only a single feature, <a href="http://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Hosting/Server/Features/IServerAddressesFeature/index.html#Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature.md"><code>IServerAddressesFeature</code></a>, but different server implementations may expose additional functionality.</p>

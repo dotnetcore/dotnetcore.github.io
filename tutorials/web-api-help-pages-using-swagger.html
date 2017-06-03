@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -208,9 +208,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
    &quot;securityDefinitions&quot;: {}
    }
 </code></pre><p>This document is used to drive the Swagger UI which can be viewed by navigating to <code>http://localhost:&lt;random_port&gt;/swagger</code></p>
-<p><img src="web-api-help-pages-using-swagger/_static/swagger-ui.png" alt="Swagger UI"></p>
+<p><img src="web-api-help-pages-using-swagger/static/swagger-ui.png" alt="Swagger UI"></p>
 <p>Each of the methods in the ToDo controller can be tested from the UI. Tap a method to expand the section, add any necessary parameters and tap &quot;Try it out!&quot;.</p>
-<p><img src="web-api-help-pages-using-swagger/_static/get-try-it-out.png" alt="Example Swagger GET test"></p>
+<p><img src="web-api-help-pages-using-swagger/static/get-try-it-out.png" alt="Example Swagger GET test"></p>
 <h2 id="customization--extensibility">Customization &amp; Extensibility</h2>
 <p>Swagger is not only a simple way to represent the API, but has options for documenting the object model, as well as customizing the interactive UI to match your look and feel or design language.</p>
 <h3 id="api-info-and-description">API Info and Description</h3>
@@ -228,10 +228,10 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
     });
 });
 </code></pre><p>The following image shows the Swagger UI displaying the version information added.</p>
-<p><img src="web-api-help-pages-using-swagger/_static/custom-info.png" alt="Swagger UI with version information: description, author, and see more link"></p>
+<p><img src="web-api-help-pages-using-swagger/static/custom-info.png" alt="Swagger UI with version information: description, author, and see more link"></p>
 <h3 id="xml-comments">XML Comments</h3>
 <p>To enable XML comments, right click the project in Visual Studio and select <strong>Properties</strong> and then check the <strong>XML Documentation file</strong> box under the <strong>Output Settings</strong> section.</p>
-<p><img src="web-api-help-pages-using-swagger/_static/swagger-xml-comments.png" alt="Build tab of project properties"></p>
+<p><img src="web-api-help-pages-using-swagger/static/swagger-xml-comments.png" alt="Build tab of project properties"></p>
 <p>Configure Swagger to use the generated XML file.</p>
 <div class="NOTE"><h5>备注</h5><p>For Linux or non-Windows operating systems, file names and paths can be case sensitive. So <code>ToDoApi.XML</code> would be found on Windows but not CentOS for example.</p>
 </div>
@@ -293,7 +293,7 @@ public void Delete(string id)
 {
     TodoItems.Remove(id);
 }
-</code></pre><p><img src="web-api-help-pages-using-swagger/_static/triple-slash-comments.png" alt="Swagger UI showing XML comment &#39;Deletes a specific To do Item&#39; for the DELETE method"></p>
+</code></pre><p><img src="web-api-help-pages-using-swagger/static/triple-slash-comments.png" alt="Swagger UI showing XML comment &#39;Deletes a specific To do Item&#39; for the DELETE method"></p>
 <p>Note that the UI is driven by the generated JSON file, and these comments are also in that file as well.</p>
 <!-- literal_block {"ids": [], "linenos": false, "xml:space": "preserve", "language": "javascript", "highlight_args": {"hl_lines": [5]}} -->
 <pre><code class="lang-javascript">&quot;delete&quot;: {
@@ -352,7 +352,7 @@ public IActionResult Create([FromBody, Required] TodoItem item)
     return CreatedAtRoute(&quot;GetTodo&quot;, new { id = item.Key }, item);
 }
 </code></pre><p>Notice the enhancement of the UI with these additional comments.</p>
-<p><img src="web-api-help-pages-using-swagger/_static/xml-comments-extended.png" alt="Swagger UI with additional comments shown"></p>
+<p><img src="web-api-help-pages-using-swagger/static/xml-comments-extended.png" alt="Swagger UI with additional comments shown"></p>
 <h3 id="dataannotations">DataAnnotations</h3>
 <p>You can decorate the API controller with <code>System.ComponentModel.DataAnnotations</code> to help drive the Swagger UI components.</p>
 <p>Adding the <code>[Required]</code> annotation to the <code>Name</code> property of the <code>TodoItem</code> class will change the ModelSchema information in the UI. <code>[Produces(&quot;application/json&quot;)]</code>, <code>RegularExpression</code> validators and more will further detail the information delivered in the generated page.  The more metadata that is in the code produces a more desciptive UI or API help page.  </p>
@@ -404,7 +404,7 @@ public IActionResult Create([FromBody, Required] TodoItem item)
     TodoItems.Add(item);
     return CreatedAtRoute(&quot;GetTodo&quot;, new { id = item.Key }, item);
 }
-</code></pre><p><img src="web-api-help-pages-using-swagger/_static/data-annotations-response-types.png" alt="Swagger UI showing POST Response Class description &#39;Returns the newly created Todo item&#39; and &#39;400 - If the item is null&#39; for status code and reason under Response Messages"></p>
+</code></pre><p><img src="web-api-help-pages-using-swagger/static/data-annotations-response-types.png" alt="Swagger UI showing POST Response Class description &#39;Returns the newly created Todo item&#39; and &#39;400 - If the item is null&#39; for status code and reason under Response Messages"></p>
 <h3 id="customizing-the-ui">Customizing the UI</h3>
 <p>The stock UI is very functional as well as presentable, however when building documentation pages for your API you want it to represent your brand or look and feel.</p>
 <p>Accomplishing that task with the Swashbuckle components is simple but requires adding the resources to serve static files that would not normally be included in a Web API project and then building the folder structure to host those files.</p>
@@ -429,7 +429,7 @@ public IActionResult Create([FromBody, Required] TodoItem item)
         });
    }
 </code></pre><p>Acquire the core <em>index.html</em> file used for the Swagger UI page from the <code>Github repository &lt;https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/1.0.0-rc1/test/WebSites/CustomIndexHtml/wwwroot/swagger/index.html&gt;</code>_ and put that in the <code>wwwroot/swagger</code> folder and also create a new <code>custom.css</code> file in the same folder.</p>
-<p><img src="web-api-help-pages-using-swagger/_static/custom-files-folder-view.png" alt="Solution Explorer showing Swagger UI custom css and html files within the wwwroot folder of the application"></p>
+<p><img src="web-api-help-pages-using-swagger/static/custom-files-folder-view.png" alt="Solution Explorer showing Swagger UI custom css and html files within the wwwroot folder of the application"></p>
 <p>Reference <em>custom.css</em> in the <em>index.html</em> file.</p>
 <pre><code class="lang-html">&lt;link href=&#39;custom.css&#39; media=&#39;screen&#39; rel=&#39;stylesheet&#39; type=&#39;text/css&#39; /&gt;
 </code></pre><p>The following CSS provides a simple sample of a custom header title to the page.</p>
@@ -461,7 +461,7 @@ public IActionResult Create([FromBody, Required] TodoItem item)
    &lt;div id=&quot;message-bar&quot; class=&quot;swagger-ui-wrap&quot; data-sw-translate&gt;&amp;nbsp;&lt;/div&gt;
    &lt;div id=&quot;swagger-ui-container&quot; class=&quot;swagger-ui-wrap&quot;&gt;&lt;/div&gt;
 &lt;/body&gt;
-</code></pre><p><img src="web-api-help-pages-using-swagger/_static/custom-header.png" alt="Swagger UI with custom header title"></p>
+</code></pre><p><img src="web-api-help-pages-using-swagger/static/custom-header.png" alt="Swagger UI with custom header title"></p>
 <p>There is much more you can do with the page, see the full capabilities for the UI resources at the <a href="https://github.com/swagger-api/swagger-ui">Swagger UI Github repository</a>.</p>
 </article>
           </div>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -125,7 +125,7 @@
 </table>
 <p><br></p>
 <p>The following diagram shows the basic design of the app.</p>
-<p><img src="first-web-api/_static/architecture.png" alt="The client is represented by a box on the left and submits a request and receives a response from the application, a box drawn on the right. Within the application box, three boxes represent the controller, the model, and the data access layer. The request comes into the application&#39;s controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response."></p>
+<p><img src="first-web-api/static/architecture.png" alt="The client is represented by a box on the left and submits a request and receives a response from the application, a box drawn on the right. Within the application box, three boxes represent the controller, the model, and the data access layer. The request comes into the application&#39;s controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response."></p>
 <ul>
 <li><p>The client is whatever consumes the web API (mobile app, browser, etc). We aren’t writing a client in this tutorial. We&#39;ll use <a href="https://www.getpostman.com/">Postman</a> or <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html">curl</a> to test the app.</p>
 </li>
@@ -139,9 +139,9 @@
 <h2 id="create-the-project">Create the project</h2>
 <p>From Visual Studio, select <strong>File</strong> menu, &gt; <strong>New</strong> &gt; <strong>Project</strong>.</p>
 <p>Select the <strong>ASP.NET Core Web Application (.NET Core)</strong> project template. Name the project <code>TodoApi</code> and select <strong>OK</strong>.</p>
-<p><img src="first-web-api/_static/new-project.png" alt="New project dialog"></p>
+<p><img src="first-web-api/static/new-project.png" alt="New project dialog"></p>
 <p>In the <strong>New ASP.NET Core Web Application (.NET Core) - TodoApi</strong> dialog, select the <strong>Web API</strong> template. Select <strong>OK</strong>. Do <strong>not</strong> select <strong>Enable Docker Support</strong>.</p>
-<p><img src="first-web-api/_static/web-api-project.png" alt="New ASP.NET Web Application dialog with Web API project template selected from ASP.NET Core Templates"></p>
+<p><img src="first-web-api/static/web-api-project.png" alt="New ASP.NET Web Application dialog with Web API project template selected from ASP.NET Core Templates"></p>
 <h3 id="launch-the-app">Launch the app</h3>
 <p>In Visual Studio, press CTRL+F5 to launch the app. Visual Studio launches a browser and navigates to <code>http://localhost:port/api/values</code>, where <em>port</em> is a randomly chosen port number. If you&#39;re using Chrome, Edge or Firefox, the <code>ValuesController</code> data will be displayed:</p>
 <pre><code>[&quot;value1&quot;,&quot;value2&quot;]
@@ -233,7 +233,7 @@ namespace TodoApi
 </ul>
 <h2 id="add-a-controller">Add a controller</h2>
 <p>In Solution Explorer, right-click the <em>Controllers</em> folder. Select <strong>Add</strong> &gt; <strong>New Item</strong>. In the <strong>Add New Item</strong> dialog, select the <strong>Web  API Controller Class</strong> template. Name the class <code>TodoController</code>.</p>
-<p><img src="first-web-api/_static/new_controller.png" alt="Add new Item dialog with controller in search box and web API controller selected"></p>
+<p><img src="first-web-api/static/new_controller.png" alt="Add new Item dialog with controller in search box and web API controller selected"></p>
 <p>Replace the generated code with the following:</p>
 <pre><code class="lang-csharp" name="Main">using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
@@ -346,7 +346,7 @@ public IActionResult Create([FromBody] TodoItem item)
 </code></pre><p>This is an HTTP POST method, indicated by the <a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/HttpPostAttribute/index.html"><code>[HttpPost]</code></a> attribute. The <a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/FromBodyAttribute/index.html"><code>[FromBody]</code></a> attribute tells MVC to get the value of the to-do item from the body of the HTTP request.</p>
 <p>The <code>CreatedAtRoute</code> method returns a 201 response, which is the standard response for an HTTP POST method that creates a new resource on the server. <code>CreatedAtRoute</code> also adds a Location header to the response. The Location header specifies the URI of the newly created to-do item. See <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">10.2.2 201 Created</a>.</p>
 <h3 id="use-postman-to-send-a-create-request">Use Postman to send a Create request</h3>
-<p><img src="first-web-api/_static/pmc.png" alt="Postman console"></p>
+<p><img src="first-web-api/static/pmc.png" alt="Postman console"></p>
 <ul>
 <li>Set the HTTP method to <code>POST</code></li>
 <li>Select the <strong>Body</strong> radio button</li>
@@ -364,7 +364,7 @@ public IActionResult Create([FromBody] TodoItem item)
 <li><p>Select the Headers tab in the lower pane and copy the <strong>Location</strong> header:</p>
 </li>
 </ul>
-<p><img src="first-web-api/_static/pmget.png" alt="Headers tab of the Postman console"></p>
+<p><img src="first-web-api/static/pmget.png" alt="Headers tab of the Postman console"></p>
 <p>You can use the Location header URI to access the resource you just created. Recall the <code>GetById</code> method created the <code>&quot;GetTodo&quot;</code> named route:</p>
 <pre><code class="lang-csharp">[HttpGet(&quot;{id}&quot;, Name = &quot;GetTodo&quot;)]
 public IActionResult GetById(long id)
@@ -391,7 +391,7 @@ public IActionResult Update(long id, [FromBody] TodoItem item)
     return new NoContentResult();
 }
 </code></pre><p><code>Update</code> is similar to <code>Create</code>, but uses HTTP PUT. The response is <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">204 (No Content)</a>. According to the HTTP spec, a PUT request requires the client to send the entire updated entity, not just the deltas. To support partial updates, use HTTP PATCH.</p>
-<p><img src="first-web-api/_static/pmcput.png" alt="Postman console showing 204 (No Content) response"></p>
+<p><img src="first-web-api/static/pmcput.png" alt="Postman console showing 204 (No Content) response"></p>
 <h3 id="delete">Delete</h3>
 <pre><code class="lang-csharp" name="Main">[HttpDelete(&quot;{id}&quot;)]
 public IActionResult Delete(long id)
@@ -407,7 +407,7 @@ public IActionResult Delete(long id)
     return new NoContentResult();
 }
 </code></pre><p>The response is <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">204 (No Content)</a>.</p>
-<p><img src="first-web-api/_static/pmd.png" alt="Postman console showing 204 (No Content) response"></p>
+<p><img src="first-web-api/static/pmd.png" alt="Postman console showing 204 (No Content) response"></p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li><a class="xref" href="../mvc/controllers/routing.html">Routing to Controller Actions</a></li>

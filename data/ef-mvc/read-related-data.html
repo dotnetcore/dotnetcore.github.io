@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,18 +72,18 @@
 <p>The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.1 and Visual Studio 2017. For information about the tutorial series, see <a href="intro.html">the first tutorial in the series</a>.</p>
 <p>In the previous tutorial you completed the School data model. In this tutorial you&#39;ll read and display related data -- that is, data that the Entity Framework loads into navigation properties.</p>
 <p>The following illustrations show the pages that you&#39;ll work with.</p>
-<p><img src="read-related-data/_static/courses-index.png" alt="Courses Index page"></p>
-<p><img src="read-related-data/_static/instructors-index.png" alt="Instructors Index page"></p>
+<p><img src="read-related-data/static/courses-index.png" alt="Courses Index page"></p>
+<p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page"></p>
 <h2 id="eager-explicit-and-lazy-loading-of-related-data">Eager, explicit, and lazy Loading of related data</h2>
 <p>There are several ways that Object-Relational Mapping (ORM) software such as Entity Framework can load related data into the navigation properties of an entity:</p>
 <ul>
 <li><p>Eager loading. When the entity is read, related data is retrieved along with it. This typically results in a single join query that retrieves all of the data that&#39;s needed. You specify eager loading in Entity Framework Core by using the <code>Include</code> and <code>ThenInclude</code> methods.</p>
-<p><img src="read-related-data/_static/eager-loading.png" alt="Eager loading example"></p>
+<p><img src="read-related-data/static/eager-loading.png" alt="Eager loading example"></p>
 <p>You can retrieve some of the data in separate queries, and EF &quot;fixes up&quot; the navigation properties.  That is, EF automatically adds the separately retrieved entities where they belong in navigation properties of previously retrieved entities. For the query that retrieves related data, you can use the <code>Load</code> method instead of a method that returns a list or object, such as <code>ToList</code> or <code>Single</code>.</p>
-<p><img src="read-related-data/_static/separate-queries.png" alt="Separate queries example"></p>
+<p><img src="read-related-data/static/separate-queries.png" alt="Separate queries example"></p>
 </li>
 <li><p>Explicit loading. When the entity is first read, related data isn&#39;t retrieved. You write code that retrieves the related data if it&#39;s needed. As in the case of eager loading with separate queries, explicit loading results in multiple queries sent to the database. The difference is that with explicit loading, the code specifies the navigation properties to be loaded. In Entity Framework Core 1.1 you can use the <code>Load</code> method to do explicit loading. For example:</p>
-<p><img src="read-related-data/_static/explicit-loading.png" alt="Explicit loading example"></p>
+<p><img src="read-related-data/static/explicit-loading.png" alt="Explicit loading example"></p>
 </li>
 <li><p>Lazy loading. When the entity is first read, related data isn&#39;t retrieved. However, the first time you attempt to access a navigation property, the data required for that navigation property is automatically retrieved. A query is sent to the database each time you try to get data from a navigation property for the first time. Entity Framework Core 1.0 does not support lazy loading.</p>
 </li>
@@ -94,7 +94,7 @@
 <h2 id="create-a-courses-page-that-displays-department-name">Create a Courses page that displays Department name</h2>
 <p>The Course entity includes a navigation property that contains the Department entity of the department that the course is assigned to. To display the name of the assigned department in a list of courses, you need to get the Name property from the Department entity that is in the <code>Course.Department</code> navigation property.</p>
 <p>Create a controller named CoursesController for the Course entity type, using the same options for the <strong>MVC Controller with views, using Entity Framework</strong> scaffolder that you did earlier for the Students controller, as shown in the following illustration:</p>
-<p><img src="read-related-data/_static/add-courses-controller.png" alt="Add Courses controller"></p>
+<p><img src="read-related-data/static/add-courses-controller.png" alt="Add Courses controller"></p>
 <p>Open <em>CoursesController.cs</em> and examine the <code>Index</code> method. The automatic scaffolding has specified eager loading for the <code>Department</code> navigation property by using the <code>Include</code> method.</p>
 <p>Replace the <code>Index</code> method with the following code that uses a more appropriate name for the <code>IQueryable</code> that returns Course entities (<code>courses</code> instead of <code>schoolContext</code>):</p>
 <pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index()
@@ -170,10 +170,10 @@
 </code></pre></li>
 </ul>
 <p>Run the page (select the Courses tab on the Contoso University home page) to see the list with department names.</p>
-<p><img src="read-related-data/_static/courses-index.png" alt="Courses Index page"></p>
+<p><img src="read-related-data/static/courses-index.png" alt="Courses Index page"></p>
 <h2 id="create-an-instructors-page-that-shows-courses-and-enrollments">Create an Instructors page that shows Courses and Enrollments</h2>
 <p>In this section you&#39;ll create a controller and view for the Instructor entity in order to display the Instructors page:</p>
-<p><img src="read-related-data/_static/instructors-index.png" alt="Instructors Index page"></p>
+<p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page"></p>
 <p>This page reads and displays related data in the following ways:</p>
 <ul>
 <li><p>The list of instructors displays related data from the OfficeAssignment entity. The Instructor and OfficeAssignment entities are in a one-to-zero-or-one relationship. You&#39;ll use eager loading for the OfficeAssignment entities. As explained earlier, eager loading is typically more efficient when you need the related data for all retrieved rows of the primary table. In this case, you want to display office assignments for all displayed instructors.</p>
@@ -202,7 +202,7 @@ namespace ContosoUniversity.Models.SchoolViewModels
 }
 </code></pre><h3 id="create-the-instructor-controller-and-views">Create the Instructor controller and views</h3>
 <p>Create an Instructors controller with EF read/write actions as shown in the following illustration:</p>
-<p><img src="read-related-data/_static/add-instructors-controller.png" alt="Add Instructors controller"></p>
+<p><img src="read-related-data/static/add-instructors-controller.png" alt="Add Instructors controller"></p>
 <p>Open <em>InstructorsController.cs</em> and add a using statement for the ViewModels namespace:</p>
 <pre><code class="lang-csharp" name="Main">using ContosoUniversity.Models.SchoolViewModels;
 </code></pre><p>Replace the Index method with the following code to do eager loading of related data and put it in the view model.</p>
@@ -392,7 +392,7 @@ if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
 </code></pre></li>
 </ul>
 <p>Run the application and select the Instructors tab. The page displays the Location property of related OfficeAssignment entities and an empty table cell when there&#39;s no related OfficeAssignment entity.</p>
-<p><img src="read-related-data/_static/instructors-index-no-selection.png" alt="Instructors Index page nothing selected"></p>
+<p><img src="read-related-data/static/instructors-index-no-selection.png" alt="Instructors Index page nothing selected"></p>
 <p>In the <em>Views/Instructors/Index.cshtml</em> file, after the closing table element (at the end of the file), add the following code. This code displays a list of courses related to an instructor when an instructor is selected.</p>
 <pre><code class="lang-html">@if (Model.Courses != null)
 {
@@ -432,7 +432,7 @@ if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
 }
 </code></pre><p>This code reads the <code>Courses</code> property of the view model to display a list of courses. It also provides a <strong>Select</strong> hyperlink that sends the ID of the selected course to the <code>Index</code> action method.</p>
 <p>Run the page and select an instructor. Now you see a grid that displays courses assigned to the selected instructor, and for each course you see the name of the assigned department.</p>
-<p><img src="read-related-data/_static/instructors-index-instructor-selected.png" alt="Instructors Index page instructor selected"></p>
+<p><img src="read-related-data/static/instructors-index-instructor-selected.png" alt="Instructors Index page instructor selected"></p>
 <p>After the code block you just added, add the following code. This displays a list of the students who are enrolled in a course when that course is selected.</p>
 <pre><code class="lang-html">@if (Model.Enrollments != null)
 {
@@ -459,7 +459,7 @@ if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
 }
 </code></pre><p>This code reads the Enrollments property of the view model in order to display a list of students enrolled in the course.</p>
 <p>Run the page and select an instructor. Then select a course to see the list of enrolled students and their grades.</p>
-<p><img src="read-related-data/_static/instructors-index.png" alt="Instructors Index page instructor and course selected"></p>
+<p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page instructor and course selected"></p>
 <h2 id="explicit-loading">Explicit loading</h2>
 <p>When you retrieved the list of instructors in <em>InstructorsController.cs</em>, you specified eager loading for the <code>CourseAssignments</code> navigation property.</p>
 <p>Suppose you expected users to only rarely want to see enrollments in a selected instructor and course. In that case, you might want to load the enrollment data only if it&#39;s requested. To see an example of how to do explicit loading, replace the <code>Index</code> method with the following code, which removes eager loading for Enrollments and loads that property explicitly. The code changes are highlighted.</p>

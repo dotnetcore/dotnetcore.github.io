@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -80,9 +80,9 @@
 <p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/servers/kestrel/sample">View or download sample code</a></p>
 <h2 id="when-to-use-kestrel-with-a-reverse-proxy">When to use Kestrel with a reverse proxy</h2>
 <p>If your application accepts requests only from an internal network, you can use Kestrel by itself.</p>
-<p><img src="kestrel/_static/kestrel-to-internal.png" alt="Kestrel to internal network"></p>
+<p><img src="kestrel/static/kestrel-to-internal.png" alt="Kestrel to internal network"></p>
 <p>If you expose your application to the Internet, you must use IIS, Nginx, or Apache as a <em>reverse proxy server</em>. A reverse proxy server receives HTTP requests from the Internet and forwards them to Kestrel after some preliminary handling.</p>
-<p><img src="kestrel/_static/kestrel-to-internet.png" alt="Kestrel to Internet"></p>
+<p><img src="kestrel/static/kestrel-to-internet.png" alt="Kestrel to Internet"></p>
 <p>A reverse proxy is required for edge deployments (exposed to traffic from the Internet) for security reasons. Kestrel is relatively new and does not yet have a full complement of defenses against attacks. This includes but isn&#39;t limited to appropriate timeouts, size limits, and concurrent connection limits.</p>
 <p>Another scenario that requires a reverse proxy is when you have multiple applications that share the same port running on a single server. That doesn&#39;t work with Kestrel directly because Kestrel doesn&#39;t support sharing a port between multiple processes. When you configure Kestrel to listen on a port, it handles all traffic for that port regardless of host header. A reverse proxy that can share ports must then forward to Kestrel on a unique port.</p>
 <p>Even if a reverse proxy server isn&#39;t required, using one can simplify load balancing and SSL set-up -- only your reverse proxy server requires an SSL certificate, and that server can communicate with your application servers on the internal network using plain HTTP.</p>

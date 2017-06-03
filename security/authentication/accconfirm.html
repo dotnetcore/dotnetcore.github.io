@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -77,14 +77,14 @@
 <li>In Visual Studio, create a New Web Application Project.</li>
 <li>Select <strong>Change Authentication</strong> and set to <strong>Individual User Accounts</strong>.</li>
 </ul>
-<p><img src="accconfirm/_static/indiv.png" alt="New Project dialog showing &quot;Individual User Accounts radio&quot; selected"></p>
+<p><img src="accconfirm/static/indiv.png" alt="New Project dialog showing &quot;Individual User Accounts radio&quot; selected"></p>
 <p>Run the app, select the <strong>Register</strong> link, and register a user. Follow the instructions to run Entity Framework migrations. At this  point, the only validation on the email is with the <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.emailaddressattribute(v=vs.110).aspx">[EmailAddress]</a> attribute. After you submit the registration, you are logged into the app. Later in the tutorial we&#39;ll change this so new users cannot log in until their email has been validated.</p>
 <h2 id="view-the-identity-database">View the Identity database</h2>
 <ul>
 <li>From the <strong>View</strong> menu, select <strong>SQL Server Object Explorer</strong> (SSOX). </li>
 <li>Navigate to <strong>(localdb)MSSQLLocalDB(SQL Server 13)</strong>. Right click on <strong>dbo.AspNetUsers</strong> &gt; <strong>View Data</strong>:</li>
 </ul>
-<p><img src="accconfirm/_static/ssox.png" alt="Contextual menu on AspNetUsers table in SQL Server Object Explorer"></p>
+<p><img src="accconfirm/static/ssox.png" alt="Contextual menu on AspNetUsers table in SQL Server Object Explorer"></p>
 <p>Note the <code>EmailConfirmed</code> field is <code>False</code>.</p>
 <p>You might want to use this email again in the next step when the app sends a confirmation email. Right-click on the row and select <strong>Delete</strong>. Deleting the email alias now will make it easier in the following steps.</p>
 <h2 id="require-ssl-and-setup-iis-express-for-ssl">Require SSL and setup IIS Express for SSL</h2>
@@ -326,7 +326,7 @@ public async Task&lt;IActionResult&gt; ForgotPassword(ForgotPasswordViewModel mo
 <p>In this section, run the web app and show the account confirmation and password recovery flow.</p>
 <ul>
 <li><p>Run the app and register a new user</p>
-<p><img src="accconfirm/_static/loginaccconfirm1.png" alt="Web application Account Register view"></p>
+<p><img src="accconfirm/static/loginaccconfirm1.png" alt="Web application Account Register view"></p>
 </li>
 <li><p>Check your email for the account confirmation link. If you don&#39;t get the email notification:</p>
 <ul>
@@ -405,11 +405,11 @@ public async Task&lt;IActionResult&gt; Login(LoginViewModel model, string return
 <h2 id="combine-social-and-local-login-accounts">Combine social and local login accounts</h2>
 <p>To complete this section, you must first enable an external authentication provider. See <a href="social/index.html">Enabling authentication using Facebook, Google and other external providers</a>.</p>
 <p>You can combine local and social accounts by clicking on your email link. In the following sequence &quot;RickAndMSFT@gmail.com&quot; is first created as a local login, but you can create the account as a social login first, then add a local login.</p>
-<p><img src="accconfirm/_static/rick.png" alt="Web application: RickAndMSFT@gmail.com user authenticated"></p>
+<p><img src="accconfirm/static/rick.png" alt="Web application: RickAndMSFT@gmail.com user authenticated"></p>
 <p>Click on the <strong>Manage</strong> link. Note the 0 external (social logins) associated with this account.</p>
-<p><img src="accconfirm/_static/manage.png" alt="Manage view"></p>
+<p><img src="accconfirm/static/manage.png" alt="Manage view"></p>
 <p>Click the link to another login service and accept the app requests. In the image below, Facebook is the external authentication provider:</p>
-<p><img src="accconfirm/_static/fb.png" alt="Manage your external logins view listing Facebook"></p>
+<p><img src="accconfirm/static/fb.png" alt="Manage your external logins view listing Facebook"></p>
 <p>The two accounts have been combined. You will be able to log on with either account. You might want your users to add local accounts in case their social log in authentication service is down, or more likely they have lost access to their social account.</p>
 </webappname-usersecretsid></article>
           </div>

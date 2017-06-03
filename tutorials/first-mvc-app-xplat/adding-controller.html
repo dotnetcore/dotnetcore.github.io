@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -82,7 +82,7 @@
 <p>We&#39;ll be covering all these concepts in this tutorial series and show you how to use them to build a simple movie app. The MVC project currently contains folders for the <em>Controllers</em> and <em>Views</em>. A <em>Models</em> folder will be added in a later step.</p>
 <ul>
 <li><p>In <strong>VS Code</strong>, select the <strong>EXPLORER</strong> icon and then  control-click (right-click) <strong>Controllers &gt; New File</strong></p>
-<p><img src="adding-controller/_static/new_file.png" alt="Contextual menu"></p>
+<p><img src="adding-controller/static/new_file.png" alt="Contextual menu"></p>
 </li>
 <li><p>Name the file <em>HelloWorldController.cs</em></p>
 </li>
@@ -116,7 +116,7 @@ namespace MvcMovie.Controllers
 <p>The first comment states this is an <a href="http://www.w3schools.com/tags/ref_httpmethods.asp">HTTP GET</a> method that is invoked by appending &quot;/HelloWorld/&quot; to the base URL. The second comment specifies an <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP GET</a> method that is invoked by appending &quot;/HelloWorld/Welcome/&quot; to the URL. Later on in the tutorial we&#39;ll use the scaffolding engine to generate <code>HTTP POST</code> methods.</p>
 <p>Run the app and navigate to <a href="http://localhost:5000/HelloWorld">http://localhost:5000/HelloWorld</a></p>
 <p>The <code>Index</code> method returns a string. You told the system to return some HTML, and it did!</p>
-<p><img src="../first-mvc-app/adding-controller/_static/hell1.png" alt="Browser window showing an application response of This is my default action"></p>
+<p><img src="../first-mvc-app/adding-controller/static/hell1.png" alt="Browser window showing an application response of This is my default action"></p>
 <p>MVC invokes controller classes (and the action methods within them) depending on the incoming URL. The default <a href="../../mvc/controllers/routing.html">URL routing logic</a> used by MVC uses a format like this to determine what code to invoke:</p>
 <p><code>/[Controller]/[ActionName]/[Parameters]</code></p>
 <p>You set the format for routing in the <em>Startup.cs</em> file.</p>
@@ -130,7 +130,7 @@ namespace MvcMovie.Controllers
 <p>The first URL segment determines the controller class to run. So <code>localhost:5000/HelloWorld</code> maps to the <code>HelloWorldController</code> class. The second part of the URL segment determines the action method on the class. So <code>localhost:5000/HelloWorld/Index</code> would cause the <code>Index</code> method of the <code>HelloWorldController</code> class to run. Notice that we only had to browse to <code>localhost:5000/HelloWorld</code> and the <code>Index</code> method was called by default. This is because <code>Index</code> is the default method that will be called on a controller if a method name is not explicitly specified. The third part of the URL segment ( <code>id</code>) is for route data. We&#39;ll see route data later on in this tutorial.</p>
 <p>Browse to <a href="http://localhost:5000/HelloWorld/Welcome">http://localhost:5000/HelloWorld/Welcome</a>
 The <code>Welcome</code> method runs and returns the string &quot;This is the Welcome action method...&quot;. For this URL, the controller is <code>HelloWorld</code> and <code>Welcome</code> is the action method. We haven&#39;t used the <code>[Parameters]</code> part of the URL yet.</p>
-<p><img src="../first-mvc-app/adding-controller/_static/welcome.png" alt="Browser window showing an application response of This is the Welcome action method"></p>
+<p><img src="../first-mvc-app/adding-controller/static/welcome.png" alt="Browser window showing an application response of This is the Welcome action method"></p>
 <p>Let&#39;s modify the example slightly so that you can pass some parameter information  from the URL to the controller (for example, <code>/HelloWorld/Welcome?name=Scott&amp;numtimes=4</code>).  Change the <code>Welcome</code> method  to include two parameters as shown below. Note that the code uses the C# optional-parameter feature to indicate that the <code>numTimes</code> parameter defaults to 1 if no value is passed for that parameter.</p>
 <pre><code class="lang-csharp" name="Main">// GET: /HelloWorld/Welcome/ 
 // Requires using System.Text.Encodings.Web;
@@ -142,7 +142,7 @@ public string Welcome(string name, int numTimes = 1)
 <p>Run the app and browse to:</p>
 <p>   <a href="http://localhost:5000/HelloWorld/Welcome?name=Rick&amp;numtimes=4">http://localhost:5000/HelloWorld/Welcome?name=Rick&numtimes=4</a></p>
 <p>You can try different values for <code>name</code> and <code>numtimes</code> in  the URL. The MVC <a class="xref" href="../../mvc/models/model-binding.html">model binding</a> system automatically maps the named parameters from  the query string in the address bar to parameters in your method. See <a class="xref" href="../../mvc/models/model-binding.html">Model Binding</a> for more information.</p>
-<p><img src="../first-mvc-app/adding-controller/_static/rick4.png" alt="Browser window showing an application response of Hello Rick, NumTimes is: 4"></p>
+<p><img src="../first-mvc-app/adding-controller/static/rick4.png" alt="Browser window showing an application response of Hello Rick, NumTimes is: 4"></p>
 <p>In the sample above, the URL segment (<code>Parameters</code>) is not used, the <code>name</code> and <code>numTimes</code> parameters are passed as <a href="http://en.wikipedia.org/wiki/Query_string">query strings</a>. The <code>?</code> (question mark) in the above URL is a separator, and the query strings follow. The <code>&amp;</code> character separates query strings.</p>
 <p>Replace the <code>Welcome</code> method with the following code:</p>
 <pre><code class="lang-csharp" name="Main">public string Welcome(string name, int ID = 1)
@@ -150,7 +150,7 @@ public string Welcome(string name, int numTimes = 1)
     return HtmlEncoder.Default.Encode($&quot;Hello {name}, ID: {ID}&quot;);
 }
 </code></pre><p>Run the app and enter the following URL:  <code>http://localhost:5000/HelloWorld/Welcome/3?name=Rick</code></p>
-<p><img src="../first-mvc-app/adding-controller/_static/rick_routedata.png" alt="Browser window showing an application response of Hello Rick, ID: 3"></p>
+<p><img src="../first-mvc-app/adding-controller/static/rick_routedata.png" alt="Browser window showing an application response of Hello Rick, ID: 3"></p>
 <p>This time the third URL segment  matched the route parameter <code>id</code>. The <code>Welcome</code>  method contains a parameter  <code>id</code> that matched the URL template in the <code>MapRoute</code> method. The trailing <code>?</code>  (in <code>id?</code>) indicates the <code>id</code> parameter is optional.</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
 {

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -102,9 +102,9 @@
 <p>The Less CSS preprocessor runs using Node.js. To install Less, use Node Package Manager (npm) from a command prompt (-g means &quot;global&quot;):</p>
 <pre><code class="lang-console">npm install -g less
 </code></pre><p>If you&#39;re using Visual Studio, you can get started with Less by adding one or more Less files to your project, and then configuring Gulp (or Grunt) to process them at compile-time. Add a <em>Styles</em> folder to your project, and then add a new Less file named <em>main.less</em> to this folder.</p>
-<p><img src="less-sass-fa/_static/add-less-file.png" alt="Add less file"></p>
+<p><img src="less-sass-fa/static/add-less-file.png" alt="Add less file"></p>
 <p>Once added, your folder structure should look something like this:</p>
-<p><img src="less-sass-fa/_static/folder-structure.png" alt="folder structure"></p>
+<p><img src="less-sass-fa/static/folder-structure.png" alt="folder structure"></p>
 <p>Now you can add some basic styling to the file, which will be compiled into CSS and deployed to the wwwroot folder by Gulp.</p>
 <p>Modify <em>main.less</em> to include the following content, which creates a simple color palette from a single base color.</p>
 <pre><code class="lang-less">@base: #663333;
@@ -136,7 +136,7 @@ body {
 }
 </code></pre><p>Install the dependencies either at a command prompt in your project folder, or in Visual Studio <strong>Solution Explorer</strong> (<strong>Dependencies &gt; npm &gt; Restore packages</strong>).</p>
 <pre><code class="lang-console">npm install
-</code></pre><p><img src="less-sass-fa/_static/restore-packages.png" alt="VS restore packages"></p>
+</code></pre><p><img src="less-sass-fa/static/restore-packages.png" alt="VS restore packages"></p>
 <p>In the project folder, create a <strong>Gulp Configuration File</strong> (<em>gulpfile.js</em>) to define the automated process.  Add a variable at the top of the file to represent Less, and a task to run Less:</p>
 <pre><code class="lang-javascript">var gulp = require(&quot;gulp&quot;),
   fs = require(&quot;fs&quot;),
@@ -149,9 +149,9 @@ gulp.task(&quot;less&quot;, function () {
 });
 </code></pre><p>Open the <strong>Task Runner Explorer</strong> (<strong>View &gt; Other Windows &gt; Task Runner Explorer</strong>). Among the tasks, you should see a new task named <code>less</code>. You might have to refresh the window.</p>
 <p>Run the <code>less</code> task, and you see output similar to what is shown here:</p>
-<p><img src="less-sass-fa/_static/less-task-runner.png" alt="less task runner"></p>
+<p><img src="less-sass-fa/static/less-task-runner.png" alt="less task runner"></p>
 <p>The <em>wwwroot/css</em> folder now contains a new file, <em>main.css</em>:</p>
-<p><img src="less-sass-fa/_static/main-css-created.png" alt="main css created"></p>
+<p><img src="less-sass-fa/static/main-css-created.png" alt="main css created"></p>
 <p>Open <em>main.css</em> and you see something like the following:</p>
 <pre><code class="lang-css">body {
     background-color: #336666;
@@ -190,7 +190,7 @@ gulp.task(&quot;less&quot;, function () {
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>You can see that the 180 degree spin on <code>@base</code> used to produce <code>@background</code> resulted in the color wheel opposing color of <code>@base</code>:</p>
-<p><img src="less-sass-fa/_static/less-test-screenshot.png" alt="less testing example"></p>
+<p><img src="less-sass-fa/static/less-test-screenshot.png" alt="less testing example"></p>
 <p>Less also provides support for nested rules, as well as nested media queries. For example, defining nested hierarchies like menus can result in verbose CSS rules like these:</p>
 <pre><code class="lang-css">nav {
     height: 40px;
@@ -308,7 +308,7 @@ gulp.task(&quot;sass&quot;, function () {
     .pipe(gulp.dest(&#39;wwwroot/css&#39;));
 });
 </code></pre><p>Now you can add the Sass file <em>main2.scss</em> to the <em>Styles</em> folder in the root of the project:</p>
-<p><img src="less-sass-fa/_static/add-scss-file.png" alt="add scss file"></p>
+<p><img src="less-sass-fa/static/add-scss-file.png" alt="add scss file"></p>
 <p>Open <em>main2.scss</em> and add the following:</p>
 <pre><code class="lang-sass">$base: #CC0000;
 body {
@@ -436,7 +436,7 @@ body {
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre><p>This produces the following in the browser - note the icon beside each item:</p>
-<p><img src="less-sass-fa/_static/list-icons-screenshot.png" alt="list icons"></p>
+<p><img src="less-sass-fa/static/list-icons-screenshot.png" alt="list icons"></p>
 <p>You can view a complete list of the available icons here:</p>
 <p><a href="http://fontawesome.io/icons/">http://fontawesome.io/icons/</a></p>
 <h2 id="summary">Summary</h2>

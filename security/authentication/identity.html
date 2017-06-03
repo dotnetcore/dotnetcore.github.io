@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -76,7 +76,7 @@
 <ol>
 <li><p>Create an ASP.NET Core Web Application project in Visual Studio with Individual User Accounts.</p>
 <p>In Visual Studio, select <strong>File</strong> -&gt; <strong>New</strong> -&gt; <strong>Project</strong>. Then, select the <strong>ASP.NET Web Application</strong> from the <strong>New Project</strong> dialog box. Continue by selecting an ASP.NET Core <strong>Web Application</strong> with <strong>Individual User Accounts</strong> as the authentication method.</p>
-<p><img src="identity/_static/01-mvc.png" alt="New Project dialog"></p>
+<p><img src="identity/static/01-mvc.png" alt="New Project dialog"></p>
 <p>The created project contains the <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> package, which will persist the identity data and schema to SQL Server using <a href="https://docs.efproject.net">Entity Framework Core</a>.</p>
 <div class="NOTE"><h5>备注</h5><p>In Visual Studio, you can view NuGet packages details by selecting <strong>Tools</strong> -&gt; <strong>NuGet Package Manager</strong> -&gt; <strong>Manage NuGet Packages for Solution</strong>.</p>
 </div>
@@ -138,7 +138,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 </li>
 <li><p>Creating a user.</p>
 <p>Launch the application from Visual Studio (<strong>Debug</strong> -&gt; <strong>Start Debugging</strong>) and then click on the <strong>Register</strong> link in the browser to create a user. The following image shows the Register page which collects the user name and password.</p>
-<p><img src="identity/_static/02-reg.png" alt="Register page with user input fields for Email (Username), Password, and Confirm Password"></p>
+<p><img src="identity/static/02-reg.png" alt="Register page with user input fields for Email (Username), Password, and Confirm Password"></p>
 <p>When the user clicks the <strong>Register</strong> link, the <code>UserManager</code> and <code>SignInManager</code> services are injected into the Controller:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3-4,11-12,17-18">public class AccountController : Controller
 {
@@ -317,12 +317,12 @@ services.Configure&lt;IdentityOptions&gt;(options =&gt;
 </li>
 </ul>
 <p>Next, right-click the <strong>dbo.AspNetUsers</strong> table and select <strong>View Data</strong> to see the properties of the user you created.</p>
-<p><img src="identity/_static/04-db.png" alt="Contextual menu on AspNetUsers database table"></p>
+<p><img src="identity/static/04-db.png" alt="Contextual menu on AspNetUsers database table"></p>
 </li>
 </ol>
 <h2 id="identity-components">Identity Components</h2>
 <p>The primary reference assembly for the identity system is <code>Microsoft.AspNetCore.Identity</code>. This package contains the core set of interfaces for ASP.NET Core Identity.</p>
-<p><img src="identity/_static/05-dependencies.png" alt="Project references of ASP.NET Core Identity"></p>
+<p><img src="identity/static/05-dependencies.png" alt="Project references of ASP.NET Core Identity"></p>
 <p>These dependencies are needed to use the identity system in ASP.NET Core applications:</p>
 <ul>
 <li><p><code>EntityFramework.SqlServer</code> - Entity Framework is Microsoft&#39;s recommended data access technology for relational databases.</p>

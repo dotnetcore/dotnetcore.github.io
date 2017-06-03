@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -71,7 +71,7 @@
 <p><a name="data-protection-consumer-apis-purposes"></a></p>
 <p>Components which consume IDataProtectionProvider must pass a unique <em>purposes</em> parameter to the CreateProtector method. The purposes <em>parameter</em> is inherent to the security of the data protection system, as it provides isolation between cryptographic consumers, even if the root cryptographic keys are the same.</p>
 <p>When a consumer specifies a purpose, the purpose string is used along with the root cryptographic keys to derive cryptographic subkeys unique to that consumer. This isolates the consumer from all other cryptographic consumers in the application: no other component can read its payloads, and it cannot read any other component&#39;s payloads. This isolation also renders infeasible entire categories of attack against the component.</p>
-<p><img src="purpose-strings/_static/purposes.png" alt="Purpose Diagram Example"></p>
+<p><img src="purpose-strings/static/purposes.png" alt="Purpose Diagram Example"></p>
 <p>In the diagram above IDataProtector instances A and B <strong>cannot</strong> read each other&#39;s payloads, only their own.</p>
 <p>The purpose string doesn&#39;t have to be secret. It should simply be unique in the sense that no other well-behaved component will ever provide the same purpose string.</p>
 <div class="TIP"><h5>提示</h5><p>Using the namespace and type name of the component consuming the data protection APIs is a good rule of thumb, as in practice this information will never conflict.</p>

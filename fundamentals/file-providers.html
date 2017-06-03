@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -162,7 +162,7 @@ namespace FileProviderSample
     }
 &lt;/ul&gt;
 </code></pre><p>The result:</p>
-<p><img src="file-providers/_static/physical-directory-listing.png" alt="File provider sample application listing physical files and folders"></p>
+<p><img src="file-providers/static/physical-directory-listing.png" alt="File provider sample application listing physical files and folders"></p>
 <h3 id="embeddedfileprovider">EmbeddedFileProvider</h3>
 <p>The <code>EmbeddedFileProvider</code> is used to access files embedded in assemblies. In .NET Core, you embed files in an assembly with the <code>&lt;EmbeddedResource&gt;</code> element in the <em>.csproj</em> file:</p>
 <pre><code class="lang-json" name="Main">&lt;ItemGroup&gt;
@@ -179,7 +179,7 @@ namespace FileProviderSample
 <pre><code class="lang-csharp">var embeddedProvider = new EmbeddedFileProvider(Assembly.GetEntryAssembly());
 </code></pre><p>The snippet above demonstrates how to create an <code>EmbeddedFileProvider</code> with access to the currently executing assembly.</p>
 <p>Updating the sample app to use an <code>EmbeddedFileProvider</code> results in the following output:</p>
-<p><img src="file-providers/_static/embedded-directory-listing.png" alt="File provider sample application listing embedded files"></p>
+<p><img src="file-providers/static/embedded-directory-listing.png" alt="File provider sample application listing embedded files"></p>
 <div class="NOTE"><h5>备注</h5><p>Embedded resources do not expose directories. Rather, the path to the resource (via its namespace) is embedded in its filename using <code>.</code> separators.</p>
 </div>
 <div class="TIP"><h5>提示</h5><p>The <code>EmbeddedFileProvider</code> constructor accepts an optional <code>baseNamespace</code> parameter. Specifying this will scope calls to <code>GetDirectoryContents</code> to those resources under the provided namespace.</p>
@@ -190,7 +190,7 @@ namespace FileProviderSample
 var embeddedProvider = new EmbeddedFileProvider(Assembly.GetEntryAssembly());
 var compositeProvider = new CompositeFileProvider(physicalProvider, embeddedProvider);
 </code></pre><p>Updating the sample app to use a <code>CompositeFileProvider</code> that includes both the physical and embedded providers configured previously, results in the following output:</p>
-<p><img src="file-providers/_static/composite-directory-listing.png" alt="File provider sample application listing both physical files and folders and embedded files"></p>
+<p><img src="file-providers/static/composite-directory-listing.png" alt="File provider sample application listing both physical files and folders and embedded files"></p>
 <h2 id="watching-for-changes">Watching for changes</h2>
 <p>The <code>IFileProvider</code> <code>Watch</code> method provides a way to watch one or more files or directories for changes. This method accepts a path string, which can use <a href="#globbing-patterns">globbing patterns</a> to specify multiple files, and returns an <code>IChangeToken</code>. This token exposes a <code>HasChanged</code> property that can be inspected, and a <code>RegisterChangeCallback</code> method that is called when changes are detected to the specified path string. Note that each change token only calls its associated callback in response to a single change. To enable constant monitoring, you can use a <code>TaskCompletionSource</code> as shown below, or re-create <code>IChangeToken</code> instances in response to changes.</p>
 <p>In this article&#39;s sample, a console application is configured to display a message whenever a text file is modified:</p>
@@ -227,7 +227,7 @@ namespace WatchConsole
     }
 }
 </code></pre><p>The result, after saving the file several times:</p>
-<p><img src="file-providers/_static/watch-console.png" alt="Command window after executing dotnet run shows the application monitoring the quotes.txt file for changes and that the file has changed five times."></p>
+<p><img src="file-providers/static/watch-console.png" alt="Command window after executing dotnet run shows the application monitoring the quotes.txt file for changes and that the file has changed five times."></p>
 <div class="NOTE"><h5>备注</h5><p>Some file systems, such as Docker containers and network shares, may not reliably send change notifications. Set the <code>DOTNET_USE_POLLINGFILEWATCHER</code> environment variable to <code>1</code> or <code>true</code> to poll the file system for changes every 4 seconds.</p>
 </div>
 <h2 id="globbing-patterns">Globbing patterns</h2>

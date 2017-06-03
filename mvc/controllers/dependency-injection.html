@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -148,7 +148,7 @@ Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceP
 </code></pre><div class="NOTE"><h5>备注</h5><p>This particular service could be implemented using any of several different lifetime options (<code>Transient</code>, <code>Scoped</code>, or <code>Singleton</code>). See <a href="../../fundamentals/dependency-injection.html">Dependency Injection</a> to understand how each of these scope options will affect the behavior of your service.</p>
 </div>
 <p>Once the service has been configured, running the application and navigating to the home page should display the time-based message as expected:</p>
-<p><img src="dependency-injection/_static/server-greeting.png" alt="Server Greeting"></p>
+<p><img src="dependency-injection/static/server-greeting.png" alt="Server Greeting"></p>
 <div class="TIP"><h5>提示</h5><p>See <a href="testing.html">Testing Controller Logic</a> to learn how to explicitly request dependencies <a href="http://deviq.com/explicit-dependencies-principle">http://deviq.com/explicit-dependencies-principle</a> in controllers makes code easier to test.</p>
 </div>
 <p>ASP.NET Core&#39;s built-in dependency injection supports having only a single constructor for classes requesting services. If you have more than one constructor, you may get an exception stating:</p>

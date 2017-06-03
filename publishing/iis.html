@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -83,12 +83,12 @@
 <p>Enable the <strong>Web Server (IIS)</strong> role and establish role services.</p>
 <h3 id="windows-desktop-operating-systems">Windows desktop operating systems</h3>
 <p>Navigate to <strong>Control Panel &gt; Programs &gt; Programs and Features &gt; Turn Windows features on or off</strong> (left side of the screen). Open the group for <strong>Internet Information Services</strong> and <strong>Web Management Tools</strong>. Check the box for <strong>IIS Management Console</strong>. Check the box for <strong>World Wide Web Services</strong>. Accept the default features for <strong>World Wide Web Services</strong> or customize the IIS features to suit your needs.</p>
-<p><img src="iis/_static/windows-features-win10.png" alt="IIS Management Console and World Wide Web Services are selected in Windows Features."></p>
+<p><img src="iis/static/windows-features-win10.png" alt="IIS Management Console and World Wide Web Services are selected in Windows Features."></p>
 <h3 id="windows-server-operating-systems">Windows Server operating systems</h3>
 <p>For server operating systems, use the <strong>Add Roles and Features</strong> wizard via the <strong>Manage</strong> menu or the link in <strong>Server Manager</strong>. On the <strong>Server Roles</strong> step, check the box for <strong>Web Server (IIS)</strong>.</p>
-<p><img src="iis/_static/server-roles-ws2016.png" alt="The Web Server IIS role is selected in the Select server roles step."></p>
+<p><img src="iis/static/server-roles-ws2016.png" alt="The Web Server IIS role is selected in the Select server roles step."></p>
 <p>On the <strong>Role services</strong> step, select the IIS role services you desire or accept the default role services provided.</p>
-<p><img src="iis/_static/role-services-ws2016.png" alt="The default role services are selected in the Select role services step."></p>
+<p><img src="iis/static/role-services-ws2016.png" alt="The default role services are selected in the Select role services step."></p>
 <p>Proceed through the <strong>Confirmation</strong> step to install the web server role and services. A server/IIS restart is not required after installing the Web Server (IIS) role.</p>
 <h2 id="install-the-net-core-windows-server-hosting-bundle">Install the .NET Core Windows Server Hosting bundle</h2>
 <ol>
@@ -153,16 +153,16 @@
 <li><p>Set the application pool to <strong>No Managed Code</strong>. ASP.NET Core runs in a separate process and manages the runtime.</p>
 </li>
 <li><p>Open the <strong>Add Website</strong> window.</p>
-<p><img src="iis/_static/add-website-context-menu-ws2016.png" alt="Click Add Website from the Sites contextual menu."></p>
+<p><img src="iis/static/add-website-context-menu-ws2016.png" alt="Click Add Website from the Sites contextual menu."></p>
 </li>
 <li><p>Configure the website.</p>
-<p><img src="iis/_static/add-website-ws2016.png" alt="Supply the Site name, physical path, and Host name in the Add Website step."></p>
+<p><img src="iis/static/add-website-ws2016.png" alt="Supply the Site name, physical path, and Host name in the Add Website step."></p>
 </li>
 <li><p>In the <strong>Application Pools</strong> panel, open the <strong>Edit Application Pool</strong> window by right-clicking on the website&#39;s application pool and selecting <strong>Basic Settings...</strong> from the popup menu.</p>
-<p><img src="iis/_static/apppools-basic-settings-ws2016.png" alt="Select Basic Settings from the contextual menu of the Application Pool."></p>
+<p><img src="iis/static/apppools-basic-settings-ws2016.png" alt="Select Basic Settings from the contextual menu of the Application Pool."></p>
 </li>
 <li><p>Set the <strong>.NET CLR version</strong> to <strong>No Managed Code</strong>.</p>
-<p><img src="iis/_static/edit-apppool-ws2016.png" alt="Set No Managed Code for the .NET CLR Version."></p>
+<p><img src="iis/static/edit-apppool-ws2016.png" alt="Set No Managed Code for the .NET CLR Version."></p>
 </li>
 </ol>
 <div class="NOTE"><h5>备注</h5><p>If you change the default identity of the application pool from <strong>ApplicationPoolIdentity</strong>, verify the new identity has the required permissions to access the application&#39;s folder and database.</p>
@@ -171,13 +171,13 @@
 <p>Deploy the application to the folder you created on the target IIS system. Web Deploy is the recommended mechanism for deployment. Alternatives to Web Deploy are listed below.</p>
 <h3 id="web-deploy-with-visual-studio">Web Deploy with Visual Studio</h3>
 <p>Create a <a href="https://msdn.microsoft.com/library/dd465337(v=vs.110).aspx#Anchor_0">Publish Profile in Visual Studio</a> and click the <strong>Publish</strong> button to deploy your application. If your hosting provider supplies a Publish Profile or support for creating one, download their profile and import it using the Visual Studio <strong>Publish</strong> dialog.</p>
-<p><img src="iis/_static/pub-dialog.png" alt="Publish dialog page"></p>
+<p><img src="iis/static/pub-dialog.png" alt="Publish dialog page"></p>
 <h3 id="web-deploy-outside-of-visual-studio">Web Deploy outside of Visual Studio</h3>
 <p>You can also use Web Deploy outside of Visual Studio from the command line. For more information, see <a href="https://technet.microsoft.com/library/dd568996(WS.10).aspx">Web Deployment Tool</a>.</p>
 <h3 id="alternatives-to-web-deploy">Alternatives to Web Deploy</h3>
 <p>If you don&#39;t wish to use Web Deploy or are not using Visual Studio, you may use any of several methods to move the application to the hosting system, such as Xcopy, Robocopy, or PowerShell. Visual Studio users may use the <a href="https://github.com/aspnet/vsweb-publish/blob/master/samples/samples.md">Publish Samples</a>.</p>
 <h2 id="browse-the-website">Browse the website</h2>
-<p><img src="iis/_static/browsewebsite.png" alt="The Microsoft Edge browser has loaded the IIS startup page."></p>
+<p><img src="iis/static/browsewebsite.png" alt="The Microsoft Edge browser has loaded the IIS startup page."></p>
 <div class="WARNING"><h5>警告</h5><p>.NET Core applications are hosted via a reverse-proxy between IIS and the Kestrel server. In order to create the reverse-proxy, the <em>web.config</em> file must be present at the content root path (typically the app base path) of the deployed application, which is the website physical path provided to IIS. Sensitive files exist on the app&#39;s physical path, including subfolders, such as <em>my_application.runtimeconfig.json</em>, <em>my_application.xml</em> (XML Documentation comments), and <em>my_application.deps.json</em>. The <em>web.config</em> file is required to create the reverse proxy to Kestrel, which prevents IIS from serving these and other sensitive files. <strong>Therefore, it is important that the <em>web.config</em> file is never accidently renamed or removed from the deployment.</strong></p>
 </div>
 <h2 id="data-protection">Data protection</h2>
@@ -223,7 +223,7 @@
 <p>When hosting multiple websites on a single system, you should isolate the applications from each other by running each app in its own application pool. The IIS <strong>Add Website</strong> dialog defaults to this behavior. When you provide a <strong>Site name</strong>, the text is automatically transferred to the <strong>Application pool</strong> textbox. A new application pool will be created using the site name when you add the website.</p>
 <h2 id="application-pool-identity">Application Pool Identity</h2>
 <p>An application pool identity account allows you to run an application under a unique account without having to create and manage domains or local accounts. On IIS 8.0+, the IIS Admin Worker Process (WAS) will create a virtual account with the name of the new application pool and run the application pool&#39;s worker processes under this account by default. In the IIS Management Console, under Advanced Settings for your application pool, ensure that the Identity is set to use <strong>ApplicationPoolIdentity</strong> as shown in the image below.</p>
-<p><img src="iis/_static/apppool-identity.png" alt="Application pool advanced settings dialog"></p>
+<p><img src="iis/static/apppool-identity.png" alt="Application pool advanced settings dialog"></p>
 <p>The IIS management process creates a secure identifier with the name of the application pool in the Windows Security System. Resources can be secured by using this identity; however, this identity is not a real user account and won&#39;t show up in the Windows User Management Console.</p>
 <p>If you need to grant the IIS worker process elevated access to your application, you will need to modify the Access Control List (ACL) for the directory containing your application.</p>
 <ol>
@@ -236,10 +236,10 @@
 <li><p>Click the <strong>Locations</strong> button and make sure you select your system.</p>
 </li>
 <li><p>Enter <strong>IIS AppPool\DefaultAppPool</strong> in <strong>Enter the object names to select</strong> textbox.</p>
-<p><img src="iis/_static/select-users-or-groups-1.png" alt="Select users or groups dialog for the application folder"></p>
+<p><img src="iis/static/select-users-or-groups-1.png" alt="Select users or groups dialog for the application folder"></p>
 </li>
 <li><p>Click the <strong>Check Names</strong> button and then click <strong>OK</strong>.</p>
-<p><img src="iis/_static/select-users-or-groups-2.png" alt="Select users or groups dialog for the application folder"></p>
+<p><img src="iis/static/select-users-or-groups-2.png" alt="Select users or groups dialog for the application folder"></p>
 </li>
 </ol>
 <p>You can also do this via a command prompt using <strong>ICACLS</strong> tool:</p>

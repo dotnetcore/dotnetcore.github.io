@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -167,11 +167,11 @@ namespace ProductsApp.Models
 </code></pre><p>Now that we have a simple project from which to start, we can demonstrate how to migrate this Web API project to ASP.NET Core MVC.</p>
 <h2 id="create-the-destination-project">Create the Destination Project</h2>
 <p>Using Visual Studio, create a new, empty solution, and name it <em>WebAPIMigration</em>. Add the existing <em>ProductsApp</em> project to it, then, add a new ASP.NET Core Web Application Project to the solution. Name the new project <em>ProductsCore</em>.</p>
-<p><img src="webapi/_static/add-web-project.png" alt="New Project dialog open to Web templates"></p>
+<p><img src="webapi/static/add-web-project.png" alt="New Project dialog open to Web templates"></p>
 <p>Next, choose the Web API project template. We will migrate the <em>ProductsApp</em> contents to this new project.</p>
-<p><img src="webapi/_static/aspnet-5-webapi.png" alt="New Web Application dialog with Web API project template selected in the ASP.NET Core templates list"></p>
+<p><img src="webapi/static/aspnet-5-webapi.png" alt="New Web Application dialog with Web API project template selected in the ASP.NET Core templates list"></p>
 <p>Delete the <code>Project_Readme.html</code> file from the new project. Your solution should now look like this:</p>
-<p><img src="webapi/_static/webapimigration-solution.png" alt="Application solution open in Solution Explorer showing files and folders of the the ProductsApp and ProductsCore projects"></p>
+<p><img src="webapi/static/webapimigration-solution.png" alt="Application solution open in Solution Explorer showing files and folders of the the ProductsApp and ProductsCore projects"></p>
 <h2 id="migrate-configuration">Migrate Configuration</h2>
 <p>ASP.NET Core no longer uses <em>Global.asax</em>, <em>web.config</em>, or <em>App_Start</em> folders. Instead, all startup tasks are done in <em>Startup.cs</em> in the root of the project (see <a href="../fundamentals/startup.html">Application Startup</a>). In ASP.NET Core MVC, attribute-based routing is now included by default when <code>UseMvc()</code> is called; and, this is the recommended approach for configuring Web API routes (and is how the Web API starter project handles routing).</p>
 <pre><code class="lang-none" name="Main" highlight-lines="40">using System;

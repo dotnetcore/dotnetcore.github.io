@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -86,18 +86,18 @@ public void ConfigureServices(IServiceCollection services)
 <p>LocalDB is a lightweight version of the SQL Server Express Database Engine that is targeted for program development. LocalDB starts on demand and runs in user mode, so there is no complex configuration. By default, LocalDB database creates &quot;*.mdf&quot; files in the <em>C:/Users/&lt;user></em> directory.</p>
 <ul>
 <li><p>From the <strong>View</strong> menu, open <strong>SQL Server Object Explorer</strong> (SSOX).</p>
-<p><img src="working-with-sql/_static/ssox.png" alt="View menu"></p>
+<p><img src="working-with-sql/static/ssox.png" alt="View menu"></p>
 </li>
 <li><p>Right click on the <code>Movie</code> table <strong>&gt; View Designer</strong></p>
-<p><img src="working-with-sql/_static/design.png" alt="Contextual menu open on Movie table"></p>
-<p><img src="working-with-sql/_static/dv.png" alt="Movie table open in Designer"></p>
+<p><img src="working-with-sql/static/design.png" alt="Contextual menu open on Movie table"></p>
+<p><img src="working-with-sql/static/dv.png" alt="Movie table open in Designer"></p>
 </li>
 </ul>
 <p>Note the key icon next to <code>ID</code>. By default, EF will make a property named <code>ID</code> the primary key.</p>
 <ul>
 <li><p>Right click on the <code>Movie</code> table <strong>&gt; View Data</strong></p>
-<p><img src="working-with-sql/_static/ssox2.png" alt="Contextual menu open on Movie table"></p>
-<p><img src="working-with-sql/_static/vd22.png" alt="Movie table open showing table data"></p>
+<p><img src="working-with-sql/static/ssox2.png" alt="Contextual menu open on Movie table"></p>
+<p><img src="working-with-sql/static/vd22.png" alt="Movie table open showing table data"></p>
 </li>
 </ul>
 <h2 id="seed-the-database">Seed the database</h2>
@@ -184,8 +184,8 @@ namespace MvcMovie.Models
 <li><p>Force the app to initialize (call the methods in the <code>Startup</code> class) so the seed method runs. To force initialization, IIS Express must be stopped and restarted. You can do this with any of the following approaches:</p>
 <ul>
 <li><p>Right click the IIS Express system tray icon in the notification area and tap <strong>Exit</strong> or <strong>Stop Site</strong></p>
-<p><img src="working-with-sql/_static/iisExIcon.png" alt="IIS Express system tray icon"></p>
-<p><img src="working-with-sql/_static/stopIIS.png" alt="Contextual menu"></p>
+<p><img src="working-with-sql/static/iisexicon.png" alt="IIS Express system tray icon"></p>
+<p><img src="working-with-sql/static/stopiis.png" alt="Contextual menu"></p>
 <ul>
 <li>If you were running VS in non-debug mode, press F5 to run in debug mode</li>
 <li>If you were running VS in debug mode, stop the debugger and press F5</li>
@@ -195,7 +195,7 @@ namespace MvcMovie.Models
 </li>
 </ul>
 <p>The app shows the seeded data.</p>
-<p><img src="working-with-sql/_static/m55.png" alt="MVC Movie application open in Microsoft Edge showing movie data"></p>
+<p><img src="working-with-sql/static/m55.png" alt="MVC Movie application open in Microsoft Edge showing movie data"></p>
 <div class="step-by-step"><p><a href="adding-model.html">Previous</a>
 <a href="controller-methods-views.html">Next</a>  </p>
 </div>

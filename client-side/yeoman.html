@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -85,17 +85,17 @@
 <p>Run the ASP.NET generator for <code>yo</code></p>
 <pre><code class="lang-console">yo aspnet
 </code></pre><p>The generator displays a menu. Arrow down to the <strong>Web Application Basic [without Membership and Authorization]</strong> project and tap <strong>Enter</strong>:</p>
-<p><img src="yeoman/_static/yeoman-yo-aspnet.png" alt="Command window: What type of application do you want to create? Menu of application types"></p>
+<p><img src="yeoman/static/yeoman-yo-aspnet.png" alt="Command window: What type of application do you want to create? Menu of application types"></p>
 <p>Select Bootstrap as the UI Framework and tap <strong>Enter</strong>.</p>
 <p>Use &quot;<strong>MyWebApp</strong>&quot; for the app name and then tap <strong>Enter</strong>.</p>
 <p>Yeoman will scaffold the project and its supporting files. Suggested next steps are also provided in the form of commands.</p>
-<p><img src="yeoman/_static/yeoman-yo-aspnet-created.png" alt="Command window: What&#39;s the name of your ASP.NET application? Command prompt"></p>
+<p><img src="yeoman/static/yeoman-yo-aspnet-created.png" alt="Command window: What&#39;s the name of your ASP.NET application? Command prompt"></p>
 <p>The <a href="https://www.npmjs.com/package/generator-aspnet">ASP.NET generator</a> creates ASP.NET Core projects that can be loaded into Visual Studio Code, Visual Studio, or run from the command line.</p>
 <h2 id="restore-build-and-run">Restore, build, and run</h2>
 <p>Follow the suggested commands by changing directories to the <code>MyWebApp</code> directory. Then run <code>dotnet restore</code>.</p>
-<p><img src="yeoman/_static/dotnet-restore.png" alt="Command window"></p>
+<p><img src="yeoman/static/dotnet-restore.png" alt="Command window"></p>
 <p>Build and run the app using <code>dotnet build</code> and <code>dotnet run</code>:</p>
-<p><img src="yeoman/_static/dotnet-build-run.png" alt="Command window"></p>
+<p><img src="yeoman/static/dotnet-build-run.png" alt="Command window"></p>
 <p>At this point you can navigate to the URL shown to test the newly created ASP.NET Core app.</p>
 <h2 id="client-side-packages">Client-side packages</h2>
 <p>The front end resources are provided by the templates from the yeoman generator using the <a href="bower.html">Bower</a> client-side package manager, adding <em>bower.json</em> and <em>.bowerrc</em> files to restore client-side packages using the <a href="bower.html">Bower</a> client-side package manager.</p>
@@ -104,11 +104,11 @@
 <p>You can load your generated ASP.NET Core web project directly into Visual Studio, then build and run your project from there. Follow the instructions above to scaffold a new ASP.NET Core app using yeoman. This time, choose <strong>Web Application</strong> from the menu and name the app <code>MyWebApp</code>.</p>
 <p>Open Visual Studio. From the File menu, select Open ‣ Project/Solution.</p>
 <p>In the Open Project dialog, navigate to the <em>project.json</em> file, select it, and click the <strong>Open</strong> button. In the Solution Explorer, the project should look something like the screenshot below.</p>
-<p><img src="yeoman/_static/yeoman-solution.png" alt="Files and folders of a new project in Solution Explorer"></p>
+<p><img src="yeoman/static/yeoman-solution.png" alt="Files and folders of a new project in Solution Explorer"></p>
 <p>Yeoman scaffolds a MVC web application, complete with both server- and client-side build support. Server-side dependencies are listed under the <strong>References</strong> node, and client-side dependencies in the <strong>Dependencies</strong> node of Solution Explorer. Dependencies are restored automatically when the project is loaded.</p>
-<p><img src="yeoman/_static/yeoman-loading-dependencies.png" alt="Under the Dependencies node in the Solution Explorer tree view, the Bower folder is open listing its dependencies."></p>
+<p><img src="yeoman/static/yeoman-loading-dependencies.png" alt="Under the Dependencies node in the Solution Explorer tree view, the Bower folder is open listing its dependencies."></p>
 <p>When all the dependencies are restored, press <strong>F5</strong> to run the project. The default home page displays in the browser.</p>
-<p><img src="yeoman/_static/yeoman-home-page.png" alt="Web application open in Microsoft Edge"></p>
+<p><img src="yeoman/static/yeoman-home-page.png" alt="Web application open in Microsoft Edge"></p>
 <h2 id="restoring-building-and-hosting-from-a-command-line">Restoring, building, and hosting from a command line</h2>
 <p>You can prepare and host your web application using the <a href="https://microsoft.com/net/core">.NET Core</a> command-line interface.</p>
 <p>At a command prompt, change the current directory to the folder containing the project (that is, the folder containing the <em>project.json</em> file):</p>
@@ -119,7 +119,7 @@
 <pre><code class="lang-console">dotnet run
 </code></pre><p>The cross-platform <a href="../fundamentals/servers/kestrel.html">Kestrel</a> web server will begin listening on port 5000.</p>
 <p>Open a web browser, and navigate to <code>http://localhost:5000</code>.</p>
-<p><img src="yeoman/_static/yeoman-home-page_5000.png" alt="Web application open in Microsoft Edge"></p>
+<p><img src="yeoman/static/yeoman-home-page_5000.png" alt="Web application open in Microsoft Edge"></p>
 <h2 id="adding-to-your-project-with-sub-generators">Adding to your project with sub generators</h2>
 <p>You can add new generated files using Yeoman even after the project is created. Use <a href="https://www.github.com/omnisharp/generator-aspnet#sub-generators">sub generators</a> to add any of the file types that make up your project. For example, to add a new class to your project, enter the <code>yo aspnet:Class</code> command followed by the name of the class. Execute the following command from the directory in which the file should be created:</p>
 <pre><code class="lang-console">yo aspnet:Class Person

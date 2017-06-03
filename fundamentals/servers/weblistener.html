@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -88,10 +88,10 @@
 <p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/servers/weblistener/sample">View or download sample code</a></p>
 <h2 id="when-to-use-weblistener">When to use WebListener</h2>
 <p>WebListener is useful for deployments where you need to expose the server directly to the Internet without using IIS.</p>
-<p><img src="weblistener/_static/weblistener-to-internet.png" alt="WebListener to Internet"></p>
+<p><img src="weblistener/static/weblistener-to-internet.png" alt="WebListener to Internet"></p>
 <p>Because it&#39;s built on Http.Sys, WebListener doesn&#39;t require a reverse proxy server for protection against attacks. Http.Sys is mature technology that protects against many kinds of attacks and provides the robustness, security, and scalability of a full-featured web server. IIS itself runs as an HTTP listener on top of Http.Sys. </p>
 <p>WebListener is also a good choice for internal deployments when you need one of the features it offers that you can&#39;t get by using Kestrel.</p>
-<p><img src="weblistener/_static/weblistener-to-internal.png" alt="WebListener to Internet"></p>
+<p><img src="weblistener/static/weblistener-to-internal.png" alt="WebListener to Internet"></p>
 <h2 id="how-to-use-weblistener">How to use WebListener</h2>
 <p>Here&#39;s an overview of setup tasks for the host OS and your ASP.NET Core application.</p>
 <h3 id="configure-windows-server">Configure Windows Server</h3>
@@ -144,7 +144,7 @@
 </li>
 <li><p>Make sure your application is not configured to run IIS or IIS Express.</p>
 <p>In Visual Studio, the default launch profile is for IIS Express.  To run the project as a console application you have to manually change the selected profile, as shown in the following screen shot.</p>
-<p><img src="weblistener/_static/vs-choose-profile.png" alt="Select console app profile"></p>
+<p><img src="weblistener/static/vs-choose-profile.png" alt="Select console app profile"></p>
 </li>
 </ul>
 <h2 id="how-to-use-weblistener-outside-of-aspnet-core">How to use WebListener outside of ASP.NET Core</h2>

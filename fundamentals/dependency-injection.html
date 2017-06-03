@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -404,8 +404,8 @@ namespace DependencyInjectionSample.Controllers
     }
 }
 </code></pre><p>Now two separate requests are made to this controller action:</p>
-<p><img src="dependency-injection/_static/lifetimes_request1.png" alt="The Operations view of the Dependency Injection Sample web application running in Microsoft Edge showing Operation ID values (GUID&#39;s) for Transient, Scoped, Singleton, and Instance Controller and Operation Service Operations on the first request."></p>
-<p><img src="dependency-injection/_static/lifetimes_request2.png" alt="The operations view showing the Operation ID values for a second request."></p>
+<p><img src="dependency-injection/static/lifetimes_request1.png" alt="The Operations view of the Dependency Injection Sample web application running in Microsoft Edge showing Operation ID values (GUID&#39;s) for Transient, Scoped, Singleton, and Instance Controller and Operation Service Operations on the first request."></p>
+<p><img src="dependency-injection/static/lifetimes_request2.png" alt="The operations view showing the Operation ID values for a second request."></p>
 <p>Observe which of the <code>OperationId</code> values vary within a request, and between requests.</p>
 <ul>
 <li><p><em>Transient</em> objects are always different; a new instance is provided to every controller and every service.</p>
@@ -417,7 +417,7 @@ namespace DependencyInjectionSample.Controllers
 </ul>
 <h2 id="request-services">Request Services</h2>
 <p>The services available within an ASP.NET request from <code>HttpContext</code> are exposed through the <code>RequestServices</code> collection.</p>
-<p><img src="dependency-injection/_static/request-services.png" alt="HttpContext Request Services Intellisense contextual dialog stating that Request Services gets or sets the IServiceProvider that provides access to the request&#39;s service container."></p>
+<p><img src="dependency-injection/static/request-services.png" alt="HttpContext Request Services Intellisense contextual dialog stating that Request Services gets or sets the IServiceProvider that provides access to the request&#39;s service container."></p>
 <p>Request Services represent the services you configure and request as part of your application. When your objects specify dependencies, these are satisfied by the types found in <code>RequestServices</code>, not <code>ApplicationServices</code>.</p>
 <p>Generally, you shouldn&#39;t use these properties directly, preferring instead to request the types your classes you require via your class&#39;s constructor, and letting the framework inject these dependencies. This yields classes that are easier to test (see <a href="../testing/index.html">Testing</a>) and are more loosely coupled.</p>
 <div class="NOTE"><h5>备注</h5><p>Prefer requesting dependencies as constructor parameters to accessing the <code>RequestServices</code> collection.</p>

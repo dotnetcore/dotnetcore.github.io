@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -106,7 +106,7 @@
     return View(department);
 }
 </code></pre><p>To verify that the new code works correctly, select the <strong>Departments</strong> tab and then <strong>Details</strong> for one of the departments.</p>
-<p><img src="advanced/_static/department-details.png" alt="Department Details"></p>
+<p><img src="advanced/static/department-details.png" alt="Department Details"></p>
 <h2 id="call-a-query-that-returns-other-types">Call a query that returns other types</h2>
 <p>Earlier you created a student statistics grid for the About page that showed the number of students for each enrollment date. You got the data from the Students entity set (<code>_context.Students</code>) and used LINQ to project the results into a list of <code>EnrollmentDateGroup</code> view model objects. Suppose you want to write the SQL itself rather than using LINQ. To do that you need to run a SQL query that returns something other than entity objects. In EF Core 1.0, one way to do that is write ADO.NET code and get the database connection from EF.</p>
 <p>In <em>HomeController.cs</em>, replace the <code>About</code> method with the following code:</p>
@@ -146,10 +146,10 @@
 </code></pre><p>Add a using statement:</p>
 <pre><code class="lang-csharp" name="Main">using System.Data.Common;
 </code></pre><p>Run the About page. It displays the same data it did before.</p>
-<p><img src="advanced/_static/about.png" alt="About page"></p>
+<p><img src="advanced/static/about.png" alt="About page"></p>
 <h2 id="call-an-update-query">Call an update query</h2>
 <p>Suppose Contoso University administrators want to perform global changes in the database, such as changing the number of credits for every course. If the university has a large number of courses, it would be inefficient to retrieve them all as entities and change them individually. In this section you&#39;ll implement a web page that enables the user to specify a factor by which to change the number of credits for all courses, and you&#39;ll make the change by executing a SQL UPDATE statement. The web page will look like the following illustration:</p>
-<p><img src="advanced/_static/update-credits.png" alt="Update Course Credits page"></p>
+<p><img src="advanced/static/update-credits.png" alt="Update Course Credits page"></p>
 <p>In <em>CoursesContoller.cs</em>, add UpdateCourseCredits methods for HttpGet and HttpPost:</p>
 <pre><code class="lang-csharp" name="Main">public IActionResult UpdateCourseCredits()
 {
@@ -201,9 +201,9 @@ public async Task&lt;IActionResult&gt; UpdateCourseCredits(int? multiplier)
     @Html.ActionLink(&quot;Back to List&quot;, &quot;Index&quot;)
 &lt;/div&gt;
 </code></pre><p>Run the <code>UpdateCourseCredits</code> method by selecting the <strong>Courses</strong> tab, then adding &quot;/UpdateCourseCredits&quot; to the end of the URL in the browser&#39;s address bar (for example: <code>http://localhost:5813/Course/UpdateCourseCredits)</code>. Enter a number in the text box:</p>
-<p><img src="advanced/_static/update-credits.png" alt="Update Course Credits page"></p>
+<p><img src="advanced/static/update-credits.png" alt="Update Course Credits page"></p>
 <p>Click <strong>Update</strong>. You see the number of rows affected:</p>
-<p><img src="advanced/_static/update-credits-rows-affected.png" alt="Update Course Credits page rows affected"></p>
+<p><img src="advanced/static/update-credits-rows-affected.png" alt="Update Course Credits page rows affected"></p>
 <p>Click <strong>Back to List</strong> to see the list of courses with the revised number of credits.</p>
 <p>Note that production code would ensure that updates always result in valid data. The simplified code shown here could multiply the number of credits enough to result in numbers greater than 5. (The <code>Credits</code> property has a <code>[Range(0, 5)]</code> attribute.) The update query would work but the invalid data could cause unexpected results in other parts of the system that assume the number of credits is 5 or less.</p>
 <p>For more information about raw SQL queries, see <a href="https://docs.microsoft.com/en-us/ef/core/querying/raw-sql">Raw SQL Queries</a>.</p>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,8 +72,8 @@
 <p>The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.1 and Visual Studio 2017. For information about the tutorial series, see <a href="intro.html">the first tutorial in the series</a>.</p>
 <p>In earlier tutorials you learned how to update data. This tutorial shows how to handle conflicts when multiple users update the same entity at the same time.</p>
 <p>You&#39;ll create web pages that work with the Department entity and handle concurrency errors. The following illustrations show the Edit and Delete pages, including some messages that are displayed if a concurrency conflict occurs.</p>
-<p><img src="concurrency/_static/edit-error.png" alt="Department Edit page"></p>
-<p><img src="concurrency/_static/delete-error.png" alt="Department Delete page"></p>
+<p><img src="concurrency/static/edit-error.png" alt="Department Edit page"></p>
+<p><img src="concurrency/static/delete-error.png" alt="Department Delete page"></p>
 <h2 id="concurrency-conflicts">Concurrency conflicts</h2>
 <p>A concurrency conflict occurs when one user displays an entity&#39;s data in order to edit it, and then another user updates the same entity&#39;s data before the first user&#39;s change is written to the database. If you don&#39;t enable the detection of such conflicts, whoever updates the database last overwrites the other user&#39;s changes. In many applications, this risk is acceptable: if there are few users, or few updates, or if isn&#39;t really critical if some changes are overwritten, the cost of programming for concurrency might outweigh the benefit. In that case, you don&#39;t have to configure the application to handle concurrency conflicts.</p>
 <h3 id="pessimistic-concurrency-locking">Pessimistic concurrency (locking)</h3>
@@ -81,11 +81,11 @@
 <p>Managing locks has disadvantages. It can be complex to program. It requires significant database management resources, and it can cause performance problems as the number of users of an application increases. For these reasons, not all database management systems support pessimistic concurrency. Entity Framework Core provides no built-in support for it, and this tutorial doesn&#39;t show you how to implement it.</p>
 <h3 id="optimistic-concurrency">Optimistic Concurrency</h3>
 <p>The alternative to pessimistic concurrency is optimistic concurrency. Optimistic concurrency means allowing concurrency conflicts to happen, and then reacting appropriately if they do. For example, Jane visits the Department Edit page and changes the Budget amount for the English department from $350,000.00 to $0.00.</p>
-<p><img src="concurrency/_static/change-budget.png" alt="Changing budget to 0"></p>
+<p><img src="concurrency/static/change-budget.png" alt="Changing budget to 0"></p>
 <p>Before Jane clicks <strong>Save</strong>, John visits the same page and changes the Start Date field from 9/1/2007 to 9/1/2013.</p>
-<p><img src="concurrency/_static/change-date.png" alt="Changing start date to 2013"></p>
+<p><img src="concurrency/static/change-date.png" alt="Changing start date to 2013"></p>
 <p>Jane clicks <strong>Save</strong> first and sees her change when the browser returns to the Index page.</p>
-<p><img src="concurrency/_static/budget-zero.png" alt="Budget changed to zero"></p>
+<p><img src="concurrency/static/budget-zero.png" alt="Budget changed to zero"></p>
 <p>Then John clicks <strong>Save</strong> on an Edit page that still shows a budget of $350,000.00. What happens next is determined by how you handle concurrency conflicts.</p>
 <p>Some of the options include the following:</p>
 <ul>
@@ -155,7 +155,7 @@ namespace ContosoUniversity.Models
 dotnet ef database update
 </code></pre><h2 id="create-a-departments-controller-and-views">Create a Departments controller and views</h2>
 <p>Scaffold a Departments controller and views as you did earlier for Students, Courses, and Instructors.</p>
-<p><img src="concurrency/_static/add-departments-controller.png" alt="Scaffold Department"></p>
+<p><img src="concurrency/static/add-departments-controller.png" alt="Scaffold Department"></p>
 <p>In the <em>DepartmentsController.cs</em> file, change all four occurrences of &quot;FirstMidName&quot; to &quot;FullName&quot; so that the department administrator drop-down lists will contain the full name of the instructor rather than just the last name.</p>
 <pre><code class="lang-csharp" name="Main">ViewData[&quot;InstructorID&quot;] = new SelectList(_context.Instructors, &quot;ID&quot;, &quot;FullName&quot;, department.InstructorID);
 </code></pre><h2 id="update-the-departments-index-view">Update the Departments Index view</h2>
@@ -395,12 +395,12 @@ ModelState.Remove(&quot;RowVersion&quot;);
 <p>Run the site and click Departments to go to the Departments Index page.</p>
 <p>Right click the <strong>Edit</strong> hyperlink for the English department and select <strong>Open in new tab</strong>, then click the <strong>Edit</strong> hyperlink for the English department. The two browser tabs now display the same information.</p>
 <p>Change a field in the first browser tab and click <strong>Save</strong>.</p>
-<p><img src="concurrency/_static/edit-after-change-1.png" alt="Department Edit page 1 after change"></p>
+<p><img src="concurrency/static/edit-after-change-1.png" alt="Department Edit page 1 after change"></p>
 <p>The browser shows the Index page with the changed value.</p>
 <p>Change a field in the second browser tab.</p>
-<p><img src="concurrency/_static/edit-after-change-2.png" alt="Department Edit page 2 after change"></p>
+<p><img src="concurrency/static/edit-after-change-2.png" alt="Department Edit page 2 after change"></p>
 <p>Click <strong>Save</strong>. You see an error message:</p>
-<p><img src="concurrency/_static/edit-error.png" alt="Department Edit page error message"></p>
+<p><img src="concurrency/static/edit-error.png" alt="Department Edit page error message"></p>
 <p>Click <strong>Save</strong> again. The value you entered in the second browser tab is saved. You see the saved values when the Index page appears.</p>
 <h2 id="update-the-delete-page">Update the Delete page</h2>
 <p>For the Delete page, the Entity Framework detects concurrency conflicts caused by someone else editing the department in a similar manner. When the HttpGet <code>Delete</code> method displays the confirmation view, the view includes the original <code>RowVersion</code> value in a hidden field. That value is then available to the HttpPost <code>Delete</code> method that&#39;s called when the user confirms the deletion. When the Entity Framework creates the SQL DELETE command, it includes a WHERE clause with the original <code>RowVersion</code> value. If the command results in zero rows affected (meaning the row was changed after the Delete confirmation page was displayed), a concurrency exception is thrown, and the HttpGet <code>Delete</code> method is called with an error flag set to true in order to redisplay the confirmation page with an error message. It&#39;s also possible that zero rows were affected because the row was deleted by another user, so in that case no error message is displayed.</p>
@@ -531,9 +531,9 @@ public async Task&lt;IActionResult&gt; Delete(Department department)
 </ul>
 <p>Run the Departments Index page. Right click the <strong>Delete</strong> hyperlink for the English department and select <strong>Open in new tab</strong>, then in the first tab click the <strong>Edit</strong> hyperlink for the English department.</p>
 <p>In the first window, change one of the values, and click <strong>Save</strong>:</p>
-<p><img src="concurrency/_static/edit-after-change-for-delete.png" alt="Department Edit page after change before delete"></p>
+<p><img src="concurrency/static/edit-after-change-for-delete.png" alt="Department Edit page after change before delete"></p>
 <p>In the second tab, click <strong>Delete</strong>. You see the concurrency error message, and the Department values are refreshed with what&#39;s currently in the database.</p>
-<p><img src="concurrency/_static/delete-error.png" alt="Department Delete confirmation page with concurrency error"></p>
+<p><img src="concurrency/static/delete-error.png" alt="Department Delete confirmation page with concurrency error"></p>
 <p>If you click <strong>Delete</strong> again, you&#39;re redirected to the Index page, which shows that the department has been deleted.</p>
 <h2 id="update-details-and-create-views">Update Details and Create views</h2>
 <p>You can optionally clean up scaffolded code in the Details and Create views.</p>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,7 +72,7 @@
 <p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, <a href="https://github.com/rustd">Pranav Rastogi</a>, and <a href="https://github.com/01binary">Valeriy Novytskyy</a></p>
 <p>This tutorial demonstrates how to build an ASP.NET Core app that enables users to log in using OAuth 2.0/1.0a with credentials from external authentication providers.</p>
 <p><a href="facebook-logins.html">Facebook</a>, <a href="twitter-logins.html">Twitter</a>, <a href="google-logins.html">Google</a>, and <a href="microsoft-logins.html">Microsoft</a> providers are covered in the following sections. See <a href="https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers">AspNet.Security.OAuth.Providers</a> and <a href="https://github.com/aspnet-contrib/AspNet.Security.OpenId.Providers">AspNet.Security.OpenId.Providers</a> for additional providers.</p>
-<p><img src="index/_static/social.png" alt="Social media icons for Facebook, Twitter, Google plus, and Windows"></p>
+<p><img src="index/static/social.png" alt="Social media icons for Facebook, Twitter, Google plus, and Windows"></p>
 <p>Enabling users to sign in with their existing credentials is convenient for the users and shifts many of the complexities of managing the sign-in process onto a third party. For examples of how social logins can drive traffic and customer conversions, see case studies by <a href="https://developers.facebook.com/case-studies">Facebook</a> and <a href="https://dev.twitter.com/resources/case-studies">Twitter</a>.</p>
 <div class="NOTE"><h5>备注</h5><p>Packages presented here abstract a great deal of complexity of the OAuth authentication flow, but understanding the details may become necessary when troubleshooting. Many resources are available; for example, see <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2">Introduction to OAuth 2</a> or <a href="http://www.bubblecode.net/en/2016/01/22/understanding-oauth2/">Understanding OAuth 2</a>. Some issues can be resolved by looking at the <a href="https://github.com/aspnet/Security/tree/dev/src">ASP.NET Core source code for the provider packages</a>.</p>
 </div>
@@ -82,11 +82,11 @@
 <ul>
 <li>In Visual Studio, create a new project (from the Start Page, or via <strong>File &gt; New &gt; Project</strong>):</li>
 </ul>
-<p><img src="index/_static/new-project.png" alt="New Project dialog"></p>
+<p><img src="index/static/new-project.png" alt="New Project dialog"></p>
 <ul>
 <li>Tap <strong>Web Application</strong> and verify <strong>Authentication</strong> is set to <strong>Individual User Accounts</strong>:</li>
 </ul>
-<p><img src="index/_static/select-project.png" alt="New Web Application dialog"></p>
+<p><img src="index/static/select-project.png" alt="New Web Application dialog"></p>
 <h2 id="enable-ssl">Enable SSL</h2>
 <p>Some external authentication providers reject requests coming from origins that don&#39;t use the <strong>https</strong> protocol. This reflects the trend of major providers like <a href="https://security.googleblog.com/2014/08/https-as-ranking-signal_6.html">Google</a> moving their public API services to https and discontinuing the use of unencrypted endpoints. We encourage you to follow this trend and enable SSL for your entire site. For Visual Studio 2017 RC1, see instructions below.</p>
 <ul>
@@ -99,7 +99,7 @@
 <li><p>Copy the SSL URL and paste it into the <strong>App URL</strong>:</p>
 </li>
 </ul>
-<p><img src="index/_static/ssl.png" alt="Debug tab of application properties"></p>
+<p><img src="index/static/ssl.png" alt="Debug tab of application properties"></p>
 <p>Visual Studio 2017 RC1:</p>
 <p>Edit the <em>properties/launchsettings.json</em> file. Add an sslPort between 44300 and 44399:</p>
 <pre><code>{
@@ -167,11 +167,11 @@
 <ul>
 <li>Tap the <strong>Hello <email alias=""></email></strong> link at the top right corner to navigate to the <strong>Manage</strong> view.</li>
 </ul>
-<p><img src="index/_static/pass1a.png" alt="Web application Manage view"></p>
+<p><img src="index/static/pass1a.png" alt="Web application Manage view"></p>
 <ul>
 <li>Tap <strong>Create</strong></li>
 </ul>
-<p><img src="index/_static/pass2a.png" alt="Set your password page"></p>
+<p><img src="index/static/pass2a.png" alt="Set your password page"></p>
 <ul>
 <li>Set a valid password and you can use this to sign in with your email.</li>
 </ul>

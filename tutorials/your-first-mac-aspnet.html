@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -97,9 +97,9 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
 <p>For more information see <a class="xref" href="../mvc/overview.html">The MVC pattern</a>.</p>
 <h2 id="developing-aspnet-core-applications-on-a-mac-and-linux-with-visual-studio-code">Developing ASP.NET Core applications on a Mac and Linux with Visual Studio Code</h2>
 <p>Open the project folder in Visual Studio Code (VS Code) and select the <em>Startup.cs</em> file.. VS Code will prompt to restore the needed project dependencies and add build/debug dependencies. Tap <strong>Yes</strong> to add the build and debug assets and then tap <strong>Restore</strong> to restore the project dependencies.</p>
-<p><img src="your-first-mac-aspnet/_static/debug-add-items-prompt.png" alt="Info messages: 2. 2. Required assets to build and debug are missing from your project. Add them?"></p>
+<p><img src="your-first-mac-aspnet/static/debug-add-items-prompt.png" alt="Info messages: 2. 2. Required assets to build and debug are missing from your project. Add them?"></p>
 <p>For <strong>Restore</strong>,  alternately, you can run <code>dotnet restore</code> from the terminal or enter <code>⌘⇧P</code> or <code>Ctrl+Shift+P</code> in VS Code and then type <code>.NET</code> as shown:</p>
-<p><img src="your-first-mac-aspnet/_static/dot-restore.png" alt="Command bar showing autocompletion option on typing &#39;dot&#39; for &#39;dotnet: Restore Packages&#39;"></p>
+<p><img src="your-first-mac-aspnet/static/dot-restore.png" alt="Command bar showing autocompletion option on typing &#39;dot&#39; for &#39;dotnet: Restore Packages&#39;"></p>
 <p>VS Code provides a streamlined, clean interface for working with files and a productive coding enviromment. </p>
 <p>In the left navigation bar, there are five icons, representing four viewlets:</p>
 <ul>
@@ -112,7 +112,7 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
 <p>The Explorer viewlet provides folder navigation and a view of the files you have open. It displays a badge to indicate files with unsaved changes. You can create new folders and files in the viewlet. You can select <strong>Save All</strong> from a menu option that appears on mouse over.</p>
 <p>The Search viewlet allows you to search the folder tree of files you have open. The search is for filenames and file contents.</p>
 <p><em>VS Code</em> will integrate with Git if it is installed on your system. You can initialize a new repository, make commits, and push changes from the Git viewlet.</p>
-<p><img src="your-first-mac-aspnet/_static/vscode-git.png" alt="GIT sidebar indicating &#39;This workspace isn&#39;t yet under git source control&#39; with an &#39;Initialize git repository&#39; button"></p>
+<p><img src="your-first-mac-aspnet/static/vscode-git.png" alt="GIT sidebar indicating &#39;This workspace isn&#39;t yet under git source control&#39; with an &#39;Initialize git repository&#39; button"></p>
 <p>The Debug viewlet supports interactive debugging of applications.</p>
 <p>VS Code&#39;s editor has a ton of great features. You&#39;ll notice unused using statements are underlined and can be removed automatically by using <code>⌘ .</code> or <code>Ctrl + .</code> when the lightbulb icon appears. Classes and methods also display how many references there are in the project to them.</p>
 <p>More on editor in <a href="https://code.visualstudio.com">Visual Studio Code</a>.</p>
@@ -125,13 +125,13 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
 <li><p>Tap the &quot;Play (F5)&quot; icon to launch the app</p>
 </li>
 </ul>
-<p><img src="your-first-mac-aspnet/_static/launch-debugger.png" alt="DEBUG sidebar showing the triangle play button"></p>
+<p><img src="your-first-mac-aspnet/static/launch-debugger.png" alt="DEBUG sidebar showing the triangle play button"></p>
 <p>Your default browser will automatically launch and navigate to <code>http://localhost:5000</code></p>
-<p><img src="your-first-mac-aspnet/_static/myfirstapp.png" alt="Browser window"></p>
+<p><img src="your-first-mac-aspnet/static/myfirstapp.png" alt="Browser window"></p>
 <ul>
 <li>To stop the application, close the browser and hit the &quot;Stop&quot; icon on the debug bar</li>
 </ul>
-<p><img src="your-first-mac-aspnet/_static/debugger.png" alt="VS Code Debug bar"></p>
+<p><img src="your-first-mac-aspnet/static/debugger.png" alt="VS Code Debug bar"></p>
 <h3 id="using-the-dotnet-commands">Using the dotnet commands</h3>
 <ul>
 <li><p>Run <code>dotnet run</code> command to launch the app from terminal/bash</p>
@@ -145,9 +145,9 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
 <p>VS Code provides Git integration to push updates to production, hosted on <a href="http://azure.microsoft.com">Microsoft Azure</a>.</p>
 <h3 id="initialize-git">Initialize Git</h3>
 <p>Initialize Git in the folder you&#39;re working in. Tap on the Git viewlet and click the <code>Initialize Git repository</code> button.</p>
-<p><img src="your-first-mac-aspnet/_static/vscode-git-commit.png" alt="GIT sidebar"></p>
+<p><img src="your-first-mac-aspnet/static/vscode-git-commit.png" alt="GIT sidebar"></p>
 <p>Add a commit message and tap enter or tap the checkmark icon to commit the staged files.</p>
-<p><img src="your-first-mac-aspnet/_static/init-commit.png" alt="GIT sidebar showing file changes"></p>
+<p><img src="your-first-mac-aspnet/static/init-commit.png" alt="GIT sidebar showing file changes"></p>
 <p>Git is tracking changes, so if you make an update to a file, the Git viewlet will display the files that have changed since your last commit.</p>
 <h3 id="initialize-azure-website">Initialize Azure Website</h3>
 <p>You can deploy to Azure Web Apps directly using Git.</p>
@@ -155,18 +155,18 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
 <li>If you don&#39;t have an Azure account, you can <a href="http://azure.microsoft.com/en-us/pricing/free-trial/">create a free trial</a>.</li>
 </ul>
 <p>Create a Web App in the Azure Portal to host your new application.</p>
-<p><img src="your-first-mac-aspnet/_static/create-web-app.png" alt="Microsoft Azure Portal: New button: Web + Mobile selection in the Marketplace list reveals a Web App button under Featured Apps"></p>
+<p><img src="your-first-mac-aspnet/static/create-web-app.png" alt="Microsoft Azure Portal: New button: Web + Mobile selection in the Marketplace list reveals a Web App button under Featured Apps"></p>
 <p>Configure the Web App in Azure to support <a href="https://azure.microsoft.com/en-us/documentation/articles/app-service-deploy-local-git/">continuous deployment using Git</a>.</p>
 <p>Record the Git URL for the Web App from the Azure portal.</p>
-<p><img src="your-first-mac-aspnet/_static/azure-portal.png" alt="Azure Portal for web application: Overview panel"></p>
+<p><img src="your-first-mac-aspnet/static/azure-portal.png" alt="Azure Portal for web application: Overview panel"></p>
 <p>In a Terminal window, add a remote named <code>azure</code> with the Git URL you noted previously.</p>
 <p><code>git remote add azure https://shayneboyer@myfirstappmac.scm.azurewebsites.net:443/MyFirstAppMac.git</code></p>
 <p>Push to master.  <code>git push azure master</code> to deploy.</p>
-<p>   <img src="your-first-mac-aspnet/_static/git-push-azure-master.png" alt="Command window showing a successful deployment"></p>
+<p>   <img src="your-first-mac-aspnet/static/git-push-azure-master.png" alt="Command window showing a successful deployment"></p>
 <p>Browse to the newly deployed web app.</p>
-<p><img src="your-first-mac-aspnet/_static/azure.png" alt="Browser window"></p>
+<p><img src="your-first-mac-aspnet/static/azure.png" alt="Browser window"></p>
 <p>Looking at the Deployment Details in the Azure Portal, you can see the logs and steps each time there is a commit to the branch.</p>
-<p><img src="your-first-mac-aspnet/_static/deployment.png" alt="Azure Portal for web application: Deployment Details"></p>
+<p><img src="your-first-mac-aspnet/static/deployment.png" alt="Azure Portal for web application: Deployment Details"></p>
 <h2 id="additional-resources">Additional resources</h2>
 <ul>
 <li><a href="https://code.visualstudio.com">Visual Studio Code</a></li>

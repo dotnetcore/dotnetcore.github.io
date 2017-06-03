@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -72,7 +72,7 @@
 <p>This article shows how to migrate existing ASP.NET <a href="https://msdn.microsoft.com/library/bb398986.aspx">HTTP modules and handlers</a> to ASP.NET Core <a href="../fundamentals/middleware.html">middleware</a>.</p>
 <h2 id="modules-and-handlers-revisited">Modules and handlers revisited</h2>
 <p>Before proceeding to ASP.NET Core middleware, let&#39;s first recap how HTTP modules and handlers work:</p>
-<p><img src="http-modules/_static/moduleshandlers.png" alt="Modules Handler"></p>
+<p><img src="http-modules/static/moduleshandlers.png" alt="Modules Handler"></p>
 <p><strong>Handlers are:</strong></p>
 <ul>
 <li><p>Classes that implement <a href="https://msdn.microsoft.com/library/system.web.ihttphandler.aspx">IHttpHandler</a></p>
@@ -133,7 +133,7 @@
 <li><p>See <a href="../fundamentals/middleware.html#creating-a-middleware-pipeline-with-iapplicationbuilder">Creating a middleware pipeline with IApplicationBuilder</a></p>
 </li>
 </ul>
-<p><img src="http-modules/_static/middleware.png" alt="Middleware"></p>
+<p><img src="http-modules/static/middleware.png" alt="Middleware"></p>
 <p>Note how in the image above, the authentication middleware short-circuited the request.</p>
 <h2 id="migrating-module-code-to-middleware">Migrating module code to middleware</h2>
 <p>An existing HTTP module will look similar to this:</p>

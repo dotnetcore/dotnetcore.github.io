@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -73,7 +73,7 @@
 <h2 id="what-are-views">What are Views?</h2>
 <p>In the Model-View-Controller (MVC) pattern, the <em>view</em> encapsulates the presentation details of the user&#39;s interaction with the app. Views are HTML templates with embedded code that generate content to send to the client. Views use <a href="razor.html">Razor syntax</a>, which allows code to interact with HTML with minimal code or ceremony.</p>
 <p>ASP.NET Core MVC views are <em>.cshtml</em> files stored by default in a <em>Views</em> folder within the application. Typically, each controller will have its own folder, in which are views for specific controller actions.</p>
-<p><img src="overview/_static/views_solution_explorer.png" alt="Views folder in Solution Explorer"></p>
+<p><img src="overview/static/views_solution_explorer.png" alt="Views folder in Solution Explorer"></p>
 <p>In addition to action-specific views, <a href="partial.html">partial views</a>, <a href="layout.html">layouts, and other special view files</a> can be used to help reduce repetition and allow for reuse within the app&#39;s views.</p>
 <h2 id="benefits-of-using-views">Benefits of Using Views</h2>
 <p>Views provide <a href="http://deviq.com/separation-of-concerns/">separation of concerns</a> within an MVC app, encapsulating user interface level markup separately from business logic. ASP.NET MVC views use <a href="razor.html">Razor syntax</a> to make switching between HTML markup and server side logic painless. Common, repetitive aspects of the app&#39;s user interface can easily be reused between views using <a href="layout.html">layout and shared directives</a> or <a href="partial.html">partial views</a>.</p>
@@ -100,7 +100,7 @@
 }
 </code></pre><p>The <code>View</code> helper method has several overloads to make returning views easier for app developers. You can optionally specify a view to return, as well as a model object to pass to the view.</p>
 <p>When this action returns, the <em>About.cshtml</em> view shown above is rendered:</p>
-<p><img src="overview/_static/about-page.png" alt="About page"></p>
+<p><img src="overview/static/about-page.png" alt="About page"></p>
 <h3 id="view-discovery">View Discovery</h3>
 <p>When an action returns a view, a process called <em>view discovery</em> takes place. This process determines which view file will be used. Unless a specific view file is specified, the runtime looks for a controller-specific view first, then looks for matching view name in the <em>Shared</em> folder.</p>
 <p>When an action returns the <code>View</code> method, like so <code>return View();</code>, the action name is used as the view name. For example, if this were called from an action method named &quot;Index&quot;, it would be equivalent to passing in a view name of &quot;Index&quot;. A view name can be explicitly passed to the method (<code>return View(&quot;SomeView&quot;);</code>). In both of these cases, view discovery searches for a matching view file in:</p>

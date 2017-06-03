@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -74,14 +74,14 @@
 <p>In object-oriented programming, you can use inheritance to facilitate code reuse. In this tutorial, you&#39;ll change the <code>Instructor</code> and <code>Student</code> classes so that they derive from a <code>Person</code> base class which contains properties such as <code>LastName</code> that are common to both instructors and students. You won&#39;t add or change any web pages, but you&#39;ll change some of the code and those changes will be automatically reflected in the database.</p>
 <h2 id="options-for-mapping-inheritance-to-database-tables">Options for mapping inheritance to database tables</h2>
 <p>The <code>Instructor</code> and <code>Student</code> classes in the School data model have several properties that are identical:</p>
-<p><img src="inheritance/_static/no-inheritance.png" alt="Student and Instructor classes"></p>
+<p><img src="inheritance/static/no-inheritance.png" alt="Student and Instructor classes"></p>
 <p>Suppose you want to eliminate the redundant code for the properties that are shared by the <code>Instructor</code> and <code>Student</code> entities. Or you want to write a service that can format names without caring whether the name came from an instructor or a student. You could create a <code>Person</code> base class that contains only those shared properties, then make the <code>Instructor</code> and <code>Student</code> classes inherit from that base class, as shown in the following illustration:</p>
-<p><img src="inheritance/_static/inheritance.png" alt="Student and Instructor classes deriving from Person class"></p>
+<p><img src="inheritance/static/inheritance.png" alt="Student and Instructor classes deriving from Person class"></p>
 <p>There are several ways this inheritance structure could be represented in the database. You could have a Person table that includes information about both students and instructors in a single table. Some of the columns could apply only to instructors (HireDate), some only to students (EnrollmentDate), some to both (LastName, FirstName). Typically, you&#39;d have a discriminator column to indicate which type each row represents. For example, the discriminator column might have &quot;Instructor&quot; for instructors and &quot;Student&quot; for students.</p>
-<p><img src="inheritance/_static/tph.png" alt="Table-per-hierarchy example"></p>
+<p><img src="inheritance/static/tph.png" alt="Table-per-hierarchy example"></p>
 <p>This pattern of generating an entity inheritance structure from a single database table is called table-per-hierarchy (TPH) inheritance.</p>
 <p>An alternative is to make the database look more like the inheritance structure. For example, you could have only the name fields in the Person table and have separate Instructor and Student tables with the date fields.</p>
-<p><img src="inheritance/_static/tpt.png" alt="Table-per-type inheritance"></p>
+<p><img src="inheritance/static/tpt.png" alt="Table-per-type inheritance"></p>
 <p>This pattern of making a database table for each entity class is called table per type (TPT) inheritance.</p>
 <p>Yet another option is to map all non-abstract types to individual tables. All properties of a class, including inherited properties, map to columns of the corresponding table. This pattern is called Table-per-Concrete Class (TPC) inheritance. If you implemented TPC inheritance for the Person, Student, and Instructor classes as shown earlier, the Student and Instructor tables would look no different after implementing inheritance than they did before.</p>
 <p>TPC and TPH inheritance patterns generally deliver better performance than TPT inheritance patterns, because TPT patterns can result in complex join queries.</p>
@@ -274,9 +274,9 @@ namespace ContosoUniversity.Data
 <h2 id="test-with-inheritance-implemented">Test with inheritance implemented</h2>
 <p>Run the site and try various pages. Everything works the same as it did before.</p>
 <p>In <strong>SQL Server Object Explorer</strong>, expand <strong>Data Connections/SchoolContext</strong> and then <strong>Tables</strong>, and you see that the Student and Instructor tables have been replaced by a Person table. Open the Person table designer and you see that it has all of the columns that used to be in the Student and Instructor tables.</p>
-<p><img src="inheritance/_static/ssox-person-table.png" alt="Person table in SSOX"></p>
+<p><img src="inheritance/static/ssox-person-table.png" alt="Person table in SSOX"></p>
 <p>Right-click the Person table, and then click <strong>Show Table Data</strong> to see the discriminator column.</p>
-<p><img src="inheritance/_static/ssox-person-data.png" alt="Person table in SSOX - table data"></p>
+<p><img src="inheritance/static/ssox-person-data.png" alt="Person table in SSOX - table data"></p>
 <h2 id="summary">Summary</h2>
 <p>You&#39;ve implemented table-per-hierarchy inheritance for the <code>Person</code>, <code>Student</code>, and <code>Instructor</code> classes. For more information about inheritance in Entity Framework Core, see <a href="https://docs.microsoft.com/en-us/ef/core/modeling/inheritance">Inheritance</a>. In the next tutorial you&#39;ll see how to handle a variety of relatively advanced Entity Framework scenarios.</p>
 <div class="step-by-step"><p><a href="concurrency.html">Previous</a>

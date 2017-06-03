@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -398,7 +398,7 @@ warn: TodoApi.Controllers.TodoController[4000]
 <pre><code class="lang-csharp">loggerFactory.AddEventSourceLogger()
 </code></pre><p>The best way to collect and view logs is to use the <a href="https://www.microsoft.com/en-us/download/details.aspx?id=28567">PerfView utility</a>. There are other tools for viewing ETW logs, but PerfView provides the best experience for working with the ETW events emitted by ASP.NET. </p>
 <p>To configure PerfView for collecting events logged by this provider, add the string <code>*Microsoft-Extensions-Logging</code> to the <strong>Additional Providers</strong> list. (Don&#39;t miss the asterisk at the start of the string.)</p>
-<p><img src="logging/_static/perfview-additional-providers.png" alt="Perfview Additional Providers"></p>
+<p><img src="logging/static/perfview-additional-providers.png" alt="Perfview Additional Providers"></p>
 <p>Capturing events on Nano Server requires some additional setup:</p>
 <ul>
 <li><p>Connect PowerShell remoting to the Nano Server:</p>
@@ -448,7 +448,7 @@ Add-EtwTraceProvider -Guid &quot;{3ac73b97-af73-50e9-0822-5da4367920d0}&quot; -S
 <pre><code class="lang-csharp">loggerFactory.AddAzureWebAppDiagnostics();
 </code></pre><p>An <code>AddAzureWebAppDiagnostics</code> overload lets you pass in <a href="https://github.com/aspnet/Logging/blob/c7d0b1b88668ff4ef8a86ea7d2ebb5ca7f88d3e0/src/Microsoft.Extensions.Logging.AzureAppServices/AzureAppServicesDiagnosticsSettings.cs">AzureAppServicesDiagnosticsSettings</a>, with which you can override default settings such as the logging output template, blob name, and file size limit. (<em>Output template</em> is a message format string that is applied to all logs, on top of the one that you provide when you call an <code>ILogger</code> method.)  </p>
 <p>When you deploy to an App Service app, your application honors the settings in the <a href="https://azure.microsoft.com/en-us/documentation/articles/web-sites-enable-diagnostic-log/#enablediag">Diagnostic Logs</a> section of the <strong>App Service</strong> blade of the Azure portal. When you change those settings, the changes take effect immediately without requiring that you restart the app or redeploy code to it. </p>
-<p><img src="logging/_static/azure-logging-settings.png" alt="Azure logging settings"></p>
+<p><img src="logging/static/azure-logging-settings.png" alt="Azure logging settings"></p>
 <p>The default location for log files is in the <em>D:\home\LogFiles\Application</em> folder, and the default file name is <em>diagnostics-yyyymmdd.txt</em>. The default file size limit is 10 MB and the default maximum number of files retained is 2. The default blob name is <em>{app-name}{timestamp}/yyyy/mm/dd/hh/{guid}-applicationLog.txt</em>. For more information about default behavior, see <a href="https://github.com/aspnet/Logging/blob/c7d0b1b88668ff4ef8a86ea7d2ebb5ca7f88d3e0/src/Microsoft.Extensions.Logging.AzureAppServices/AzureAppServicesDiagnosticsSettings.cs">AzureAppServicesDiagnosticsSettings</a>.</p>
 <p>The provider only works when your project runs in the Azure environment.  It has no effect when you run locally -- it does not write to local files or local development storage for blobs.</p>
 <div class="NOTE"><h5>备注</h5><p>If you don&#39;t need to change the provider default settings, there&#39;s an alternative way to set up App Service logging in your application. Install <a href="https://www.nuget.org/packages/Microsoft.AspNetCore.AzureAppServicesIntegration/">Microsoft.AspNetCore.AzureAppServicesIntegration</a> (which includes the logging package as a dependency), and call its extension method on <code>WebHostBuilder</code> in your <code>Main</code> method.</p>

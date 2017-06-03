@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -125,7 +125,7 @@
 </table>
 <p><br></p>
 <p>The following diagram shows the basic design of the app.</p>
-<p><img src="first-web-api/_static/architecture.png" alt="The client is represented by a box on the left and submits a request and receives a response from the application, a box drawn on the right. Within the application box, three boxes represent the controller, the model, and the data access layer. The request comes into the application&#39;s controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response."></p>
+<p><img src="first-web-api/static/architecture.png" alt="The client is represented by a box on the left and submits a request and receives a response from the application, a box drawn on the right. Within the application box, three boxes represent the controller, the model, and the data access layer. The request comes into the application&#39;s controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response."></p>
 <ul>
 <li><p>The client is whatever consumes the web API (mobile app, browser, etc). We aren’t writing a client in this tutorial. We&#39;ll use <a href="https://www.getpostman.com/">Postman</a> or <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html">curl</a> to test the app.</p>
 </li>
@@ -147,11 +147,11 @@
 </ul>
 <h2 id="create-the-project">Create the project</h2>
 <p>From Visual Studio, select <strong>File &gt; New Solution</strong>.</p>
-<p><img src="first-web-api-mac/_static/sln.png" alt="macOS New solution"></p>
+<p><img src="first-web-api-mac/static/sln.png" alt="macOS New solution"></p>
 <p>Select <strong>.NET Core App &gt;  ASP.NET Core Web API &gt; Next</strong>.</p>
-<p><img src="first-web-api-mac/_static/1.png" alt="macOS New project dialog"></p>
+<p><img src="first-web-api-mac/static/1.png" alt="macOS New project dialog"></p>
 <p>Enter <strong>TodoApi</strong> for the <strong>Project Name</strong>, and then select Create.</p>
-<p><img src="first-web-api-mac/_static/2.png" alt="config dialog"></p>
+<p><img src="first-web-api-mac/static/2.png" alt="config dialog"></p>
 <h3 id="launch-the-app">Launch the app</h3>
 <p>In Visual Studio, select <strong>Run &gt; Start With Debugging</strong> to launch the app. Visual Studio launches a browser and navigates to <code>http://localhost:port</code>, where <em>port</em> is a randomly chosen port number. You get an HTTP 404 (Not Found) error.  Change the URL to <code>http://localhost:port/api/values</code>. The <code>ValuesController</code> data will be displayed:</p>
 <pre><code>[&quot;value1&quot;,&quot;value2&quot;]
@@ -170,7 +170,7 @@
 <h3 id="add-a-model-class">Add a model class</h3>
 <p>A model is an object that represents the data in your application. In this case, the only model is a to-do item.</p>
 <p>Add a folder named <em>Models</em>. In Solution Explorer, right-click the project. Select <strong>Add</strong> &gt; <strong>New Folder</strong>. Name the folder <em>Models</em>.</p>
-<p><img src="first-web-api-mac/_static/folder.png" alt="new folder"></p>
+<p><img src="first-web-api-mac/static/folder.png" alt="new folder"></p>
 <p>Note: You can put model classes anywhere in your project, but the <em>Models</em> folder is used by convention.</p>
 <p>Add a <code>TodoItem</code> class. Right-click the <em>Models</em> folder and select <strong>Add &gt; New File &gt; General &gt; Empty Class</strong>. Name the class <code>TodoItem</code>, and then select <strong>New</strong>.</p>
 <p>Replace the generated code with:</p>
@@ -350,7 +350,7 @@ public IActionResult Create([FromBody] TodoItem item)
 <li>Start the app (<strong>Run &gt; Start With Debugging</strong>).</li>
 <li>Start Postman.</li>
 </ul>
-<p><img src="first-web-api/_static/pmc.png" alt="Postman console"></p>
+<p><img src="first-web-api/static/pmc.png" alt="Postman console"></p>
 <ul>
 <li>Set the HTTP method to <code>POST</code></li>
 <li>Select the <strong>Body</strong> radio button</li>
@@ -368,7 +368,7 @@ public IActionResult Create([FromBody] TodoItem item)
 <li><p>Select the Headers tab in the lower pane and copy the <strong>Location</strong> header:</p>
 </li>
 </ul>
-<p><img src="first-web-api/_static/pmget.png" alt="Headers tab of the Postman console"></p>
+<p><img src="first-web-api/static/pmget.png" alt="Headers tab of the Postman console"></p>
 <p>You can use the Location header URI to access the resource you just created. Recall the <code>GetById</code> method created the <code>&quot;GetTodo&quot;</code> named route:</p>
 <pre><code class="lang-csharp">[HttpGet(&quot;{id}&quot;, Name = &quot;GetTodo&quot;)]
 public IActionResult GetById(string id)
@@ -400,7 +400,7 @@ public IActionResult Update(long id, [FromBody] TodoItem item)
   &quot;name&quot;: &quot;walk dog&quot;,
   &quot;isComplete&quot;: true
 }
-</code></pre><p><img src="first-web-api/_static/pmcput.png" alt="Postman console showing 204 (No Content) response"></p>
+</code></pre><p><img src="first-web-api/static/pmcput.png" alt="Postman console showing 204 (No Content) response"></p>
 <h3 id="delete">Delete</h3>
 <pre><code class="lang-csharp" name="Main">[HttpDelete(&quot;{id}&quot;)]
 public IActionResult Delete(long id)
@@ -416,7 +416,7 @@ public IActionResult Delete(long id)
     return new NoContentResult();
 }
 </code></pre><p>The response is <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">204 (No Content)</a>.</p>
-<p><img src="first-web-api/_static/pmd.png" alt="Postman console showing 204 (No Content) response"></p>
+<p><img src="first-web-api/static/pmd.png" alt="Postman console showing 204 (No Content) response"></p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li><a class="xref" href="../mvc/controllers/routing.html">Routing to Controller Actions</a></li>

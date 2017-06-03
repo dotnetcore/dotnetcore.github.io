@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -77,7 +77,7 @@
 <p><a href="../migration/http-modules.html">Migrating HTTP Modules to Middleware</a> explains the difference between request pipelines in ASP.NET Core and the previous versions and provides more middleware samples.</p>
 <h2 id="creating-a-middleware-pipeline-with-iapplicationbuilder">Creating a middleware pipeline with IApplicationBuilder</h2>
 <p>The ASP.NET Core request pipeline consists of a sequence of request delegates, called one after the other, as this diagram shows (the thread of execution follows the black arrows):</p>
-<p><img src="middleware/_static/request-delegate-pipeline.png" alt="Request processing pattern showing a request arriving, processing through three middlewares, and the response leaving the application. Each middleware runs its logic and hands off the request to the next middleware at the next() statement. After the third middleware processes the request, it&#39;s handed back through the prior two middlewares for additional processing after the next() statements each in turn before leaving the application as a response to the client."></p>
+<p><img src="middleware/static/request-delegate-pipeline.png" alt="Request processing pattern showing a request arriving, processing through three middlewares, and the response leaving the application. Each middleware runs its logic and hands off the request to the next middleware at the next() statement. After the third middleware processes the request, it&#39;s handed back through the prior two middlewares for additional processing after the next() statements each in turn before leaving the application as a response to the client."></p>
 <p>Each delegate can perform operations before and after the next delegate. A delegate can also decide to not pass a request to the next delegate, which is called short-circuiting the request pipeline. Short-circuiting is often desirable because it allows unnecessary work to be avoided. For example, the static file middleware can return a request for a static file and short-circuit the rest of the pipeline. Exception-handling delegates need to be called early in the pipeline, so they can catch exceptions that occur in later stages of the pipeline.</p>
 <p>The simplest possible ASP.NET Core app sets up a single request delegate that handles all requests. This case doesn&#39;t include an actual request pipeline. Instead, a single anonymous function is called in response to every HTTP request.</p>
 <pre><code class="lang-csharp" name="Main">using Microsoft.AspNetCore.Builder;

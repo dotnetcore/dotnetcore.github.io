@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -132,7 +132,7 @@
                 &lt;/td&gt;
                 &lt;td&gt;
 </code></pre><p>Update the <em>/Views/Movies/Create.cshtml</em> with a <code>Rating</code> field. You can copy/paste the previous &quot;form group&quot; and let intelliSense help you update the fields. IntelliSense works with <a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a>. Note: In the RTM verison of Visual Studio 2017 you need to install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-madsk.RazorLanguageServices">Razor Language Services</a> for Razor intelliSense. This will be fixed in the next release.</p>
-<p><img src="new-field/_static/cr.png" alt="The developer has typed the letter R for the attribute value of asp-for in the second label element of the view. An Intellisense contextual menu has appeared showing the available fields, including Rating, which is highlighted in the list automatically. When the developer clicks the field or presses Enter on the keyboard, the value will be set to Rating."></p>
+<p><img src="new-field/static/cr.png" alt="The developer has typed the letter R for the attribute value of asp-for in the second label element of the view. An Intellisense contextual menu has appeared showing the available fields, including Rating, which is highlighted in the list automatically. When the developer clicks the field or presses Enter on the keyboard, the value will be set to Rating."></p>
 <p>The app won&#39;t work until we update the DB to include the new field. If you run it now, you&#39;ll get the following <code>SqlException</code>:</p>
 <p><code>SqlException: Invalid column name &#39;Rating&#39;.</code></p>
 <p>You&#39;re seeing this error because the updated Movie model class is different than the schema of the Movie table of the existing database. (There&#39;s no Rating column in the database table.)</p>

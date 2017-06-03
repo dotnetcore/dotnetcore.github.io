@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -74,10 +74,10 @@
 <div class="NOTE"><h5>备注</h5><p>It&#39;s a common practice to implement the repository pattern in order to create an abstraction layer between your controller and the data access layer. To keep these tutorials simple and focused on teaching how to use the Entity Framework itself, they don&#39;t use repositories. For information about repositories with EF, see <a href="advanced.html">the last tutorial in this series</a>.</p>
 </div>
 <p>In this tutorial, you&#39;ll work with the following web pages:</p>
-<p><img src="crud/_static/student-details.png" alt="Student Details page"></p>
-<p><img src="crud/_static/student-create.png" alt="Student Create page"></p>
-<p><img src="crud/_static/student-edit.png" alt="Student Edit page"></p>
-<p><img src="crud/_static/student-delete.png" alt="Student Delete page"></p>
+<p><img src="crud/static/student-details.png" alt="Student Details page"></p>
+<p><img src="crud/static/student-create.png" alt="Student Create page"></p>
+<p><img src="crud/static/student-edit.png" alt="Student Edit page"></p>
+<p><img src="crud/static/student-delete.png" alt="Student Delete page"></p>
 <h2 id="customize-the-details-page">Customize the Details page</h2>
 <p>The scaffolded code for the Students Index page left out the <code>Enrollments</code> property, because that property holds a collection. In the <strong>Details</strong> page you&#39;ll display the contents of the collection in an HTML table.</p>
 <p>In <em>Controllers/StudentsController.cs</em>, the action method for the Details view uses the <code>SingleOrDefaultAsync</code> method to retrieve a single <code>Student</code> entity. Add code that calls <code>Include</code>. <code>ThenInclude</code>,  and <code>AsNoTracking</code> methods, as shown in the following highlighted code.</p>
@@ -160,7 +160,7 @@ DbInitializer.Initialize(context);
 </code></pre><p>If code indentation is wrong after you paste the code, press CTRL-K-D to correct it.</p>
 <p>This code loops through the entities in the <code>Enrollments</code> navigation property. For each enrollment, it displays the course title and the grade. The course title is retrieved from the Course entity that&#39;s stored in the <code>Course</code> navigation property of the Enrollments entity.</p>
 <p>Run the application, select the <strong>Students</strong> tab, and click the <strong>Details</strong> link for a student. You see the list of courses and grades for the selected student:</p>
-<p><img src="crud/_static/student-details.png" alt="Student Details page"></p>
+<p><img src="crud/static/student-details.png" alt="Student Details page"></p>
 <h2 id="update-the-create-page">Update the Create page</h2>
 <p>In <em>StudentsController.cs</em>, modify the HttpPost <code>Create</code> method by adding a try-catch block and removing ID from the <code>Bind</code> attribute.</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="4,6-7,14-21">[HttpPost]
@@ -202,7 +202,7 @@ public async Task&lt;IActionResult&gt; Create(
     public string Secret { get; set; }
 }
 </code></pre><p>Even if you don&#39;t have a <code>Secret</code> field on the web page, a hacker could use a tool such as Fiddler, or write some JavaScript, to post a <code>Secret</code> form value. Without the <code>Bind</code> attribute limiting the fields that the model binder uses when it creates a Student instance, the model binder would pick up that <code>Secret</code> form value and use it to create the Student entity instance. Then whatever value the hacker specified for the <code>Secret</code> form field would be updated in your database. The following image shows the Fiddler tool adding the <code>Secret</code> field (with the value &quot;OverPost&quot;) to the posted form values.</p>
-<p><img src="crud/_static/fiddler.png" alt="Fiddler adding Secret field"></p>
+<p><img src="crud/static/fiddler.png" alt="Fiddler adding Secret field"></p>
 <p>The value &quot;OverPost&quot; would then be successfully added to the <code>Secret</code> property of the inserted row, although you never intended that the web page be able to set that property.</p>
 <p>You can prevent overposting in edit scenarios by reading the entity from the database first and then calling <code>TryUpdateModel</code>, passing in an explicit allowed properties list. That is the method used in these tutorials.</p>
 <p>An alternative way to prevent overposting that is preferred by many developers is to use view models rather than entity classes with model binding. Include only the properties you want to update in the view model. Once the MVC model binder has finished, copy the view model properties to the entity instance, optionally using a tool such as AutoMapper. Use <code>_context.Entry</code> on the entity instance to set its state to <code>Unchanged</code>, and then set <code>Property(&quot;PropertyName&quot;).IsModified</code> to true on each entity property that is included in the view model. This method works in both edit and create scenarios.</p>
@@ -210,7 +210,7 @@ public async Task&lt;IActionResult&gt; Create(
 <p>The code in <em>Views/Students/Create.cshtml</em> uses <code>label</code>, <code>input</code>, and <code>span</code> (for validation messages) tag helpers for each field.</p>
 <p>Run the page by selecting the <strong>Students</strong> tab and clicking <strong>Create New</strong>.</p>
 <p>Enter names and an invalid date and click <strong>Create</strong> to see the error message.</p>
-<p><img src="crud/_static/date-error.png" alt="Date validation error"></p>
+<p><img src="crud/static/date-error.png" alt="Date validation error"></p>
 <p>This is server-side validation that you get by default; in a later tutorial you&#39;ll see how to add attributes that will generate code for client-side validation also. The following highlighted code shows the model validation check in the <code>Create</code> method.</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="8">[HttpPost]
 [ValidateAntiForgeryToken]
@@ -322,7 +322,7 @@ public async Task&lt;IActionResult&gt; EditPost(int? id)
 <p>If you want to avoid the read-first approach, but you also want the SQL UPDATE statement to update only the fields that the user actually changed, the code is more complex. You have to save the original values in some way (such as by using hidden fields) so that they are available when the HttpPost <code>Edit</code> method is called. Then you can create a Student entity using the original values, call the <code>Attach</code> method with that original version of the entity, update the entity&#39;s values to the new values, and then call <code>SaveChanges</code>.</p>
 <h3 id="test-the-edit-page">Test the Edit page</h3>
 <p>Run the application and select the <strong>Students</strong> tab, then click an <strong>Edit</strong> hyperlink.</p>
-<p><img src="crud/_static/student-edit.png" alt="Students edit page"></p>
+<p><img src="crud/static/student-edit.png" alt="Students edit page"></p>
 <p>Change some of the data and click <strong>Save</strong>. The <strong>Index</strong> page opens and you see the changed data.</p>
 <h2 id="update-the-delete-page">Update the Delete page</h2>
 <p>In <em>StudentController.cs</em>, the template code for the HttpGet <code>Delete</code> method uses the <code>SingleOrDefaultAsync</code> method to retrieve the selected Student entity, as you saw in the Details and Edit methods. However, to implement a custom error message when the call to <code>SaveChanges</code> fails, you&#39;ll add some functionality to this method and its corresponding view.</p>
@@ -407,7 +407,7 @@ public async Task&lt;IActionResult&gt; DeleteConfirmed(int id)
 &lt;p class=&quot;text-danger&quot;&gt;@ViewData[&quot;ErrorMessage&quot;]&lt;/p&gt;
 &lt;h3&gt;Are you sure you want to delete this?&lt;/h3&gt;
 </code></pre><p>Run the page by selecting the <strong>Students</strong> tab and clicking a <strong>Delete</strong> hyperlink:</p>
-<p><img src="crud/_static/student-delete.png" alt="Delete confirmation page"></p>
+<p><img src="crud/static/student-delete.png" alt="Delete confirmation page"></p>
 <p>Click <strong>Delete</strong>. The Index page is displayed without the deleted student. (You&#39;ll see an example of the error handling code in action in the concurrency tutorial.)</p>
 <h2 id="closing-database-connections">Closing database connections</h2>
 <p>To free up the resources that a database connection holds, the context instance must be disposed as soon as possible when you are done with it. The ASP.NET Core built-in <a href="../../fundamentals/dependency-injection.html">dependency injection</a> takes care of that task for you.</p>

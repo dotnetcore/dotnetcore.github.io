@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
   
@@ -80,15 +80,15 @@
 <li><p>Right-click the project in Solution Explorer and select <strong>Manage Bower Packages</strong> (alternatively from the main menu, <strong>Project</strong> &gt; <strong>Manage Bower Packages</strong>).</p>
 </li>
 <li><p>In the <strong>Bower: &lt;project name></strong> window, click the &quot;Browse&quot; tab, and then filter the packages list by entering <code>font-awesome</code> in the search box:</p>
-<p><img src="bower/_static/manage-bower-packages.png" alt="manage bower packages"></p>
+<p><img src="bower/static/manage-bower-packages.png" alt="manage bower packages"></p>
 </li>
 <li><p>Confirm that the &quot;Save changes to <em>bower.json</em>&quot; checkbox is checked. Select a version from the drop-down list and click the <strong>Install</strong> button. The <strong>Output</strong> window shows the installation details.</p>
 </li>
 </ul>
 <h3 id="manual-installation-in-bowerjson">Manual installation in bower.json</h3>
 <p>Open the <em>bower.json</em> file and add &quot;font-awesome&quot; to the dependencies. IntelliSense shows the available packages. When a package is selected, the available versions are displayed. The images below are older and will not match what you see.</p>
-<p><img src="bower/_static/add-package.png" alt="IntelliSense of bower package explorer"></p>
-<p><img src="bower/_static/version-intellisense.png" alt="bower version IntelliSense"></p>
+<p><img src="bower/static/add-package.png" alt="IntelliSense of bower package explorer"></p>
+<p><img src="bower/static/version-intellisense.png" alt="bower version IntelliSense"></p>
 <p>Bower uses <a href="http://semver.org/">semantic versioning</a> to organize dependencies. Semantic versioning, also known as SemVer, identifies packages with the numbering scheme &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;. IntelliSense simplifies semantic versioning by showing only a few common choices. The top item in the IntelliSense list (4.6.3 in the example above) is considered the latest stable version of the package. The caret (^) symbol matches the most recent major version and the tilde (~) matches the most recent minor version.</p>
 <p>Save the <em>bower.json</em> file. Visual Studio watches the <em>bower.json</em> file for changes. Upon saving, the <em>bower install</em> command is executed. See the Output window&#39;s <strong>Bower/npm</strong> view for the exact command executed.</p>
 <p>Open the <em>.bowerrc</em> file under <em>bower.json</em>. The <code>directory</code> property is set to <em>wwwroot/lib</em> which indicates the location Bower will install the package assets.</p>
@@ -206,7 +206,7 @@ public class Startup
 &lt;/html&gt;
 </code></pre><ul>
 <li><p>Run the app and navigate to <code>http://localhost:&lt;port&gt;/Index.html</code>. Alternatively, with <em>Index.html</em> opened, press <code>Ctrl+Shift+W</code>. Verify that the jumbotron styling is applied, the jQuery code responds when the button is clicked, and that the Bootstrap button changes state.</p>
-<p><img src="bower/_static/jumbotron.png" alt="jumbotron style applied"></p>
+<p><img src="bower/static/jumbotron.png" alt="jumbotron style applied"></p>
 </li>
 </ul>
 </article>
