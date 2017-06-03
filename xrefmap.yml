@@ -155,7 +155,7 @@ references:
   name: Host in a Windows Service | Microsoft Docs
   href: hosting/windows-service.html
 - uid: index
-  name: Introduction to ASP.NET Core | Microsoft Docs
+  name: ASP.NET Core 介绍 | Microsoft 文档（民间汉化）
   href: index.html
 - uid: migration/configuration
   name: Migrating Configuration | Microsoft Docs
