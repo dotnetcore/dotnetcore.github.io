@@ -257,16 +257,16 @@ gulp.task(&quot;min&quot;, [&quot;min:js&quot;, &quot;min:css&quot;]);
 }
 </code></pre></li>
 <li><p>In <strong>Solution Explorer</strong>, right-click <em>gulpfile.js</em>, and select <strong>Task Runner Explorer</strong>.</p>
-<p><img src="using-gulp/static/02-solutionexplorer-taskrunnerexplorer.png" alt="Open Task Runner Exploere from Solution Explorer"></p>
+<p><img src="using-gulp/static/02-SolutionExplorer-TaskRunnerExplorer.png" alt="Open Task Runner Exploere from Solution Explorer"></p>
 <p><strong>Task Runner Explorer</strong> shows the list of Gulp tasks. (You might have to click the <strong>Refresh</strong> button that appears to the left of the project name.)</p>
-<p><img src="using-gulp/static/03-taskrunnerexplorer.png" alt="Task Runner Explorer"></p>
+<p><img src="using-gulp/static/03-TaskRunnerExplorer.png" alt="Task Runner Explorer"></p>
 </li>
 <li><p>Underneath <strong>Tasks</strong> in <strong>Task Runner Explorer</strong>, right-click <strong>clean</strong>, and select <strong>Run</strong> from the pop-up menu.</p>
-<p><img src="using-gulp/static/04-taskrunner-clean.png" alt="Task Runner Explorer clean task"></p>
+<p><img src="using-gulp/static/04-TaskRunner-clean.png" alt="Task Runner Explorer clean task"></p>
 <p><strong>Task Runner Explorer</strong> will create a new tab named <strong>clean</strong> and execute the clean task as it is defined in <em>gulpfile.js</em>.</p>
 </li>
 <li><p>Right-click the <strong>clean</strong> task, then select <strong>Bindings</strong> &gt; <strong>Before Build</strong>.</p>
-<p><img src="using-gulp/static/05-taskrunner-beforebuild.png" alt="Task Runner Explorer binding BeforeBuild"></p>
+<p><img src="using-gulp/static/05-TaskRunner-BeforeBuild.png" alt="Task Runner Explorer binding BeforeBuild"></p>
 <p>The <strong>Before Build</strong> binding configures the clean task to run automatically before each build of the project.</p>
 </li>
 </ol>
@@ -289,7 +289,7 @@ gulp.task(&quot;min&quot;, [&quot;min:js&quot;, &quot;min:css&quot;]);
 <li><p>In <strong>Solution Explorer</strong>, right-click <em>gulpfile.js</em>, and select <em>Task Runner Explorer</em>.</p>
 </li>
 <li><p>In <strong>Task Runner Explorer</strong>, right-click <strong>first</strong>, and select <strong>Run</strong>.</p>
-<p><img src="using-gulp/static/06-taskrunner-first.png" alt="Task Runner Explorer run first task"></p>
+<p><img src="using-gulp/static/06-TaskRunner-First.png" alt="Task Runner Explorer run first task"></p>
 <p>You’ll see that the output text is displayed. If you are interested in examples based on a common scenario, see Gulp Recipes.</p>
 </li>
 </ol>
@@ -313,12 +313,12 @@ gulp.task(&quot;series&quot;, [&quot;series:first&quot;, &quot;series:second&quo
 <li><p>In <strong>Solution Explorer</strong>, right-click <em>gulpfile.js</em> and select <strong>Task Runner Explorer</strong> if it isn’t already open.</p>
 </li>
 <li><p>In <strong>Task Runner Explorer</strong>, right-click <strong>series</strong> and select <strong>Run</strong>.</p>
-<p><img src="using-gulp/static/07-taskrunner-series.png" alt="Task Runner Explorer run series task"></p>
+<p><img src="using-gulp/static/07-TaskRunner-Series.png" alt="Task Runner Explorer run series task"></p>
 </li>
 </ol>
 <h2 id="intellisense">IntelliSense</h2>
 <p>IntelliSense provides code completion, parameter descriptions, and other features to boost productivity and to decrease errors. Gulp tasks are written in JavaScript; therefore, IntelliSense can provide assistance while developing. As you work with JavaScript, IntelliSense lists the objects, functions, properties, and parameters that are available based on your current context. Select a coding option from the pop-up list provided by IntelliSense to complete the code.</p>
-<p><img src="using-gulp/static/08-intellisense.png" alt="gulp IntelliSense"></p>
+<p><img src="using-gulp/static/08-IntelliSense.png" alt="gulp IntelliSense"></p>
 <p>For more information about IntelliSense, see <a href="https://msdn.microsoft.com/library/bb385682">JavaScript IntelliSense</a>.</p>
 <h2 id="development-staging-and-production-environments">Development, staging, and production environments</h2>
 <p>When Gulp is used to optimize client-side files for staging and production, the processed files are saved to a local staging and production location. The <em>_Layout.cshtml</em> file uses the <strong>environment</strong> tag helper to provide two different versions of CSS files. One version of CSS files is for development and the other version is optimized for both staging and production. In Visual Studio 2017, when you change the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <code>Production</code>, Visual Studio will build the Web app and link to the minimized CSS files. The following markup shows the <strong>environment</strong> tag helpers containing link tags to the <code>Development</code> CSS files and the minified <code>Staging, Production</code> CSS files.</p>

@@ -201,7 +201,7 @@ public void ConfigureStagingServices(IServiceCollection services)
    info: Microsoft.Extensions.Caching.SqlConfig.Tools.Program[0]
        Table and index were created successfully.
 </code></pre><p>The created table has the following schema:</p>
-<p><img src="distributed/static/sqlservercachetable.png" alt="SqlServer Cache Table"></p>
+<p><img src="distributed/static/SqlServerCacheTable.png" alt="SqlServer Cache Table"></p>
 <p>Like all cache implementations, your app should get and set cache values using an instance of <code>IDistributedCache</code>, not a <code>SqlServerCache</code>. The sample implements <code>SqlServerCache</code> in the <code>Production</code> environment (so it is configured in <code>ConfigureProductionServices</code>).</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="7,8,9,10,11,12">/// Use SQL Server Cache in Production
 /// &lt;/summary&gt;

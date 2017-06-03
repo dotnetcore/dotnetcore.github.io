@@ -75,11 +75,11 @@
 <ul>
 <li>Navigate to <a href="https://apps.twitter.com/">https://apps.twitter.com/</a> and sign in. If you don&#39;t already have a Twitter account, use the <strong><a href="https://twitter.com/signup">Sign up now</a></strong> link to create one. After signing in, the <strong>Application Management</strong> page is shown:</li>
 </ul>
-<p><img src="index/static/twitterappmanage.png" alt="Twitter Application Management open in Microsoft Edge"></p>
+<p><img src="index/static/TwitterAppManage.png" alt="Twitter Application Management open in Microsoft Edge"></p>
 <ul>
 <li>Tap <strong>Create New App</strong> and fill out the application <strong>Name</strong>:</li>
 </ul>
-<p><img src="index/static/twittercreate.png" alt="Create an application page"></p>
+<p><img src="index/static/TwitterCreate.png" alt="Create an application page"></p>
 <ul>
 <li><p>Enter your current site URL with <em>signin-twitter</em> appended into the <strong>Callback URL</strong> field. For example, <code>https://localhost:44320/signin-twitter</code>.</p>
 <div class="NOTE"><h5>备注</h5><p>When deploying the site you&#39;ll need to register a new public url.</p>
@@ -90,13 +90,13 @@
 <li><p>Tap <strong>Create your Twitter application</strong>. New application details are displayed:</p>
 </li>
 </ul>
-<p><img src="index/static/twitterappdetails.png" alt="Details tab on Application page"></p>
+<p><img src="index/static/TwitterAppDetails.png" alt="Details tab on Application page"></p>
 <h2 id="storing-twitter-consumerkey-and-consumersecret">Storing Twitter ConsumerKey and ConsumerSecret</h2>
 <p>Link sensitive settings like Twitter <code>ConsumerKey</code> and <code>ConsumerSecret</code> to your application configuration by using the <a href="../../app-secrets.html">Secret Manager tool</a> instead of storing them in your configuration file directly, as described on the <a href="index.html">social login overview page</a>.</p>
 <ul>
 <li>Switch to the <strong>Keys and Access Tokens</strong> tab. Note the <code>Consumer Key</code> and <code>Consumer Secret</code>:</li>
 </ul>
-<p><img src="index/static/twitterkeys.png" alt="Keys and Access Tokens tab"></p>
+<p><img src="index/static/TwitterKeys.png" alt="Keys and Access Tokens tab"></p>
 <ul>
 <li><p>Execute the following commands in your project working directory to store the Twitter secrets:</p>
 <!-- literal_block {"ids": [], "xml:space": "preserve"} -->
@@ -134,12 +134,12 @@ dotnet user-secrets set Authentication:Twitter:ConsumerSecret &lt;consumer-secre
 });
 </code></pre><h2 id="sign-in-with-twitter">Sign in with Twitter</h2>
 <p>Run your application and click <strong>Log in</strong>. An option to sign in with Twitter appears:</p>
-<p><img src="index/static/donetwitter.png" alt="Web application: User not authenticated"></p>
+<p><img src="index/static/DoneTwitter.png" alt="Web application: User not authenticated"></p>
 <p>Clicking on <strong>Twitter</strong> redirects to Twitter for authentication:</p>
-<p><img src="index/static/twitterlogin.png" alt="Twitter authentication page"></p>
+<p><img src="index/static/TwitterLogin.png" alt="Twitter authentication page"></p>
 <p>After entering your Twitter credentials, you are redirected back to the web site where you can set your email.</p>
 <p>You are now logged in using your Twitter credentials:</p>
-<p><img src="index/static/done.png" alt="Web application: User authenticated"></p>
+<p><img src="index/static/Done.png" alt="Web application: User authenticated"></p>
 <h2 id="next-steps">Next steps</h2>
 <ul>
 <li><p>This article showed how you can authenticate with Twitter. You can follow a similar approach to authenticate with other providers listed on the <a href="index.html">previous page</a>.</p>

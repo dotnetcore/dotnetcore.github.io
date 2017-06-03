@@ -75,27 +75,27 @@
 <ul>
 <li>Navigate to <a href="https://console.developers.google.com/projectselector/apis/library">https://console.developers.google.com/projectselector/apis/library</a> and sign in. If you don&#39;t already have a Google account, use the <strong><a href="https://accounts.google.com/SignUpWithoutGmail?service=cloudconsole&amp;continue=https%3A%2F%2Fconsole.developers.google.com%2Fprojectselector%2Fapis%2Flibrary&amp;ltmpl=api">Create account</a></strong> link to create one:</li>
 </ul>
-<p><img src="index/static/googleconsolelogin.png" alt="Google API Console"></p>
+<p><img src="index/static/GoogleConsoleLogin.png" alt="Google API Console"></p>
 <ul>
 <li>You are redirected to API Manager Library page:</li>
 </ul>
-<p><img src="index/static/googleconsoleswitchboard.png" alt="API Manager Library page"></p>
+<p><img src="index/static/GoogleConsoleSwitchboard.png" alt="API Manager Library page"></p>
 <ul>
 <li>Tap <strong>Create a project</strong> and enter your application name:</li>
 </ul>
-<p><img src="index/static/googleconsolenewproj.png" alt="New Project dialog"></p>
+<p><img src="index/static/GoogleConsoleNewProj.png" alt="New Project dialog"></p>
 <ul>
 <li>After accepting the dialog, you are redirected back to the Library page allowing you to choose features for your new app. <a name="enable-googleplus">Find <strong>Google+ API</strong> in the list</a> and click on its link to add the API feature:</li>
 </ul>
-<p><img src="index/static/googleconsolechooseapi.png" alt="API Manager Library page"></p>
+<p><img src="index/static/GoogleConsoleChooseApi.png" alt="API Manager Library page"></p>
 <ul>
 <li>The page for the newly added API is displayed. Tap <strong>Enable</strong> to add Google+ sign in feature to your app:</li>
 </ul>
-<p><img src="index/static/googleconsoleenableapi.png" alt="API Manager Google+API page"></p>
+<p><img src="index/static/GoogleConsoleEnableApi.png" alt="API Manager Google+API page"></p>
 <ul>
 <li>After enabling the API, tap <strong>Go to Credentials</strong> to configure the secrets:</li>
 </ul>
-<p><img src="index/static/googleconsolegocredentials.png" alt="API Manager Google+API page"></p>
+<p><img src="index/static/GoogleConsoleGoCredentials.png" alt="API Manager Google+API page"></p>
 <ul>
 <li>Choose:<ul>
 <li><strong>Google+ API</strong></li>
@@ -104,11 +104,11 @@
 </ul>
 </li>
 </ul>
-<p><img src="index/static/googleconsolechoosecred.png" alt="API Manager Credentials page: Find out what kind of credentials you need panel"></p>
+<p><img src="index/static/GoogleConsoleChooseCred.png" alt="API Manager Credentials page: Find out what kind of credentials you need panel"></p>
 <ul>
 <li>Tap <strong>What credentials do I need?</strong> which takes you to the second step of app configuration:</li>
 </ul>
-<p><img src="index/static/googleconsolecreateclient.png" alt="API Manager Credentials page: Create an OAuth 2.0 client ID"></p>
+<p><img src="index/static/GoogleConsoleCreateClient.png" alt="API Manager Credentials page: Create an OAuth 2.0 client ID"></p>
 <ul>
 <li><p>Because we are creating a Google+ project with just one feature (sign in), we can enter the same <strong>Name</strong> for the OAuth 2.0 client ID as the one we used for the project.</p>
 </li>
@@ -121,14 +121,14 @@
 <li><p>Tap <strong>Create client ID</strong>, which takes you to the third step:</p>
 </li>
 </ul>
-<p><img src="index/static/googleconsoleaddcred.png" alt="API Manager Credentials page: Set up the OAuth 2.0 consent screen"></p>
+<p><img src="index/static/GoogleConsoleAddCred.png" alt="API Manager Credentials page: Set up the OAuth 2.0 consent screen"></p>
 <ul>
 <li><p>Enter your public facing <strong>Email address</strong> and the <strong>Product name</strong> shown for your app when Google+ prompts the user to sign in.</p>
 </li>
 <li><p>Tap <strong>Continue</strong> to proceed to the last step:</p>
 </li>
 </ul>
-<p><img src="index/static/googleconsolefinish.png" alt="API Manager Credentials page: Download credentials"></p>
+<p><img src="index/static/GoogleConsoleFinish.png" alt="API Manager Credentials page: Download credentials"></p>
 <ul>
 <li>Tap <strong>Download</strong> to save a JSON file with application secrets, and <strong>Done</strong> to complete creation of the new app.</li>
 </ul>
@@ -175,12 +175,12 @@ dotnet user-secrets set Authentication:Google:ClientSecret &lt;client-secret&gt;
 </div>
 <h2 id="sign-in-with-google">Sign in with Google</h2>
 <p>Run your application and click <strong>Log in</strong>. An option to sign in with Google appears:</p>
-<p><img src="index/static/donegoogle.png" alt="Web application running in Microsoft Edge: User not authenticated"></p>
+<p><img src="index/static/DoneGoogle.png" alt="Web application running in Microsoft Edge: User not authenticated"></p>
 <p>When you click on Google, you are redirected to Google for authentication:</p>
-<p><img src="index/static/googlelogin.png" alt="Google authentication dialog"></p>
+<p><img src="index/static/GoogleLogin.png" alt="Google authentication dialog"></p>
 <p>After entering your Google credentials, then you are redirected back to the web site where you can set your email.</p>
 <p>You are now logged in using your Google credentials:</p>
-<p><img src="index/static/done.png" alt="Web application running in Microsoft Edge: User authenticated"></p>
+<p><img src="index/static/Done.png" alt="Web application running in Microsoft Edge: User authenticated"></p>
 <div class="NOTE"><h5>备注</h5><p>If instead you receive a <code>403 (Forbidden)</code> error page from your own app when running in development mode (or break into the debugger with the same error), ensure that <strong>Google+ API</strong> has been enabled in the <strong>API Manager Library</strong> by following the steps listed <a href="#enable-googleplus">earlier on this page</a>. If the sign in doesn&#39;t work and you aren&#39;t getting any errors, switch to development mode to make the issue easier to debug.</p>
 </div>
 <h2 id="next-steps">Next steps</h2>

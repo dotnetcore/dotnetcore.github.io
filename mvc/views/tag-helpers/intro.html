@@ -127,10 +127,10 @@
 <p>Consider writing an HTML <code>&lt;label&gt;</code> element. As soon as you enter <code>&lt;l</code> in the Visual Studio editor, IntelliSense displays matching elements:</p>
 <p><img src="intro/static/label.png" alt="image"></p>
 <p>Not only do you get HTML help, but the icon (the &quot;@&quot; symbol with &quot;&lt;&gt;&quot; under it).</p>
-<p><img src="intro/static/tagsym.png" alt="image"></p>
+<p><img src="intro/static/tagSym.png" alt="image"></p>
 <p>identifies the element as targeted by Tag Helpers. Pure HTML elements (such as the <code>fieldset</code>) display the &quot;&lt;&gt;&quot; icon.</p>
 <p>A pure HTML <code>&lt;label&gt;</code> tag displays the HTML tag (with the default Visual Studio color theme) in a brown font, the attributes in red, and the attribute values in blue.</p>
-<p><img src="intro/static/lablehtmltag.png" alt="image"></p>
+<p><img src="intro/static/LableHtmlTag.png" alt="image"></p>
 <p>After you enter <code>&lt;label</code>, IntelliSense lists the available HTML/CSS attributes and the Tag Helper-targeted attributes:</p>
 <p><img src="intro/static/labelattr.png" alt="image"></p>
 <p>IntelliSense statement completion allows you to enter the tab key to complete the statement with the selected value:</p>
@@ -157,15 +157,15 @@
 <p>generates:</p>
 <pre><code class="lang-html">&lt;label class=&quot;caption&quot; for=&quot;FirstName&quot;&gt;First Name&lt;/label&gt;
 </code></pre><p>The camel-cased to sentence-cased content is not used if you add content to the <code>&lt;label&gt;</code>. For example:</p>
-<p><img src="intro/static/1stname.png" alt="image"></p>
+<p><img src="intro/static/1stName.png" alt="image"></p>
 <p>generates:</p>
 <pre><code class="lang-html">&lt;label class=&quot;caption&quot; for=&quot;FirstName&quot;&gt;Name First&lt;/label&gt;
 </code></pre><p>The following code image shows the Form portion of the <em>Views/Account/Register.cshtml</em> Razor view generated from the legacy ASP.NET 4.5.x MVC template included with Visual Studio 2015.</p>
-<p><img src="intro/static/regcs.png" alt="image"></p>
+<p><img src="intro/static/regCS.png" alt="image"></p>
 <p>The Visual Studio editor displays C# code with a grey background. For example, the <code>AntiForgeryToken</code> HTML Helper:</p>
 <pre><code class="lang-html">@Html.AntiForgeryToken()
 </code></pre><p>is displayed with a grey background. Most of the markup in the Register view is C#. Compare that to the equivalent approach using Tag Helpers:</p>
-<p><img src="intro/static/regth.png" alt="image"></p>
+<p><img src="intro/static/regTH.png" alt="image"></p>
 <p>The markup is much cleaner and easier to read, edit, and maintain than the HTML Helpers approach. The C# code is reduced to the minimum that the server needs to know about. The Visual Studio editor displays markup targeted by a Tag Helper in a distinctive font.</p>
 <p>Consider the <em>Email</em> group:</p>
 <pre><code class="lang-csharp" name="Main">&lt;div class=&quot;form-group&quot;&gt;
