@@ -566,7 +566,7 @@ references:
   name: ASP.NET Core 指南 | Microsoft 文档（民间汉化）
   href: tutorials/index.html
 - uid: tutorials/nano-server
-  name: ASP.NET Core on Nano Server | Microsoft Docs
+  name: ASP.NET Core 部署到 Nano Server | Microsoft 文档（民间汉化）
   href: tutorials/nano-server.html
 - uid: tutorials/publish-to-azure-webapp-using-vs
   name: Publish an ASP.NET Core app to Azure using Visual Studio | Microsoft Docs
