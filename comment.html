@@ -1,12 +1,226 @@
-<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Introduction to ASP.NET Core | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Introduction to ASP.NET Core | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.17.6.2">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="toc.html">
+
+
+</head>
+<body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+        <header>
+
+            <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                            <span class="sr-only">切换导航</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a class="navbar-brand" href="index.html">
+                            <img id="logo" class="svg" src="logo.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar">
+                        <form class="navbar-form navbar-right" role="search" id="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="subnav navbar navbar-default">
+                <div class="container hide-when-search" id="breadcrumb">
+                    <ul class="breadcrumb">
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div role="main" class="container body-content hide-when-search">
+
+            <div class="sidenav hide-when-search">
+                <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+                <div class="sidetoggle collapse" id="sidetoggle">
+                    <div id="sidetoc"></div>
+                </div>
+            </div>
+            <div class="article row grid-right">
+                <div class="col-md-10">
+                    <article class="content wrap" id="_content" data-uid="index">
+                        <h1 id="introduction-to-aspnet-core">Introduction to ASP.NET Core</h1>
+
+                        <p>By <a href="https://github.com/danroth27">Daniel Roth</a>, <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, and <a href="https://twitter.com/dicshaunary">Shaun Luttin</a></p>
+                        <p>ASP.NET Core is a significant redesign of ASP.NET. This topic introduces the new concepts in ASP.NET Core and explains how they help you develop modern web apps.  </p>
+                        <h2 id="what-is-aspnet-core">What is ASP.NET Core?</h2>
+                        <p>ASP.NET Core is a new open-source and cross-platform framework for building modern cloud based internet connected applications, such as web apps, IoT apps and mobile backends. ASP.NET Core apps can run on <a href="https://www.microsoft.com/net/core/platform">.NET Core</a> or on the full .NET Framework. It was architected to provide an optimized development framework for apps that are deployed to the cloud or run on-premises. It consists of modular components with minimal overhead, so you retain flexibility while constructing your solutions. You can develop and run your ASP.NET Core apps cross-platform on Windows, Mac and Linux. ASP.NET Core is open source at <a href="https://github.com/aspnet/home">GitHub</a>.</p>
+                        <h2 id="why-build-aspnet-core">Why build ASP.NET Core?</h2>
+                        <p>The first preview release of ASP.NET came out almost 15 years ago as part of the .NET Framework.  Since then millions of developers have used it to build and run great web apps, and over the years we have added and evolved many capabilities to it.</p>
+                        <p>ASP.NET Core has a number of architectural changes that result in a much leaner and modular framework.  ASP.NET Core is no longer based on <em>System.Web.dll</em>. It is based on a set of granular and well factored <a href="http://www.nuget.org/">NuGet</a> packages. This allows you to optimize your app to include just the NuGet packages you need. The benefits of a smaller app surface area include tighter security, reduced servicing, improved performance, and decreased costs in a pay-for-what-you-use model.</p>
+                        <p>With ASP.NET Core you gain the following foundational improvements:</p>
+                        <ul>
+                            <li>
+                                <p>A unified story for building web UI and web APIs</p>
+                            </li>
+                            <li>
+                                <p>Integration of <a href="client-side/index.html">modern client-side frameworks</a> and development workflows</p>
+                            </li>
+                            <li>
+                                <p>A cloud-ready environment-based <a href="fundamentals/configuration.html">configuration system</a></p>
+                            </li>
+                            <li>
+                                <p>Built-in <a href="fundamentals/dependency-injection.html">dependency injection</a></p>
+                            </li>
+                            <li>
+                                <p>New light-weight and modular HTTP request pipeline</p>
+                            </li>
+                            <li>
+                                <p>Ability to host on IIS or self-host in your own process</p>
+                            </li>
+                            <li>
+                                <p>Built on <a href="https://microsoft.com/net/core">.NET Core</a>, which supports true side-by-side app versioning</p>
+                            </li>
+                            <li>
+                                <p>Ships entirely as <a href="https://nuget.org">NuGet</a>  packages</p>
+                            </li>
+                            <li>
+                                <p>New tooling that simplifies modern web development</p>
+                            </li>
+                            <li>
+                                <p>Build and run cross-platform ASP.NET apps on Windows, Mac and Linux</p>
+                            </li>
+                            <li>
+                                <p>Open source and community focused</p>
+                            </li>
+                        </ul>
+                        <h2 id="build-web-apis-and-web-ui-using-aspnet-core-mvc">Build web APIs and web UI using ASP.NET Core MVC</h2>
+                        <ul>
+                            <li>
+                                <p>You can build HTTP services that reach a broad range of clients, including browsers and mobile devices.  Support for <a href="mvc/models/formatting.html">multiple data formats and content negotiation</a> is built-in. ASP.NET Core is an ideal platform for building web APIs and RESTful apps on .NET Core. See <a href="tutorials/index.html#building-web-apis">Building web APIs</a>.  </p>
+                            </li>
+                            <li>
+                                <p>You can create well-factored and testable web apps that follow the Model-View-Controller (MVC) pattern. See <a href="mvc/index.html">MVC</a> and <a href="testing/index.html">Testing</a>.</p>
+                            </li>
+                            <li>
+                                <p><a href="http://www.asp.net/web-pages/overview/getting-started/introducing-razor-syntax-c">Razor</a> provides a productive language to create <a href="mvc/views/index.html">Views</a></p>
+                            </li>
+                            <li>
+                                <p><a href="mvc/views/tag-helpers/intro.html">Tag Helpers</a> enable server-side code to participate in creating and rendering HTML elements in Razor files</p>
+                            </li>
+                            <li>
+                                <p><a href="mvc/models/model-binding.html">Model Binding</a> automatically maps data from HTTP requests to action method parameters</p>
+                            </li>
+                            <li>
+                                <p><a href="mvc/models/validation.html">Model Validation</a> automatically performs client and server side validation</p>
+                            </li>
+                        </ul>
+                        <h2 id="client-side-development">Client-side development</h2>
+                        <p>ASP.NET Core is designed to integrate seamlessly with a variety of client-side frameworks, including <a href="client-side/angular.html">AngularJS</a>, <a href="client-side/knockout.html">KnockoutJS</a> and <a href="client-side/bootstrap.html">Bootstrap</a>. See <a href="client-side/index.html">Client-Side Development</a> for more details.</p>
+                        <h2 id="next-steps">Next steps</h2>
+                        <p>For getting-started tutorials, see <a href="tutorials/index.html">ASP.NET Core Tutorials</a></p>
+                        <p>For in-depth introduction to ASP.NET Core concepts and architecture, see <a href="fundamentals/index.html">ASP.NET Core Fundamentals</a>.</p>
+                        <p>An ASP.NET Core app can use the .NET Core or .NET Framework runtime. For more information, see <a href="https://docs.microsoft.com/dotnet/articles/standard/choosing-core-framework-server">Choosing between .NET Core and .NET Framework</a>.</p>
+                        <p>If you’d like to connect with the ASP.NET Core development team’s progress and plans, tune in to the weekly <a href="https://live.asp.net/">ASP.NET Community Standup</a>.</p>
+                    </article>
+                </div>
+
+                <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+                </div>
+
+
+                <div class="hidden-sm col-md-2" role="complementary">
+                    <div class="sideaffix">
+
+                        <div class="contribution">
+                            <ul class="nav">
+                                <li>
+                                    <a href="https://github.com/aspnet/Docs/blob/master/aspnetcore/index.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                                </li>
+                                <li>
+                                    <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;"  class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                        <span class="icon-comment"></span>
+                                        <span class="join-count">0</span>
+                                        <span class="join-text">评论</span>
+                                    </a></span>
+                                </li>
+                                <li>
+                                    <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                        <a href="#" class="bds_more" data-cmd="more"></a>
+                                        <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                        <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                        <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                            <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="grad-bottom"></div>
+            <div class="footer">
+                <div class="container">
+                    <span class="pull-right">
+                        <a href="#top">返回顶部</a>
+                    </span>
+
+                    <span>Copyright ? 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+ 
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+<script type="text/javascript" src="styles/main.js"></script>
+    
 <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 <script>
-var cloudTieConfig = {
-  url: document.location.href, 
-  sourceId: "",
-  productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
-  target: "cloud-tie-wrapper"
-};
-var yunManualLoad = true;
-Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+        target: "cloud-tie-wrapper"
+    };
+    var yunManualLoad = true;
+    Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
 </script>
+
+ 
+ 
+<script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+</body>
+
+</html>
