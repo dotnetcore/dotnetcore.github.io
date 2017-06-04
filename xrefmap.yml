@@ -2,7 +2,7 @@
 sorted: true
 references:
 - uid: aspnetcore-1.1
-  name: What's new in ASP.NET Core 1.1 | Microsoft Docs
+  name: ASP.NET Core 1.1 更新 | Microsoft 文档（民间汉化）
   href: aspnetcore-1.1.html
 - uid: client-side/angular
   name: Using AngularJS for Single Page Applications (SPAs) | Microsoft Docs
@@ -491,7 +491,7 @@ references:
   name: Integration testing | Microsoft Docs
   href: testing/integration-testing.html
 - uid: tutorials/dotnet-watch
-  name: Developing ASP.NET Core apps using dotnet watch | Microsoft Docs
+  name: 使用 dotnet watch 开发 ASP.NET Core 应用程序 | Microsoft 文档（民间汉化）
   href: tutorials/dotnet-watch.html
 - uid: tutorials/first-mvc-app/adding-controller
   name: Adding a controller | Microsoft Docs
@@ -509,7 +509,7 @@ references:
   name: Examining the Details and Delete methods | Microsoft Docs
   href: tutorials/first-mvc-app/details.html
 - uid: tutorials/first-mvc-app/index
-  name: Create an ASP.NET Core MVC app with Visual Studio
+  name: 使用 Visual Studio 创建 ASP.NET Core MVC 应用程序
   href: tutorials/first-mvc-app/index.html
 - uid: tutorials/first-mvc-app/new-field
   name: Adding a New Field | Microsoft Docs
@@ -521,7 +521,7 @@ references:
   name: Getting started with ASP.NET Core MVC and Visual Studio | Microsoft Docs
   href: tutorials/first-mvc-app/start-mvc.html
 - uid: tutorials/first-mvc-app/validation
-  name: Adding Validation | Microsoft Docs
+  name: 添加验证 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app/validation.html
 - uid: tutorials/first-mvc-app/working-with-sql
   name: Working with SQL Server LocalDB | Microsoft Docs
