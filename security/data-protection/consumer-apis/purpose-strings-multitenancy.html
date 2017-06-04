@@ -77,6 +77,11 @@
 <p>The data protection system actually uses a sort of multi-tenancy in its default out-of-the-box configuration. By default master keying material is stored in the worker process account&#39;s user profile folder (or the registry, for IIS application pool identities). But it is actually fairly common to use a single account to run multiple applications, and thus all these applications would end up sharing the master keying material. To solve this, the data protection system automatically inserts a unique-per-application identifier as the first element in the overall purpose chain. This implicit purpose serves to <a href="../configuration/overview.html#data-protection-configuration-per-app-isolation">isolate individual applications</a> from one another by effectively treating each application as a unique tenant within the system, and the protector creation process looks identical to the image above.</p>
 </article>
           </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
@@ -85,6 +90,13 @@
                   <li>
                     <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/security/data-protection/consumer-apis/purpose-strings-multitenancy.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
                   </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
                                           <li>
                                               <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
                                                   <a href="#" class="bds_more" data-cmd="more"></a>
