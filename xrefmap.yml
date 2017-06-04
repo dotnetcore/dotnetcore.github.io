@@ -563,7 +563,7 @@ references:
   name: Create a Web API with ASP.NET Core and Visual Studio for Mac
   href: tutorials/first-web-api-mac.html
 - uid: tutorials/index
-  name: ASP.NET Core tutorials | Microsoft Docs
+  name: ASP.NET Core 指南 | Microsoft 文档（民间汉化）
   href: tutorials/index.html
 - uid: tutorials/nano-server
   name: ASP.NET Core on Nano Server | Microsoft Docs

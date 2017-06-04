@@ -85,18 +85,18 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
 [!INCLUDE[template files](~/includes/template-files.md)]
 -->
 <ul>
-<li>Startup.cs : <a href="../fundamentals/startup.html">Startup 类</a> - class configures the request pipeline that handles all requests made to the application.</li>
-<li>Program.cs : <a href="../fundamentals/index.html">Program 类</a> that contains the Main entry point of the application.</li>
-<li>firstapp.csproj : <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/preview3/tools/csproj">Project 文件</a> MSBuild Project file format for ASP.NET Core applications. Contains Project to Project references, NuGet References and other project related items.</li>
-<li>appsettings.json / appsettings.Development.json : Environment base app settings configuration file. <a class="xref" href="../fundamentals/configuration.html">See Configuration</a>.</li>
+<li>Startup.cs : <a href="../fundamentals/startup.html">Startup 类</a> - 配置请求管道的类，处理所有所有由应用程序产生的管道请求。</li>
+<li>Program.cs : <a href="../fundamentals/index.html">Program 类</a> 应用程序的主入口点。</li>
+<li>firstapp.csproj : <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/preview3/tools/csproj">Project 文件</a> ASP.NET Core 应用程序的 MSBuild 格式项目文件。包含项目间的引用， NuGet引用以及其他项目关联项。</li>
+<li>appsettings.json / appsettings.Development.json : 基于环境的应用配置文件。 <a class="xref" href="../fundamentals/configuration.html">参考配置</a>。</li>
 <li>bower.json : 项目 Bower 依赖包。</li>
-<li>.bowerrc : Bower configuration file which defines where to install the components when Bower downloads the assets.</li>
-<li>bundleconfig.json : configuration files for bundling and minifying front-end JavaScript and CSS assets.</li>
-<li>Views : Contains the Razor views. Views are the components that display the app&#39;s user interface (UI). Generally, this UI displays the model data.</li>
-<li>Controllers : Contains MVC Controllers, initially <em>HomeController.cs</em>. Controllers are classes that handle browser requests.</li>
+<li>.bowerrc : 当 Bower 下载文件时用来定义组件安装位置的配置文件。</li>
+<li>bundleconfig.json : 设置前端 JavaScript 和 CSS 文件压缩绑定的配置文件。</li>
+<li>Views : 包含 Razor 视图，视图是显示应用程序用户界面的组件，用户界面会呈现模型数据。</li>
+<li>Controllers : 包含 MVC 控制器， 默认控制器为 <em>HomeController.cs</em>。控制器是处理请求的类。</li>
 <li>wwwroot : Web 应用程序根目录。</li>
 </ul>
-<p>For more information see <a class="xref" href="../mvc/overview.html">The MVC pattern</a>.</p>
+<p>更多信息请参考 <a class="xref" href="../mvc/overview.html">The MVC 模式</a>.</p>
 <h2 id="使用-visual-studio-code-在-mac-或者-linux-环境下开发-aspnet-core-应用程序">使用 Visual Studio Code 在 Mac 或者 Linux 环境下开发 ASP.NET Core 应用程序</h2>
 <p>使用 Visual Studio Code (VS Code) 打开项目目录选择 <em>Startup.cs</em> 文件。 VS Code 会弹出需要还原项目依赖以及添加 build/debug 依赖。点击 <strong>Yes</strong> 来添加 build 以及 debug 附件，点击 <strong>Restore</strong> 来还原项目依赖。</p>
 <p><img src="your-first-mac-aspnet/static/debug-add-items-prompt.png" alt="Info messages: 2. 2. Required assets to build and debug are missing from your project. Add them?"></p>
@@ -184,8 +184,16 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
                   <li>
                     <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/tutorials/your-first-mac-aspnet.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
                   </li>
-          		                                <li>
-                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more">分享到：</a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
                                           </li>
                 </ul>
               </div>
@@ -215,18 +223,22 @@ The template &quot;Empty ASP.NET Core Web Application&quot; created successfully
     <script type="text/javascript" src="../styles/docfx.js"></script>
     <script type="text/javascript" src="../styles/main.js"></script>
     
-    <script type="text/javascript">
-            (function () {
-                var appid = 'cyt2P7O5x';
-                var conf = 'prod_1560345cee73b0aa9146453e43e8ab29';
-                var width = window.innerWidth || document.documentElement.clientWidth;
-                if (width < 960) {
-                    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
-                } else { var loadJs = function (d, a) { var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement; var b = document.createElement("script"); b.setAttribute("type", "text/javascript"); b.setAttribute("charset", "UTF-8"); b.setAttribute("src", d); if (typeof a === "function") { if (window.attachEvent) { b.onreadystatechange = function () { var e = b.readyState; if (e === "loaded" || e === "complete") { b.onreadystatechange = null; a() } } } else { b.onload = a } } c.appendChild(b) }; loadJs("http://changyan.sohu.com/upload/changyan.js", function () { window.changyan.api.config({ appid: appid, conf: conf }) }); }
-            })(); 
-    </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
      
-    <script type="text/javascript" src="http://assets.changyan.sohu.com/upload/plugins/plugins.count.js">
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
     </script>
     <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
   </body>
