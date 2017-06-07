@@ -66,14 +66,16 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app-xplat/adding-model">
-<h1 id="adding-a-model">Adding a model</h1>
+<h1 id="添加模型">添加模型</h1>
 
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a> and <a href="https://github.com/tdykstra">Tom Dykstra</a></p>
-<p>In this section you&#39;ll add some classes for managing movies in a database. These classes will be the &quot;<strong>M</strong>odel&quot; part of the <strong>M</strong>VC app.</p>
-<p>You’ll use these classes with the <a href="https://docs.microsoft.com/ef/core">Entity Framework Core</a> (EF Core) to work with a database. EF Core is an object-relational mapping (ORM) framework that simplifies the data-access code that you have to write. For this tutorial you&#39;ll use SQLite, but <a href="https://docs.microsoft.com/ef/core/providers/">EF Core supports many database engines</a>.</p>
-<p>The model classes you&#39;ll create are known as POCO classes (from &quot;plain-old CLR objects&quot;) because they don&#39;t have any dependency on EF Core.  They just define the properties of the data that will be stored in the database.</p>
-<p>In this tutorial you&#39;ll write the model classes first, and EF Core will create the database. An alternate approach not covered here is to generate model classes from an already-existing database. For information about that approach, see <a href="https://docs.microsoft.com/ef/core/get-started/aspnetcore/existing-db">ASP.NET Core - Existing Database</a>.</p>
-<h2 id="add-a-data-model-class">Add a data model class</h2>
+<p>作者： <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a> 以及 <a href="https://github.com/tdykstra">Tom Dykstra</a></p>
+<p>翻译： <a href="http://github.com/xbuilder">娄宇(Lyrics)</a> </p>
+<p>校对： <a href="https://github.com/SeayXu">许登洋(Seay)</a> 、<a href="https://github.com/YaoaY">姚阿勇(Mr.Yao)</a> 、<a href="https://github.com/xiashenbin">夏申斌</a> 、<a href="https://github.com/mengshuaiyang">孟帅洋(书缘)</a>  </p>
+<p>在这一节里，你将添加一些类来管理数据库中的电影数据。这些类将成为 <strong>M</strong>VC 应用程序中的 &quot;<strong>M</strong>odel&quot; 部分。</p>
+<p>你将使用 .NET Framework 中名为 <a href="https://docs.microsoft.com/ef/core">Entity Framework Core</a> (EF Core) 的数据库访问技术来使用这些数据模型类。EF Core 是一种可以用来简化数据访问代码的关系对象映射 (ORM) 框架。本教程中你会使用到 SQLite 数据库，但是<a href="https://docs.microsoft.com/ef/core/providers/">EF Core 还支持更多的数据库</a>。</p>
+<p>你创建的模型类也被称为 POCO 类 (源自 &quot;plain-old CLR objects.&quot; )，这些类无需和 EF Core 有任何依赖。他们的作用仅仅是定义数据库属性并且能够存储到数据库。</p>
+<p>本文中你将先编写一些数据模型类，然后 EF Core 根据你的类创建数据库。另外一种没有介绍的方式是从已经存在的数据库生成模型类，关于这个方式的信息，参考 <a href="https://docs.microsoft.com/ef/core/get-started/aspnetcore/existing-db">ASP.NET Core - 已存在数据库</a>。</p>
+<h2 id="添加数据模型类">添加数据模型类</h2>
 <ul>
 <li>Add a folder named <em>Models</em>.</li>
 <li>Add a class to the <em>Models</em> folder named <em>Movie.cs</em>.</li>
@@ -212,18 +214,18 @@ namespace MvcMovie.Models
 
     DBinitialize.EnsureCreated(app.ApplicationServices);
 }
-</code></pre><h2 id="test-the-app">Test the app</h2>
+</code></pre><h2 id="测试一下">测试一下</h2>
 <ul>
-<li>Run the app and tap the <strong>Mvc Movie</strong> link.</li>
-<li><p>Tap the <strong>Create New</strong> link and create a movie.</p>
-<p><img src="../first-mvc-app/adding-model/static/movies.png" alt="Create view with fields for genre, price, release date, and title"></p>
+<li>运行应用程序并点击 <strong>Mvc Movie</strong> 链接。</li>
+<li><p>点击 <strong>Create New</strong> 链接并创建电影记录。</p>
+<p><img src="../first-mvc-app/adding-model/static/movies.png" alt="创建视图界面包含字段 genre, price, release date, 以及 title"></p>
 </li>
-<li><p>You may not be able to enter decimal points or commas in the <code>Price</code> field. To support <a href="http://jqueryvalidation.org/">jQuery validation</a> for non-English locales that use a comma (&quot;,&quot;) for a decimal point, and non US-English date formats, you must take steps to globalize your app. See <a href="#additional-resources">Additional resources</a> for more information. For now, just enter whole numbers like 10.</p>
+<li><p>你也许不能在 <code>Price</code> 字段中输入小数点或逗号。为了实现对非英语环境中用逗号(&quot;,&quot;)来表示小数点，以及非美国英语日期格式的 <a href="http://jqueryvalidation.org/">jQuery 验证</a> ，你必须采取措施国际化你的应用程序。查看 <a href="#additional-resources">额外的资源</a> 获取更多的信息。现在仅仅输入完整的数字，比如10。</p>
 </li>
 </ul>
 <p><a name="displayformatdatelocal"></a></p>
 <ul>
-<li>In some locales you&#39;ll need to specify the date format. See the highlighted code below.</li>
+<li>在某些地区你需要指定日期格式。查看下方高亮代码。</li>
 </ul>
 <pre><code class="lang-csharp" name="Main" highlight-lines="2,10">using System;
 using System.ComponentModel.DataAnnotations;
@@ -240,12 +242,12 @@ namespace MvcMovie.Models
         public decimal Price { get; set; }
     }
 }
-</code></pre><p>We&#39;ll talk about <code>DataAnnotations</code> later in the tutorial.</p>
-<p>Tapping <strong>Create</strong> causes the form to be posted to the server, where the movie information is saved in a database. You are then redirected to the <em>/Movies</em> URL, where you can see the newly created movie in the listing.</p>
-<p><img src="../first-mvc-app/adding-model/static/h.png" alt="Movies view showing newly created movie listing"></p>
-<p>Create a couple more movie entries. Try the <strong>Edit</strong>, <strong>Details</strong>, and <strong>Delete</strong> links, which are all functional.</p>
-<h2 id="dependency-injection">Dependency Injection</h2>
-<p>Open the <em>Startup.cs</em> file and examine <code>ConfigureServices</code>:</p>
+</code></pre><p>我们在后续的教程会谈到 <code>DataAnnotations</code>。</p>
+<p>点击 <strong>Create</strong> 提交表单到服务器，将电影数据保存到数据库中。然后重定向到 <em>/Movies</em> URL ，你可以在列表中看到新创建的电影。</p>
+<p><img src="../first-mvc-app/adding-model/static/h.png" alt="Movie 视图显示最新创建的电影列表"></p>
+<p>再创建几个电影条目。尝试 <strong>Edit</strong> 、 <strong>Details</strong> 、 <strong>Delete</strong> 链接来执行各个功能。</p>
+<h2 id="依赖注入">依赖注入</h2>
+<p>打开 <em>Startup.cs</em> 类文件查看 <code>ConfigureServices</code>:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="7-8">
 public void ConfigureServices(IServiceCollection services)
 {
@@ -253,8 +255,8 @@ public void ConfigureServices(IServiceCollection services)
     services.AddMvc();
 
     services.AddDbContext&lt;MvcMovieContext&gt;(options =&gt;
-</code></pre><p>The highlighted code above shows the movie database context being added to the <a class="xref" href="../../fundamentals/dependency-injection.html">Dependency Injection</a> container. The line following <code>services.AddDbContext&lt;MvcMovieContext&gt;(options =&gt;</code> is not shown (see your code). It specifies the database to use and the connection string. <code>=&gt;</code> is a <a href="https://docs.microsoft.com/dotnet/articles/csharp/language-reference/operators/lambda-operator">lambda operator</a>.</p>
-<p>Open the <em>Controllers/MoviesController.cs</em> file and examine the constructor:</p>
+</code></pre><p>上面高亮代码显示 movie 数据库上下文已经倍添加到 <a class="xref" href="../../fundamentals/dependency-injection.html">依赖注入</a> 容器。 代码 <code>services.AddDbContext&lt;MvcMovieContext&gt;(options =&gt;</code> 后面的没有被现实(查看代码)，使用连接字符串来指定数据库。<code>=&gt;</code> is a <a href="https://docs.microsoft.com/dotnet/articles/csharp/language-reference/operators/lambda-operator">lambda 操作</a>.</p>
+<p>打开 <em>Controllers/MoviesController.cs</em> 文件查看构造器：</p>
 <!-- l.. Make copy of Movies controller because we comment out the initial index method and update it later  -->
 <pre><code class="lang-csharp" name="Main">public class MoviesController : Controller
 {
@@ -264,12 +266,12 @@ public void ConfigureServices(IServiceCollection services)
     {
         _context = context;
     }
-</code></pre><p>The constructor uses <a class="xref" href="../../fundamentals/dependency-injection.html">Dependency Injection</a> to inject the database context (<code>MvcMovieContext</code>) into the controller. The database context is used in each of the <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> methods in the controller.</p>
+</code></pre><p>构造器使用 <a class="xref" href="../../fundamentals/dependency-injection.html">依赖注入</a> 来注入数据库上下文 (<code>MvcMovieContext</code>) 到控制器， 数据库上下文在控制器的所有的 <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> 方法中使用。</p>
 <p><a name="strongly-typed-models-keyword-label"></a></p>
-<h2 id="strongly-typed-models-and-the-model-keyword">Strongly typed models and the @model keyword</h2>
-<p>Earlier in this tutorial, you saw how a controller can pass data or objects to a view using the <code>ViewData</code> dictionary. The <code>ViewData</code> dictionary is a dynamic object that provides a convenient late-bound way to pass information to a view.</p>
-<p>MVC also provides the ability to pass strongly typed model objects to a view. This strongly typed approach enables better compile-time checking of your code and richer <a href="https://msdn.microsoft.com/en-us/library/hcw1s69b.aspx">IntelliSense</a>. The scaffolding mechanism used this approach (that is, passing a strongly typed model) with the <code>MoviesController</code> class and views when it created the methods and views.</p>
-<p>Examine the generated <code>Details</code> method in the <em>Controllers/MoviesController.cs</em> file:</p>
+<h2 id="强类型模型与-model-关键字">强类型模型与 @model 关键字</h2>
+<p>在之前的教程中，你看到了控制器（Controller）如何通过 <code>ViewData</code> 字典传递数据到一个视图（View）。 <code>ViewData</code> 字典是一个动态类型对象，它提供了一种便捷的后期绑定方式将信息传递给视图。</p>
+<p>MVC 也提供了传递强类型数据给视图的能力。这种强类型的方式可以提供给你更好的代码编译时检查，并在 Visual Studio（VS） 中具有更丰富的 <a href="https://msdn.microsoft.com/en-us/library/hcw1s69b.aspx">智能感知</a> 。VS 中的基架机制在为 <code>MoviesController</code> 类创建方法（Action）和视图（View）的时候就采用了这种方式（即，传递强类型模型）。</p>
+<p>检查在 <em>Controllers/MoviesController.cs</em> 文件中生成的 <code>Details</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main">// GET: Movies/Details/5
 public async Task&lt;IActionResult&gt; Details(int? id)
 {
@@ -287,21 +289,21 @@ public async Task&lt;IActionResult&gt; Details(int? id)
 
     return View(movie);
 }
-</code></pre><p>The <code>id</code> parameter is generally passed as route data. For example <code>http://localhost:5000/movies/details/1</code> sets:</p>
+</code></pre><p><code>id</code> 参数一般作为路由数据传递，例如 <code>http://localhost:5000/movies/details/1</code> 将：</p>
 <ul>
-<li>The controller to the <code>movies</code> controller (the first URL segment).</li>
-<li>The action to <code>details</code> (the second URL segment).</li>
-<li>The id to 1 (the last URL segment).</li>
+<li>设置为 <code>movies</code>（对应第一个 URL 段）</li>
+<li>Action 设置为 <code>details</code>（对应第二个 URL 段）</li>
+<li>id 设置为 1（对应最后一个 URL 段）</li>
 </ul>
-<p>You could also pass in the <code>id</code> with a query string as follows:</p>
+<p>你也可以向下面一样通过查询字符串（Query String）传递 <code>id</code> ：</p>
 <p><code>http://localhost:1234/movies/details?id=1</code></p>
-<p>The <code>id</code> parameter is defined as a <a href="https://docs.microsoft.com/dotnet/csharp/programming-guide/nullable-types/index">nullable type</a> (<code>int?</code>) in case an ID value is not provided.</p>
-<p>A <a href="https://docs.microsoft.com/dotnet/articles/csharp/programming-guide/statements-expressions-operators/lambda-expressions">lambda expression</a> is passed in to <code>SingleOrDefaultAsync</code> to select movie entities that match the route data or query string value.</p>
+<p><code>id</code> 参数被定义为 <a href="https://docs.microsoft.com/dotnet/csharp/programming-guide/nullable-types/index">可空类型</a> (<code>int?</code>) 来对应没有ID值的情况。</p>
+<p><a href="https://docs.microsoft.com/dotnet/articles/csharp/programming-guide/statements-expressions-operators/lambda-expressions">lambda 表达式</a> 传给 <code>SingleOrDefaultAsync</code> 方法来选择匹配路由数据以及查询字符串的电影实体类。</p>
 <pre><code class="lang-csharp">var movie = await _context.Movie
     .SingleOrDefaultAsync(m =&gt; m.ID == id);
-</code></pre><p>If a movie is found, an instance of the <code>Movie</code> model is passed to the <code>Details</code> view:</p>
+</code></pre><p>如果电影被找到了， <code>Movie</code> 模型（Model）的实例将被传递给 <code>Details</code> 视图（View）。</p>
 <pre><code class="lang-csharp">return View(movie);
-</code></pre><p>Examine the contents of the <em>Views/Movies/Details.cshtml</em> file:</p>
+</code></pre><p>查看  <em>Views/Movies/Details.cshtml</em> 文件的内容：</p>
 <pre><code class="lang-html" name="Main">@model MvcMovie.Models.Movie
 
 @{
@@ -344,19 +346,19 @@ public async Task&lt;IActionResult&gt; Details(int? id)
     &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@Model.ID&quot;&gt;Edit&lt;/a&gt; |
     &lt;a asp-action=&quot;Index&quot;&gt;Back to List&lt;/a&gt;
 &lt;/div&gt;
-</code></pre><p>By including a <code>@model</code> statement at the top of the view file, you can specify the type of object that the view expects. When you created the movie controller, Visual Studio automatically included the following <code>@model</code> statement at the top of the <em>Details.cshtml</em> file:</p>
+</code></pre><p>通过在视图（View）文件顶部加入一个 <code>@model</code> 语句，你可以指定视图（View）所期望的对象类型。当你创建这个 MoviesController 时， Visual Studio 自动在 <em>Details.cshtml</em> 顶部加入了 <code>@model</code> 语句后面的部分。</p>
 <pre><code class="lang-HTML">@model MvcMovie.Models.Movie
-</code></pre><p>This <code>@model</code> directive allows you to access the movie that the controller passed to the view by using a <code>Model</code> object that&#39;s strongly typed. For example, in the <em>Details.cshtml</em> view, the code passes each movie field to the <code>DisplayNameFor</code> and <code>DisplayFor</code> HTML Helpers with the strongly typed <code>Model</code> object. The <code>Create</code> and <code>Edit</code> methods and views also pass a <code>Movie</code> model object.</p>
-<p>Examine the <em>Index.cshtml</em> view and the <code>Index</code> method in the Movies controller. Notice how the code creates a <code>List</code> object when it calls the <code>View</code> method. The code passes this <code>Movies</code> list from the <code>Index</code> action method to the view:</p>
+</code></pre><p><code>@model</code> 指令允许你访问从控制器（Controller）传递给视图（View）的这个强类型电影 <code>Model</code> 对象。例如，在 <em>Details.cshtml</em> 视图中，代码用强类型 <code>Model</code> 对象传递所有的电影字段到 <code>DisplayNameFor</code> 和 <code>DisplayFor</code>  HTML 帮助类（HTML Helper）里。 <code>Create</code> 和 <code>Edit</code> 方法和视图（View）也传递一个 <code>Movie</code> 模型（Model）对象。</p>
+<p>检查 <em>Index.cshtml</em> 视图（View）和 MoviesController 里的 <code>Index</code>方法。注意观察代码在调用 <code>View</code> 方法时，是如何创建一个 <code>列表（List）</code>  对象的。这段代码将s <code>Movies</code> 列表从 <code>Index</code> Action 方法传递给视图（View）：</p>
 <pre><code class="lang-csharp" name="Main">// GET: Movies
 public async Task&lt;IActionResult&gt; Index()
 {
     return View(await _context.Movie.ToListAsync());
 }
-</code></pre><p>When you created the movies controller, scaffolding automatically included the following <code>@model</code> statement at the top of the <em>Index.cshtml</em> file:</p>
+</code></pre><p>当你创建这个 MoviesController 时，Visual Studio 自动在 <em>Index.cshtml</em> 顶部加入以下 <code>@model</code> 语句:</p>
 <!-- Copy Index.cshtml to IndexOriginal.cshtml -->
 <pre><code class="lang-html" name="Main">@model IEnumerable&lt;MvcMovie.Models.Movie&gt;
-</code></pre><p>The <code>@model</code> directive allows you to access the list of movies that the controller passed to the view by using a <code>Model</code> object that&#39;s strongly typed. For example, in the <em>Index.cshtml</em> view, the code loops through the movies with a <code>foreach</code> statement over the strongly typed <code>Model</code> object:</p>
+</code></pre><p> <code>@model</code> 指令允许你访问电影列表这个从控制器（Controller）传递给视图（View）的强类型 <code>Model</code> 对象。例如，在 <em>Index.cshtml</em> 视图中，代码通过 <code>foreach</code> 语句遍历了电影列表这个强类型的  <code>模型（Model）</code> 对象。</p>
 <pre><code class="lang-html" name="Main" highlight-lines="1,31,34,37,40,43,46-48">@model IEnumerable&lt;MvcMovie.Models.Movie&gt;
 
 @{
@@ -410,7 +412,7 @@ public async Task&lt;IActionResult&gt; Index()
 }
     &lt;/tbody&gt;
 &lt;/table&gt;
-</code></pre><p>Because the <code>Model</code> object is strongly typed (as an <code>IEnumerable&lt;Movie&gt;</code> object), each item in the loop is typed as <code>Movie</code>. Among other benefits, this means that you get compile-time checking of the code and full <a href="https://msdn.microsoft.com/en-us/library/hcw1s69b.aspx">IntelliSense</a> support in the code editor:</p>
+</code></pre><p>因为 <code>模型（Model）</code> 对象是强类型的（作为 <code>IEnumerable&lt;Movie&gt;</code> 对象），循环中的每一个 item 的类型被类型化为 <code>Movie</code> 。除了其他好处外，这意味着你将获得代码的编译时检查以及在代码编辑器里得到完整的 <a href="https://msdn.microsoft.com/en-us/library/hcw1s69b.aspx">智能感知</a> 支持：</p>
 <p>You now have a database and pages to display, edit, update and delete data. In the next tutorial, we&#39;ll work with the database.</p>
 <h3 id="additional-resources">Additional resources</h3>
 <ul>
