@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Adding a controller | Microsoft Docs </title>
+    <title>&#28155;&#21152;&#25511;&#21046;&#22120; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Adding a controller | Microsoft Docs ">
+    <meta name="title" content="&#28155;&#21152;&#25511;&#21046;&#22120; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,30 +66,32 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/adding-controller">
-<h1 id="adding-a-controller">Adding a controller</h1>
+<h1 id="添加控制器">添加控制器</h1>
 
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>The Model-View-Controller (MVC) architectural pattern separates an app into three main components: <strong>M</strong>odel, <strong>V</strong>iew, and <strong>C</strong>ontroller. The MVC pattern helps you create apps that are more testable and easier to update than traditional monolithic apps. MVC-based apps contain:</p>
+<p>作者： <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译： <a href="http://github.com/xbuilder">娄宇(Lyrics)</a> </p>
+<p>校对： <a href="https://github.com/alexinea">刘怡(AlexLEWIS)</a> 、<a href="https://github.com/UtilCore">何镇汐</a> 、<a href="https://github.com/xiashenbin">夏申斌</a> 、<a href="https://github.com/mengshuaiyang">孟帅洋(书缘)</a>  </p>
+<p>Model-View-Controller (MVC) 架构模式将一个应用程序分离成三个主要的组件： <strong>M</strong>\odel、<strong>V</strong>\iew 以及 <strong>C</strong>\ontroller 。 MVC 模式帮助你创建可测试的应用程序，比传统的单块应用程序更加容易维护和更新。基于 MVC 的应用程序包含：</p>
 <ul>
-<li><p><strong>M</strong>odels: Classes that represent the data of the app. The model classes use validation logic to enforce business rules for that data. Typically, model objects retrieve and store model state in a database. In this tutorial, a <code>Movie</code> model retrieves movie data from a database, provides it to the view or updates it. Updated data is written to a SQL Server database.</p>
+<li><p><strong>M</strong>\odels：应用程序中用来表示数据的类，并使用验证逻辑来执行该数据业务规则。通常，模型（Model）对象从数据库查询和存储 Model 状态。在本教程 <code>Movie</code> 模型（Model）从数据库查询电影数据用来显示或更新。更新后的数据写入 SQL Server 数据库。</p>
 </li>
-<li><p><strong>V</strong>iews: Views are the components that display the app&#39;s user interface (UI). Generally, this UI displays the model data.</p>
+<li><p><strong>V</strong>\iews：视图是显示用户界面（UI）的组件。通常，UI 用于显示模型（Model）数据。</p>
 </li>
-<li><p><strong>C</strong>ontrollers: Classes that handle browser requests. They retrieve model data and call view templates that return a response. In an MVC app, the view only displays information; the controller handles and responds to user input and interaction. For example, the controller handles route data and query-string values, and passes these values to the model. The model might use these values to query the database. For example, <code>http://localhost:1234/Home/About</code> has route data of <code>Home</code> (the controller) and <code>About</code> (the action method to call on the home controller). <code>http://localhost:1234/Movies/Edit/5</code> is a request to edit the movie with ID=5 using the movie controller.  We&#39;ll talk about route data later in the tutorial.</p>
+<li><p><strong>C</strong>\ontrollers：一种类（Class），用于处理浏览器请求，查询模型（Model）数据，以及将指定视图模板作为响应返回给浏览器。在 MVC 应用程序中，视图（View）仅仅显示信息； 控制器（Controller）处理和响应用户的输入和交互。例如， 控制器（Controller）处理路由数据和查询字符串值，然后将这些值传递给模型（Model），模型（Model）可以使用这些值去查询数据库。</p>
 </li>
 </ul>
-<p>The MVC pattern helps you create apps that separate the different aspects of the app (input logic, business logic, and UI logic), while providing a loose coupling between these elements. The pattern specifies where each kind of logic should be located in the app. The UI logic belongs in the view. Input logic belongs in the controller. Business logic belongs in the model. This separation helps you manage complexity when you build an app, because it enables you to work on one aspect of the implementation at a time without impacting the code of another. For example, you can work on the view code without depending on the business logic code.</p>
-<p>We&#39;ll be covering all these concepts in this tutorial series and show you how to use them to build a simple movie app. The MVC project currently contains folders for the <em>Controllers</em> and <em>Views</em>. A <em>Models</em> folder will be added in a later step.</p>
+<p>MVC 模式帮助你创建一个分离不同方面的应用程序(输入逻辑，业务逻辑，以及 UI 逻辑)，同时这些元素之间是松耦合的。该模式指定在应用程序中的每一种逻辑应该位于何处。 UI 逻辑属于视图（View）。输入逻辑属于控制器（Controller）。业务逻辑属于模型（Model）。当你构建一个应用程序时，这样的分离帮助你管理应用程序的复杂性，因为它使你编写一个方面的代码时不会影响其他(方面)的代码。比如，你可以编写视图（View）代码而不需要依赖于业务逻辑代码。</p>
+<p>我们会在本系列教程中涵盖所有这些概念，并告诉你如何使用它们构建一个简单的电影应用程序。下面的图片展示了 MVC 项目中的 <em>Controllers</em> 、 <em>Views</em> 文件夹。<em>Models</em> 文件夹会在后面的章节添加。</p>
 <ul>
-<li>In <strong>Solution Explorer</strong>, right-click <strong>Controllers &gt; Add &gt; New Item</strong></li>
+<li>在 <strong>解决方案资源管理器（Solution Explorer）</strong> 中，鼠标右键点击 <strong>Controllers &gt; 添加（Add） &gt; 新建项...（New Item...） &gt; MVC 控制器类（MVC Controller Class）</strong></li>
 </ul>
-<p><img src="adding-controller/static/add_controller.png" alt="Contextual menu"></p>
+<p><img src="adding-controller/static/add_controller.png" alt="右键菜单"></p>
 <ul>
-<li>Select <strong>MVC Controller Class</strong></li>
-<li>In the <strong>Add New Item</strong> dialog, enter <strong>HelloWorldController</strong>.</li>
+<li>选择 <strong>MVC Controller Class</strong></li>
+<li>在 <strong>添加新项（Add New Item）</strong> 对话框，输入 <strong>HelloWorldController</strong>。</li>
 </ul>
-<p><img src="adding-controller/static/ac.png" alt="Add MVC controller and name it"></p>
-<p>Replace the contents of <em>Controllers/HelloWorldController.cs</em> with the following:</p>
+<p><img src="adding-controller/static/ac.png" alt="添加 MVC 控制器并命名"></p>
+<p>用下面的代码替换 <em>Controllers/HelloWorldController.cs</em> 中的内容：</p>
 <pre><code class="lang-csharp" name="Main">using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 
@@ -114,53 +116,54 @@ namespace MvcMovie.Controllers
         }
     }
 }
-</code></pre><p>Every <code>public</code> method in a controller is callable as an HTTP endpoint. In the sample above, both methods return a string.  Note the comments preceding each method.</p>
-<p>An HTTP endpoint is a targetable URL in the web application, such as <code>http://localhost:1234/HelloWorld</code>, and combines the protocol used: <code>HTTP</code>, the network location of the web server (including the TCP port): <code>localhost:1234</code> and the target URI <code>HelloWorld</code>.</p>
-<p>The first comment states this is an <a href="http://www.w3schools.com/tags/ref_httpmethods.asp">HTTP GET</a> method that is invoked by appending &quot;/HelloWorld/&quot; to the base URL. The second comment specifies an <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP GET</a> method that is invoked by appending &quot;/HelloWorld/Welcome/&quot; to the URL. Later on in the tutorial we&#39;ll use the scaffolding engine to generate <code>HTTP POST</code> methods.</p>
+</code></pre><p>控制器（Controller）的每个 <code>public</code> 方法都可作为 HTTP 端点。在上面的例子中，两个方法都返回 string，注意它们的注释：</p>
+<p>HTTP 端点是 Web 应用程序中的可定位 URL，例如 <code>http://localhost:1234/HelloWorld</code>，并结合使用的协议：HTTP，Web服务器的网络位置（包括TCP端口） <code>localhost:1234</code> 和目标URI <code>HelloWorld</code>。</p>
+<p>第一条注释指出这是一个通过在 URL 后添加 &quot;/HelloWorld/&quot; 调用的 <a href="http://www.w3schools.com/tags/ref_httpmethods.asp">HTTP GET</a> 方法，。第二条指出这是一个通过在 URL 后添加 &quot;/HelloWorld/Welcome/&quot; 调用的 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP GET</a> 方法 。之后的教程我们将使用基架引擎来生成e <code>HTTP POST</code> 方法。</p>
 <p>Run the app in non-debug mode (press Ctrl+F5) and append &quot;HelloWorld&quot; to the path in the address bar. (In the image below, <code>http://localhost:5000/HelloWorld</code> is used, but you&#39;ll have to replace <em>5000</em> with the port number of your app.) The <code>Index</code> method returns a string. You told the system to return some HTML, and it did!</p>
-<p><img src="adding-controller/static/hell1.png" alt="Browser window showing an application response of This is my default action"></p>
-<p>MVC invokes controller classes (and the action methods within them) depending on the incoming URL. The default <a href="../../mvc/controllers/routing.html">URL routing logic</a> used by MVC uses a format like this to determine what code to invoke:</p>
+<p>使用非调试模式(Ctrl+F5)运行应用程序，并在浏览器地址栏路径后添加 &quot;HelloWorld&quot; (在下面的图片中，使用了 <code>http://localhost:5000/HelloWorld</code>，但是你必须用你的应用程序端口替换 <em>1234</em> )。 <code>Index</code> 方法返回一段字符串，系统将这段字符串转换为 HTML 返回给浏览器。</p>
+<p><img src="adding-controller/static/hell1.png" alt="这是我的默认操作浏览器窗口显示的应用程序响应"></p>
+<p>MVC 调用的控制器（Controller）类 (以及它们的 Action 方法) 取决于传入的 URL 。MVC 的默认 <a href="../../mvc/controllers/routing.html">URL 路由逻辑</a> 采用类似下面规则格式来决定代码的调用：</p>
 <p><code>/[Controller]/[ActionName]/[Parameters]</code></p>
-<p>You set the format for routing in the <em>Startup.cs</em> file.</p>
+<p>你可以在 <em>Startup.cs</em> 文件中设置路由规则。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
 {
     routes.MapRoute(
         name: &quot;default&quot;,
         template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
 });
-</code></pre><p>When you run the app and don&#39;t supply any URL segments, it defaults to the &quot;Home&quot; controller and the &quot;Index&quot; method specified in the template line highlighted above.</p>
-<p>The first URL segment determines the controller class to run. So <code>localhost:xxxx/HelloWorld</code> maps to the <code>HelloWorldController</code> class. The second part of the URL segment determines the action method on the class. So <code>localhost:xxxx/HelloWorld/Index</code> would cause the <code>Index</code> method of the <code>HelloWorldController</code> class to run. Notice that we only had to browse to <code>localhost:xxxx/HelloWorld</code> and the <code>Index</code> method was called by default. This is because <code>Index</code> is the default method that will be called on a controller if a method name is not explicitly specified. The third part of the URL segment ( <code>id</code>) is for route data. We&#39;ll see route data later on in this tutorial.</p>
-<p>Browse to <code>http://localhost:xxxx/HelloWorld/Welcome</code>. The <code>Welcome</code> method runs and returns the string &quot;This is the Welcome action method...&quot;. For this URL, the controller is <code>HelloWorld</code> and <code>Welcome</code> is the action method. We haven&#39;t used the <code>[Parameters]</code> part of the URL yet.</p>
-<p><img src="adding-controller/static/welcome.png" alt="Browser window showing an application response of This is the Welcome action method"></p>
-<p>Let&#39;s modify the example slightly so that you can pass some parameter information  from the URL to the controller (for example, <code>/HelloWorld/Welcome?name=Scott&amp;numtimes=4</code>).  Change the <code>Welcome</code> method  to include two parameters as shown below. Note that the code uses the C# optional-parameter feature to indicate that the <code>numTimes</code> parameter defaults to 1 if no value is passed for that parameter.</p>
+</code></pre><p>当你运行应用程序且不提供任何 URL 段时，它将默认访问在上面模板中高亮行指定的 &quot;Home&quot; Controller 中的 &quot;Index&quot; Action 方法。</p>
+<p>第一个 URL 段决定运行哪个控制器（Controller）。所以 <code>localhost:xxxx/HelloWorld</code>映射到 <code>HelloWorldController</code> 类。URL 段的第二部分决定类里的 Action 方法。所以 <code>localhost:xxxx/HelloWorld/Index</code> 将运行  <code>HelloWorldController</code> 中的 <code>Index</code> 方法。请注意，我们只需要浏览 <code>localhost:xxxx/HelloWorld</code> ，默认会调用 <code>Index</code> 方法。这是因为在没有指定方法名时， <code>Index</code>  是默认方法。URL 段的第三部分 ( <code>id</code>) 是路由数据。我们之后将在本教程中了解路由数据。</p>
+<p>浏览 <code>http://localhost:xxxx/HelloWorld/Welcome</code>。 <code>Welcome</code> 方法运行并返回 &quot;This is the Welcome action method...&quot; 。对于这个 URL ， 控制器（Controller）是 <code>HelloWorld</code> ， Action 方法是 <code>Welcome</code> 。我们还没有使用 URL 中的 <code>[Parameters]</code> 部分。</p>
+<p><img src="adding-controller/static/welcome.png" alt="这是浏览器窗口显示应用程序响应的 Welcome 操作方法的结果"></p>
+<p>让我们稍微修改一下例子，使我们能够通过 URL 传递一些参数信息到控制器（Controller）(例如，  <code>/HelloWorld/Welcome?name=Scott&amp;numtimes=4</code> )。如下所示修改 <code>Welcome</code> 方法使其包含两个参数。请注意，代码利用 C# 的可选参数特性指明在没有传递参数的情况下， <code>numTimes</code> 参数默认为1。</p>
 <pre><code class="lang-csharp" name="Main">// GET: /HelloWorld/Welcome/ 
 // Requires using System.Text.Encodings.Web;
 public string Welcome(string name, int numTimes = 1)
 {
     return HtmlEncoder.Default.Encode($&quot;Hello {name}, NumTimes is: {numTimes}&quot;);
 }
-</code></pre><p>The code above uses <code>HtmlEncoder.Default.Encode</code> to protect the app from malicious input (namely JavaScript). It also uses <a href="https://docs.microsoft.com/dotnet/articles/csharp/language-reference/keywords/interpolated-strings">Interpolated Strings</a>.</p>
-<p>In Visual Studio, in non-debug mode (Ctrl+F5), you don&#39;t need to build the app after changing  code. Just save the file, refresh your browser and you can see the changes.</p>
-<p>Run your app and browse to:</p>
+</code></pre><p>上面的代码使用 <code>HtmlEncoder.Default.Encode</code> 来保护应用程序免受恶意输入(即 JavaScript)。同时也使用了 <a href="https://docs.microsoft.com/dotnet/articles/csharp/language-reference/keywords/interpolated-strings">内插字符串</a>。</p>
+<p>在 Visual Studio 2015 中，当你在 IIS Express 以非调试模式 (Ctl+F5) 运行，你不需要在修改代码后生成应用程序。只需要保存文件，刷新你的浏览器就可以看到改变。</p>
+<p>运行你的应用程序并浏览：</p>
 <p>   <code>http://localhost:xxxx/HelloWorld/Welcome?name=Rick&amp;numtimes=4</code></p>
-<p>(Replace xxxx with your port number.) You can try different values for <code>name</code> and <code>numtimes</code> in  the URL. The MVC <a href="../../mvc/models/model-binding.html">model binding</a> system automatically maps the named parameters from  the query string in the address bar to parameters in your method. See <a href="../../mvc/models/model-binding.html">Model Binding</a> for more information.</p>
-<p><img src="adding-controller/static/rick4.png" alt="Browser window showing an application response of Hello Rick, NumTimes is: 4"></p>
-<p>In the sample above, the URL segment (<code>Parameters</code>) is not used, the <code>name</code> and <code>numTimes</code> parameters are passed as <a href="http://en.wikipedia.org/wiki/Query_string">query strings</a>. The <code>?</code> (question mark) in the above URL is a separator, and the query strings follow. The <code>&amp;</code> character separates query strings.</p>
-<p>Replace the <code>Welcome</code> method with the following code:</p>
+<p>(用你的端口替换 xxxx。) 你可以在 URL 中对 <code>name</code> 和 <code>numtimes</code> 尝试不同的值。 MVC <a href="../../mvc/models/model-binding.html">模型绑定</a> 系统自动将地址栏里查询字符串中有名字的参数映射到你方法中的参数。查看 <a href="../../mvc/models/model-binding.html">模型绑定</a>获得更多的信息。</p>
+<p><img src="adding-controller/static/rick4.png" alt="浏览器窗口显示应用程序响应 Hello Rick, NumTimes is: 4"></p>
+<p>在上面的示例中， URL 段 (<code>Parameters</code>) 没有被使用， <code>name</code> 和 <code>numTimes</code> 参数作为 <a href="http://en.wikipedia.org/wiki/Query_string">查询字符串</a> 被传递。 上面 URL 中的  <code>?</code> (问号) 是一个分隔符，后面跟查询字符串。  <code>&amp;</code> 字符分割查询字符串。</p>
+<p>用下面的代码替换 <code>Welcome</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main">public string Welcome(string name, int ID = 1)
 {
     return HtmlEncoder.Default.Encode($&quot;Hello {name}, ID: {ID}&quot;);
 }
-</code></pre><p>Run the app and enter the following URL:  <code>http://localhost:xxx/HelloWorld/Welcome/3?name=Rick</code></p>
-<p><img src="adding-controller/static/rick_routedata.png" alt="Browser window showing an application response of Hello Rick, ID: 3"></p>
-<p>This time the third URL segment  matched the route parameter <code>id</code>. The <code>Welcome</code>  method contains a parameter  <code>id</code> that matched the URL template in the <code>MapRoute</code> method. The trailing <code>?</code>  (in <code>id?</code>) indicates the <code>id</code> parameter is optional.</p>
+</code></pre><p>运行应用程序然后输入 URL ： <code>http://localhost:xxx/HelloWorld/Welcome/3?name=Rick</code></p>
+<p><img src="adding-controller/static/rick_routedata.png" alt="浏览器窗口显示应用程序响应 Hello Rick, ID: 3"></p>
+<p>这次第三个 URL 段匹配上了路由参数 <code>id</code>。 <code>Welcome</code> 方法包含一个与 <code>MapRoute</code> 内的 URL 模板相匹配的 <code>id</code> 参数。跟随的 <code>?</code> ( <code>id?</code>) 表示 <code>id</code> 参数是可选的。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
 {
     routes.MapRoute(
         name: &quot;default&quot;,
         template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
 });
-</code></pre><p>In these examples the controller has been doing the &quot;VC&quot; portion  of MVC - that is, the view and controller work. The controller is returning HTML  directly. Generally you don&#39;t want controllers returning HTML directly, since  that becomes very cumbersome to code and maintain. Instead we&#39;ll typically use a separate Razor view template file to help generate the HTML response. We&#39;ll do that in the next tutorial.</p>
+</code></pre><p>在这些例子中，控制器（Controller）一直在做 MVC 中的 &quot;VC&quot; 部分，就是视图（View）和控制器（Controller）部分的工作。这个控制器（Controller）直接返回 HTML 。一般来说你不想让控制器（Controller） 直接返回 HTML ，因为这让编码和维护变得非常麻烦。所以，我们通常会使用一个单独的 Razor 视图模板文件来帮助生成 HTML 响应。 我们将在下一个教程中介绍这部分。</p>
 <div class="step-by-step"><p><a href="start-mvc.html">上一节</a>
 <a href="adding-view.html">下一节</a>  </p>
 </div>

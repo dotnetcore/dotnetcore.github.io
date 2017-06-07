@@ -494,13 +494,13 @@ references:
   name: 使用 dotnet watch 开发 ASP.NET Core 应用程序 | Microsoft 文档（民间汉化）
   href: tutorials/dotnet-watch.html
 - uid: tutorials/first-mvc-app/adding-controller
-  name: Adding a controller | Microsoft Docs
+  name: 添加控制器 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app/adding-controller.html
 - uid: tutorials/first-mvc-app/adding-model
   name: Adding a model | Microsoft Docs
   href: tutorials/first-mvc-app/adding-model.html
 - uid: tutorials/first-mvc-app/adding-view
-  name: Adding a view | Microsoft Docs
+  name: 添加视图 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app/adding-view.html
 - uid: tutorials/first-mvc-app/controller-methods-views
   name: Controller methods and views | Microsoft Docs
