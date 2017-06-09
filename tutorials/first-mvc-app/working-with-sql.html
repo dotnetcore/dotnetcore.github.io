@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Working with SQL Server LocalDB | Microsoft Docs </title>
+    <title>&#20351;&#29992; SQL Server LocalDB | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Working with SQL Server LocalDB | Microsoft Docs ">
+    <meta name="title" content="&#20351;&#29992; SQL Server LocalDB | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,10 +66,12 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/working-with-sql">
-<h1 id="working-with-sql-server-localdb">Working with SQL Server LocalDB</h1>
+<h1 id="使用-sql-server-localdb">使用 SQL Server LocalDB</h1>
 
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>The <code>MvcMovieContext</code> object handles the task of connecting to the database and mapping <code>Movie</code> objects to database records. The database context is registered with the <a class="xref" href="../../fundamentals/dependency-injection.html">Dependency Injection</a> container in the <code>ConfigureServices</code> method in the <em>Startup.cs</em> file:</p>
+<p>作者： <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译： <a href="http://github.com/ChujianA">魏美娟(初见)</a> </p>
+<p>校对： <a href="https://github.com/mengshuaiyang">孟帅洋(书缘)</a> 、<a href="https://github.com/RockFishChina">张硕(Apple)</a>、<a href="https://github.com/SeayXu">许登洋(Seay)</a></p>
+<p><code>MvcMovieContext</code> 类负责连接数据库并将 <code>Movie</code> 对象和数据记录进行映射。 <em>Startup.cs</em> 文件中，数据库上下文是在 <code>ConfigureServices</code> 方法中用 <a class="xref" href="../../fundamentals/dependency-injection.html">依赖注入</a> 容器进行注册的。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="7">
 public void ConfigureServices(IServiceCollection services)
 {
@@ -77,31 +79,31 @@ public void ConfigureServices(IServiceCollection services)
     services.AddMvc();
 
     services.AddDbContext&lt;MvcMovieContext&gt;(options =&gt;
-</code></pre><p>The ASP.NET Core <a class="xref" href="../../fundamentals/configuration.html">Configuration</a> system reads the <code>ConnectionString</code>. For local development, it gets the connection string from the <em>appsettings.json</em> file:</p>
+</code></pre><p>ASP.NET Core  <a class="xref" href="../../fundamentals/configuration.html">配置</a>系统读取 <code>ConnectionString</code>。在本地开发模式下，它会从 <em>appsettings.json</em> 文件中获取连接字符串。</p>
 <pre><code class="lang-javascript" name="Main" highlight-lines="2">&quot;ConnectionStrings&quot;: {
   &quot;MvcMovieContext&quot;: &quot;Server=(localdb)\\mssqllocaldb;Database=MvcMovieContext-20613a4b-deb5-4145-b6cc-a5fd19afda13;Trusted_Connection=True;MultipleActiveResultSets=true&quot;
 }
-</code></pre><p>When you deploy the app to a test or production server, you can use an environment variable or another approach to set the connection string to a real SQL Server. See <a class="xref" href="../../fundamentals/configuration.html">Configuration</a> for more information.</p>
+</code></pre><p>当你部署应用程序到测试服务器或者生产服务器时，你可以使用环境变量或者另一种方法来设置实际 SQL Server 数据库的连接字符串。更多参考 <a class="xref" href="../../fundamentals/configuration.html">配置</a> 。</p>
 <h2 id="sql-server-express-localdb">SQL Server Express LocalDB</h2>
-<p>LocalDB is a lightweight version of the SQL Server Express Database Engine that is targeted for program development. LocalDB starts on demand and runs in user mode, so there is no complex configuration. By default, LocalDB database creates &quot;*.mdf&quot; files in the <em>C:/Users/&lt;user></em> directory.</p>
+<p>LocalDB是针对程序开发阶段使用的一个SQL Server Express轻量级版本的数据库引擎。 因为LocalDB在用户模式下启动、执行，所以它没有复杂的配置。默认情况下，LocalDB数据库创建的 &quot;*.mdf&quot; 文件在 <em>C:/Users/<user></user></em> 目录下。</p>
 <ul>
-<li><p>From the <strong>View</strong> menu, open <strong>SQL Server Object Explorer</strong> (SSOX).</p>
-<p><img src="working-with-sql/static/ssox.png" alt="View menu"></p>
+<li><p>从 <strong>View</strong> 菜单中，打开 <strong>SQL Server对象资源管理器（SQL Server Object Explorer ）</strong> （SSOX）</p>
+<p><img src="working-with-sql/static/ssox.png" alt="视图界面"></p>
 </li>
-<li><p>Right click on the <code>Movie</code> table <strong>&gt; View Designer</strong></p>
-<p><img src="working-with-sql/static/design.png" alt="Contextual menu open on Movie table"></p>
-<p><img src="working-with-sql/static/dv.png" alt="Movie table open in Designer"></p>
+<li><p>右击 <code>Movie</code> 表 <strong>&gt; 视图设计器（View Designer）</strong></p>
+<p><img src="working-with-sql/static/design.png" alt="打开 Movie 表右键菜单"></p>
+<p><img src="working-with-sql/static/dv.png" alt="Movie 表设计时"></p>
 </li>
 </ul>
-<p>Note the key icon next to <code>ID</code>. By default, EF will make a property named <code>ID</code> the primary key.</p>
+<p>注意钥匙图标后面的 <code>ID</code>。默认情况下，EF将命名为 <code>ID</code> 的属性作为主键。</p>
 <ul>
-<li><p>Right click on the <code>Movie</code> table <strong>&gt; View Data</strong></p>
-<p><img src="working-with-sql/static/ssox2.png" alt="Contextual menu open on Movie table"></p>
-<p><img src="working-with-sql/static/vd22.png" alt="Movie table open showing table data"></p>
+<li><p>右击 <code>Movie</code> 表  <strong>&gt; 查看数据（View Data）</strong></p>
+<p><img src="working-with-sql/static/ssox2.png" alt="打开 Movie 表右键菜单"></p>
+<p><img src="working-with-sql/static/vd22.png" alt="Movie 表展示数据"></p>
 </li>
 </ul>
-<h2 id="seed-the-database">Seed the database</h2>
-<p>Create a new class named <code>SeedData</code> in the <em>Models</em> folder. Replace the generated code with the following:</p>
+<h2 id="填充数据库">填充数据库</h2>
+<p>在 <em>Models</em> 文件夹中创建一个名叫 <code>SeedData</code> 的新类。用以下代码替换生成的代码。</p>
 <pre><code class="lang-csharp" name="Main">using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -160,12 +162,12 @@ namespace MvcMovie.Models
         }
     }
 }
-</code></pre><p>Notice if there are any movies in the DB, the seed initializer returns.</p>
+</code></pre><p>注意，如果数据库上下文中存在movies，填充初始化器返回。</p>
 <pre><code class="lang-csharp">if (context.Movie.Any())
 {
     return;   // DB has been seeded.
 }
-</code></pre><p>Add the seed initializer to the end of the <code>Configure</code> method in the <em>Startup.cs</em> file:</p>
+</code></pre><p>在 <em>Startup.cs</em> 文件中的 <code>Configure</code> 方法最后添加填充初始化器。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="9">            app.UseStaticFiles();
             app.UseMvc(routes =&gt;
             {
@@ -178,25 +180,25 @@ namespace MvcMovie.Models
         }
     }
 }
-</code></pre><p>Test the app</p>
+</code></pre><p>测试一下</p>
 <ul>
-<li>Delete all the records in the DB. You can do this with the delete links in the browser or from SSOX.</li>
-<li><p>Force the app to initialize (call the methods in the <code>Startup</code> class) so the seed method runs. To force initialization, IIS Express must be stopped and restarted. You can do this with any of the following approaches:</p>
+<li>删除数据库中的所有记录。你可以直接在浏览器中点击删除链接或者在 SSOX（SQL Server对象资源管理器）中做这件事。</li>
+<li><p>强制应用程序初始化（在 <code>Startup</code> 类中调用方法），这样填充方法会自动运行。为了强制初始化，IIS Express必须先停止，然后重新启动。可以用下列的任何一个方法来实现：</p>
 <ul>
-<li><p>Right click the IIS Express system tray icon in the notification area and tap <strong>Exit</strong> or <strong>Stop Site</strong></p>
-<p><img src="working-with-sql/static/iisExIcon.png" alt="IIS Express system tray icon"></p>
-<p><img src="working-with-sql/static/stopIIS.png" alt="Contextual menu"></p>
+<li><p>在通知区域右键点击 IIS Express 系统托盘图标，点击 <strong>Exit</strong>或者or <strong>Stop Site</strong></p>
+<p><img src="working-with-sql/static/iisExIcon.png" alt="IIS Express 系统托盘图标"></p>
+<p><img src="working-with-sql/static/stopIIS.png" alt="邮件菜单"></p>
 <ul>
-<li>If you were running VS in non-debug mode, press F5 to run in debug mode</li>
-<li>If you were running VS in debug mode, stop the debugger and press F5</li>
+<li>如果你在 VS 的非调试模式， 按下 F5 进入调试模式</li>
+<li>如果你在 VS 的调试模式，停止调试并按下 F5</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p>The app shows the seeded data.</p>
-<p><img src="working-with-sql/static/m55.png" alt="MVC Movie application open in Microsoft Edge showing movie data"></p>
-<div class="step-by-step"><p><a href="adding-model.html">Previous</a>
+<p>应用程序显示了被填充的数据。</p>
+<p><img src="working-with-sql/static/m55.png" alt="在Microsoft Edge中打开 MVC Movie 应用程序显示 movie 数据"></p>
+<div class="step-by-step"><p><a href="adding-model.html">上一节</a>
 <a href="controller-methods-views.html">下一节</a>  </p>
 </div>
 </article>

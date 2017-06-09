@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Controller methods and views | Microsoft Docs </title>
+    <title>Controller &#26041;&#27861;&#19982;&#35270;&#22270; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Controller methods and views | Microsoft Docs ">
+    <meta name="title" content="Controller &#26041;&#27861;&#19982;&#35270;&#22270; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,12 +66,14 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/controller-methods-views">
-<h1 id="controller-methods-and-views">Controller methods and views</h1>
+<h1 id="controller-方法与视图">Controller 方法与视图</h1>
 
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>We have a good start to the movie app, but the presentation is not ideal. We don&#39;t want to see the time (12:00:00 AM in the image below) and <strong>ReleaseDate</strong> should be two words.</p>
-<p><img src="working-with-sql/static/m55.png" alt="Index view: Release Date is one word (no space) and every movie release date shows a time of 12 AM"></p>
-<p>Open the <em>Models/Movie.cs</em> file and add the highlighted lines shown below:</p>
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler</a> </p>
+<p>校对 <a href="https://github.com/mengshuaiyang">孟帅洋(书缘)</a>、<a href="https://github.com/stoneniqiu">张仁建(第二年.夏)</a>、<a href="https://github.com/SeayXu">许登洋(Seay)</a> 、<a href="https://github.com/YaoaY">姚阿勇(Dr.Yao)</a> 、<a href="https://github.com/xbuilder">娄宇(Lyrics)</a> </p>
+<p>我们已经初步的创建了一个 movie 应用程序，但是展示并不理想。我们不希望看到 release date 字段显示时间并且 <strong>ReleaseDate</strong> 应该是两个单词。</p>
+<p><img src="working-with-sql/static/m55.png" alt="Index view: Release Date 是一个单次 (没有空格) 每个电影记录显示时间为 12 AM"></p>
+<p>打开 <em>Models/Movie.cs</em> 文件并添加下面高亮的代码行：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="13-14">using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,14 +93,14 @@ namespace MvcMovie.Models
         public decimal Price { get; set; }
     }
 }
-</code></pre><p>Right click on a red squiggly line <strong>&gt; Quick Actions and Refactorings</strong>.</p>
-<p>  <img src="controller-methods-views/static/qa.png" alt="Contextual menu shows **&gt; Quick Actions and Refactorings**."></p>
-<p>Tap <code>using System.ComponentModel.DataAnnotations;</code></p>
-<p>  <img src="controller-methods-views/static/da.png" alt="using System.ComponentModel.DataAnnotations at top of list"></p>
-<p>  Visual studio adds <code>using System.ComponentModel.DataAnnotations;</code>.</p>
-<p>Let&#39;s remove the <code>using</code> statements that are not needed. They show up by default in a light grey font. Right click anywhere in the <em>Movie.cs</em> file <strong>&gt; Remove and Sort Usings</strong>.</p>
-<p><img src="controller-methods-views/static/rm.png" alt="Remove and Sort Usings"></p>
-<p>The updated code:</p>
+</code></pre><p>右键点击红色波浪线代码行 <strong>&gt; Quick Actions</strong>。</p>
+<p>  <img src="controller-methods-views/static/qa.png" alt="右键菜单显示 **&gt; Quick Actions and Refactorings**."></p>
+<p>点击 <code>using System.ComponentModel.DataAnnotations;</code></p>
+<p>  <img src="controller-methods-views/static/da.png" alt="using System.ComponentModel.DataAnnotations 在代码顶部"></p>
+<p>  Visual studio 会自动添加 <code>using System.ComponentModel.DataAnnotations;</code>引用代码。</p>
+<p>让我们移除多余的  <code>using</code>  引用代码。它们默认以灰色字体出现。右键点击 <em>Movie.cs</em> 文件 点击 <strong>&gt; Organize Usings &gt; Remove Unnecessary Usings</strong> 菜单。</p>
+<p><img src="controller-methods-views/static/rm.png" alt="移除排序Usings"></p>
+<p>更新后的代码：</p>
 <pre><code class="lang-csharp" name="Main">using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -117,31 +119,31 @@ namespace MvcMovie.Models
     }
 }
 </code></pre><!-- include start -->
-<p>We&#39;ll cover <a href="http://msdn.microsoft.com/library/system.componentmodel.dataannotations.aspx">DataAnnotations</a> in the next tutorial. The <a href="https://msdn.microsoft.com/library/system.componentmodel.dataannotations.displayattribute.aspx">Display</a> attribute specifies what to display for the name of a field (in this case &quot;Release Date&quot; instead of &quot;ReleaseDate&quot;). The <a href="https://msdn.microsoft.com/library/system.componentmodel.dataannotations.datatypeattribute.aspx">DataType</a> attribute specifies the type of the data (Date), so the time information stored in the field is not displayed.</p>
-<p>Browse to the <code>Movies</code> controller and hold the mouse pointer over an <strong>Edit</strong> link to see the target URL.</p>
-<p><img src="controller-methods-views/static/edit7.png" alt="Browser window with mouse over the Edit link and a link Url of http://localhost:1234/Movies/Edit/5 is shown"></p>
-<p>The <strong>Edit</strong>, <strong>Details</strong>, and <strong>Delete</strong> links are generated by the MVC Core Anchor Tag Helper in the <em>Views/Movies/Index.cshtml</em> file.</p>
+<p>我们会在下一篇文章中继续发掘 <a href="http://msdn.microsoft.com/library/system.componentmodel.dataannotations.aspx">DataAnnotations</a> 的内容。 <a href="https://msdn.microsoft.com/library/system.componentmodel.dataannotations.displayattribute.aspx">Display</a> 标签用来指定字段的显示名（在本示例中 &quot;Release Date&quot; 会替代 &quot;ReleaseDate&quot;）。 <a href="https://msdn.microsoft.com/library/system.componentmodel.dataannotations.datatypeattribute.aspx">DataType</a> 特性指定数据类型，在本示例是日期类型，所以字段中存储的时间信息不会被显示。</p>
+<p>浏览 <code>Movies</code> 控制器并把鼠标悬停于 <strong>Edit</strong> 链接上可以看到目标 URL。</p>
+<p><img src="controller-methods-views/static/edit7.png" alt="在浏览窗口把鼠标悬停在编辑链接上会显示链接 http://localhost:1234/Movies/Edit/5 "></p>
+<p><strong>Edit</strong>、<strong>Details</strong> 以及 <strong>Delete</strong> 链接是由 <em>Views/Movies/Index.cshtml</em> 文件中的 MVC Core Anchor Tag Helper 自动生成的。</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="1-3">        &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@item.ID&quot;&gt;Edit&lt;/a&gt; |
         &lt;a asp-action=&quot;Details&quot; asp-route-id=&quot;@item.ID&quot;&gt;Details&lt;/a&gt; |
         &lt;a asp-action=&quot;Delete&quot; asp-route-id=&quot;@item.ID&quot;&gt;Delete&lt;/a&gt;
     &lt;/td&gt;
 &lt;/tr&gt;
-</code></pre><p><a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a> enable server-side code to participate in creating and rendering HTML elements in Razor files. In the code above, the <code>AnchorTagHelper</code> dynamically generates the HTML <code>href</code> attribute value from the controller action method and route id. You use <strong>View Source</strong> from your favorite browser or use the developer tools to examine the generated markup. A portion of the generated HTML is shown below:</p>
+</code></pre><p><a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a> 允许服务器端代码在 Razor 文件中创建和生成 HTML 元素。在上面的代码中， <code>AnchorTagHelper</code>  通过 controller 方法以及路由ID 动态生成 HTML <code>href</code> 属性值。你可以在你熟悉的浏览器中使用 <strong>View Source</strong> 菜单或者使用 <strong>F12</strong> 工具来检查你生成的 HTML 标签。 <strong>F12</strong> 工具如下图。</p>
 <pre><code class="lang-html"> &lt;td&gt;
     &lt;a href = &quot;/Movies/Edit/4&quot; &gt; Edit &lt;/ a &gt; |
     &lt; a href=&quot;/Movies/Details/4&quot;&gt;Details&lt;/a&gt; |
     &lt;a href = &quot;/Movies/Delete/4&quot; &gt; Delete &lt;/ a &gt;
 &lt;/ td &gt;
-</code></pre><p>Recall the format for <a class="xref" href="../../mvc/controllers/routing.html">routing</a> set in the <em>Startup.cs</em> file:</p>
+</code></pre><p>在 <em>Startup.cs</em> 文件中设置回调<a class="xref" href="../../mvc/controllers/routing.html">路由</a>格式。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
 {
     routes.MapRoute(
         name: &quot;default&quot;,
         template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
 });
-</code></pre><p>ASP.NET Core translates <code>http://localhost:1234/Movies/Edit/4</code> into a request to the <code>Edit</code> action method of the <code>Movies</code> controller with the parameter <code>Id</code> of 4. (Controller methods are also known as action methods.)</p>
-<p><a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a> are one of the most popular new features in ASP.NET Core. See <a href="#additional-resources">Additional resources</a> for more information.</p>
-<p>Open the <code>Movies</code> controller and examine the two <code>Edit</code> action methods. The following code shows the <code>HTTP GET Edit</code> method, which fetches the movie and populates the edit form generated by the <em>Edit.cshtml</em> Razor file.</p>
+</code></pre><p>ASP.NET Core 会把 <code>http://localhost:1234/Movies/Edit/4</code> 转化成发送到 <code>Movies</code> controller 的 <code>Edit</code> 方法的请求并带上值为 4 的 <code>Id</code> 参数。（ Controller 方法其实就是指代 action 方法。）</p>
+<p><a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a>  是 ASP.NET Core 中最受欢迎的新功能之一。参考 <a href="#additional-resources">附录资源</a> 获取更多信息。</p>
+<p>打开 <code>Movies</code> controller 并查看两个 <code>Edit</code> 方法，下面的代码展示了 <code>HTTP GET Edit</code> 方法。这个方法读取 movie 数据并显示 <em>Edit.cshtml</em> Razor 文件生成的编辑表单页面。</p>
 <pre><code class="lang-csharp" name="Main">// GET: Movies/Edit/5
 public async Task&lt;IActionResult&gt; Edit(int? id)
 {
@@ -157,7 +159,7 @@ public async Task&lt;IActionResult&gt; Edit(int? id)
     }
     return View(movie);
 }
-</code></pre><p>The following code shows the <code>HTTP POST Edit</code> method, which processes the posted movie values:</p>
+</code></pre><p>接下来的方法展示 <code>HTTP POST Edit</code> 方法，处理 POST 过来的 movie 数据：</p>
 <pre><code class="lang-csharp" name="Main">// POST: Movies/Edit/5
 // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
 // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -192,8 +194,9 @@ public async Task&lt;IActionResult&gt; Edit(int id, [Bind(&quot;ID,Title,Release
     }
     return View(movie);
 }
-</code></pre><p>The <code>[Bind]</code> attribute is one way to protect against <a href="https://docs.microsoft.com/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">over-posting</a>. You should only include properties in the <code>[Bind]</code> attribute that you want to change. See <a href="http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">Protect your controller from over-posting</a> for more information. <a href="http://rachelappel.com/use-viewmodels-to-manage-data-amp-organize-code-in-asp-net-mvc-applications/">ViewModels</a> provide an alternative approach to prevent over-posting.</p>
-<p>Notice the second <code>Edit</code> action method is preceded by the <code>[HttpPost]</code> attribute.</p>
+</code></pre><p><code>[Bind]</code>  特性是防止 <a href="https://docs.microsoft.com/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">over-posting</a> （过度提交，客户端可能发送比期望还多的数据，比如只需要2个属性但是发送了3个属性）的一种方法。
+你应该只把需要改变的属性包含到 <code>[Bind]</code>  特性中。请参阅 <a href="http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">Protect your controller from over-posting</a> 获取更多信息。 <a href="http://rachelappel.com/use-viewmodels-to-manage-data-amp-organize-code-in-asp-net-mvc-applications/">ViewModels</a> 提供了另外一种方式防止过度提交。</p>
+<p>请注意带第二个<code>Edit</code> 方法被 <code>[HttpPost]</code> 特性所修饰。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="4">// POST: Movies/Edit/5
 // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
 // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -228,11 +231,11 @@ public async Task&lt;IActionResult&gt; Edit(int id, [Bind(&quot;ID,Title,Release
     }
     return View(movie);
 }
-</code></pre><p>The <code>HttpPost</code> attribute specifies that this <code>Edit</code> method can be invoked <em>only</em> for <code>POST</code> requests. You could apply the <code>[HttpGet]</code> attribute to the first edit method, but that&#39;s not necessary because <code>[HttpGet]</code> is the default.</p>
-<p>The <code>ValidateAntiForgeryToken</code> attribute is used to <a class="xref" href="../../security/anti-request-forgery.html">prevent forgery of a request</a> and is paired up with an anti-forgery token generated in the edit view file (<em>Views/Movies/Edit.cshtml</em>). The edit view file generates the anti-forgery token with the <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>.</p>
+</code></pre><p><code>HttpPost</code>  标签指定这个 <code>Edit</code> 方法 <em>只能</em> 被 <code>POST</code>  请求调用。你可以把 <code>[HttpGet]</code> 标签应用到第一个 edit方法，但是，不是必须的，因为 <code>[HttpGet]</code> 是被默认使用的。</p>
+<p><code>ValidateAntiForgeryToken</code> 标签是用来防止伪造请求的，会在（<em>Views/Movies/Edit.cshtml</em>）视图最终呈现文件中加入反伪造标记和服务器进行配对。edit 视图生成反伪造标记请参考 <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>。</p>
 <pre><code class="lang-HTML" name="Main">&lt;form asp-action=&quot;Edit&quot;&gt;
-</code></pre><p>The <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> generates a hidden anti-forgery token that must match the <code>[ValidateAntiForgeryToken]</code> generated anti-forgery token in the <code>Edit</code> method of the Movies controller. For more information, see <a class="xref" href="../../security/anti-request-forgery.html">Anti-Request Forgery</a>.</p>
-<p>The <code>HttpGet Edit</code> method takes the movie <code>ID</code> parameter, looks up the movie using the Entity Framework <code>SingleOrDefaultAsync</code> method, and returns the selected movie to the Edit view. If a movie cannot be found, <code>NotFound</code> (HTTP 404) is returned.</p>
+</code></pre><p><a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> 生成一个隐藏域的防伪标记必须和 Movies controller 的e <code>Edit</code> 方法的 <code>[ValidateAntiForgeryToken]</code> 产生的防伪标记相匹配。更多信息请参考 <a class="xref" href="../../security/anti-request-forgery.html">Anti-Request Forgery</a>。</p>
+<p> <code>HttpGet Edit</code> 方法获取 movie 的 <code>ID</code> 参数，通过使用 Entity Framework 的 <code>SingleOrDefaultAsync</code> 方法查找 movie，并将选中的 movie 填充到 Edit 视图。如果 movie 没有找到，返回 <code>NotFound</code> （HTTP 404）响应。</p>
 <pre><code class="lang-csharp" name="Main">// GET: Movies/Edit/5
 public async Task&lt;IActionResult&gt; Edit(int? id)
 {
@@ -248,7 +251,7 @@ public async Task&lt;IActionResult&gt; Edit(int? id)
     }
     return View(movie);
 }
-</code></pre><p>When the scaffolding system created the Edit view, it examined the <code>Movie</code> class and created code to render <code>&lt;label&gt;</code> and <code>&lt;input&gt;</code> elements for each property of the class. The following example shows the Edit view that was generated by the Visual Studio scaffolding system:</p>
+</code></pre><p>在基架系统创建 Edit 视图的时候，会检查 <code>Movie</code> 类并为它的每个属性生成代码以呈现 <code>&lt;label&gt;</code> 和 <code>&lt;input&gt;</code> 元素。下面的例子展示了 Visual Studio 基架系统生成的 Edit 视图：</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="1">@model MvcMovie.Models.Movie
 
 @{
@@ -306,9 +309,9 @@ public async Task&lt;IActionResult&gt; Edit(int? id)
 @section Scripts {
     @{await Html.RenderPartialAsync(&quot;_ValidationScriptsPartial&quot;);}
 }
-</code></pre><p>Notice how the view template has a <code>@model MvcMovie.Models.Movie</code> statement at the top of the file. <code>@model MvcMovie.Models.Movie</code> specifies that the view expects the model for the view template to be of type <code>Movie</code>.</p>
-<p>The scaffolded code uses several Tag Helper methods to streamline the HTML markup. The - <a class="xref" href="../../mvc/views/working-with-forms.html">Label Tag Helper</a> displays the name of the field (&quot;Title&quot;, &quot;ReleaseDate&quot;, &quot;Genre&quot;, or &quot;Price&quot;). The <a class="xref" href="../../mvc/views/working-with-forms.html">Input Tag Helper</a> renders an HTML <code>&lt;input&gt;</code> element. The <a class="xref" href="../../mvc/views/working-with-forms.html">Validation Tag Helper</a> displays any validation messages associated with that property.</p>
-<p>Run the application and navigate to the <code>/Movies</code> URL. Click an <strong>Edit</strong> link. In the browser, view the source for the page. The generated HTML for the <code>&lt;form&gt;</code> element is shown below.</p>
+</code></pre><p>你会注意到为什么视图模版文件的顶部会有一行 <code>@model MvcMovie.Models.Movie</code> 声明呢？— 因为这个声明指定这个视图模版的模型期待的类型是 <code>Movie</code>。</p>
+<p>基架生成的代码使用几个 Tag Helper 方法来简化 HTML 标记。 <a class="xref" href="../../mvc/views/working-with-forms.html">Label Tag Helper</a> 用来显示字段名（&quot;Title&quot;、&quot;ReleaseDate&quot;、&quot;Genre&quot; 或者 &quot;Price&quot;）。<a class="xref" href="../../mvc/views/working-with-forms.html">Input Tag Helper</a> 用来呈现 HTML <code>&lt;input&gt;</code> 元素。 <a class="xref" href="../../mvc/views/working-with-forms.html">Validation Tag Helper</a> 显示关联到属性的错误信息。</p>
+<p>运行应用程序并导航到 <code>/Movies</code> URL。单击 <strong>编辑</strong> 链接。在浏览器中查看该页面的源代码。为 <code>&lt;form&gt;</code> 元素生成的 HTML 如下所示。</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="1,6,10,17,24,28">&lt;form action=&quot;/Movies/Edit/7&quot; method=&quot;post&quot;&gt;
     &lt;div class=&quot;form-horizontal&quot;&gt;
         &lt;h4&gt;Movie&lt;/h4&gt;
@@ -338,9 +341,9 @@ public async Task&lt;IActionResult&gt; Edit(int? id)
     &lt;/div&gt;
     &lt;input name=&quot;__RequestVerificationToken&quot; type=&quot;hidden&quot; value=&quot;CfDJ8Inyxgp63fRFqUePGvuI5jGZsloJu1L7X9le1gy7NCIlSduCRx9jDQClrV9pOTTmqUyXnJBXhmrjcUVDJyDUMm7-MF_9rK8aAZdRdlOri7FmKVkRe_2v5LIHGKFcTjPrWPYnc9AdSbomkiOSaTEg7RU&quot; /&gt;
 &lt;/form&gt;
-</code></pre><p>The <code>&lt;input&gt;</code> elements are in an <code>HTML &lt;form&gt;</code> element whose <code>action</code> attribute is set to post to the <code>/Movies/Edit/id</code> URL. The form data will be posted to the server when the <code>Save</code> button is clicked. The last line before the closing <code>&lt;/form&gt;</code> element shows the hidden <a class="xref" href="../../security/anti-request-forgery.html">XSRF</a> token generated by the <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>.</p>
-<h2 id="processing-the-post-request">Processing the POST Request</h2>
-<p>The following listing shows the <code>[HttpPost]</code> version of the <code>Edit</code> action method.</p>
+</code></pre><p> <code>HTML &lt;form&gt;</code> 中的 <code>&lt;input&gt;</code> 元素的 <code>action</code> 属性用于设置请求发送到 <code>/Movies/Edit/id</code> URL。当点击 <code>Save</code> 按钮时表单数据会被发送到服务器。在 <code>&lt;/form&gt;</code> 元素关闭前最后一行 <code>&lt;/form&gt;</code> 展示了  <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> 生成的 <a class="xref" href="../../security/anti-request-forgery.html">XSRF</a> 隐藏域标识。</p>
+<h2 id="处理-post-请求">处理 POST 请求</h2>
+<p>下面的列表显示了 <code>[HttpPost]</code> 不同版本的 <code>Edit</code> 方法。</p>
 <pre><code class="lang-csharp" name="Main">// POST: Movies/Edit/5
 // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
 // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -375,19 +378,19 @@ public async Task&lt;IActionResult&gt; Edit(int id, [Bind(&quot;ID,Title,Release
     }
     return View(movie);
 }
-</code></pre><p>The <code>[ValidateAntiForgeryToken]</code> attribute validates the hidden <a class="xref" href="../../security/anti-request-forgery.html">XSRF</a> token generated by the anti-forgery token generator in the <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a></p>
-<p>The <a class="xref" href="../../mvc/models/model-binding.html">model binding</a> system takes the posted form values and creates a <code>Movie</code> object that&#39;s passed as the <code>movie</code> parameter. The <code>ModelState.IsValid</code> method verifies that the data submitted in the form can be used to modify (edit or update) a <code>Movie</code> object. If the data is valid it&#39;s saved. The updated (edited) movie data is saved to the database by calling the <code>SaveChangesAsync</code> method of database context. After saving the data, the code redirects the user to the <code>Index</code> action method of the <code>MoviesController</code> class, which displays the movie collection, including the changes just made.</p>
-<p>Before the form is posted to the server, client side validation checks any validation rules on the fields. If there are any validation errors, an error message is displayed and the form is not posted. If JavaScript is disabled, you won&#39;t have client side validation but the server will detect the posted values that are not valid, and the form values will be redisplayed with error messages. Later in the tutorial we examine <a class="xref" href="../../mvc/models/validation.html">Model Validation</a> in more detail. The <a class="xref" href="../../mvc/views/working-with-forms.html">Validation Tag Helper</a> in the <em>Views/Movies/Edit.cshtml</em> view template takes care of displaying appropriate error messages.</p>
+</code></pre><p> <code>[ValidateAntiForgeryToken]</code> 标签验证 <a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> 生成的存放在隐藏域中的 <a class="xref" href="../../security/anti-request-forgery.html">XSRF</a> 反伪造标记。</p>
+<p><a class="xref" href="../../mvc/models/model-binding.html">模型绑定</a> 机制以发送表单数据创建 <code>Movie</code> 对象并作为 <code>movie</code> 参数。 <code>ModelState.IsValid</code> 方法验证表单提交的数据可以用来修改（编辑或更新）一个 <code>Movie</code> 对象。如果数据有效，就可以保存。更新（编辑） movie 数据会被存到数据库通过 database context 的 <code>SaveChangesAsync</code> 方法。数据保存完毕以后，这段代码将用户重定向到 <code>MoviesController</code> 类的 <code>Index</code> 方法，这个页面显示了改动后最新的Movie集合。</p>
+<p>表单数据被发布到服务器之前，客户端校验会检查所有字段上的验证规则。如果有任何验证错误，则显示错误消息，并且表单数据不会被发送。如果禁用了 JavaScript，将不会有客户端验证，但服务器端将检测出发送数据是无效的，表单依旧会显示出错误信息。在稍后的教程中，我们会探讨 <a class="xref" href="../../mvc/models/validation.html">模型验证</a> 更多关于验证的细节。 <em>Views/Book/Edit.cshtml</em> 视图模版中的 <a class="xref" href="../../mvc/views/working-with-forms.html">验证Tag Helper</a>  负责显示错误信息。</p>
 <p><img src="controller-methods-views/static/val.png" alt="Edit view: An exception for an incorrect Price value of abc states that The field Price must be a number. An exception for an incorrect Release Date value of xyz states Please enter a valid date."></p>
-<p>All the <code>HttpGet</code> methods in the movie controller follow a similar pattern. They get a movie object (or list of objects, in the case of <code>Index</code>), and pass the object (model) to the view. The <code>Create</code> method passes an empty movie object to the <code>Create</code> view. All the methods that create, edit, delete, or otherwise modify data do so in the <code>[HttpPost]</code> overload of the method. Modifying data in an <code>HTTP GET</code> method is a security risk. Modifying data in an <code>HTTP GET</code> method also violates HTTP best practices and the architectural <a href="http://rest.elkstein.org/">REST</a> pattern, which specifies that GET requests should not change the state of your application. In other words, performing a GET operation should be a safe operation that has no side effects and doesn&#39;t modify your persisted data.</p>
-<h2 id="additional-resources">Additional resources</h2>
+<p>movie controller 的所有 <code>HttpGet</code> 方法都遵循类似的模式。它们获取一个对象（或者对象列表，比如 <code>Index</code>），把对象（模型）传递到视图。 <code>Create</code> 方法创建一个空的对象到 <code>Create</code> 视图。诸如 Create、Edit、Delete 等之类的会修改数据的方法都会在 <code>[HttpPost]</code> 版本的重载方法中这样做（<em>译者注：</em>执行类似于前文所述的这些操作）。在 HTTP GET 方法中修改数据有安全风险。在 <code>HTTP GET</code> 方法中修改数据同样也违反 HTTP 最佳实践以及 <a href="http://rest.elkstein.org/">REST</a> 架构模式，其中规定 GET 请求不应该更改应用程序的状态。换句话说，执行 GET 操作应该是没有任何副作用，不会修改您的持久化的数据。</p>
+<h2 id="其他资源">其他资源</h2>
 <ul>
-<li><a class="xref" href="../../fundamentals/localization.html">Globalization and localization</a></li>
-<li><a class="xref" href="../../mvc/views/tag-helpers/intro.html">Introduction to Tag Helpers</a></li>
+<li><a class="xref" href="../../fundamentals/localization.html">全球化于本地化</a></li>
+<li><a class="xref" href="../../mvc/views/tag-helpers/intro.html">介绍 Tag Helpers</a></li>
 <li><a class="xref" href="../../mvc/views/tag-helpers/authoring.html">Authoring Tag Helpers</a></li>
 <li><a class="xref" href="../../security/anti-request-forgery.html">Anti-Request Forgery</a></li>
 <li>Protect your controller from <a href="http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">over-posting</a></li>
-<li><a href="http://rachelappel.com/use-viewmodels-to-manage-data-amp-organize-code-in-asp-net-mvc-applications/">ViewModels</a></li>
+<li><a href="http://rachelappel.com/use-viewmodels-to-manage-data-amp-organize-code-in-asp-net-mvc-applications/">视图模型</a></li>
 <li><a class="xref" href="../../mvc/views/working-with-forms.html">Form Tag Helper</a></li>
 <li><a class="xref" href="../../mvc/views/working-with-forms.html">Input Tag Helper</a></li>
 <li><a class="xref" href="../../mvc/views/working-with-forms.html">Label Tag Helper</a></li>
@@ -395,7 +398,7 @@ public async Task&lt;IActionResult&gt; Edit(int id, [Bind(&quot;ID,Title,Release
 <li><a class="xref" href="../../mvc/views/working-with-forms.html">Validation Tag Helper</a></li>
 </ul>
 <div class="step-by-step"><p><a href="working-with-sql.html">上一节</a>
-<a href="search.html">Next</a>  </p>
+<a href="search.html">下一节</a>  </p>
 </div>
 </article>
           </div>

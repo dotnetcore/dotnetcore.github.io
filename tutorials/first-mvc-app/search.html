@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Adding Search | Microsoft Docs </title>
+    <title>&#28155;&#21152;&#25628;&#32034; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Adding Search | Microsoft Docs ">
+    <meta name="title" content="&#28155;&#21152;&#25628;&#32034; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,11 +66,13 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/search">
-<h1 id="adding-search">Adding Search</h1>
+<h1 id="添加搜索">添加搜索</h1>
 
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>In this section you&#39;ll add search capability to the <code>Index</code> action method that lets you search movies by <em>genre</em> or <em>name</em>.</p>
-<p>Update the <code>Index</code> method with the following code:</p>
+<p>作者： <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译： <a href="http://github.com/ChujianA">魏美娟(初见)</a></p>
+<p>校对： <a href="https://github.com/kiler398/">谢炀（Kiler</a> 、<a href="https://github.com/stoneniqiu">张仁建(第二年.夏)</a>  、<a href="https://github.com/mengshuaiyang">孟帅洋(书缘)</a> 、<a href="https://github.com/jack2gs">高嵩</a> </p>
+<p>在本节中，你可以为 <code>Index</code> 方法添加查询功能，使其能够根据电影的 <em>genre</em> 或 <em>name</em> 进行查找。</p>
+<p>更新 <code>Index</code> 方法来开启搜索功能：</p>
 <!--
 [!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
 -->
@@ -86,31 +88,31 @@
 
     return View(await movies.ToListAsync());
 }
-</code></pre><p>The first line of the <code>Index</code> action method creates a <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a> query to select the movies:</p>
+</code></pre><p> <code>Index</code> 方法的第一行代码创建了一个 <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a> 查询，用来查找符合条件的电影：</p>
 <pre><code class="lang-csharp">var movies = from m in _context.Movie
              select m;
-</code></pre><p>The query is <em>only</em> defined at this point, it has <strong>not</strong> been run against the database.</p>
-<p>If the <code>searchString</code> parameter contains a string, the movies query is modified to filter on the value of the search string:</p>
+</code></pre><p>这个查询 <em>仅仅只是</em> 在这里被定义出来，但是 <strong>并未</strong> 在数据库中执行。</p>
+<p>如果 <code>searchString</code> p参数包含一个字符串，movies 查询将会添加对应查询过滤条件（ <em>译者注</em> 本例为 Title 包含 <code>searchString</code> p查询条件），代码如下：</p>
 <pre><code class="lang-csharp" name="Main">if (!String.IsNullOrEmpty(id))
 {
     movies = movies.Where(s =&gt; s.Title.Contains(id));
 }
-</code></pre><p>The <code>s =&gt; s.Title.Contains()</code> code above is a <a href="http://msdn.microsoft.com/library/bb397687.aspx">Lambda Expression</a>. Lambdas are used in method-based <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a> queries as arguments to standard query operator methods such as the <a href="http://msdn.microsoft.com/en-us/library/system.linq.enumerable.where.aspx">Where</a> method or <code>Contains</code> (used in the code above). LINQ queries are not executed when they are defined or when they are modified by calling a method such as <code>Where</code>, <code>Contains</code>  or <code>OrderBy</code>. Rather, query execution is deferred.  That means that the evaluation of an expression is delayed until its realized value is actually iterated over or the <code>ToListAsync</code> method is called. For more information about deferred query execution, see <a href="http://msdn.microsoft.com/en-us/library/bb738633.aspx">Query Execution</a>.</p>
-<p>Note: The <a href="http://msdn.microsoft.com/library/bb155125.aspx">Contains</a> method is run on the database, not in the c# code shown above. The case sensitivity on the query depends on the database and the collation. On SQL Server, <a href="http://msdn.microsoft.com/library/bb155125.aspx">Contains</a> maps to <a href="http://msdn.microsoft.com/library/ms179859.aspx">SQL LIKE</a>, which is case insensitive. In SQLlite, with the default collation, it&#39;s case sensitive.</p>
-<p>Navigate to <code>/Movies/Index</code>. Append a query string such as <code>?searchString=Ghost</code> to the URL. The filtered movies are displayed.</p>
+</code></pre><p>代码中的 <code>s =&gt; s.Title.Contains()</code> 是一个  <a href="http://msdn.microsoft.com/library/bb397687.aspx">Lambda 表达式</a> ，Lambda 表达式被用在基于方法的 <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a> 查询（例如：上面代码中的 <code>Where &lt;http://msdn.microsoft.com/en-us/library/system.linq.enumerable.where.aspx&gt;</code>__ 方法 或者 <code>Contains</code>）中当做参数来使用。LINQ 语句在定义或调用类似 <code>Where</code> 、 <code>Contains</code> 或者 <code>OrderBy</code> 的方法进行修改的时候不会执行，相反的，查询会延迟执行，这意味着一个赋值语句直到迭代完成或调用  <code>ToListAsync</code> 方法才具备真正的值。更多关于延时查询的信息。请参考  <a href="http://msdn.microsoft.com/en-us/library/bb738633.aspx">查询执行</a> 。</p>
+<p>Note: <a href="http://msdn.microsoft.com/library/bb155125.aspx">Contains</a> 方法是在数据库中运行的，并非在上面的 C# 代码中。在数据库中， <a href="http://msdn.microsoft.com/library/bb155125.aspx">Contains</a> 方法被翻译为不区分大小写的 <a href="http://msdn.microsoft.com/library/ms179859.aspx">SQL LIKE</a> 脚本。</p>
+<p>运行应用程序，并导航到 <code>/Movies/Index</code>，在 URL 后面添加一个查询字符串，例如 <code>?searchString=Ghost</code> ，被过滤后的电影列表如下：</p>
 <p><img src="search/static/ghost.png" alt="Index view"></p>
-<p>If you change the signature of the <code>Index</code> method to have a parameter named <code>id</code>, the <code>id</code> parameter will match the optional <code>{id}</code> placeholder for the default routes set in <em>Startup.cs</em>.</p>
+<p>如果你修改 <code>Index</code> 方法签名使得方法包含一个名为 <code>id</code> 的参数，那么 <code>id</code> 参数将会匹配 <em>Startup.cs</em> 文件中的默认路由中的可选项 {id} 。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
 {
     routes.MapRoute(
         name: &quot;default&quot;,
         template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
 });
-</code></pre><p>You can quickly rename the <code>searchString</code> parameter to <code>id</code> with the <strong>rename</strong> command. Right click on <code>searchString</code> <strong>&gt; Rename</strong>.</p>
+</code></pre><p>你可以使用 <strong>rename</strong> 操作快速的把 <code>searchString</code> 参数重命名为 <code>id</code> ，在 <code>searchString</code> 上右击  <strong>&gt; Rename</strong> 。</p>
 <p><img src="search/static/rename.png" alt="Contextual menu"></p>
-<p>The rename targets are highlighted.</p>
+<p>会被重命名的代码会高亮显示。</p>
 <p><img src="search/static/rename2.png" alt="Code editor showing the variable highlighted throughout the Index ActionResult method"></p>
-<p>Change the parameter to <code>id</code> and all occurrences of <code>searchString</code> change to <code>id</code>.</p>
+<p>修改参数为 <code>id</code> ，其他引用到 <code>searchString</code> 的地方也会自动变更为 <code>id</code> 。</p>
 <p><img src="search/static/rename3.png" alt="Code editor showing the variable has been changed to id"></p>
 <!--
 [!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
@@ -126,7 +128,7 @@
 [!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Startup.cs?highlight=5&name=snippet_1)]
 
 --> 
-<p>The previous <code>Index</code> method:</p>
+<p>修改前的 <code>Index</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="1,8">public async Task&lt;IActionResult&gt; Index(string searchString)
 {
     var movies = from m in _context.Movie
@@ -139,7 +141,7 @@
 
     return View(await movies.ToListAsync());
 }
-</code></pre><p>The updated <code>Index</code> method with <code>id</code> parameter:</p>
+</code></pre><p>修改后的带 <code>id</code> 参数的 <code>Index</code> 方法:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="1,8">public async Task&lt;IActionResult&gt; Index(string id)
 {
     var movies = from m in _context.Movie
@@ -152,9 +154,9 @@
 
     return View(await movies.ToListAsync());
 }
-</code></pre><p>You can now pass the search title as route data (a URL segment) instead of as a query string value.</p>
+</code></pre><p>修改完成以后，我们可以通过路由数据（URL 区块）来传递标题搜索条件而非查询字符串：</p>
 <p><img src="search/static/g2.png" alt="Index view with the word ghost added to the Url and a returned movie list of two movies, Ghostbusters and Ghostbusters 2"></p>
-<p>However, you can&#39;t expect users to modify the URL every time they want to search for a movie. So now you&#39;ll add UI to help them filter movies. If you changed the signature of the <code>Index</code> method to test how to pass the route-bound <code>ID</code> parameter, change it back so that it takes a parameter named <code>searchString</code>:</p>
+<p>然而，你不能指望用户每次都通过修改URL来查找电影，因此你需要在界面上帮助他们过滤数据。如果你想要修改 <code>Index</code> 方法的签名并测试了路由绑定是如何传递 <code>ID</code> 参数，现在再把它改成原来的参数   <code>searchString</code> 。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="1">public async Task&lt;IActionResult&gt; Index(string searchString)
 {
     var movies = from m in _context.Movie
@@ -167,7 +169,7 @@
 
     return View(await movies.ToListAsync());
 }
-</code></pre><p>Open the <em>Views/Movies/Index.cshtml</em> file, and add the <code>&lt;form&gt;</code> markup highlighted below:</p>
+</code></pre><p>打开 <em>Views/Movies/Index.cshtml</em> 文件， 添加高亮的 <code>&lt;form&gt;</code> 标签到下面：</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="10-16">    ViewData[&quot;Title&quot;] = &quot;Index&quot;;
 }
 
@@ -186,26 +188,26 @@
 
 &lt;table class=&quot;table&quot;&gt;
     &lt;thead&gt;
-</code></pre><p>The HTML <code>&lt;form&gt;</code> tag uses the <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>, so when you submit the form, the filter string is posted to the <code>Index</code> action of the movies controller. Save your changes and then test the filter.</p>
+</code></pre><p>HTML <code>&lt;form&gt;</code> 标签使用 <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> 生成，所以当你提交表单的时候，过滤字符串都被传到了 movies 控制器的 <code>Index</code> 方法。保存你的修改并测试过滤。</p>
 <p><img src="search/static/filter.png" alt="Index view with the word ghost typed into the Title filter textbox"></p>
-<p>There&#39;s no <code>[HttpPost]</code> overload of the <code>Index</code> method as you might expect. You don&#39;t need it, because the method isn&#39;t changing the state of the app, just filtering data.</p>
-<p>You could add the following <code>[HttpPost] Index</code> method.</p>
+<p>然而 <code>Index</code> 方法并没有你所希望的 <code>[HttpPost]</code>重载。你也不需要，因为方法并不会修改应用程序的状态，仅仅只是过滤数据。</p>
+<p>你可以添加下面的 <code>[HttpPost] Index</code> 方法。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="1">[HttpPost]
 public string Index(string searchString, bool notUsed)
 {
     return &quot;From [HttpPost]Index: filter on &quot; + searchString;
 }
-</code></pre><p>The <code>notUsed</code> parameter is used to create an overload for the <code>Index</code> method. We&#39;ll talk about that later in the tutorial.</p>
-<p>If you add this method, the action invoker would match the <code>[HttpPost] Index</code> method, and the <code>[HttpPost] Index</code> method would run as shown in the image below.</p>
+</code></pre><p><code>notUsed</code> 参数用创建 <code>Index</code> 方法重载。我们在后续教程中会讨论。</p>
+<p>如果你添加了这个方法。action 会调用匹配 <code>[HttpPost] Index</code> 的方法， <code>[HttpPost] Index</code> 方法运行结果如下所示。</p>
 <p><img src="search/static/fo.png" alt="Browser window with application response of From HttpPost Index: filter on ghost"></p>
-<p>However, even if you add this <code>[HttpPost]</code> version of the <code>Index</code> method, there&#39;s a limitation in how this has all been implemented. Imagine that you want to bookmark a particular search or you want to send a link to friends that they can click in order to see the same filtered list of movies. Notice that the URL for the HTTP POST request is the same as the URL for the GET request (localhost:xxxxx/Movies/Index) -- there&#39;s no search information in the URL. The search string information is sent to the server as a <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Sending_and_retrieving_form_data">form field value</a>. You can verify that with the browser Developer tools or the excellent <a href="http://www.telerik.com/fiddler">Fiddler tool</a>. The image below shows the Chrome browser Developer tools:</p>
+<p>然而，尽管添加了 <code>[HttpPost]</code> 版的 <code>Index</code> 方法，在实现的时候仍然存在一些局限性。设想你想将一个比较详细的查询添加书签，或者你想将查询结果以链接形式发送给朋友以便于你的朋友可以看到同样的过滤结果的电影，注意观察 HTTP POST 请求的时候，URL 是没有改变的（仍然是 localhost:xxxxx/Movies/Index），这个地址本身不包含查询信息。现在，查询信息是作为  <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Sending_and_retrieving_form_data">表单数据</a> 发送到服务器的，你可以通过浏览器开发者工具或者优秀的抓包工具<a href="http://www.telerik.com/fiddler">Fiddler 工具</a>来验证，图片展示了使用Chrome浏览器开发者工具 ：</p>
 <p><img src="search/static/f12_rb.png" alt="Network tab of Developer Tools in Microsoft Edge showing a request body with a searchString value of ghost"></p>
-<p>You can see the search parameter and <a href="../../security/anti-request-forgery.html">XSRF</a> token in the request body. Note, as mentioned in the previous tutorial, the <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> generates an <a href="../../security/anti-request-forgery.html">XSRF</a> anti-forgery token. We&#39;re not modifying data, so we don&#39;t need to validate the token in the controller method.</p>
-<p>Because the search parameter is in the request body and not the URL, you can&#39;t capture that search information to bookmark or share with others. We&#39;ll fix this by specifying the request should be <code>HTTP GET</code>.</p>
-<p>Notice how intelliSense helps us update the markup.</p>
+<p>你可以在请求正文中看到查询参数和上一个教程中提到的 <a href="../../security/anti-request-forgery.html">XSRF</a> 令牌。  <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>  生成  <a href="../../security/anti-request-forgery.html">XSRF</a> 反伪造令牌。我们没有修改数据，所以无需在控制器方法中验证令牌。</p>
+<p>因为查询参数在请求正文中而不是 Url 里，所以你在书签里面无法保存查询参数并共享给他人，为了解决这个问题我们必须把请求指定为 <code>HTTP GET</code>。注意智能感知将帮我们更新标签。</p>
+<p>注意智能感知将帮我们更新标签。</p>
 <p><img src="search/static/int_m.png" alt="Intellisense contextual menu with method selected in the list of attributes for the form element"></p>
 <p><img src="search/static/int_get.png" alt="Intellisense contextual menu with get selected in the list of method attribute values"></p>
-<p>Notice the distinctive font in the <code>&lt;form&gt;</code> tag. That distinctive font indicates the tag is supported by <a href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a>.</p>
+<p>请注意， <code>&lt;form&gt;</code> 标签中的专有标记。这种专有标记表示的标签是由 <a href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a> 支持的。</p>
 <p><img src="search/static/th_font.png" alt="form tag with purple text"></p>
 <!--
 [!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
@@ -221,12 +223,12 @@ public string Index(string searchString, bool notUsed)
 [!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Startup.cs?highlight=5&name=snippet_1)]
 
 --> 
-<p>Now when you submit a search, the URL contains the search query string. Searching will also go to the <code>HttpGet Index</code> action method, even if you have a <code>HttpPost Index</code> method.</p>
+<p>当你提交检索的时候，URL 包含查询条件，如果存在 <code>HttpGet Index</code> 方法，查询会跳转到 <code>HttpPost Index</code> 方法。</p>
 <p><img src="search/static/search_get.png" alt="Browser window showing the searchString=ghost in the Url and the movies returned, Ghostbusters and Ghostbusters 2, contain the word ghost"></p>
-<p>The following markup shows the change to the <code>form</code> tag:</p>
+<p>下面的代码显示如何修改 <code>form</code> 标签：</p>
 <pre><code class="lang-html">&lt;form asp-controller=&quot;Movies&quot; asp-action=&quot;Index&quot; method=&quot;get&quot;&gt;
-</code></pre><h2 id="adding-search-by-genre">Adding Search by Genre</h2>
-<p>Add the following <code>MovieGenreViewModel</code> class to the <em>Models</em> folder:</p>
+</code></pre><h2 id="添加按照-genre-查询">添加按照 Genre 查询</h2>
+<p>在 <em>Models</em> 目录添加下面的 <code>MovieGenreViewModel</code> 类：</p>
 <pre><code class="lang-csharp" name="Main">using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
@@ -239,13 +241,13 @@ namespace MvcMovie.Models
         public string movieGenre { get; set; }
     }
 }
-</code></pre><p>The movie-genre view model will contain:</p>
+</code></pre><p>move-genre 视图模型包含：</p>
 <ul>
-<li>A list of movies.</li>
-<li>A <code>SelectList</code> containing the list of genres. This will allow the user to select a genre from the list.</li>
-<li><code>movieGenre</code>, which contains the selected genre.</li>
+<li>电影列表</li>
+<li>包含 genre 列表的 <code>SelectList</code> 。允许用户从列表中选择 genre 。</li>
+<li><code>movieGenre</code>，包含选中的 genre</li>
 </ul>
-<p>Replace the <code>Index</code> method in <code>MoviesController.cs</code> with the following code:</p>
+<p>用下面的代码替换 <code>MoviesController.cs</code> 中的 <code>Index</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main">// Requires using Microsoft.AspNetCore.Mvc.Rendering;
 public async Task&lt;IActionResult&gt; Index(string movieGenre, string searchString)
 {
@@ -273,15 +275,15 @@ public async Task&lt;IActionResult&gt; Index(string movieGenre, string searchStr
 
     return View(movieGenreVM);
 }
-</code></pre><p>The following code is a <code>LINQ</code> query that retrieves all the genres from the database.</p>
+</code></pre><p>下面代码是通过 <code>LINQ</code> 语句从数据库中检索所有 genre 数据。</p>
 <pre><code class="lang-csharp" name="Main">// Use LINQ to get list of genres.
 IQueryable&lt;string&gt; genreQuery = from m in _context.Movie
                                 orderby m.Genre
                                 select m.Genre;
-</code></pre><p>The <code>SelectList</code> of genres is created by projecting the distinct genres (we don&#39;t want our select list to have duplicate genres).</p>
+</code></pre><p><code>SelectList</code> 的 genres 通过 Distinct 方法投影查询创建（我们不想选择列表中出现重复的数据）。</p>
 <pre><code class="lang-csharp">movieGenreVM.genres = new SelectList(await genreQuery.Distinct().ToListAsync())
-</code></pre><h2 id="adding-search-by-genre-to-the-index-view">Adding search by genre to the Index view</h2>
-<p>Update <code>Index.cshtml</code> as follows:</p>
+</code></pre><h2 id="在-index-视图中添加通过-genre-检索">在 Index 视图中添加通过 genre 检索</h2>
+<p>按照下面的方式更新 <code>Index.cshtml</code> ：</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="1,15,16,17,28,31,34,37,43">@model MvcMovie.Models.MovieGenreViewModel
 
 @{
@@ -348,7 +350,7 @@ IQueryable&lt;string&gt; genreQuery = from m in _context.Movie
         }
     &lt;/tbody&gt;
 &lt;/table&gt;
-</code></pre><p>Test the app by searching by genre, by movie title, and by both.</p>
+</code></pre><p>测试程序并分别通过 genre 或者电影标题以及两个条件同时进行检索</p>
 <div class="step-by-step"><p><a href="controller-methods-views.html">上一节</a>
 <a href="new-field.html">下一节</a>  </p>
 </div>

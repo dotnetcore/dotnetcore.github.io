@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Adding a New Field | Microsoft Docs </title>
+    <title>&#28155;&#21152;&#26032;&#23383;&#27573; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Adding a New Field | Microsoft Docs ">
+    <meta name="title" content="&#28155;&#21152;&#26032;&#23383;&#27573; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,13 +66,15 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/new-field">
-<h1 id="adding-a-new-field">Adding a New Field</h1>
+<h1 id="添加新字段">添加新字段</h1>
 
 <p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>In this section you&#39;ll use <a href="http://docs.efproject.net/en/latest/platforms/aspnetcore/new-db.html">Entity Framework</a> Code First Migrations to add a new field to the model and migrate that change to the database.</p>
-<p>When you use EF Code First to automatically create a database, Code First adds a table to the database to help track whether the schema of the database is in sync with the model classes it was generated from. If they aren&#39;t in sync, EF throws an exception. This makes it easier to find inconsistent database/code issues.</p>
-<h2 id="adding-a-rating-property-to-the-movie-model">Adding a Rating Property to the Movie Model</h2>
-<p>Open the <em>Models/Movie.cs</em> file and add a <code>Rating</code> property:</p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler</a> </p>
+<p>校对 <a href="https://github.com/SeayXu">许登洋(Seay)</a> 、<a href="https://github.com/YaoaY">姚阿勇(Dr.Yao)</a></p>
+<p>在这个章节你将使用 <a href="http://docs.efproject.net/en/latest/platforms/aspnetcore/new-db.html">Entity Framework</a> Code First 迁移模型中新加的字段，从而将模型字段变更同步到数据库。</p>
+<p>当你使用 EF Code First 模式自动创建一个数据库，Code First 模式添加到数据库的表将帮助你来跟踪数据库的数据结构是否和从它生成的模型类是同步的。如果不同步，EF 会抛出异常。这将有助于你在开发阶段就发现错误，否则可能要到运行时才能发现这个错误了（通过一个很隐蔽的错误信息）。</p>
+<h2 id="添加一个-rating-字段到-movie-模型">添加一个 Rating 字段到 Movie 模型</h2>
+<p>打开 <em>Models/Movie.cs</em> 文件，添加一个 <code>Rating</code> 属性：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="11">public class Movie
 {
     public int ID { get; set; }
@@ -85,11 +87,11 @@
     public decimal Price { get; set; }
     public string Rating { get; set; }
 }
-</code></pre><p>Build the app (Ctrl+Shift+B).</p>
-<p>Because you&#39;ve added a new field to the <code>Movie</code> class, you also need to update the binding white list so this new property will be included. In <em>MoviesController.cs</em>, update the <code>[Bind]</code> attribute for both the <code>Create</code> and <code>Edit</code> action methods to include the <code>Rating</code> property:</p>
+</code></pre><p>生成应用程序（Ctrl+Shift+B）。</p>
+<p>因为你已经在 <code>Movie</code> 类添加了一个新的字段，你还需要更新绑定的白名单，这样这个新的属性将包括在内。为了 <code>Create</code> 和 <code>Edit</code> action 方法包含 <code>Rating</code> 属性需要更新<code>[Bind]</code>特性：</p>
 <pre><code class="lang-csharp">[Bind(&quot;ID,Title,ReleaseDate,Genre,Price,Rating&quot;)]
-</code></pre><p>You also need to update the view templates in order to display, create and edit the new <code>Rating</code> property in the browser view.</p>
-<p>Edit the <em>/Views/Movies/Index.cshtml</em> file and add a <code>Rating</code> field:</p>
+</code></pre><p>为了把这个字段显示出来你必须更新视图，在浏览器视图中创建或者编辑一个新的 <code>Rating</code> 属性。</p>
+<p>编辑 <em>/Views/Movies/Index.cshtml</em> 文件并添加一个 <code>Rating</code> 字段：</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="17,39">&lt;table class=&quot;table&quot;&gt;
     &lt;thead&gt;
         &lt;tr&gt;
@@ -131,22 +133,22 @@
                     @Html.DisplayFor(modelItem =&gt; item.Rating)
                 &lt;/td&gt;
                 &lt;td&gt;
-</code></pre><p>Update the <em>/Views/Movies/Create.cshtml</em> with a <code>Rating</code> field. You can copy/paste the previous &quot;form group&quot; and let intelliSense help you update the fields. IntelliSense works with <a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a>. Note: In the RTM verison of Visual Studio 2017 you need to install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-madsk.RazorLanguageServices">Razor Language Services</a> for Razor intelliSense. This will be fixed in the next release.</p>
+</code></pre><p>更新 <em>/Views/Movies/Create.cshtml</em> 文件添加 <code>Rating</code> 字段。你可以从上一个 &quot;form group&quot; 拷贝/粘帖以便于让智能感知帮助你更新字段。智能感知参考 <a class="xref" href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a>。注意：Visual Studio 2017 RTM 版本里面你必须安装 <a href="https://marketplace.visualstudio.com/items?itemName=ms-madsk.RazorLanguageServices">Razor Language Services</a> 来获取 Razor 智能提示，这个问题需要到后续更新中才能修复。</p>
 <p><img src="new-field/static/cr.png" alt="The developer has typed the letter R for the attribute value of asp-for in the second label element of the view. An Intellisense contextual menu has appeared showing the available fields, including Rating, which is highlighted in the list automatically. When the developer clicks the field or presses Enter on the keyboard, the value will be set to Rating."></p>
-<p>The app won&#39;t work until we update the DB to include the new field. If you run it now, you&#39;ll get the following <code>SqlException</code>:</p>
+<p>应用程序无法工作，直到我们更新了数据库包含新的字段。如果你现在运行程序，你将得到下面的 <code>SqlException</code> ：</p>
 <p><code>SqlException: Invalid column name &#39;Rating&#39;.</code></p>
-<p>You&#39;re seeing this error because the updated Movie model class is different than the schema of the Movie table of the existing database. (There&#39;s no Rating column in the database table.)</p>
-<p>There are a few approaches to resolving the error:</p>
+<p>你看到这个错误是因为更新过的 Movie 模型类与数据库中存在的 Movie 的结构是不同的。（数据库表中没有 Rating 列）</p>
+<p>有以下几种方法解决这个错误：</p>
 <ol>
-<li><p>Have the Entity Framework automatically drop and re-create the database based on the new model class schema. This approach is very convenient early in the development cycle when you are doing active development on a test database; it allows you to quickly evolve the model and database schema together. The downside, though, is that you lose existing data in the database — so you don&#39;t want to use this approach on a production database! Using an initializer to automatically seed a database with test data is often a productive way to develop an application.</p>
+<li><p>Entity Framework 可以基于新的模型类自动删除并重建数据库结构。在开发环节的早期阶段，当你在测试数据库上积极做开发的时候，这种方式是非常方便的；它可以同时让你快速地更新模型类和数据库结构。但是，缺点是你会丢失数据库中的现有的数据 —— 因此你不想在生产数据库中使用这种方法！使用初始化器自动初始化数据库并填充测试数据，往往是开发应用程序的一个有效方式。</p>
 </li>
-<li><p>Explicitly modify the schema of the existing database so that it matches the model classes. The advantage of this approach is that you keep your data. You can make this change either manually or by creating a database change script.</p>
+<li><p>显式修改现有数据库的结构使得它与模型类相匹配。这种方法的好处是，你可以保留录入过的数据。你可以手动修改或通过执行一个自动创建的数据库更改脚本进行变更。</p>
 </li>
-<li><p>Use Code First Migrations to update the database schema.</p>
+<li><p>采用 Code First 迁移来更新数据库结构。</p>
 </li>
 </ol>
-<p>For this tutorial, we&#39;ll use Code First Migrations.</p>
-<p>Update the <code>SeedData</code> class so that it provides a value for the new column. A sample change is shown below, but you&#39;ll want to make this change for each <code>new Movie</code>.</p>
+<p>对于本教程，我们采用 Code First 迁移。</p>
+<p>更新 <code>SeedData</code> 类以便于为新的的字段提供填充值。下面展示一个变更的例子，你可能希望将这个变更应用到每个 <code>new Movie</code> 。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="6">new Movie
 {
     Title = &quot;When Harry Met Sally&quot;,
@@ -155,20 +157,20 @@
     Rating = &quot;R&quot;,
     Price = 7.99M
 },
-</code></pre><p>Build the solution then open a command prompt in the project folder. Enter the following commands:</p>
+</code></pre><p>生成解决方案，然后打开命令提示符。输入以下命令：</p>
 <pre><code class="lang-console">dotnet ef migrations add Rating
 dotnet ef database update
-</code></pre><p>Note: If you get the error message <code>No executable found matching command &quot;dotnet-ef&quot;</code>:</p>
+</code></pre><p>注意： 如果你遇到 <code>No executable found matching command &quot;dotnet-ef&quot;</code> 错误信息：</p>
 <ul>
-<li>Verify you&#39;re in the project folder (which contains the <em>.csproj</em> file).</li>
-<li>Verify the <em>.csproj</em> file contains the &quot;Microsoft.EntityFrameworkCore.Tools.DotNet&quot; NuGet package.</li>
-<li>See <a href="http://thedatafarm.com/data-access/no-executable-found-matching-command-dotnet-ef/">this blog post</a> for help troubleshooting.</li>
+<li>检查当前是否在项目目录 (包含 <em>.csproj</em> 文件的目录).</li>
+<li>检查 <em>.csproj</em> 文件是否包含 &quot;Microsoft.EntityFrameworkCore.Tools.DotNet&quot; NuGet 包。</li>
+<li>查看 <a href="http://thedatafarm.com/data-access/no-executable-found-matching-command-dotnet-ef/">这篇博客</a> 获取解决问题的方案。</li>
 </ul>
-<p>The <code>migrations add</code> command tells the migration framework to examine the current <code>Movie</code> model with the current <code>Movie</code> DB schema and create the necessary code to migrate the DB to the new model. The name &quot;Rating&quot; is arbitrary and is used to name the migration file. It&#39;s helpful to use a meaningful name for the migration step.</p>
-<p>If you delete all the records in the DB, the initialize will seed the DB and include the <code>Rating</code> field. You can do this with the delete links in the browser or from SSOX.</p>
-<p>Run the app and verify you can create/edit/display movies with a <code>Rating</code> field. You should also add the <code>Rating</code> field to the <code>Edit</code>, <code>Details</code>, and <code>Delete</code> view templates.</p>
-<div class="step-by-step"><p><a href="search.html">Previous</a>
-<a href="validation.html">Next</a>  </p>
+<p><code>migrations add</code> 命令通知数据库迁移框架检查 <code>Movie</code> 模型是否与当前 <code>Movie</code> 数据库表结构一致，如果不一致，就会创建新的必要的代码把数据库迁移到新的模型。“Rating” 名字可以是任意的，只是用于迁移文件。对于迁移操作采用有意义的名字是有帮助的。</p>
+<p>如果在数据库中删除所有记录，数据库将会被初始化并添加 <code>Rating</code> 字段。你可以在浏览器或者 SSOX （SQL Server Object Explorer： SQL Server 对象资源浏览器）中点击删除链接。</p>
+<p>运行应用程序并验证你可以用 <code>Rating</code> 字段 create/edit/display 电影。你还应该将 <code>Rating</code> 字段添加到 <code>Edit</code>、<code>Details</code> 和 <code>Delete</code> 视图模板中。</p>
+<div class="step-by-step"><p><a href="search.html">上一节</a>
+<a href="validation.html">下一节</a>  </p>
 </div>
 </article>
           </div>
