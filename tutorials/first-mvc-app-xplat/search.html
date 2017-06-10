@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Adding Search | Microsoft Docs </title>
+    <title>&#28155;&#21152;&#25628;&#32034; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Adding Search | Microsoft Docs ">
+    <meta name="title" content="&#28155;&#21152;&#25628;&#32034; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -108,7 +108,7 @@
         name: &quot;default&quot;,
         template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
 });
-</code></pre><p>Note: SQLlite is case sensitive, so you&#39;ll need to search for &quot;Ghost&quot; and not &quot;ghost&quot;.</p>
+</code></pre><p>注意： SQLlite 是区分大小写的，所以你必须搜索 &quot;Ghost&quot; 而不是 &quot;ghost&quot;。</p>
 <!--
 [!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
 
@@ -199,7 +199,7 @@ public string Index(string searchString, bool notUsed)
 <p><img src="../first-mvc-app/search/static/f12_rb.png" alt="Network tab of Developer Tools in Microsoft Edge showing a request body with a searchString value of ghost"></p>
 <p>你可以在请求正文中看到查询参数和上一个教程中提到的 <a href="../../security/anti-request-forgery.html">XSRF</a> 令牌。  <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>  生成  <a href="../../security/anti-request-forgery.html">XSRF</a> 反伪造令牌。我们没有修改数据，所以无需在控制器方法中验证令牌。</p>
 <p>因为查询参数在请求正文中而不是 Url 里，所以你在书签里面无法保存查询参数并共享给他人，为了解决这个问题我们必须把请求指定为 <code>HTTP GET</code>。注意智能感知将帮我们更新标签。</p>
-<p>Change the <code>&lt;form&gt;</code> tag in the <em>Views\movie\Index.cshtml</em> Razor view to specify <code>method=&quot;get&quot;</code>:</p>
+<p>修改 <em>Views\movie\Index.cshtml</em> Razor 视图中  <code>&lt;form&gt;</code> 标签指定 <code>method=&quot;get&quot;</code>：</p>
 <pre><code class="lang-html">&lt;form asp-controller=&quot;Movies&quot; asp-action=&quot;Index&quot; method=&quot;get&quot;&gt;
 </code></pre><!--
 [!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
@@ -343,8 +343,8 @@ IQueryable&lt;string&gt; genreQuery = from m in _context.Movie
     &lt;/tbody&gt;
 &lt;/table&gt;
 </code></pre><p>测试程序并分别通过 genre 或者电影标题以及两个条件同时进行检索</p>
-<div class="step-by-step"><p><a href="controller-methods-views.html">Previous - Controller methods and views</a>
-<a href="new-field.html">Next - Add a field</a>  </p>
+<div class="step-by-step"><p><a href="controller-methods-views.html">上一节 - 控制器方法与视图</a>
+<a href="new-field.html">下一节 - 添加新字段</a>  </p>
 </div>
 </article>
           </div>

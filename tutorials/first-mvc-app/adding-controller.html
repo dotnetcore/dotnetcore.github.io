@@ -118,9 +118,8 @@ namespace MvcMovie.Controllers
 }
 </code></pre><p>控制器（Controller）的每个 <code>public</code> 方法都可作为 HTTP 端点。在上面的例子中，两个方法都返回 string，注意它们的注释：</p>
 <p>HTTP 端点是 Web 应用程序中的可定位 URL，例如 <code>http://localhost:1234/HelloWorld</code>，并结合使用的协议：HTTP，Web服务器的网络位置（包括TCP端口） <code>localhost:1234</code> 和目标URI <code>HelloWorld</code>。</p>
-<p>第一条注释指出这是一个通过在 URL 后添加 &quot;/HelloWorld/&quot; 调用的 <a href="http://www.w3schools.com/tags/ref_httpmethods.asp">HTTP GET</a> 方法，。第二条指出这是一个通过在 URL 后添加 &quot;/HelloWorld/Welcome/&quot; 调用的 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP GET</a> 方法 。之后的教程我们将使用基架引擎来生成e <code>HTTP POST</code> 方法。</p>
-<p>Run the app in non-debug mode (press Ctrl+F5) and append &quot;HelloWorld&quot; to the path in the address bar. (In the image below, <code>http://localhost:5000/HelloWorld</code> is used, but you&#39;ll have to replace <em>5000</em> with the port number of your app.) The <code>Index</code> method returns a string. You told the system to return some HTML, and it did!</p>
-<p>使用非调试模式(Ctrl+F5)运行应用程序，并在浏览器地址栏路径后添加 &quot;HelloWorld&quot; (在下面的图片中，使用了 <code>http://localhost:5000/HelloWorld</code>，但是你必须用你的应用程序端口替换 <em>1234</em> )。 <code>Index</code> 方法返回一段字符串，系统将这段字符串转换为 HTML 返回给浏览器。</p>
+<p>第一条注释指出这是一个通过在 URL 后添加 &quot;/HelloWorld/&quot; 调用的 <a href="http://www.w3schools.com/tags/ref_httpmethods.asp">HTTP GET</a> 方法，。第二条指出这是一个通过在 URL 后添加 &quot;/HelloWorld/Welcome/&quot; 调用的 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP GET</a> 方法 。之后的教程我们将使用基架引擎来生成 <code>HTTP POST</code> 方法。</p>
+<p>使用非调试模式(Ctrl+F5)运行应用程序，并在浏览器地址栏路径后添加 &quot;HelloWorld&quot; (在下面的图片中，使用了 <code>http://localhost:5000/HelloWorld</code>，但是你必须用你的应用程序端口替换 <em>5000</em> )。 <code>Index</code> 方法返回一段字符串，系统将这段字符串转换为 HTML 返回给浏览器。</p>
 <p><img src="adding-controller/static/hell1.png" alt="这是我的默认操作浏览器窗口显示的应用程序响应"></p>
 <p>MVC 调用的控制器（Controller）类 (以及它们的 Action 方法) 取决于传入的 URL 。MVC 的默认 <a href="../../mvc/controllers/routing.html">URL 路由逻辑</a> 采用类似下面规则格式来决定代码的调用：</p>
 <p><code>/[Controller]/[ActionName]/[Parameters]</code></p>

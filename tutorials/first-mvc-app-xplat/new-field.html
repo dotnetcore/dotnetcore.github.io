@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Adding a New Field | Microsoft Docs </title>
+    <title>&#28155;&#21152;&#26032;&#23383;&#27573; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Adding a New Field | Microsoft Docs ">
+    <meta name="title" content="&#28155;&#21152;&#26032;&#23383;&#27573; | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,13 +66,14 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app-xplat/new-field">
-<h1 id="adding-a-new-field">Adding a new field</h1>
+<h1 id="添加新字段">添加新字段</h1>
 
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>This tutorial will add a new field to the <code>Movies</code> table. We&#39;ll drop the database and create a new one when we change the schema (add a new field). This workflow works well early in development when we don&#39;t have any production data to perserve.</p>
-<p>Once your app is deployed and you have data that you need to perserve, you can&#39;t drop your DB when you need to change the schema. Entity Framework <a href="http://docs.efproject.net/en/latest/platforms/aspnetcore/new-db.html">Code First Migrations</a> allows you to update your schema and migrate the database without losing data. Migrations is a popular feature when using SQL Server, but SQLlite does not support many migration schema operations, so only very simply migrations are possible. See <a href="https://docs.microsoft.com/ef/core/providers/sqlite/limitations">SQLite Limitations</a> for more information.</p>
-<h2 id="adding-a-rating-property-to-the-movie-model">Adding a Rating Property to the Movie Model</h2>
-<p>Open the <em>Models/Movie.cs</em> file and add a <code>Rating</code> property:</p>
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler</a> </p>
+<p>在这个教程里将会添加一个新的字段到  <code>Movies</code> 表，当我们改动数据库结构（添加一个字段）的时候，我们会删除数据库并重建一个新的库。这个工作流程在早期开发环境且没有任何生产数据要保留的情况下会工作的比较良好。</p>
+<p>一旦你的应用程序部署了并且有生产数据希望保留了，当你修改数据库的结构的时候你就不能删除数据库了，Entity Framework 的 <a href="http://docs.efproject.net/en/latest/platforms/aspnetcore/new-db.html">Code First Migrations</a> 允许你更新数据库结构并迁移数据库不丢失数据。当使用 SQL Server 数据库的时候，Migrations是一个不错的功能，但是 SQLlite 并不支持所有 migration 操作，所以只能使用一些简单的 migration，参考 <a href="https://docs.microsoft.com/ef/core/providers/sqlite/limitations">SQLite Limitations</a>获取更多信息。</p>
+<h2 id="添加一个-rating-字段到-movie-模型">添加一个 Rating 字段到 Movie 模型</h2>
+<p>打开 <em>Models/Movie.cs</em> 文件，添加一个 <code>Rating</code> 属性：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="11">public class Movie
 {
     public int ID { get; set; }
@@ -85,10 +86,10 @@
     public decimal Price { get; set; }
     public string Rating { get; set; }
 }
-</code></pre><p>Because you&#39;ve added a new field to the <code>Movie</code> class, you also need to update the binding whitelist so this new property will be included. In <em>MoviesController.cs</em>, update the <code>[Bind]</code> attribute for both the <code>Create</code> and <code>Edit</code> action methods to include the <code>Rating</code> property:</p>
+</code></pre><p>因为你已经在 <code>Movie</code> 类添加了一个新的字段，你还需要更新绑定的白名单，这样这个新的属性将包括在内。为了 <code>Create</code> 和 <code>Edit</code> action 方法包含 <code>Rating</code> 属性需要更新<code>[Bind]</code>特性：</p>
 <pre><code class="lang-csharp">[Bind(&quot;ID,Title,ReleaseDate,Genre,Price,Rating&quot;)]
-</code></pre><p>You also need to update the view templates in order to display, create, and edit the new <code>Rating</code> property in the browser view.</p>
-<p>Edit the <em>/Views/Movies/Index.cshtml</em> file and add a <code>Rating</code> field:</p>
+</code></pre><p>为了把这个字段显示出来你必须更新视图，在浏览器视图中创建或者编辑一个新的 <code>Rating</code> 属性。</p>
+<p>编辑 <em>/Views/Movies/Index.cshtml</em> 文件并添加一个 <code>Rating</code> 字段：</p>
 <pre><code class="lang-HTML" name="Main" highlight-lines="17,39">&lt;table class=&quot;table&quot;&gt;
     &lt;thead&gt;
         &lt;tr&gt;
@@ -130,22 +131,22 @@
                     @Html.DisplayFor(modelItem =&gt; item.Rating)
                 &lt;/td&gt;
                 &lt;td&gt;
-</code></pre><p>Update the <em>/Views/Movies/Create.cshtml</em> with a <code>Rating</code> field.</p>
-<p>The app won&#39;t work until we update the DB to include the new field. If you run it now, you&#39;ll get the following <code>SqliteException</code>:</p>
+</code></pre><p>更新 <em>/Views/Movies/Create.cshtml</em> 文件添加 <code>Rating</code> 字段。</p>
+<p>应用程序无法工作，直到我们更新了数据库包含新的字段。如果你现在运行程序，你将得到下面的 <code>SqlException</code> ：</p>
 <pre><code>SqliteException: SQLite Error 1: &#39;no such column: m.Rating&#39;.
-</code></pre><p>You&#39;re seeing this error because the updated Movie model class is different than the schema of the Movie table of the existing database. (There&#39;s no <code>Rating</code> column in the database table.)</p>
-<p>There are a few approaches to resolving the error:</p>
+</code></pre><p>你看到这个错误是因为更新过的 Movie 模型类与数据库中存在的 Movie 的结构是不同的。（数据库表中没有 Rating 列）</p>
+<p>有以下几种方法解决这个错误：</p>
 <ol>
-<li><p>Drop the database and have the Entity Framework automatically re-create the database based on the new model class schema. With this approach, you lose existing data in the database — so you can&#39;t do this with a production database! Using an initializer to automatically seed a database with test data is often a productive way to develop an app.</p>
+<li><p>Entity Framework 可以基于新的模型类自动删除并重建数据库结构。在开发环节的早期阶段，当你在测试数据库上积极做开发的时候，这种方式是非常方便的；它可以同时让你快速地更新模型类和数据库结构。但是，缺点是你会丢失数据库中的现有的数据 —— 因此你不想在生产数据库中使用这种方法！使用初始化器自动初始化数据库并填充测试数据，往往是开发应用程序的一个有效方式。</p>
 </li>
-<li><p>Manually modify the schema of the existing database so that it matches the model classes. The advantage of this approach is that you keep your data. You can make this change either manually or by creating a database change script.</p>
+<li><p>显式修改现有数据库的结构使得它与模型类相匹配。这种方法的好处是，你可以保留录入过的数据。你可以手动修改或通过执行一个自动创建的数据库更改脚本进行变更。</p>
 </li>
-<li><p>Use Code First Migrations to update the database schema.</p>
+<li><p>采用 Code First 迁移来更新数据库结构。</p>
 </li>
 </ol>
-<p>For this tutorial, we&#39;ll drop and re-create the database when the schema changes. Run the following command from a terminal to drop the db:</p>
+<p>对于本教程，我们采用删除并重建数据库的方式来更新数据库结构。 在终端窗口中运行下面的命令来删除数据库：</p>
 <p><code>dotnet ef database drop</code></p>
-<p>Update the <code>SeedData</code> class so that it provides a value for the new column. A sample change is shown below, but you&#39;ll want to make this change for each <code>new Movie</code>.</p>
+<p>更新 <code>SeedData</code> 类以便于为新的的字段提供填充值。下面展示一个变更的例子，你可能希望将这个变更应用到每个 <code>new Movie</code> 。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="6">new Movie
 {
     Title = &quot;When Harry Met Sally&quot;,
@@ -154,10 +155,10 @@
     Rating = &quot;R&quot;,
     Price = 7.99M
 },
-</code></pre><p>Add the <code>Rating</code> field to the <code>Edit</code>, <code>Details</code>, and <code>Delete</code> view.</p>
-<p>Run the app and verify you can create/edit/display movies with a <code>Rating</code> field. templates.</p>
-<div class="step-by-step"><p><a href="search.html">Previous - Add search</a>
-<a href="validation.html">Next - Add validation</a>  </p>
+</code></pre><p>将 <code>Rating</code> 字段添加到 <code>Edit</code>、<code>Details</code> 和 <code>Delete</code> 视图模板中。</p>
+<p>运行应用程序并验证你可以用 <code>Rating</code> 字段 create/edit/display 电影。</p>
+<div class="step-by-step"><p><a href="search.html">上一节 - 添加搜索</a>
+<a href="validation.html">下一节 - 添加验证</a>  </p>
 </div>
 </article>
           </div>

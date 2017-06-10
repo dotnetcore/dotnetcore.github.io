@@ -162,7 +162,7 @@ namespace MvcMovie.Models
         }
     }
 }
-</code></pre><p>注意，如果数据库上下文中存在movies，填充初始化器返回。</p>
+</code></pre><p>注意，如果数据库中存在movies，填充初始化器返回。</p>
 <pre><code class="lang-csharp">if (context.Movie.Any())
 {
     return;   // DB has been seeded.

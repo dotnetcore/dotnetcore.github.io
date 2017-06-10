@@ -527,34 +527,34 @@ references:
   name: 使用 SQL Server LocalDB | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app/working-with-sql.html
 - uid: tutorials/first-mvc-app-xplat/adding-controller
-  name: Adding a controller | Microsoft Docs
+  name: 添加控制器 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/adding-controller.html
 - uid: tutorials/first-mvc-app-xplat/adding-model
-  name: Adding a model | Microsoft Docs
+  name: 添加模型 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/adding-model.html
 - uid: tutorials/first-mvc-app-xplat/adding-view
-  name: Adding a view | Microsoft Docs
+  name: 添加视图 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/adding-view.html
 - uid: tutorials/first-mvc-app-xplat/controller-methods-views
-  name: Controller methods and views | Microsoft Docs
+  name: Controller 方法与视图 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/controller-methods-views.html
 - uid: tutorials/first-mvc-app-xplat/index
-  name: Create an ASP.NET Core MVC app with Visual Studio Code | Microsoft Docs
+  name: 使用 Visual Studio Code 创建 ASP.NET Core MVC 应用程序 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/index.html
 - uid: tutorials/first-mvc-app-xplat/new-field
-  name: Adding a New Field | Microsoft Docs
+  name: 添加新字段 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/new-field.html
 - uid: tutorials/first-mvc-app-xplat/search
-  name: Adding Search | Microsoft Docs
+  name: 添加搜索 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/search.html
 - uid: tutorials/first-mvc-app-xplat/start-mvc
-  name: Introduction to ASP.NET Core MVC on Mac or Linux | Microsoft Docs
+  name: 在 Mac 或者 Linux 上开发 ASP.NET Core MVC | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/start-mvc.html
 - uid: tutorials/first-mvc-app-xplat/validation
-  name: Adding Validation | Microsoft Docs
+  name: 添加验证 | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/validation.html
 - uid: tutorials/first-mvc-app-xplat/working-with-sql
-  name: Working with SQLite | Microsoft Docs
+  name: 使用  SQLite | Microsoft 文档（民间汉化）
   href: tutorials/first-mvc-app-xplat/working-with-sql.html
 - uid: tutorials/first-web-api
   name: Create a Web API with ASP.NET Core and Visual Studio for Windows
