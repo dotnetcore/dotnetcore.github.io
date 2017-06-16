@@ -47,7 +47,7 @@ references:
   name: ASP.NET Core MVC with EF Core - Concurrency - 8 of 10 | Microsoft Docs
   href: data/ef-mvc/concurrency.html
 - uid: data/ef-mvc/crud
-  name: ASP.NET Core MVC with EF Core - CRUD - 2 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 实现CRUD - 2 of 10 | Microsoft 文档（民间汉化）
   href: data/ef-mvc/crud.html
 - uid: data/ef-mvc/index
   name: 使用 Visual Studio 开发 ASP.NET Core 和 Entity Framework Core 入门 | Microsoft 文档（民间汉化）
