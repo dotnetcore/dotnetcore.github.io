@@ -2,7 +2,7 @@
 sorted: true
 references:
 - uid: aspnetcore-1.1
-  name: ASP.NET Core 1.1 更新 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core 1.1 更新 | Microsoft 文档（中文文档）
   href: aspnetcore-1.1.html
 - uid: client-side/angular
   name: Using AngularJS for Single Page Applications (SPAs) | Microsoft Docs
@@ -41,31 +41,31 @@ references:
   name: ASP.NET Core MVC with EF Core - Advanced - 10 of 10 | Microsoft Docs
   href: data/ef-mvc/advanced.html
 - uid: data/ef-mvc/complex-data-model
-  name: ASP.NET Core MVC 与 EF Core - 数据模型 - 5 of 10 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core MVC 与 EF Core - 数据模型 - 5 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/complex-data-model.html
 - uid: data/ef-mvc/concurrency
   name: ASP.NET Core MVC with EF Core - Concurrency - 8 of 10 | Microsoft Docs
   href: data/ef-mvc/concurrency.html
 - uid: data/ef-mvc/crud
-  name: ASP.NET Core MVC 与 EF Core - 实现CRUD - 2 of 10 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core MVC 与 EF Core - 实现CRUD - 2 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/crud.html
 - uid: data/ef-mvc/index
-  name: 使用 Visual Studio 开发 ASP.NET Core 和 Entity Framework Core 入门 | Microsoft 文档（民间汉化）
+  name: 使用 Visual Studio 开发 ASP.NET Core 和 Entity Framework Core 入门 | Microsoft 文档（中文文档）
   href: data/ef-mvc/index.html
 - uid: data/ef-mvc/inheritance
   name: ASP.NET Core MVC with EF Core - Inheritance - 9 of 10 | Microsoft Docs
   href: data/ef-mvc/inheritance.html
 - uid: data/ef-mvc/intro
-  name: ASP.NET Core MVC 与 Entity Framework Core - 教程 1 / 10 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core MVC 与 Entity Framework Core - 教程 1 / 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/intro.html
 - uid: data/ef-mvc/migrations
-  name: ASP.NET Core MVC 与 EF Core - 迁移 - 4 of 10 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core MVC 与 EF Core - 迁移 - 4 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/migrations.html
 - uid: data/ef-mvc/read-related-data
-  name: ASP.NET Core MVC with EF Core - Read Related Data - 6 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 读取关联数据 - 6 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/read-related-data.html
 - uid: data/ef-mvc/sort-filter-page
-  name: ASP.NET Core MVC 与 EF Core - 排序， 过滤， 分页 - 3 of 10 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core MVC 与 EF Core - 排序， 过滤， 分页 - 3 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/sort-filter-page.html
 - uid: data/ef-mvc/update-related-data
   name: ASP.NET Core MVC with EF Core - Update Related Data - 7 of 10 | Microsoft Docs
@@ -140,7 +140,7 @@ references:
   name: WebSockets support in ASP.NET Core | Microsoft Docs
   href: fundamentals/websockets.html
 - uid: getting-started
-  name: ASP.NET Core 入门 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core 入门 | Microsoft 文档（中文文档）
   href: getting-started.html
 - uid: hosting/aspnet-core-module
   name: ASP.NET Core Module configuration reference | Microsoft Docs
@@ -155,7 +155,7 @@ references:
   name: Host in a Windows Service | Microsoft Docs
   href: hosting/windows-service.html
 - uid: index
-  name: ASP.NET Core 介绍 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core 介绍 | Microsoft 文档（中文文档）
   href: index.html
 - uid: migration/configuration
   name: Migrating Configuration | Microsoft Docs
@@ -491,70 +491,70 @@ references:
   name: Integration testing | Microsoft Docs
   href: testing/integration-testing.html
 - uid: tutorials/dotnet-watch
-  name: 使用 dotnet watch 开发 ASP.NET Core 应用程序 | Microsoft 文档（民间汉化）
+  name: 使用 dotnet watch 开发 ASP.NET Core 应用程序 | Microsoft 文档（中文文档）
   href: tutorials/dotnet-watch.html
 - uid: tutorials/first-mvc-app/adding-controller
-  name: 添加控制器 | Microsoft 文档（民间汉化）
+  name: 添加控制器 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/adding-controller.html
 - uid: tutorials/first-mvc-app/adding-model
-  name: 添加模型 | Microsoft 文档（民间汉化）
+  name: 添加模型 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/adding-model.html
 - uid: tutorials/first-mvc-app/adding-view
-  name: 添加视图 | Microsoft 文档（民间汉化）
+  name: 添加视图 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/adding-view.html
 - uid: tutorials/first-mvc-app/controller-methods-views
-  name: Controller 方法与视图 | Microsoft 文档（民间汉化）
+  name: Controller 方法与视图 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/controller-methods-views.html
 - uid: tutorials/first-mvc-app/details
-  name: 检查自动生成的Detail方法和Delete方法 | Microsoft 文档（民间汉化）
+  name: 检查自动生成的Detail方法和Delete方法 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/details.html
 - uid: tutorials/first-mvc-app/index
   name: 使用 Visual Studio 创建 ASP.NET Core MVC 应用程序
   href: tutorials/first-mvc-app/index.html
 - uid: tutorials/first-mvc-app/new-field
-  name: 添加新字段 | Microsoft 文档（民间汉化）
+  name: 添加新字段 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/new-field.html
 - uid: tutorials/first-mvc-app/search
-  name: 添加搜索 | Microsoft 文档（民间汉化）
+  name: 添加搜索 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/search.html
 - uid: tutorials/first-mvc-app/start-mvc
-  name: ASP.NET Core MVC 和 Visual Studio 入门 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core MVC 和 Visual Studio 入门 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/start-mvc.html
 - uid: tutorials/first-mvc-app/validation
-  name: 添加验证 | Microsoft 文档（民间汉化）
+  name: 添加验证 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/validation.html
 - uid: tutorials/first-mvc-app/working-with-sql
-  name: 使用 SQL Server LocalDB | Microsoft 文档（民间汉化）
+  name: 使用 SQL Server LocalDB | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app/working-with-sql.html
 - uid: tutorials/first-mvc-app-xplat/adding-controller
-  name: 添加控制器 | Microsoft 文档（民间汉化）
+  name: 添加控制器 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/adding-controller.html
 - uid: tutorials/first-mvc-app-xplat/adding-model
-  name: 添加模型 | Microsoft 文档（民间汉化）
+  name: 添加模型 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/adding-model.html
 - uid: tutorials/first-mvc-app-xplat/adding-view
-  name: 添加视图 | Microsoft 文档（民间汉化）
+  name: 添加视图 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/adding-view.html
 - uid: tutorials/first-mvc-app-xplat/controller-methods-views
-  name: Controller 方法与视图 | Microsoft 文档（民间汉化）
+  name: Controller 方法与视图 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/controller-methods-views.html
 - uid: tutorials/first-mvc-app-xplat/index
-  name: 使用 Visual Studio Code 创建 ASP.NET Core MVC 应用程序 | Microsoft 文档（民间汉化）
+  name: 使用 Visual Studio Code 创建 ASP.NET Core MVC 应用程序 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/index.html
 - uid: tutorials/first-mvc-app-xplat/new-field
-  name: 添加新字段 | Microsoft 文档（民间汉化）
+  name: 添加新字段 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/new-field.html
 - uid: tutorials/first-mvc-app-xplat/search
-  name: 添加搜索 | Microsoft 文档（民间汉化）
+  name: 添加搜索 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/search.html
 - uid: tutorials/first-mvc-app-xplat/start-mvc
-  name: 在 Mac 或者 Linux 上开发 ASP.NET Core MVC | Microsoft 文档（民间汉化）
+  name: 在 Mac 或者 Linux 上开发 ASP.NET Core MVC | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/start-mvc.html
 - uid: tutorials/first-mvc-app-xplat/validation
-  name: 添加验证 | Microsoft 文档（民间汉化）
+  name: 添加验证 | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/validation.html
 - uid: tutorials/first-mvc-app-xplat/working-with-sql
-  name: 使用  SQLite | Microsoft 文档（民间汉化）
+  name: 使用  SQLite | Microsoft 文档（中文文档）
   href: tutorials/first-mvc-app-xplat/working-with-sql.html
 - uid: tutorials/first-web-api
   name: Create a Web API with ASP.NET Core and Visual Studio for Windows
@@ -563,10 +563,10 @@ references:
   name: Create a Web API with ASP.NET Core and Visual Studio for Mac
   href: tutorials/first-web-api-mac.html
 - uid: tutorials/index
-  name: ASP.NET Core 指南 | Microsoft 文档（民间汉化）
+  name: ASP.NET Core 指南 | Microsoft 文档（中文文档）
   href: tutorials/index.html
 - uid: tutorials/nano-server
-  name: ASP.NET Core 部署到 Nano Server | Microsoft 文档（民间汉化）
+  name: ASP.NET Core 部署到 Nano Server | Microsoft 文档（中文文档）
   href: tutorials/nano-server.html
 - uid: tutorials/publish-to-azure-webapp-using-vs
   name: Publish an ASP.NET Core app to Azure using Visual Studio | Microsoft Docs
@@ -578,5 +578,5 @@ references:
   name: Create a Web API with ASP.NET Core and VS Code
   href: tutorials/web-api-vsc.html
 - uid: tutorials/your-first-mac-aspnet
-  name: 用 Visual Studio Code 在 mac 或者 linux 上创建首个 ASP.NET Core 应用程序 | Microsoft 文档（民间汉化）
+  name: 用 Visual Studio Code 在 mac 或者 linux 上创建首个 ASP.NET Core 应用程序 | Microsoft 文档（中文文档）
   href: tutorials/your-first-mac-aspnet.html
