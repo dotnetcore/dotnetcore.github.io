@@ -41,7 +41,7 @@ references:
   name: ASP.NET Core MVC with EF Core - Advanced - 10 of 10 | Microsoft Docs
   href: data/ef-mvc/advanced.html
 - uid: data/ef-mvc/complex-data-model
-  name: ASP.NET Core MVC with EF Core - Data Model - 5 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 数据模型 - 5 of 10 | Microsoft 文档（民间汉化）
   href: data/ef-mvc/complex-data-model.html
 - uid: data/ef-mvc/concurrency
   name: ASP.NET Core MVC with EF Core - Concurrency - 8 of 10 | Microsoft Docs
