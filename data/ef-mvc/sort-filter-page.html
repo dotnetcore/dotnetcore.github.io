@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ASP.NET Core MVC with EF Core - Sort, Filter, Paging - 3 of 10 | Microsoft Docs </title>
+    <title>ASP.NET Core MVC &#19982; EF Core - &#25490;&#24207;&#65292; &#36807;&#28388;&#65292; &#20998;&#39029; - 3 of 10 | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="ASP.NET Core MVC with EF Core - Sort, Filter, Paging - 3 of 10 | Microsoft Docs ">
+    <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#25490;&#24207;&#65292; &#36807;&#28388;&#65292; &#20998;&#39029; - 3 of 10 | Microsoft &#25991;&#26723;&#65288;&#27665;&#38388;&#27721;&#21270;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,17 +66,18 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="data/ef-mvc/sort-filter-page">
-<h1 id="sorting-filtering-paging-and-grouping---ef-core-with-aspnet-core-mvc-tutorial-3-of-10">Sorting, filtering, paging, and grouping - EF Core with ASP.NET Core MVC tutorial (3 of 10)</h1>
+<h1 id="排序-过滤-分页与分组---ef-core-与-aspnet-core-mvc-教程-3-of-10">排序， 过滤， 分页与分组 - EF Core 与 ASP.NET Core MVC 教程 (3 of 10)</h1>
 
-<p>By <a href="https://github.com/tdykstra">Tom Dykstra</a> and <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.11 and Visual Studio 2017. For information about the tutorial series, see <a href="intro.html">the first tutorial in the series</a>.</p>
-<p>In the previous tutorial, you implemented a set of web pages for basic CRUD operations for Student entities. In this tutorial you&#39;ll add sorting, filtering, and paging functionality to the Students Index page. You&#39;ll also create a page that does simple grouping.</p>
-<p>The following illustration shows what the page will look like when you&#39;re done. The column headings are links that the user can click to sort by that column. Clicking a column heading repeatedly toggles between ascending and descending sort order.</p>
+<p>作者 <a href="https://github.com/tdykstra">Tom Dykstra</a> ， <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler</a> </p>
+<p>Contoso 大学 Web应用程序演示了如何使用 Entity Framework Core 1.1 以及 Visual Studio 2017 来创建 ASP.NET Core 1.1 MVC Web 应用程序。更多信息请参考 <a href="intro.html">第一节教程</a>.</p>
+<p>在之前的教程中你实现了一套对 Student实体进行基本 CRUD 操作的 Web 页面。在本教程中，您将为 Index 页添加排序、筛选和分页的功能。您还会创建一个简单的分组页面。</p>
+<p>下图显示了当你完成本教程后的页面截屏。用户可以点击行标题来进行排序，并且多次点击标题可以让你在升序和降序之间切换。</p>
 <p><img src="sort-filter-page/static/paging.png" alt="Students index page"></p>
-<h2 id="add-column-sort-links-to-the-students-index-page">Add Column Sort Links to the Students Index Page</h2>
-<p>To add sorting to the Student Index page, you&#39;ll change the <code>Index</code> method of the Students controller and add code to the Student Index view.</p>
-<h3 id="add-sorting-functionality-to-the-index-method">Add sorting Functionality to the Index method</h3>
-<p>In <em>StudentsController.cs</em>, replace the <code>Index</code> method with the following code:</p>
+<h2 id="将排序链接添加到学生的-index-页">将排序链接添加到学生的 Index 页</h2>
+<p>要为学生 Index 页添加排序功能，你需要往学生控制器中的 <code>Index</code> 方法和学生 Index 视图添加代码。</p>
+<h3 id="在-index-方法中添加排序功能">在 Index 方法中添加排序功能</h3>
+<p>在 <em>StudentsController.cs</em> 代码中，使用下面的代码替换 <code>Index</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index(string sortOrder)
 {
     ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
@@ -100,9 +101,9 @@
     }
     return View(await students.AsNoTracking().ToListAsync());
 }
-</code></pre><p>This code receives a <code>sortOrder</code> parameter from the query string in the URL. The query string value is provided by ASP.NET Core MVC as a parameter to the action method. The parameter will be a string that&#39;s either &quot;Name&quot; or &quot;Date&quot;, optionally followed by an underscore and the string &quot;desc&quot; to specify descending order. The default sort order is ascending.</p>
-<p>The first time the Index page is requested, there&#39;s no query string. The students are displayed in ascending order by last name, which is the default as established by the fall-through case in the <code>switch</code> statement. When the user clicks a column heading hyperlink, the appropriate <code>sortOrder</code> value is provided in the query string.</p>
-<p>The two <code>ViewData</code> elements (NameSortParm and DateSortParm) are used by the view to configure the column heading hyperlinks with the appropriate query string values.</p>
+</code></pre><p>这段代码从 URL 中接收 <code>sortOrder</code> 查询字符串，该字符串是由 ASP.NET MVC 作为参数传递给动作方法的。该参数可以是 ”Name” 或 ”Date” 之一，默认的排序规则是升序。还可以有一条下划线和 ”desc” 来指示这是一个降序排序。</p>
+<p>Index 页面第一次请求时，没有任何查询字符串被传递，学生们按照 LastName 升序排序显示。这是由 <code>switch</code> 语句中的 default 条件指定的，当用户点击某列的标题超链接时，相应的 <code>sortOrder</code> 值通过查询字符串传递到控制器中。</p>
+<p>两个 <code>ViewData</code> 变量 (NameSortParm and DateSortParm)被用于为视图提供合适的查询字符串值</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3-4">public async Task&lt;IActionResult&gt; Index(string sortOrder)
 {
     ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
@@ -126,13 +127,13 @@
     }
     return View(await students.AsNoTracking().ToListAsync());
 }
-</code></pre><p>These are ternary statements. The first one specifies that if the <code>sortOrder</code> parameter is null or empty, NameSortParm should be set to &quot;name_desc&quot;; otherwise, it should be set to an empty string. These two statements enable the view to set the column heading hyperlinks as follows:</p>
+</code></pre><p>这里使用了三元表达式。第一个指定假如 <code>sortOrder</code> 参数为null或为空，则 NameSortParm 应设置为 ”name_desc” ，否则将其设置为空字符串。这两个语句为视图中列标题的超链接提供下列排序规则：</p>
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Current sort order</th>
-<th style="text-align:center">Last Name Hyperlink</th>
-<th style="text-align:center">Date Hyperlink</th>
+<th style="text-align:center">当前排序规则</th>
+<th style="text-align:center">Last Name 链接</th>
+<th style="text-align:center">Date 链接</th>
 </tr>
 </thead>
 <tbody>
@@ -158,10 +159,10 @@
 </tr>
 </tbody>
 </table>
-<p>The method uses LINQ to Entities to specify the column to sort by. The code creates an <code>IQueryable</code> variable before the switch statement, modifies it in the switch statement, and calls the <code>ToListAsync</code> method after the <code>switch</code> statement. When you create and modify <code>IQueryable</code> variables, no query is sent to the database. The query is not executed until you convert the <code>IQueryable</code> object into a collection by calling a method such as <code>ToListAsync</code>. Therefore, this code results in a single query that is not executed until the <code>return View</code> statement.</p>
-<p>This code could get verbose with a large number of columns. <a href="advanced.html#dynamic-linq">The last tutorial in this series</a> shows how to write code that lets you pass the name of the <code>OrderBy</code> column in a string variable.</p>
-<h3 id="add-column-heading-hyperlinks-to-the-student-index-view">Add column heading hyperlinks to the Student Index view</h3>
-<p>Replace the code in <em>Views/Students/Index.cshtml</em>, with the following code to add column heading hyperlinks. The changed lines are highlighted.</p>
+<p>该方法使用 LINQ to Entities 来指定要作为排序依据的列。代码在switch语句前创建了一个 <code>IQueryable</code> 变量，然后在 switch 语句中修改它，并在 <code>switch</code> 语句后调用 <code>ToListAsync</code> 方法。当您创建和修改 <code>IQueryable</code> 变量时，没有查询被实际发送到数据库执行。直到您将 <code>IQueryable</code> 对象通过调用一种方法如 <code>ToListAsync</code> 转换为一个集合时才进行真正的查询。因此，直到<code>return View</code> 语句之前，这段代码的查询都不会执行。</p>
+<p>本代码可能会有大量的列。 <a href="advanced.html#dynamic-linq">本系列的最后一个教程</a> 显示了如何编写代码，让您传递字符串变量中的 <code>OrderBy</code> 列的名称。</p>
+<h3 id="为学生-index-视图添加行标题超链接">为学生 Index 视图添加行标题超链接</h3>
+<p>在 <em>Views/Students/Index.cshtml</em>中，使用下面高亮的代码添加列标题链接。</p>
 <pre><code class="lang-html" highlight-lines="16,22">@model IEnumerable&lt;ContosoUniversity.Models.Student&gt;
 
 @{
@@ -209,13 +210,13 @@
 }
     &lt;/tbody&gt;
 &lt;/table&gt;
-</code></pre><p>This code uses the information in <code>ViewData</code> properties to set up hyperlinks with the appropriate query string values.</p>
-<p>Run the page and click the <strong>Last Name</strong> and <strong>Enrollment Date</strong> column headings to verify that sorting works.</p>
+</code></pre><p>这段代码使用 <code>ViewData</code> 的属性来设置超链接和查询字符串值。</p>
+<p>运行该页面，点击 <strong>Last Name</strong> 和 <strong>Enrollment Date</strong> 行标题，观察排序的变化。</p>
 <p><img src="sort-filter-page/static/name-order.png" alt="Students index page in name order"></p>
-<h2 id="add-a-search-box-to-the-students-index-page">Add a Search Box to the Students Index page</h2>
-<p>To add filtering to the Students Index page, you&#39;ll add a text box and a submit button to the view and make corresponding changes in the <code>Index</code> method. The text box will let you enter a string to search for in the first name and last name fields.</p>
-<h3 id="add-filtering-functionality-to-the-index-method">Add filtering functionality to the Index method</h3>
-<p>In <em>StudentsController.cs</em>, replace the <code>Index</code> method with the following code (the changes are highlighted).</p>
+<h2 id="向学生-index-页中添加搜索框">向学生 Index 页中添加搜索框</h2>
+<p>要在 Index 页中增加搜索功能，你需要向视图中添加一个文本框及一个提交按钮并在 <code>Index</code>方法中做相应的修改。文本框允许你输入要在名字和姓氏中检索的字符串。</p>
+<h3 id="向-index-方法中添加筛选功能">向 Index 方法中添加筛选功能</h3>
+<p>在 <em>StudentsController.cs</em> 代码中，使用下面的代码替换 <code>Index</code> 方法（高亮部分）：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="1,5,9-13">public async Task&lt;IActionResult&gt; Index(string sortOrder, string searchString)
 {
     ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
@@ -246,12 +247,12 @@
     }
     return View(await students.AsNoTracking().ToListAsync());
 }
-</code></pre><p>You&#39;ve added a <code>searchString</code> parameter to the <code>Index</code> method. The search string value is received from a text box that you&#39;ll add to the Index view. You&#39;ve also added to the LINQ statement a where clause that selects only students whose first name or last name contains the search string. The statement that adds the where clause is executed only if there&#39;s a value to search for.</p>
-<div class="NOTE"><h5>备注</h5><p>Here you are calling the <code>Where</code> method on an <code>IQueryable</code> object, and the filter will be processed on the server. In some scenarios you might be calling the <code>Where</code> method as an extension method on an in-memory collection. (For example, suppose you change the reference to <code>_context.Students</code> so that instead of an EF <code>DbSet</code> it references a repository method that returns an <code>IEnumerable</code> collection.) The result would normally be the same but in some cases may be different.</p>
-<p>For example, the .NET Framework implementation of the <code>Contains</code> method performs a case-sensitive comparison by default, but in SQL Server this is determined by the collation setting of the SQL Server instance. That setting defaults to case-insensitive. You could call the <code>ToUpper</code> method to make the test explicitly case-insensitive:  <em>Where(s =&gt; s.LastName.ToUpper().Contains(searchString.ToUpper())</em>. That would ensure that results stay the same if you change the code later to use a repository which returns   an <code>IEnumerable</code> collection instead of an <code>IQueryable</code> object. (When you call the <code>Contains</code> method on an <code>IEnumerable</code> collection, you get the .NET Framework implementation; when you call it on an <code>IQueryable</code> object, you get the database provider implementation.) However, there is a performance penalty for this solution. The <code>ToUpper</code> code would put a function in the WHERE clause of the TSQL SELECT statement. That would prevent the optimizer from using an index. Given that SQL is mostly installed as case-insensitive, it&#39;s best to avoid the <code>ToUpper</code> code until you migrate to a case-sensitive data store.</p>
+</code></pre><p>您已经将 <code>searchString</code> 参数添加到e <code>Index</code> 方法，搜索字符串是从你将添加到 Index 视图的搜索文本框中输入的，您也已经添加用于在姓名中搜索指定字符串的 Linq 语句。只有在搜索字符串有值时，搜索部分的语句才会执行。</p>
+<div class="NOTE"><h5>备注</h5><p>在这里你调用了 <code>IQueryable</code> 对象的 <code>Where</code> 方法，服务器上会执行筛选操作. 在某些场景你可以在内存对象中作为一个扩展方法调用 <code>Where</code> 。 (例如， 假设您将引用更改为 <code>_context.Students</code> ，而不是使用一个 EF <code>DbSet</code>，它引用一个返回 <code>IEnumerable</code> 集合的存储库方法。) 。一般来说结果是相同的，但在某些情况下可能会有所不同.</p>
+<p>例如，.Net框架中的 <code>Contains</code> 方法默认实现不区分大小写的字符串比对。但是 SQL Server 则是由排序规则决定的。默认不区分大小写。你可以调用 <code>ToUpper</code> 方法来明确的测试区分大小写<em>Where(s =&gt; s.LastName.ToUpper().Contains(searchString.ToUpper())</em> 。这将确保结果保持不变，，如果稍后更改代码以使用返回 <code>IEnumerable</code> 集合而不是 <code>IQueryable</code> 对象的存储库。 （当您在 <code>IEnumerable</code> 集合中调用 <code>Contains</code> 方法时，您将获得 .NET Framework 实现;当您在 <code>IQueryable</code> 对象上调用它时，可以获取数据库提供程序的实现。）但是，这个解决方案有性能损失。 <code>ToUpper</code> 代码会把一个函数放在 TSQL SELECT 语句的 WHERE 子句中。 这将阻止优化器使用索引。 鉴于 SQL 主要是不区分大小写的实现，因此最好避免使用 <code>ToUpper</code> 代码，直到您迁移到区分大小写的数据存储。</p>
 </div>
-<h3 id="add-a-search-box-to-the-student-index-view">Add a Search Box to the Student Index View</h3>
-<p>In <em>Views/Student/Index.cshtml</em>, add the highlighted code immediately before the opening table tag in order to create a caption, a text box, and a <strong>Search</strong> button.</p>
+<h3 id="向学生-index-视图中添加一个搜索框">向学生 Index 视图中添加一个搜索框</h3>
+<p>在 <em>Views/Student/Index.cshtml</em>中，在table元素之前添加下面高亮的代码以创建一个标题、一个文本框及一个 <strong>搜索</strong> 按钮。</p>
 <pre><code class="lang-html" highlight-lines="5-13">&lt;p&gt;
     &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
 &lt;/p&gt;
@@ -267,17 +268,17 @@
 &lt;/form&gt;
 
 &lt;table class=&quot;table&quot;&gt;
-</code></pre><p>This code uses the <code>&lt;form&gt;</code> <a href="https://docs.asp.net/en/latest/mvc/views/tag-helpers/intro.html">tag helper</a> to add the search text box and button. By default, the <code>&lt;form&gt;</code> tag helper submits form data with a POST, which means that parameters are passed in the HTTP message body and not in the URL as query strings. When you specify HTTP GET, the form data is passed in the URL as query strings, which enables users to bookmark the URL. The W3C guidelines recommend that you should use GET when the action does not result in an update.</p>
-<p>Run the page, enter a search string, and click Search to verify that filtering is working.</p>
+</code></pre><p>这段代码使用 <code>&lt;form&gt;</code> <a href="https://docs.asp.net/en/latest/mvc/views/tag-helpers/intro.html">tag helper</a>添加搜索文本框和按钮。 默认情况下， <code>&lt;form&gt;</code> tag helper 使用 POST 提交表单数据，这意味着参数在HTTP消息正文中传递，而不是作为查询字符串传递。 当您指定 HTTP GET 时，表单数据将以 URL 的形式作为查询字符串传递，从而使用户能够将 URL 加入书签。 W3C 指南建议您在操作不会导致更新时使用 GET 。</p>
+<p>运行索引页面，输入搜索字符串并提交，检查搜索功能是否正常工作。</p>
 <p><img src="sort-filter-page/static/filtering.png" alt="Students index page with filtering"></p>
-<p>Notice that the URL contains the search string.</p>
+<p>注意该 URL 中包含搜索字符串</p>
 <pre><code class="lang-html">http://localhost:5813/Students?SearchString=an
-</code></pre><p>If you bookmark this page, you&#39;ll get the filtered list when you use the bookmark. Adding <code>method=&quot;get&quot;</code> to the <code>form</code> tag is what caused the query string to be generated.</p>
-<p>At this stage, if you click a column heading sort link you&#39;ll lose the filter value that you entered in the <strong>Search</strong> box. You&#39;ll fix that in the next section.</p>
-<h2 id="add-paging-functionality-to-the-students-index-page">Add paging functionality to the Students Index page</h2>
-<p>To add paging to the Students Index page, you&#39;ll create a <code>PaginatedList</code> class that uses <code>Skip</code> and <code>Take</code> statements to filter data on the server instead of always retrieving all rows of the table. Then you&#39;ll make additional changes in the <code>Index</code> method and add paging buttons to the <code>Index</code> view. The following illustration shows the paging buttons.</p>
+</code></pre><p>如果你把页面加入书签，当你打开书签的时候你会重新获取过滤列表，在 <code>form</code> 标签中添加 <code>method=&quot;get&quot;</code> 会导致生成查询字符串。</p>
+<p>在现阶段，如果你点击表头标题排序链接你会丢失你在 <strong>Search</strong> 输入框中输入的过滤值。你将会在下一节修复这个问题。</p>
+<h2 id="向学生-index-页中添加分页功能">向学生 Index 页中添加分页功能</h2>
+<p>要向 Index 页面添加分页，您需要创建一个 <code>PaginatedList</code> 类并使用它的 <code>Skip</code> 和 <code>Take</code> 语句来过滤服务器上的数据，而不是始终检索数据库表里面的所有行。 然后，您将在 <code>Index</code> 方法中进行其他更改，并将分页按钮添加到 <code>Index</code> 视图。 下图显示了分页按钮。</p>
 <p><img src="sort-filter-page/static/paging.png" alt="Students index page with paging links"></p>
-<p>In the project folder create <code>PaginatedList.cs</code>, and then replace the template code with the following code.</p>
+<p>在项目目录创建 <code>PaginatedList.cs</code> 类， 并把模版代码替换为以下代码。</p>
 <pre><code class="lang-csharp" name="Main">using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -320,10 +321,10 @@ public class PaginatedList&lt;T&gt; : List&lt;T&gt;
         return new PaginatedList&lt;T&gt;(items, count, pageIndex, pageSize);
     }
 }
-</code></pre><p>The <code>CreateAsync</code> method in this code takes page size and page number and applies the appropriate <code>Skip</code> and <code>Take</code> statements to the <code>IQueryable</code>. When <code>ToListAsync</code> is called on the <code>IQueryable</code>, it will return a List containing only the requested page. The properties <code>HasPreviousPage</code> and <code>HasNextPage</code> can be used to enable or disable <strong>Previous</strong> and <strong>Next</strong> paging buttons.</p>
-<p>A <code>CreateAsync</code> method is used instead of a constructor to create the <code>PaginatedList&lt;T&gt;</code> object because constructors can&#39;t run asynchronous code.</p>
-<h2 id="add-paging-functionality-to-the-index-method">Add paging functionality to the Index method</h2>
-<p>In <em>StudentsController.cs</em>, replace the <code>Index</code> method with the following code.</p>
+</code></pre><p>这段代码中的 <code>CreateAsync</code>方法将使用页面大小和页码，并将适当的 <code>Skip</code> 以及 <code>Take</code> 语句应用于 <code>IQueryable</code>对象。 当 <code>ToListAsync</code>方法 在 <code>IQueryable</code>对象上被调用时，它将返回一个仅包含请求的页面的列表。 属性 <code>HasPreviousPage</code> 和 <code>HasNextPage</code> 用于启用或禁用 <strong>Previous</strong> 和 <strong>Next</strong> 分页按钮。</p>
+<p>使用 <code>CreateAsync</code> 方法代替构造函数来创建 <code>PaginatedList&lt;T&gt;</code> 对象，因为构造函数不能运行异步代码。</p>
+<h2 id="在-index-方法中添加分页功能">在 Index 方法中添加分页功能</h2>
+<p>在 <em>StudentsController.cs</em> 中，使用以下代码替换<code>Index</code>方法。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="1-5,7,11-18,45-46">public async Task&lt;IActionResult&gt; Index(
     string sortOrder,
     string currentFilter,
@@ -371,16 +372,16 @@ public class PaginatedList&lt;T&gt; : List&lt;T&gt;
     int pageSize = 3;
     return View(await PaginatedList&lt;Student&gt;.CreateAsync(students.AsNoTracking(), page ?? 1, pageSize));
 }
-</code></pre><p>This code adds a page number parameter, a current sort order parameter, and a current filter parameter to the method signature.</p>
+</code></pre><p>此代码向方法签名添加页码参数、当前排序参数和当前过滤参数。</p>
 <pre><code class="lang-csharp">public async Task&lt;IActionResult&gt; Index(
     string sortOrder,
     string currentFilter,
     string searchString,
     int? page)
-</code></pre><p>The first time the page is displayed, or if the user hasn&#39;t clicked a paging or sorting link, all the parameters will be null.  If a paging link is clicked, the page variable will contain the page number to display.</p>
-<p>The <code>ViewData</code> element named CurrentSort provides the view with the current sort order, because this must be included in the paging links in order to keep the sort order the same while paging.</p>
-<p>The <code>ViewData</code> element named CurrentFilter provides the view with the current filter string. This value must be included in the paging links in order to maintain the filter settings during paging, and it must be restored to the text box when the page is redisplayed.</p>
-<p>If the search string is changed during paging, the page has to be reset to 1, because the new filter can result in different data to display. The search string is changed when a value is entered in the text box and the Submit button is pressed. In that case, the <code>searchString</code> parameter is not null.</p>
+</code></pre><p>页面第一次显示的时候，或者如果用户没有点击分页或排序链接，则所有参数都将为空。 如果点击分页链接，分页变量将包含要显示的页码。</p>
+<p>视图里面的名为 CurrentSort 的 <code>ViewData</code> 变量保存具有当前排序信息，因为这个变量必须包含在分页链接中，以便在分页时保持相同排序。</p>
+<p>视图里面的名为 CurrentFilter 的 <code>ViewData</code> 变量保存当前当前过滤字符串信息。 此值必须包含在分页链接中，以便在分页期间保留过滤字符串，而且并且在重新显示页面时必须将其还原到文本框。</p>
+<p>如果在分页的过程中更改了搜索字符串，则页面当前页码必须重置为1，因为新的过滤字符串可能导致显示不同的数据。 当在文本框中输入值并按下提交按钮时，搜索字符串将被更改。 在这种情况下，<code>searchString</code> 参数不为空。</p>
 <pre><code class="lang-csharp">if (searchString != null)
 {
     page = 1;
@@ -389,11 +390,11 @@ else
 {
     searchString = currentFilter;
 }
-</code></pre><p>At the end of the <code>Index</code> method, the <code>PaginatedList.CreateAsync</code> method converts the student query to a single page of students in a collection type that supports paging. That single page of students is then passed to the view.</p>
+</code></pre><p>在 <code>Index</code> 方法的末尾， <code>PaginatedList.CreateAsync</code> 方法将学生查询转换为支持分页的集合类型的单页学生数据。 然后当前页的学生数据被传递给视图。</p>
 <pre><code class="lang-csharp">return View(await PaginatedList&lt;Student&gt;.CreateAsync(students.AsNoTracking(), page ?? 1, pageSize));
-</code></pre><p>The <code>PaginatedList.CreateAsync</code> method takes a page number. The two question marks represent the null-coalescing operator. The null-coalescing operator defines a default value for a nullable type; the expression <code>(page ?? 1)</code> means return the value of <code>page</code> if it has a value, or return 1 if <code>page</code> is null.</p>
-<h2 id="add-paging-links-to-the-student-index-view">Add paging links to the Student Index view</h2>
-<p>In <em>Views/Students/Index.cshtml</em>, replace the existing code with the following code. The changes are highlighted.</p>
+</code></pre><p> <code>PaginatedList.CreateAsync</code> 方法需要一个页码参数。 这两个问号表示合并运算符。 合并运算符定义可空类型的默认值; 表达式 <code>(page ?? 1)</code>表示如果具有值，则返回 <code>page</code> 的值，如果 <code>page</code> 为空，则返回1。</p>
+<h2 id="向学生-index-视图添加分页链接">向学生 Index 视图添加分页链接</h2>
+<p>在 <em>Views/Students/Index.cshtml</em> 中，使用下面的代码替换原来的代码，高亮部分显示了我们所做的更改：</p>
 <pre><code class="lang-html" highlight-lines="1,27,30,33,61-79">@model PaginatedList&lt;ContosoUniversity.Models.Student&gt;
 
 @{
@@ -473,10 +474,10 @@ else
    class=&quot;btn btn-default @nextDisabled&quot;&gt;
     Next
 &lt;/a&gt;
-</code></pre><p>The <code>@model</code> statement at the top of the page specifies that the view now gets a <code>PaginatedList&lt;T&gt;</code> object instead of a <code>List&lt;T&gt;</code> object.</p>
-<p>The column header links use the query string to pass the current search string to the controller so that the user can sort within filter results:</p>
+</code></pre><p>页面顶部的 <code>@model</code> 语句指示视图现在获取的是 <code>PaginatedList&lt;T&gt;</code> 对象而不是 <code>List&lt;T&gt;</code> 对象。</p>
+<p>列标题链接使用查询字符串将当前搜索字符串传递给控制器，以便用户可以对过滤查询结果进行排序：</p>
 <pre><code class="lang-html">&lt;a asp-action=&quot;Index&quot; asp-route-sortOrder=&quot;@ViewData[&quot;DateSortParm&quot;]&quot; asp-route-currentFilter =&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;&gt;Enrollment Date&lt;/a&gt;
-</code></pre><p>The paging buttons are displayed by tag helpers:</p>
+</code></pre><p>分页按钮由 tag helpers 生成：</p>
 <pre><code class="lang-html">&lt;a asp-action=&quot;Index&quot;
    asp-route-sortOrder=&quot;@ViewData[&quot;CurrentSort&quot;]&quot;
    asp-route-page=&quot;@(Model.PageIndex - 1)&quot;
@@ -484,22 +485,22 @@ else
    class=&quot;btn btn-default @prevDisabled btn&quot;&gt;
    Previous
 &lt;/a&gt;
-</code></pre><p>Run the page.</p>
+</code></pre><p>运行页面。</p>
 <p><img src="sort-filter-page/static/paging.png" alt="Students index page with paging links"></p>
-<p>Click the paging links in different sort orders to make sure paging works. Then enter a search string and try paging again to verify that paging also works correctly with sorting and filtering.</p>
-<h2 id="create-an-about-page-that-shows-student-statistics">Create an About page that shows Student statistics</h2>
-<p>For the Contoso University website&#39;s <strong>About</strong> page, you&#39;ll display how many students have enrolled for each enrollment date. This requires grouping and simple calculations on the groups. To accomplish this, you&#39;ll do the following:</p>
+<p>点击不同排序中的分页链接以确保分页功能工作。 然后输入搜索字符串，然后再次尝试分页，以验证分页也可以正确排序和过滤。</p>
+<h2 id="创建一个显示学生统计信息的-about-页面">创建一个显示学生统计信息的 About 页面</h2>
+<p>对于 Contoso 大学网站的 <strong>About</strong> 页面，将显示每个报名日期有多少学生报名。 这需要对学员进行分组和简单统计计算。 要完成此操作，您将执行以下操作：</p>
 <ul>
-<li><p>Create a view model class for the data that you need to pass to the view.</p>
+<li><p>为需要传递给视图的数据创建视图模型类。</p>
 </li>
-<li><p>Modify the About method in the Home controller.</p>
+<li><p>修改 Home 控制器中的 About 方法。</p>
 </li>
-<li><p>Modify the About view.</p>
+<li><p>修改 About 视图。</p>
 </li>
 </ul>
-<h3 id="create-the-view-model">Create the view model</h3>
-<p>Create a <em>SchoolViewModels</em> folder in the <em>Models</em> folder.</p>
-<p>In the new folder, add a class file EnrollmentDateGroup.cs and replace the template code with the following code:</p>
+<h3 id="创建视图模型">创建视图模型</h3>
+<p>在 <em>Models</em>  目录中创建 <em>SchoolViewModels</em> 目录。</p>
+<p>在新目录中，添加类文件 EnrollmentDateGroup.cs 用下列代码替换掉模版代码。</p>
 <pre><code class="lang-csharp" name="Main">using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -513,12 +514,13 @@ namespace ContosoUniversity.Models.SchoolViewModels
         public int StudentCount { get; set; }
     }
 }
-</code></pre><h3 id="modify-the-home-controller">Modify the Home Controller</h3>
-<p>In <em>HomeController.cs</em>, add the following using statements at the top of the file:</p>
+</code></pre><h3 id="修改-home-控制器">修改 Home 控制器</h3>
+<p>在 <em>HomeController.cs</em> 文件中，在文件顶部添加一下 Using 语句：</p>
 <pre><code class="lang-csharp" name="Main">using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models.SchoolViewModels;
-</code></pre><p>Add a class variable for the database context immediately after the opening curly brace for the class, and get an instance of the context from ASP.NET Core DI:</p>
+</code></pre><p>在该类的开放大括号之后立即为数据库上下文添加一个类变量，并从ASP.NET Core DI获取上下文的实例：
+Add a class variable for the database context immediately after the opening curly brace for the class, and get an instance of the context from ASP.NET Core DI:</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3,5,7">public class HomeController : Controller
 {
     private readonly SchoolContext _context;
@@ -527,7 +529,7 @@ using ContosoUniversity.Models.SchoolViewModels;
     {
         _context = context;
     }
-</code></pre><p>Replace the <code>About</code> method with the following code:</p>
+</code></pre><p>使用下列代码替换掉 <code>About</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main">public async Task&lt;ActionResult&gt; About()
 {
     IQueryable&lt;EnrollmentDateGroup&gt; data = 
@@ -540,11 +542,11 @@ using ContosoUniversity.Models.SchoolViewModels;
         };
     return View(await data.AsNoTracking().ToListAsync());
 }
-</code></pre><p>The LINQ statement groups the student entities by enrollment date, calculates the number of entities in each group, and stores the results in a collection of <code>EnrollmentDateGroup</code> view model objects.</p>
-<div class="NOTE"><h5>备注</h5><p>In the 1.0 version of Entity Framework Core, the entire result set is returned to the client, and grouping is done on the client. In some scenarios this could create performance problems. Be sure to test performance with production volumes of data, and if necessary use raw SQL to do the grouping on the server. For information about how to use raw SQL, see <a href="advanced.html">the last tutorial in this series</a>.</p>
+</code></pre><p>LINQ 语句通过报名日期对学生实体进行分组，计算每个组中的实体数，并将结果存储在 <code>EnrollmentDateGroup</code> 视图模型对象的集合中。</p>
+<div class="NOTE"><h5>备注</h5><p>在 1.0 版本的 Entity Framework Core 中，会将整个结果集返回给客户端，并在客户端上进行分组。 这在某些情况下可能会导致性能问题。 确保使用生产数据量测试性能，并在必要时侯使用原始 SQL 在服务器上进行分组。 有关如何使用原始 SQ L的信息，请参阅 <a href="advanced.html">本系列的最后一个教程</a>.</p>
 </div>
-<h3 id="modify-the-about-view">Modify the About View</h3>
-<p>Replace the code in the <em>Views/Home/About.cshtml</em> file with the following code:</p>
+<h3 id="修改-about-视图">修改 About 视图</h3>
+<p>使用下列代码替换掉 <em>Views/Home/About.cshtml</em> 中的代码：</p>
 <pre><code class="lang-html">@model IEnumerable&lt;ContosoUniversity.Models.SchoolViewModels.EnrollmentDateGroup&gt;
 
 @{
@@ -575,12 +577,12 @@ using ContosoUniversity.Models.SchoolViewModels;
         &lt;/tr&gt;
     }
 &lt;/table&gt;
-</code></pre><p>Run the app and click the <strong>About</strong> link. The count of students for each enrollment date is displayed in a table.</p>
+</code></pre><p>运行应用程序，然后单击 <strong>About</strong> 链接。 每个报名日期的学生总数显示在表格中。</p>
 <p><img src="sort-filter-page/static/about.png" alt="About page"></p>
-<h2 id="summary">Summary</h2>
-<p>In this tutorial you&#39;ve seen how to perform sorting, filtering, paging, and grouping. In the next tutorial you&#39;ll learn how to handle data model changes by using migrations.</p>
-<div class="step-by-step"><p><a href="crud.html">Previous</a>
-<a href="migrations.html">Next</a>  </p>
+<h2 id="总结">总结</h2>
+<p>在本教程中，你学会了编写排序、筛选、分页及分组功能，下一节中我们将通过迁移来处理数据模型的变化。</p>
+<div class="step-by-step"><p><a href="crud.html">上一节</a>
+<a href="migrations.html">下一节</a>  </p>
 </div>
 </article>
           </div>

@@ -59,13 +59,13 @@ references:
   name: ASP.NET Core MVC 与 Entity Framework Core - 教程 1 / 10 | Microsoft 文档（民间汉化）
   href: data/ef-mvc/intro.html
 - uid: data/ef-mvc/migrations
-  name: ASP.NET Core MVC with EF Core - Migrations - 4 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 迁移 - 4 of 10 | Microsoft 文档（民间汉化）
   href: data/ef-mvc/migrations.html
 - uid: data/ef-mvc/read-related-data
   name: ASP.NET Core MVC with EF Core - Read Related Data - 6 of 10 | Microsoft Docs
   href: data/ef-mvc/read-related-data.html
 - uid: data/ef-mvc/sort-filter-page
-  name: ASP.NET Core MVC with EF Core - Sort, Filter, Paging - 3 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 排序， 过滤， 分页 - 3 of 10 | Microsoft 文档（民间汉化）
   href: data/ef-mvc/sort-filter-page.html
 - uid: data/ef-mvc/update-related-data
   name: ASP.NET Core MVC with EF Core - Update Related Data - 7 of 10 | Microsoft Docs
