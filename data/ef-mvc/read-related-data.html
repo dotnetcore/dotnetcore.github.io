@@ -307,7 +307,8 @@ namespace ContosoUniversity.Models.SchoolViewModels
       .ToListAsync();
 </code></pre><!--Since the view always requires the OfficeAssignment entity, it's more efficient to fetch that in the same query. Course entities are required when an instructor is selected in the web page, so a single query is better than multiple queries only if the page is displayed more often with a course selected than without.-->
 <p>由于视图一直需要 OfficeAssignment 实体，因此在同一个请求中提取它会更有效率。当在页面中选中一个教师时需要 Course 实体，所以当页面会比较频繁地需要显示课程数据，那么单一查询明显优于多个查询。</p>
-<p>The code repeats <code>CourseAssignments</code> and <code>Course</code> because you need two properties from <code>Course</code>. The first string of <code>ThenInclude</code> calls gets <code>CourseAssignment.Course</code>, <code>Course.Enrollments</code>, and <code>Enrollment.Student</code>.</p>
+<!--The code repeats `CourseAssignments` and `Course` because you need two properties from `Course`. The first string of `ThenInclude` calls gets `CourseAssignment.Course`, `Course.Enrollments`, and `Enrollment.Student`.-->
+<p>代码中的 <code>CourseAssignments</code> 和 <code>Course</code> 重复了，因为您需要 <code>Course</code>中的两个属性。 <code>ThenInclude</code> 的第一个调用得到<code>CourseAssignment.Course</code>, <code>Course.Enrollments</code>, 和 <code>Enrollment.Student</code>.。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="3-6">viewModel.Instructors = await _context.Instructors
       .Include(i =&gt; i.OfficeAssignment)
       .Include(i =&gt; i.CourseAssignments)
@@ -320,7 +321,8 @@ namespace ContosoUniversity.Models.SchoolViewModels
       .AsNoTracking()
       .OrderBy(i =&gt; i.LastName)
       .ToListAsync();
-</code></pre><p>At that point in the code, another <code>ThenInclude</code> would be for navigation properties of <code>Student</code>, which you don&#39;t need. But calling <code>Include</code> starts over with <code>Instructor</code> properties, so you have to go through the chain again, this time specifying <code>Course.Department</code> instead of <code>Course.Enrollments</code>.</p>
+</code></pre><!--At that point in the code, another `ThenInclude` would be for navigation properties of `Student`, which you don't need. But calling `Include` starts over with `Instructor` properties, so you have to go through the chain again, this time specifying `Course.Department` instead of `Course.Enrollments`.-->
+<p>在代码中的那块上，另一个 <code>ThenInclude</code> 将用于 <code>Student</code>的导航属性，您不需要它。 但是，通过 <code>Instructor</code> 属性调用 <code>Include</code> 就可以重新开始，所以你必须重新遍历链接，这次指定 <code>Course.Department</code> 而不是<code>Course.Enrollments</code>。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="7-9">viewModel.Instructors = await _context.Instructors
       .Include(i =&gt; i.OfficeAssignment)
       .Include(i =&gt; i.CourseAssignments)
@@ -333,7 +335,8 @@ namespace ContosoUniversity.Models.SchoolViewModels
       .AsNoTracking()
       .OrderBy(i =&gt; i.LastName)
       .ToListAsync();
-</code></pre><p>The following code executes when an instructor was selected. The selected instructor is retrieved from the list of instructors in the view model. The view model&#39;s <code>Courses</code> property is then loaded with the Course entities from that instructor&#39;s <code>CourseAssignments</code> navigation property.</p>
+</code></pre><!--The following code executes when an instructor was selected. The selected instructor is retrieved from the list of instructors in the view model. The view model's `Courses` property is then loaded with the Course entities from that instructor's `CourseAssignments` navigation property.-->
+<p>当选择了教师时，执行以下代码。 从视图模型中的教师列表中检索选定的讲师。 视图模型的 <code>Courses</code> 属性随后由教师的 <code>CourseAssignments</code> 导航属性加载课程实体。</p>
 <pre><code class="lang-csharp" name="Main">#endregion
 
 if (id != null)
@@ -341,20 +344,26 @@ if (id != null)
     ViewData[&quot;InstructorID&quot;] = id.Value;
     Instructor instructor = viewModel.Instructors.Where(
         i =&gt; i.ID == id.Value).Single();
-</code></pre><p>The <code>Where</code> method returns a collection, but in this case the criteria passed to that method result in only a single Instructor entity being returned. The <code>Single</code> method converts the collection into a single Instructor entity, which gives you access to that entity&#39;s <code>CourseAssignments</code> property. The <code>CourseAssignments</code> property contains <code>CourseAssignment</code> entities, from which you want only the related <code>Course</code> entities.</p>
-<p>You use the <code>Single</code> method on a collection when you know the collection will have only one item. The Single method throws an exception if the collection passed to it is empty or if there&#39;s more than one item. An alternative is <code>SingleOrDefault</code>, which returns a default value (null in this case) if the collection is empty. However, in this case that would still result in an exception (from trying to find a <code>Courses</code> property on a null reference), and the exception message would less clearly indicate the cause of the problem. When you call the <code>Single</code> method, you can also pass in the Where condition instead of calling the <code>Where</code> method separately:</p>
+</code></pre><!--The `Where` method returns a collection, but in this case the criteria passed to that method result in only a single Instructor entity being returned. The `Single` method converts the collection into a single Instructor entity, which gives you access to that entity's `CourseAssignments` property. The `CourseAssignments` property contains `CourseAssignment` entities, from which you want only the related `Course` entities.-->
+<p> <code>Where</code> 方法返回一个集合，但在本例中该方法的条件只会返回一个 Instructor 实体。 <code>Single</code> 方法将集合转换为一个单独的 Instructor 实体，供你访问该实体中的  <code>CourseAssignments</code>属性。 <code>CourseAssignments</code>属性包含 <code>CourseAssignment</code> 实体，其中只有你所需的与该数据相关联的 <code>Course</code> 实体。</p>
+<!--You use the `Single` method on a collection when you know the collection will have only one item. The Single method throws an exception if the collection passed to it is empty or if there's more than one item. An alternative is `SingleOrDefault`, which returns a default value (null in this case) if the collection is empty. However, in this case that would still result in an exception (from trying to find a `Courses` property on a null reference), and the exception message would less clearly indicate the cause of the problem. When you call the `Single` method, you can also pass in the Where condition instead of calling the `Where` method separately:-->
+<p>当你知道集合中将只有一项时，你可以对该集合使用  <code>Single</code> 方法。当传入的集合为空（empty）或大于一条记录时，Single 方法会抛出异常。另一种方法叫  <code>SingleOrDefault</code> ，当传如入的集合为空（empty）时返回默认值（本例中为 null）。不过在本例中此处依旧会抛出异常（试图在空引用（null reference）中查找 <code>CourseAssignments</code> 属性），并且异常消息（exception message）也会很不清晰地指示导致该问题的原因。当你调用 <code>Single</code> 方法时，你可以传入 Where 条件，而不是去分别调用  <code>Where</code> 方法。比如用这段代码：</p>
 <pre><code class="lang-csharp">.Single(i =&gt; i.ID == id.Value)
-</code></pre><p>Instead of:</p>
+</code></pre><!--Instead of:-->
+<p>取代这段代码：</p>
 <pre><code class="lang-csharp">.Where(I =&gt; i.ID == id.Value).Single()
-</code></pre><p>Next, if a course was selected, the selected course is retrieved from the list of courses in the view model. Then the view model&#39;s <code>Enrollments</code> property is loaded with the Enrollment entities from that course&#39;s <code>Enrollments</code> navigation property.</p>
+</code></pre><!--Next, if a course was selected, the selected course is retrieved from the list of courses in the view model. Then the view model's `Enrollments` property is loaded with the Enrollment entities from that course's `Enrollments` navigation property.-->
+<p>下一步，如果选中一门课程，则从视图模型的课程列表中检索该门课程。然后视图模型的 <code>Enrollments</code> 属性被加载，其所加载的 Enrollment 实体来自被选课程的导航属性  <code>Enrollments</code> 。</p>
 <pre><code class="lang-csharp" name="Main">}
 
 if (courseID != null)
 {
     ViewData[&quot;CourseID&quot;] = courseID.Value;
     viewModel.Enrollments = viewModel.Courses.Where(
-</code></pre><h3 id="modify-the-instructor-index-view">Modify the Instructor Index view</h3>
-<p>In <em>Views/Instructors/Index.cshtml</em>, replace the template code with the following code. The changes are highlighted.</p>
+</code></pre><!--### Modify the Instructor Index view-->
+<h3 id="修改-instructor-索引视图">修改 Instructor 索引视图</h3>
+<!--In *Views/Instructors/Index.cshtml*, replace the template code with the following code. The changes are highlighted.-->
+<p>在 <em>Views/Instructor/Index.cshtml</em> 中用下列代码替换模板代码。修改部分为高亮代码。</p>
 <pre><code class="lang-html" highlight-lines="1,3-7,18-19,41-54,56">@model ContosoUniversity.Models.SchoolViewModels.InstructorIndexData
 
 @{
@@ -419,34 +428,50 @@ if (courseID != null)
            }
     &lt;/tbody&gt;
 &lt;/table&gt;
-</code></pre><p>You&#39;ve made the following changes to the existing code:</p>
+</code></pre><!--You've made the following changes to the existing code:-->
+<p>你此时已对代码做了如下变更：</p>
+<!--* Changed the model class to `InstructorIndexData`.
+
+* Changed the page title from **Index** to **Instructors**.
+
+* Added an **Office** column that displays `item.OfficeAssignment.Location` only if `item.OfficeAssignment` is not null. (Because this is a one-to-zero-or-one relationship, there might not be a related OfficeAssignment entity.)-->
 <ul>
-<li><p>Changed the model class to <code>InstructorIndexData</code>.</p>
+<li><p>将模型类改成了 <code>InstructorIndexData</code>。</p>
 </li>
-<li><p>Changed the page title from <strong>Index</strong> to <strong>Instructors</strong>.</p>
+<li><p>将页面标题从 <strong>Index</strong> 改成了 <strong>Instructors</strong>。</p>
 </li>
-<li><p>Added an <strong>Office</strong> column that displays <code>item.OfficeAssignment.Location</code> only if <code>item.OfficeAssignment</code> is not null. (Because this is a one-to-zero-or-one relationship, there might not be a related OfficeAssignment entity.)</p>
+<li><p>添加了一个 <strong>Office</strong> 列，当且仅当 <code>item.OfficeAssignment.Location</code> 为 null 时方才显示 <code>item.OfficeAssignment</code> （因为这是一对零或一（one-to-zero-or-one）关系，存在没有相关联的 OfficeAssignment 实体的可能）。</p>
 <pre><code class="lang-html">@if (item.OfficeAssignment != null)
 {
     @item.OfficeAssignment.Location
 }
 </code></pre></li>
-<li><p>Added a <strong>Courses</strong> column that displays courses taught by each instructor.</p>
-</li>
-<li><p>Added code that dynamically adds <code>class=&quot;success&quot;</code> to the <code>tr</code> element of the selected instructor. This sets a background color for the selected row using a Bootstrap class.</p>
+</ul>
+<!--* Added a **Courses** column that displays courses taught by each instructor.-->
+<ul>
+<li>添加 <strong>Courses</strong> 列用于显示每位教师所教授的课程。</li>
+</ul>
+<!--* Added code that dynamically adds `class="success"` to the `tr` element of the selected instructor. This sets a background color for the selected row using a Bootstrap class.-->
+<ul>
+<li><p>添加一段能动态添加 <code>class=&quot;success&quot;</code>到所选教师的 <code>tr</code> 元素中的代码块。该 CSS 样式用于将被选中行的背景颜色设置为一个 Bootstrap 类。</p>
 <pre><code class="lang-html">string selectedRow = &quot;&quot;;
 if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
 {
     selectedRow = &quot;success&quot;;
 }
 </code></pre></li>
-<li><p>Added a new hyperlink labeled <strong>Select</strong> immediately before the other links in each row, which causes the selected instructor&#39;s ID to be sent to the <code>Index</code> method.</p>
+</ul>
+<!--* Added a new hyperlink labeled **Select** immediately before the other links in each row, which causes the selected instructor's ID to be sent to the `Index` method.-->
+<ul>
+<li><p>在每行其他链接前添加一个新的标记为 <strong>Select</strong> 的超链，用于向 <code>Index</code> 方法发送所选教师的 ID。</p>
 <pre><code class="lang-html">&lt;a asp-action=&quot;Index&quot; asp-route-id=&quot;@item.ID&quot;&gt;Select&lt;/a&gt; |
 </code></pre></li>
 </ul>
-<p>Run the application and select the Instructors tab. The page displays the Location property of related OfficeAssignment entities and an empty table cell when there&#39;s no related OfficeAssignment entity.</p>
+<!--Run the application and select the Instructors tab. The page displays the Location property of related OfficeAssignment entities and an empty table cell when there's no related OfficeAssignment entity.-->
+<p>运行应用程序并选择 Instructors 标签。当无任何关联 OfficeAssignment 实体时，页面将显示关联 OfficeAssignment 实体的 Location 属性以及空的表格单元格。</p>
 <p><img src="read-related-data/static/instructors-index-no-selection.png" alt="Instructors Index page nothing selected"></p>
-<p>In the <em>Views/Instructors/Index.cshtml</em> file, after the closing table element (at the end of the file), add the following code. This code displays a list of courses related to an instructor when an instructor is selected.</p>
+<!--In the *Views/Instructors/Index.cshtml* file, after the closing table element (at the end of the file), add the following code. This code displays a list of courses related to an instructor when an instructor is selected.-->
+<p>在 <em>Views/Instructors/Index.cshtml</em> 文件中，在表格元素之后（也就是这个文件的最后），添加下面这段代码。这段代码的作用是当选择一个教师时，显示该教师关联的课程清单。</p>
 <pre><code class="lang-html">@if (Model.Courses != null)
 {
     &lt;h3&gt;Courses Taught by Selected Instructor&lt;/h3&gt;
@@ -483,10 +508,13 @@ if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
 
     &lt;/table&gt;
 }
-</code></pre><p>This code reads the <code>Courses</code> property of the view model to display a list of courses. It also provides a <strong>Select</strong> hyperlink that sends the ID of the selected course to the <code>Index</code> action method.</p>
-<p>Run the page and select an instructor. Now you see a grid that displays courses assigned to the selected instructor, and for each course you see the name of the assigned department.</p>
+</code></pre><!--This code reads the `Courses` property of the view model to display a list of courses. It also provides a **Select** hyperlink that sends the ID of the selected course to the `Index` action method.-->
+<p>这段代码读取视图模型中的 <code>Courses</code> 属性，以便能显示课程列表。它同样提供了一个 <strong>Select</strong> 超链用于像 <code>Index</code> 操作方法发送被选课程的 ID。</p>
+<!--Run the page and select an instructor. Now you see a grid that displays courses assigned to the selected instructor, and for each course you see the name of the assigned department.-->
+<p>运行页面并选择一位教师。此刻你能看到一张显示有被分配给所选教师的课程的表格，以及每门课程被分配的部门的名称。</p>
 <p><img src="read-related-data/static/instructors-index-instructor-selected.png" alt="Instructors Index page instructor selected"></p>
-<p>After the code block you just added, add the following code. This displays a list of the students who are enrolled in a course when that course is selected.</p>
+<!--After the code block you just added, add the following code. This displays a list of the students who are enrolled in a course when that course is selected.-->
+<p>在你刚才所添加的代码块的后面再添加下面这段代码。这段代码的作用是：当你选择了一门课程时，显示这门课程的注册学生的列表。</p>
 <pre><code class="lang-html">@if (Model.Enrollments != null)
 {
     &lt;h3&gt;
@@ -510,12 +538,17 @@ if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
         }
     &lt;/table&gt;
 }
-</code></pre><p>This code reads the Enrollments property of the view model in order to display a list of students enrolled in the course.</p>
-<p>Run the page and select an instructor. Then select a course to see the list of enrolled students and their grades.</p>
+</code></pre><!--This code reads the Enrollments property of the view model in order to display a list of students enrolled in the course.-->
+<p>这段代码读取视图模型上的 Enrollments 属性，以便在课程中显示注册学生的列表。</p>
+<!--Run the page and select an instructor. Then select a course to see the list of enrolled students and their grades.-->
+<p>运行页面，选择一个教师。然后选择一门课程来查看已注册学生的名单及其成绩。</p>
 <p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page instructor and course selected"></p>
-<h2 id="explicit-loading">Explicit loading</h2>
-<p>When you retrieved the list of instructors in <em>InstructorsController.cs</em>, you specified eager loading for the <code>CourseAssignments</code> navigation property.</p>
-<p>Suppose you expected users to only rarely want to see enrollments in a selected instructor and course. In that case, you might want to load the enrollment data only if it&#39;s requested. To see an example of how to do explicit loading, replace the <code>Index</code> method with the following code, which removes eager loading for Enrollments and loads that property explicitly. The code changes are highlighted.</p>
+<!--## Explicit loading-->
+<h2 id="显式加载">显式加载</h2>
+<!--When you retrieved the list of instructors in *InstructorsController.cs*, you specified eager loading for the `CourseAssignments` navigation property.-->
+<p>当你在<em>InstructorsController.cs</em> 中检索教师列表时，你需要为明确地预加载 <code>CourseAssignments</code> 导航属性。</p>
+<!--Suppose you expected users to only rarely want to see enrollments in a selected instructor and course. In that case, you might want to load the enrollment data only if it's requested. To see an example of how to do explicit loading, replace the `Index` method with the following code, which removes eager loading for Enrollments and loads that property explicitly. The code changes are highlighted.-->
+<p>假设你希望让用户只在选定一门课程和一个教师时才能看到注册。在该种情形下，你可能希望仅在请求时加载注册数据。要查看如何进行显式加载的示例，请使用以下代码替换 <code>Index</code> 方法，这将删除主动加载并显式加载该属性。 代码修改部分高亮显示。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="25-31">public async Task&lt;IActionResult&gt; Index(int? id, int? courseID)
 {
     var viewModel = new InstructorIndexData();
@@ -549,7 +582,8 @@ if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
 
     return View(viewModel);
 }
-</code></pre><p>The new code drops the <em>ThenInclude</em> method calls for enrollment data from the code that retrieves instructor entities. If an instructor and course are selected, the highlighted code retrieves Enrollment entities for the selected course, and Student entities for each Enrollment.</p>
+</code></pre><!--The new code drops the *ThenInclude* method calls for enrollment data from the code that retrieves instructor entities. If an instructor and course are selected, the highlighted code retrieves Enrollment entities for the selected course, and Student entities for each Enrollment.-->
+<p>新代码从检索 Instructor 实体的代码中删除了对数测数据的 <em>ThenInclude</em> 的方法调用。如果教师和课程都被选择，高亮代码将检索所选课程的 Enrollment 实体。依据这些 Enrollment 实体，代码会预加载 Student 导航属性。</p>
 <!--Run the Instructor Index page now and you'll see no difference in what's displayed on the page, although you've changed how the data is retrieved.-->
 <p>运行 Instructor 索引页，你能看到页面山显示的内容没啥区别，但实际上你已经改变了检索数据的方式。</p>
 <!--## Summary-->
