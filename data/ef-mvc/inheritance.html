@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ASP.NET Core MVC with EF Core - Inheritance - 9 of 10 | Microsoft Docs </title>
+    <title>ASP.NET Core MVC &#19982; EF Core - &#32487;&#25215; - 9 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="ASP.NET Core MVC with EF Core - Inheritance - 9 of 10 | Microsoft Docs ">
+    <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#32487;&#25215; - 9 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -66,30 +66,48 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="data/ef-mvc/inheritance">
-<h1 id="inheritance---ef-core-with-aspnet-core-mvc-tutorial-9-of-10">Inheritance - EF Core with ASP.NET Core MVC tutorial (9 of 10)</h1>
+<h1 id="继承---ef-core-与-aspnet-core-mvc-教程-9-of-10">继承 - EF Core 与 ASP.NET Core MVC 教程 (9 of 10)</h1>
 
-<p>By <a href="https://github.com/tdykstra">Tom Dykstra</a> and <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
-<p>The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.1 and Visual Studio 2017. For information about the tutorial series, see <a href="intro.html">the first tutorial in the series</a>.</p>
-<p>In the previous tutorial you handled concurrency exceptions. This tutorial will show you how to implement inheritance in the data model.</p>
-<p>In object-oriented programming, you can use inheritance to facilitate code reuse. In this tutorial, you&#39;ll change the <code>Instructor</code> and <code>Student</code> classes so that they derive from a <code>Person</code> base class which contains properties such as <code>LastName</code> that are common to both instructors and students. You won&#39;t add or change any web pages, but you&#39;ll change some of the code and those changes will be automatically reflected in the database.</p>
-<h2 id="options-for-mapping-inheritance-to-database-tables">Options for mapping inheritance to database tables</h2>
-<p>The <code>Instructor</code> and <code>Student</code> classes in the School data model have several properties that are identical:</p>
+<p>作者 <a href="https://github.com/tdykstra">Tom Dykstra</a> 、 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="http://github.com/alexinea">刘怡(AlexLEWIS/Forerunner)</a> </p>
+<!--The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.1 and Visual Studio 2017. For information about the tutorial series, see [the first tutorial in the series](intro.md).-->
+<p>Contoso 大学 Web应用程序演示了如何使用 Entity Framework Core 1.1 以及 Visual Studio 2017 来创建 ASP.NET Core 1.1 MVC Web 应用程序。更多信息请参考 <a href="intro.html">第一节教程</a>.</p>
+<!--In the previous tutorial you handled concurrency exceptions. This tutorial will show you how to implement inheritance in the data model.-->
+<p>在之前的教程中你已经学习了如何更新数据。本教程将指导你当多个用户同时更新同一实体时如何处理冲突。</p>
+<!--In object-oriented programming, you can use inheritance to facilitate code reuse. In this tutorial, you'll change the `Instructor` and `Student` classes so that they derive from a `Person` base class which contains properties such as `LastName` that are common to both instructors and students. You won't add or change any web pages, but you'll change some of the code and those changes will be automatically reflected in the database.-->
+<p>在面向对象编程（OOP，object-oriented programming）中，可以利用继承来方便代码复用。在本教程中你将改变 <code>Instructor</code> 和 <code>Student</code> 类，以使其派生自 <code>Person</code>  基类，该基类包含了诸如 <code>LastName</code> 等同时存在于教师与学生中的属性。你不需要添加或改变你现有的任何网页，只需要改变代码并使这些改变自动反映到数据库之中。</p>
+<!--## Options for mapping inheritance to database tables-->
+<h2 id="为数据库表配置映射继承">为数据库表配置映射继承</h2>
+<!--The `Instructor` and `Student` classes in the School data model have several properties that are identical:-->
+<p>School 数据模型中的 <code>Instructor</code>  和 <code>Student</code> 具有如下几个共同属性：</p>
 <p><img src="inheritance/static/no-inheritance.png" alt="Student and Instructor classes"></p>
-<p>Suppose you want to eliminate the redundant code for the properties that are shared by the <code>Instructor</code> and <code>Student</code> entities. Or you want to write a service that can format names without caring whether the name came from an instructor or a student. You could create a <code>Person</code> base class that contains only those shared properties, then make the <code>Instructor</code> and <code>Student</code> classes inherit from that base class, as shown in the following illustration:</p>
+<!--Suppose you want to eliminate the redundant code for the properties that are shared by the `Instructor` and `Student` entities. Or you want to write a service that can format names without caring whether the name came from an instructor or a student. You could create a `Person` base class that contains only those shared properties, then make the `Instructor` and `Student` classes inherit from that base class, as shown in the following illustration:-->
+<p>假设你希望消除 <code>Instructor</code> 和 <code>Student</code> 实体之间共有属性的冗余代码，或者你想编写一个无关教师或学生的服务。你可以创建一个 <code>Person</code> 基类来包含这些共有的属性，然后把 <code>Instructor</code> 和 <code>Student</code> 类改为从该基类派生，如下图所示：</p>
 <p><img src="inheritance/static/inheritance.png" alt="Student and Instructor classes deriving from Person class"></p>
-<p>There are several ways this inheritance structure could be represented in the database. You could have a Person table that includes information about both students and instructors in a single table. Some of the columns could apply only to instructors (HireDate), some only to students (EnrollmentDate), some to both (LastName, FirstName). Typically, you&#39;d have a discriminator column to indicate which type each row represents. For example, the discriminator column might have &quot;Instructor&quot; for instructors and &quot;Student&quot; for students.</p>
+<!--There are several ways this inheritance structure could be represented in the database. You could have a Person table that includes information about both students and instructors in a single table. Some of the columns could apply only to instructors (HireDate), some only to students (EnrollmentDate), some to both (LastName, FirstName). Typically, you'd have a discriminator column to indicate which type each row represents. For example, the discriminator column might have "Instructor" for instructors and "Student" for students.-->
+<p>这一继承结构在数据库中的表示可能有多种方式。你可以有一张包含学生与教师共有信息的单一表格 Person 表。一些列可能只适合用于教师（HireDate时间），一些列可能只适合用于学生（EnrollmentDate），也有一些两者都适用（LastName 和 FirstName）。通常来说你可以有一个鉴别列用来指示每一行属于哪种类型。比如用「Instructor」表示这行是教师数据，用「Student」表示这是学生数据。</p>
 <p><img src="inheritance/static/tph.png" alt="Table-per-hierarchy example"></p>
-<p>This pattern of generating an entity inheritance structure from a single database table is called table-per-hierarchy (TPH) inheritance.</p>
-<p>An alternative is to make the database look more like the inheritance structure. For example, you could have only the name fields in the Person table and have separate Instructor and Student tables with the date fields.</p>
+<!--This pattern of generating an entity inheritance structure from a single database table is called table-per-hierarchy (TPH) inheritance.-->
+<p>生成从单个数据库表结构继承而来的实体的模式叫做 TPH（table-per-hierarchy） 继承。</p>
+<!--An alternative is to make the database look more like the inheritance structure. For example, you could have only the name fields in the Person table and have separate Instructor and Student tables with the date fields.-->
+<p>另一个方式是让数据库更像是继承结构。比如可以有一个只有姓名字段的 Person 表，以及两个相互独立的带有日期字段的 Instructor 和 Student 表。</p>
 <p><img src="inheritance/static/tpt.png" alt="Table-per-type inheritance"></p>
-<p>This pattern of making a database table for each entity class is called table per type (TPT) inheritance.</p>
-<p>Yet another option is to map all non-abstract types to individual tables. All properties of a class, including inherited properties, map to columns of the corresponding table. This pattern is called Table-per-Concrete Class (TPC) inheritance. If you implemented TPC inheritance for the Person, Student, and Instructor classes as shown earlier, the Student and Instructor tables would look no different after implementing inheritance than they did before.</p>
-<p>TPC and TPH inheritance patterns generally deliver better performance than TPT inheritance patterns, because TPT patterns can result in complex join queries.</p>
-<p>This tutorial demonstrates how to implement TPH inheritance. TPH is the only inheritance pattern that the Entity Framework Core supports.  What you&#39;ll do is create a <code>Person</code> class, change the <code>Instructor</code> and <code>Student</code> classes to derive from <code>Person</code>, add the new class to the <code>DbContext</code>, and create a migration.</p>
-<div class="TIP"><h5>提示</h5><p>Consider saving a copy of the project before making the following changes.  Then if you run into problems and need to start over, it will be easier to start from the saved project instead of reversing steps done for this tutorial or going back to the beginning of the whole series.</p>
+<!--This pattern of making a database table for each entity class is called table per type (TPT) inheritance.-->
+<p>为每个实体类创建数据库表的模式叫做 TPT（table-per-type）继承。</p>
+<!--Yet another option is to map all non-abstract types to individual tables. All properties of a class, including inherited properties, map to columns of the corresponding table. This pattern is called Table-per-Concrete Class (TPC) inheritance. If you implemented TPC inheritance for the Person, Student, and Instructor classes as shown earlier, the Student and Instructor tables would look no different after implementing inheritance than they did before.-->
+<p>另一种可以选择的方法时映射所有非抽象类型（non-abstract types）为单张表。类的每一个属性（包括它所继承到的属性）都映射到表的相应字段。这一模式被叫做 TPC（table-per-concrete）。如果你为 Person、Student 和 Instructor 类实现 TPC 继承（如前所示），实现了继承的 Student 和 Instructor 表看起来和先前的不会有什么不同。</p>
+<!--TPC and TPH inheritance patterns generally deliver better performance than TPT inheritance patterns, because TPT patterns can result in complex join queries.-->
+<p>生成从单个数据库表结构继承而来的实体的模式叫做 TPH（table-per-hierarchy） 继承。</p>
+<!--This tutorial demonstrates how to implement TPH inheritance. TPH is the only inheritance pattern that the Entity Framework Core supports.  What you'll do is create a `Person` class, change the `Instructor` and `Student` classes to derive from `Person`, add the new class to the `DbContext`, and create a migration.-->
+<p>本教程演示如何实现 TPH 继承。TPH 是 Entity Framework Core 所支持的唯一一种继承模式。你所需要做的是创建 <code>Person</code> 类，然后将 <code>Instructor</code> and和<code>Student</code> 类改为派生自  <code>Person</code> ，在 <code>DbContext</code>中添加新类，然后创建一个迁移。</p>
+<!--> [!TIP] 
+> Consider saving a copy of the project before making the following changes.  Then if you run into problems and need to start over, it will be easier to start from the saved project instead of reversing steps done for this tutorial or going back to the beginning of the whole series.-->
+<div class="TIP"><h5>提示</h5><p>在进行以下更改之前，请考虑保存项目的副本。 然后，如果遇到问题并需要重新开始，从保存的项目开始更容易，而不是反向本教程完成的步骤或回到整个系列的开始。</p>
 </div>
-<h2 id="create-the-person-class">Create the Person class</h2>
-<p>In the Models folder, create Person.cs and replace the template code with the following code:</p>
+<!--## Create the Person class-->
+<h2 id="创建-person-类">创建 Person 类</h2>
+<p><!--In the Models folder, create Person.cs and replace the template code with the following code:-->、
+在 Models 文件夹中创建 Person.cs 文件，并用下列代码替换模板代码：</p>
 <pre><code class="lang-csharp" name="Main">using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -119,8 +137,10 @@ namespace ContosoUniversity.Models
         }
     }
 }
-</code></pre><h2 id="make-student-and-instructor-classes-inherit-from-person">Make Student and Instructor classes inherit from Person</h2>
-<p>In <em>Instructor.cs</em>, derive the Instructor class from the Person class and remove the key and name fields. The code will look like the following example:</p>
+</code></pre><!--## Make Student and Instructor classes inherit from Person-->
+<h2 id="使-student-与-instructor-类继承自-person-类">使 Student 与 Instructor 类继承自 Person 类</h2>
+<!--In *Instructor.cs*, derive the Instructor class from the Person class and remove the key and name fields. The code will look like the following example:-->
+<p>在 <em>Instructor.cs</em> 中，将 Instructor 改为派生自 Person 类，并移除键和名称字段。代码看上去如下所示：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="8">using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -139,7 +159,8 @@ namespace ContosoUniversity.Models
         public OfficeAssignment OfficeAssignment { get; set; }
     }
 }
-</code></pre><p>Make the same changes in <em>Student.cs</em>.</p>
+</code></pre><!--Make the same changes in *Student.cs*.-->
+<p>在 <em>Student.cs</em> 中做一样的修改：</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="8">using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -158,8 +179,10 @@ namespace ContosoUniversity.Models
         public ICollection&lt;Enrollment&gt; Enrollments { get; set; }
     }
 }
-</code></pre><h2 id="add-the-person-entity-type-to-the-data-model">Add the Person entity type to the data model</h2>
-<p>Add the Person entity type to <em>SchoolContext.cs</em>. The new lines are highlighted.</p>
+</code></pre><!--## Add the Person entity type to the data model-->
+<h2 id="在数据模型中添加-person-实体类型">在数据模型中添加 Person 实体类型</h2>
+<!--Add the Person entity type to *SchoolContext.cs*. The new lines are highlighted.-->
+<p>将 Person 实体类型添加到 <em>SchoolContext.cs</em> 中。高亮处为新代码。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="19,30">using ContosoUniversity.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -196,16 +219,22 @@ namespace ContosoUniversity.Data
         }
     }
 }
-</code></pre><p>This is all that the Entity Framework needs in order to configure table-per-hierarchy inheritance. As you&#39;ll see, when the database is updated, it will have a Person table in place of the Student and Instructor tables.</p>
-<h2 id="create-and-customize-migration-code">Create and customize migration code</h2>
-<p>Save your changes and build the project. Then open the command window in the project folder and enter the following command:</p>
+</code></pre><!--This is all that the Entity Framework needs in order to configure table-per-hierarchy inheritance. As you'll see, when the database is updated, it will have a Person table in place of the Student and Instructor tables.-->
+<p>这就是 Entity Framework 需要为配置 TPH 继承所做的全部工作。如你所见，当数据库更新，将有一个 Person 表来取代 Student 和 Instructor 表。</p>
+<!--## Create and customize migration code-->
+<h2 id="创建并定制迁移代码">创建并定制迁移代码</h2>
+<!--Save your changes and build the project. Then open the command window in the project folder and enter the following command:-->
+<p>保存变更并构建项目。从项目文件夹中打开命令窗口，然后输入以下命令：</p>
 <pre><code class="lang-console">dotnet ef migrations add Inheritance
-</code></pre><p>Run the <code>database update</code> command:.</p>
+</code></pre><!--Run the `database update` command:.-->
+<p>运行 <code>database update</code> 命令：</p>
 <pre><code class="lang-console">dotnet ef database update
-</code></pre><p>The command will fail at this point because you have existing data that migrations doesn&#39;t know how to handle. You get an error message like the following one:</p>
+</code></pre><!--The command will fail at this point because you have existing data that migrations doesn't know how to handle. You get an error message like the following one:-->
+<p>命令将会失败在这一点上，因为你有一些存在的数据，而迁移并不知道该如何处理它们。你会获得类似如下遮掩的错误信息：</p>
 <blockquote><p>The ALTER TABLE statement conflicted with the FOREIGN KEY constraint &quot;FK_CourseAssignment_Person_InstructorID&quot;. The conflict occurred in database &quot;ContosoUniversity09133&quot;, table &quot;dbo.Person&quot;, column &#39;ID&#39;.</p>
 </blockquote>
-<p>Open <em>Migrations&lt;timestamp&gt;_Inheritance.cs</em> and replace the <code>Up</code> method with the following code:</p>
+<!--Open *Migrations\<timestamp>_Inheritance.cs* and replace the `Up` method with the following code:-->
+<p>打开 <em>Migrations&lt;timestamp&gt;_Inheritance.cs</em> ，并用下列代码替换 <code>Up</code> 方法：</p>
 <pre><code class="lang-csharp" name="Main">protected override void Up(MigrationBuilder migrationBuilder)
 {
     migrationBuilder.DropForeignKey(
@@ -244,43 +273,72 @@ namespace ContosoUniversity.Data
         principalColumn: &quot;ID&quot;,
         onDelete: ReferentialAction.Cascade);
 }
-</code></pre><p>This code takes care of the following database update tasks:</p>
+</code></pre><!--This code takes care of the following database update tasks:-->
+<p>这段代码聚焦于以下数据库更新任务：</p>
+<!--* Removes foreign key constraints and indexes that point to the Student table.-->
 <ul>
-<li><p>Removes foreign key constraints and indexes that point to the Student table.</p>
-</li>
-<li><p>Renames the Instructor table as Person and makes changes needed for it to store Student data:</p>
-</li>
-<li><p>Adds nullable EnrollmentDate for students.</p>
-</li>
-<li><p>Adds Discriminator column to indicate whether a row is for a student or an instructor.</p>
-</li>
-<li><p>Makes HireDate nullable since student rows won&#39;t have hire dates.</p>
-</li>
-<li><p>Adds a temporary field that will be used to update foreign keys that point to students. When you copy students into the Person table they&#39;ll get new primary key values.</p>
-</li>
-<li><p>Copies data from the Student table into the Person table. This causes students to get assigned new primary key values.</p>
-</li>
-<li><p>Fixes foreign key values that point to students.</p>
-</li>
-<li><p>Re-creates foreign key constraints and indexes, now pointing them to the Person table.</p>
-</li>
+<li>移除指向 Student 表的外键约束和索引。</li>
 </ul>
-<p>(If you had used GUID instead of integer as the primary key type, the student primary key values wouldn&#39;t have to change, and several of these steps could have been omitted.)</p>
-<p>Run the <code>database update</code> command again:</p>
+<!--* Renames the Instructor table as Person and makes changes needed for it to store Student data:-->
+<ul>
+<li>重命名 Instructor 表为 Person，并根据需要更新存储在 Student 的数据：</li>
+</ul>
+<!--* Adds nullable EnrollmentDate for students.-->
+<ul>
+<li>在 Students 表中增加可空的 EnrollmentDate。</li>
+</ul>
+<!--* Adds Discriminator column to indicate whether a row is for a student or an instructor.-->
+<ul>
+<li>添加 Discriminator 列用于明确这行记录时学生还是教师。</li>
+</ul>
+<!--* Makes HireDate nullable since student rows won't have hire dates.-->
+<ul>
+<li>将 HireDate 设置为可空，因为学生记录中不会有雇用时间。</li>
+</ul>
+<!--* Adds a temporary field that will be used to update foreign keys that point to students. When you copy students into the Person table they'll get new primary key values.-->
+<ul>
+<li>增加一个临时字段用于更新指向学生的外键。当你复制学生的数据到 Person 表时，它们会获取新的主键值。</li>
+</ul>
+<!--* Copies data from the Student table into the Person table. This causes students to get assigned new primary key values.-->
+<ul>
+<li>从 Student 表中复制数据到 Person 表。这将会导致学生获取新的被分配的主键值。</li>
+</ul>
+<!--* Fixes foreign key values that point to students.-->
+<ul>
+<li>修复指向学生的外键值。</li>
+</ul>
+<!--* Re-creates foreign key constraints and indexes, now pointing them to the Person table.-->
+<ul>
+<li>重新创建外键约束和索引，现在它们指向 Person 表。</li>
+</ul>
+<!--(If you had used GUID instead of integer as the primary key type, the student primary key values wouldn't have to change, and several of these steps could have been omitted.)-->
+<p>（如果你的铸件类型是 GUID 而不是整形数字，那么学生的主键值并不需要更新，那么这些步骤也就能省了。）</p>
+<!--Run the `database update` command again:-->
+<p>再次运行 <code>database update</code> 命令：</p>
 <pre><code class="lang-console">dotnet ef database update
-</code></pre><p>(In a production system you would make corresponding changes to the <code>Down</code> method in case you ever had to use that to go back to the previous database version. For this tutorial you won&#39;t be using the <code>Down</code> method.)</p>
-<div class="NOTE"><h5>备注</h5><p>It&#39;s possible to get other errors when making schema changes in a database that has existing data. If you get migration errors that you can&#39;t resolve, you can either change the database name in the connection string or delete the database. With a new database, there is no data to migrate, and the update-database command is more likely to complete without errors. To delete the database, use SSOX or run the <code>database drop</code> CLI command.</p>
+</code></pre><!--(In a production system you would make corresponding changes to the `Down` method in case you ever had to use that to go back to the previous database version. For this tutorial you won't be using the `Down` method.)-->
+<p>（在生产系统中，你需要对 <code>Down</code> 方法做相应的变更，这样万一需要，你可以用它回滚到之前的数据库版本。在本教程中你不会用到 <code>Down</code> 方法。）</p>
+<!--> [!NOTE] 
+> It's possible to get other errors when making schema changes in a database that has existing data. If you get migration errors that you can't resolve, you can either change the database name in the connection string or delete the database. With a new database, there is no data to migrate, and the update-database command is more likely to complete without errors. To delete the database, use SSOX or run the `database drop` CLI command.-->
+<div class="NOTE"><h5>备注</h5><p>有可能在给一个已存在数据的数据库架构做更新时会获得其他错误。如果你得到了解决不了的迁移错误，你可以修改连接字符串中的数据库名称，或者删除数据库。在新数据库中，没有数据需要被迁移，update-database 命令更多的会无错完成。要删除数据库，可以使用 SSOX 或者使用 <code>database drop</code> 这个 CLI 命令。</p>
 </div>
-<h2 id="test-with-inheritance-implemented">Test with inheritance implemented</h2>
-<p>Run the site and try various pages. Everything works the same as it did before.</p>
-<p>In <strong>SQL Server Object Explorer</strong>, expand <strong>Data Connections/SchoolContext</strong> and then <strong>Tables</strong>, and you see that the Student and Instructor tables have been replaced by a Person table. Open the Person table designer and you see that it has all of the columns that used to be in the Student and Instructor tables.</p>
+<p>测试继承实现</p>
+<!--## Test with inheritance implemented-->
+<h2 id="测试继承实现">测试继承实现</h2>
+<!--Run the site and try various pages. Everything works the same as it did before.-->
+<p>运行站点，然后尝试访问不同的页面。现在一切正常如故。</p>
+<!--In **SQL Server Object Explorer**, expand **Data Connections/SchoolContext** and then **Tables**, and you see that the Student and Instructor tables have been replaced by a Person table. Open the Person table designer and you see that it has all of the columns that used to be in the Student and Instructor tables.-->
+<p>在 <strong>SQL Server Object Explorer</strong> 中依次展开 <strong>Data Connections/SchoolContext</strong> 和 <strong>Tables</strong>，然后你能看到 Student 与 Instructor 表已被 Person 表所取代。打开 Person 表设计器，你可以发现它的所有列之前被用于 Student 和 Instructor 表。</p>
 <p><img src="inheritance/static/ssox-person-table.png" alt="Person table in SSOX"></p>
-<p>Right-click the Person table, and then click <strong>Show Table Data</strong> to see the discriminator column.</p>
+<!--Right-click the Person table, and then click **Show Table Data** to see the discriminator column.-->
+<p>右键点击 Person 表，然后点击 <strong>Show Table Data</strong> 来辨别列。</p>
 <p><img src="inheritance/static/ssox-person-data.png" alt="Person table in SSOX - table data"></p>
-<h2 id="summary">Summary</h2>
-<p>You&#39;ve implemented table-per-hierarchy inheritance for the <code>Person</code>, <code>Student</code>, and <code>Instructor</code> classes. For more information about inheritance in Entity Framework Core, see <a href="https://docs.microsoft.com/en-us/ef/core/modeling/inheritance">Inheritance</a>. In the next tutorial you&#39;ll see how to handle a variety of relatively advanced Entity Framework scenarios.</p>
-<div class="step-by-step"><p><a href="concurrency.html">Previous</a>
-<a href="advanced.html">Next</a>  </p>
+<!--## Summary-->
+<h2 id="总结">总结</h2>
+<!--You've implemented table-per-hierarchy inheritance for the `Person`, `Student`, and `Instructor` classes. For more information about inheritance in Entity Framework Core, see [继承](https://docs.microsoft.com/en-us/ef/core/modeling/inheritance). In the next tutorial you'll see how to handle a variety of relatively advanced Entity Framework scenarios.-->
+<p>你已经给 <code>Person</code>, <code>Student</code>, 以及 <code>Instructor</code> 类实现了 TPH（table-per-hierarchy，每个层次结构一张表）。更多有关 Entity Framework 继承的资料请阅读 <a href="https://docs.microsoft.com/en-us/ef/core/modeling/inheritance">继承</a>。在下一篇教程中，我们将介绍如何处理各种 Entity Framework 高级场景。</p>
+<div class="step-by-step"><p><a href="concurrency.html">上一节</a>
+<a href="advanced.html">下一节</a>  </p>
 </div>
 </article>
           </div>

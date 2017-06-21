@@ -38,13 +38,13 @@ references:
   name: Azure Storage in ASP.NET Core  | Microsoft Docs
   href: data/azure-storage/index.html
 - uid: data/ef-mvc/advanced
-  name: ASP.NET Core MVC with EF Core - Advanced - 10 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 高级 - 10 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/advanced.html
 - uid: data/ef-mvc/complex-data-model
   name: ASP.NET Core MVC 与 EF Core - 数据模型 - 5 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/complex-data-model.html
 - uid: data/ef-mvc/concurrency
-  name: ASP.NET Core MVC with EF Core - Concurrency - 8 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 并发 - 8 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/concurrency.html
 - uid: data/ef-mvc/crud
   name: ASP.NET Core MVC 与 EF Core - 实现CRUD - 2 of 10 | Microsoft 文档（中文文档）
@@ -53,7 +53,7 @@ references:
   name: 使用 Visual Studio 开发 ASP.NET Core 和 Entity Framework Core 入门 | Microsoft 文档（中文文档）
   href: data/ef-mvc/index.html
 - uid: data/ef-mvc/inheritance
-  name: ASP.NET Core MVC with EF Core - Inheritance - 9 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 继承 - 9 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/inheritance.html
 - uid: data/ef-mvc/intro
   name: ASP.NET Core MVC 与 Entity Framework Core - 教程 1 / 10 | Microsoft 文档（中文文档）
@@ -68,7 +68,7 @@ references:
   name: ASP.NET Core MVC 与 EF Core - 排序， 过滤， 分页 - 3 of 10 | Microsoft 文档（中文文档）
   href: data/ef-mvc/sort-filter-page.html
 - uid: data/ef-mvc/update-related-data
-  name: ASP.NET Core MVC with EF Core - Update Related Data - 7 of 10 | Microsoft Docs
+  name: ASP.NET Core MVC 与 EF Core - 更新关联数据 - 7 of 10  | Microsoft 文档（中文文档）
   href: data/ef-mvc/update-related-data.html
 - uid: data/entity-framework-6
   name: Getting Started with ASP.NET Core and Entity Framework 6 | Microsoft Docs
