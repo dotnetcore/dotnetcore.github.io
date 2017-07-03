@@ -575,7 +575,7 @@ references:
   name: ASP.NET Web API Help Pages using Swagger | Microsoft Docs
   href: tutorials/web-api-help-pages-using-swagger.html
 - uid: tutorials/web-api-vsc
-  name: 用 ASP.NET Core MVC 和 Visual Studio Code 创建你的第一个 Web API
+  name: 用 ASP.NET Core MVC 和 Visual Studio Code 创建你的第一个 Web API | Microsoft 文档（中文文档）
   href: tutorials/web-api-vsc.html
 - uid: tutorials/your-first-mac-aspnet
   name: 用 Visual Studio Code 在 mac 或者 linux 上创建首个 ASP.NET Core 应用程序 | Microsoft 文档（中文文档）

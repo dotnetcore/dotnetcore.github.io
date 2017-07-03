@@ -8,7 +8,7 @@
     <title>Create a Web API with ASP.NET Core and Visual Studio for Windows </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Create a Web API with ASP.NET Core and Visual Studio for Windows ">
-    <meta name="generator" content="docfx 2.18.2.0">
+    <meta name="generator" content="docfx 2.19.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -69,72 +69,96 @@
 <h1 id="create-a-web-api-with-aspnet-core-mvc-and-visual-studio-for-windows">Create a web API with ASP.NET Core MVC and Visual Studio for Windows</h1>
 
 <!-- WARNING: The code AND images in this doc are used by uid: tutorials/web-api-vsc, tutorials/first-web-api-mac and tutorials/first-web-api. If you change any code/images in this tutorial, update uid: tutorials/web-api-vsc -->
-<p>By <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a> and <a href="https://github.com/mikewasson">Mike Wasson</a></p>
-<p>HTTP is not just for serving up web pages. It’s also a powerful platform for building APIs that expose services and data. HTTP is flexible and ubiquitous. Almost any platform that you can think of has an HTTP library, so HTTP services can reach a broad range of clients, including browsers, mobile devices, and traditional desktop apps.</p>
-<p>In this tutorial, you’ll build a web API for managing a list of &quot;to-do&quot; items. You won’t build a UI.</p>
-<p>ASP.NET Core has built-in support for MVC creating Web APIs.</p>
-<p>There are 3 versions of this tutorial:</p>
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a> 、 <a href="https://github.com/mikewasson">Mike Wasson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/aspnetcore">谢炀（Kiler)</a>  </p>
+<!--HTTP is not just for serving up web pages. It’s also a powerful platform for building APIs that expose services and data. HTTP is flexible and ubiquitous. Almost any platform that you can think of has an HTTP library, so HTTP services can reach a broad range of clients, including browsers, mobile devices, and traditional desktop apps.-->
+<p>HTTP协议 不仅仅提供网页服务. 它也是一个构建公开服务和数据 API 的强大平台。HTTP 协议是简单、灵活、无处不在的。 几乎你能想到的任何平台上都有HTTP支持, 所以HTTP服务能够发送到多种客户端, 包括浏览器，移动设备和传统的桌面应用程序。</p>
+<!--In this tutorial, you’ll build a web API for managing a list of "to-do" items. You won’t build a UI.-->
+<p>在本教程中, 你将创建一个简单的 Web API 来管理一个 &quot;to-do&quot; 列表。在本教程中你无需编写任何 UI 代码.</p>
+<!--ASP.NET Core has built-in support for MVC creating Web APIs.-->
+<p>ASP.NET Core 已经内置了用 MVC 架构 构建 Web API 的支持。</p>
+<!--There are 3 versions of this tutorial:-->
+<p>本教程有以下3个版本:</p>
+<!--* macOS: [Web API with Visual Studio for Mac](xref:tutorials/first-web-api-mac)
+* Windows: [Web API with Visual Studio for Windows](xref:tutorials/first-web-api)
+* macOS, Linux, Windows: [Web API with Visual Studio Code](xref:tutorials/web-api-vsc)-->
 <ul>
-<li>macOS: <a class="xref" href="first-web-api-mac.html">Web API with Visual Studio for Mac</a></li>
-<li>Windows: <a class="xref" href="first-web-api.html">Web API with Visual Studio for Windows</a></li>
-<li>macOS, Linux, Windows: <a class="xref" href="web-api-vsc.html">Web API with Visual Studio Code</a></li>
+<li>macOS: <a class="xref" href="first-web-api-mac.html">使用 Visual Studio Mac 版本 开发Web API</a></li>
+<li>Windows: <a class="xref" href="first-web-api.html">使用 Visual Studio Windows 版本 开发Web API</a></li>
+<li>macOS, Linux, Windows: <a class="xref" href="web-api-vsc.html">使用 Visual Studio Code 开发Web API</a></li>
 </ul>
-<h2 id="overview">Overview</h2>
-<p>Here is the API that you’ll create:</p>
+<!--## Overview-->
+<h2 id="总览">总览</h2>
+<!--Here is the API that you’ll create:-->
+<p>这是你需要创建的 API ：</p>
+<!--|API | Description    | Request body    | Response body   |
+|--- | ---- | ---- | ---- |
+|GET /api/todo  | Get all to-do items | None | Array of to-do items|
+|GET /api/todo/{id}  | Get an item by ID | None | To-do item|
+|POST /api/todo | Add a new item | To-do item  | To-do item |
+|PUT /api/todo/{id} | Update an existing item &nbsp;  | To-do item |  None |
+|DELETE /api/todo/{id}  &nbsp;  &nbsp; | Delete an item &nbsp;  &nbsp;  | None  | None|-->
 <table>
 <thead>
 <tr>
 <th>API</th>
-<th>Description</th>
-<th>Request body</th>
-<th>Response body</th>
+<th>描述</th>
+<th>请求正文</th>
+<th>响应正文</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>GET /api/todo</td>
-<td>Get all to-do items</td>
-<td>None</td>
+<td>获取所有的to-do items</td>
+<td>无</td>
 <td>Array of to-do items</td>
 </tr>
 <tr>
 <td>GET /api/todo/{id}</td>
-<td>Get an item by ID</td>
-<td>None</td>
+<td>通过ID获取item</td>
+<td>无</td>
 <td>To-do item</td>
 </tr>
 <tr>
 <td>POST /api/todo</td>
-<td>Add a new item</td>
+<td>添加一个新的item</td>
 <td>To-do item</td>
 <td>To-do item</td>
 </tr>
 <tr>
 <td>PUT /api/todo/{id}</td>
-<td>Update an existing item &nbsp;</td>
+<td>更新已经存在的item &nbsp;</td>
 <td>To-do item</td>
-<td>None</td>
+<td>无</td>
 </tr>
 <tr>
 <td>DELETE /api/todo/{id}  &nbsp;  &nbsp;</td>
-<td>Delete an item &nbsp;  &nbsp;</td>
-<td>None</td>
-<td>None</td>
+<td>删除指定的item。 &nbsp;  &nbsp;</td>
+<td>无</td>
+<td>无</td>
 </tr>
 </tbody>
 </table>
 <p><br></p>
-<p>The following diagram shows the basic design of the app.</p>
+<!--The following diagram shows the basic design of the app.-->
+<p>下面的图表展示了应用程序的基本设计.</p>
 <p><img src="first-web-api/static/architecture.png" alt="The client is represented by a box on the left and submits a request and receives a response from the application, a box drawn on the right. Within the application box, three boxes represent the controller, the model, and the data access layer. The request comes into the application&#39;s controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response."></p>
+<!--* The client is whatever consumes the web API (mobile app, browser, etc). We aren’t writing a client in this tutorial. We'll use [Postman](https://www.getpostman.com/) or [curl](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html) to test the app.-->
 <ul>
-<li><p>The client is whatever consumes the web API (mobile app, browser, etc). We aren’t writing a client in this tutorial. We&#39;ll use <a href="https://www.getpostman.com/">Postman</a> or <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html">curl</a> to test the app.</p>
-</li>
-<li><p>A <em>model</em> is an object that represents the data in your application. In this case, the only model is a to-do item. Models are represented as C# classes, also know as <strong>P</strong>lain <strong>O</strong>ld <strong>C</strong># <strong>O</strong>bject (POCOs).</p>
-</li>
-<li><p>A <em>controller</em> is an object that handles HTTP requests and creates the HTTP response. This app will have a single controller.</p>
-</li>
-<li><p>To keep the tutorial simple, the app doesn’t use a persistent database. Instead, it stores to-do items in an in-memory database.</p>
-</li>
+<li>不管是哪个调用 API 的客户端（浏览器，移动应用，等等）。我们不会在本教程中编写客户端。我们将使用 <a href="https://www.getpostman.com/">Postman</a> 或者 <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html">curl</a> 来测试应用程序。</li>
+</ul>
+<!--* A *model* is an object that represents the data in your application. In this case, the only model is a to-do item. Models are represented as C# classes, also know as **P**lain **O**ld **C**# **O**bject (POCOs).-->
+<ul>
+<li><em>model</em> 是一个代表你应用程序数据的类. 在本案例中, 只有一个模型 to-do 项. 模型表现为简单 C# 类型 (POCOs).</li>
+</ul>
+<!--* A *controller* is an object that handles HTTP requests and creates the HTTP response. This app will have a single controller.-->
+<ul>
+<li><em>controller</em> 是一个处理 HTTP 请求并返回 HTTP 响应的对象. 这个示例程序将只会有一个 controller.</li>
+</ul>
+<!--* To keep the tutorial simple, the app doesn’t use a persistent database. Instead, it stores to-do items in an in-memory database.-->
+<ul>
+<li>为了保证教程简单我们不使用持久化数据库. 作为替代, 我们会把 to-do 项存入内存.</li>
 </ul>
 <h2 id="create-the-project">Create the project</h2>
 <p>From Visual Studio, select <strong>File</strong> menu, &gt; <strong>New</strong> &gt; <strong>Project</strong>.</p>
@@ -203,8 +227,10 @@ namespace TodoApi.Models
 
     }
 }
-</code></pre><h2 id="register-the-database-context">Register the database context</h2>
-<p>In order to inject the database context into the controller, we need to register it with the <a class="xref" href="../fundamentals/dependency-injection.html">dependency injection</a> container. Register the database context with the service container using the built-in support for <a class="xref" href="../fundamentals/dependency-injection.html">dependency injection</a>. Replace the contents of the <em>Startup.cs</em> file with the following:</p>
+</code></pre><!--## Register the database context-->
+<h2 id="注册数据库上下文">注册数据库上下文</h2>
+<!--In order to inject the database context into the controller, we need to register it with the [dependency injection](xref:fundamentals/dependency-injection) container. Register the database context with the service container using the built-in support for [dependency injection](xref:fundamentals/dependency-injection). Replace the contents of the *Startup.cs* file with the following:-->
+<p>为了将数据库上下文注入到控制器，我们必须在 <a class="xref" href="../fundamentals/dependency-injection.html">依赖注入</a> 容器中注册它。 把数据库上下文注册服务容器使用内置 <a class="xref" href="../fundamentals/dependency-injection.html">依赖注入</a> 支持。 使用一下代码替换掉 <em>Startup.cs</em> 文件。</p>
 <pre><code class="lang-csharp" name="Main" highlight-lines="2,4,12">using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -226,10 +252,13 @@ namespace TodoApi
         }
     }
 }
-</code></pre><p>The preceding code:</p>
+</code></pre><!--The preceding code:-->
+<p>代码改动部分：</p>
+<!--* Removes the code we're not using.
+* Specifies an in-memory database is injected into the service container.-->
 <ul>
-<li>Removes the code we&#39;re not using.</li>
-<li>Specifies an in-memory database is injected into the service container.</li>
+<li>移除了不需要的 using 语句。</li>
+<li>指定内存数据库注入到服务器容器。</li>
 </ul>
 <h2 id="add-a-controller">Add a controller</h2>
 <p>In Solution Explorer, right-click the <em>Controllers</em> folder. Select <strong>Add</strong> &gt; <strong>New Item</strong>. In the <strong>Add New Item</strong> dialog, select the <strong>Web  API Controller Class</strong> template. Name the class <code>TodoController</code>.</p>
@@ -327,8 +356,11 @@ public IActionResult GetById(long id)
 </ul>
 <h3 id="launch-the-app-1">Launch the app</h3>
 <p>In Visual Studio, press CTRL+F5 to launch the app. Visual Studio launches a browser and navigates to <code>http://localhost:port/api/values</code>, where <em>port</em> is a randomly chosen port number. If you&#39;re using Chrome, Edge or Firefox, the data will be displayed. If you&#39;re using IE, IE will prompt to you open or save the <em>values.json</em> file. Navigate to the <code>Todo</code> controller we just created <code>http://localhost:port/api/todo</code>.</p>
-<h2 id="implement-the-other-crud-operations">Implement the other CRUD operations</h2>
-<p>We&#39;ll add <code>Create</code>, <code>Update</code>, and <code>Delete</code> methods to the controller. These are variations on a theme, so I&#39;ll just show the code and highlight the main differences. Build the project after adding or changing code.</p>
+<!--## Implement the other CRUD operations-->
+<h2 id="实现其他的crud操作">实现其他的CRUD操作</h2>
+<!--We'll add `Create`, `Update`, and `Delete` methods to the controller. These are variations on a theme, so I'll just show the code and highlight the main differences. Build the project after adding or changing code.-->
+<p>最后一步是 <code>Create</code>, <code>Update</code>, 以及 <code>Delete</code>方法到 controller 。这些方法都是围绕着一个主题，所以我将只列出代码以及标注出主要的区别。</p>
+<!--### Create-->
 <h3 id="create">Create</h3>
 <pre><code class="lang-csharp" name="Main">[HttpPost]
 public IActionResult Create([FromBody] TodoItem item)
@@ -343,28 +375,40 @@ public IActionResult Create([FromBody] TodoItem item)
 
     return CreatedAtRoute(&quot;GetTodo&quot;, new { id = item.Id }, item);
 }
-</code></pre><p>This is an HTTP POST method, indicated by the <a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/HttpPostAttribute/index.html"><code>[HttpPost]</code></a> attribute. The <a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/FromBodyAttribute/index.html"><code>[FromBody]</code></a> attribute tells MVC to get the value of the to-do item from the body of the HTTP request.</p>
-<p>The <code>CreatedAtRoute</code> method returns a 201 response, which is the standard response for an HTTP POST method that creates a new resource on the server. <code>CreatedAtRoute</code> also adds a Location header to the response. The Location header specifies the URI of the newly created to-do item. See <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">10.2.2 201 Created</a>.</p>
-<h3 id="use-postman-to-send-a-create-request">Use Postman to send a Create request</h3>
+</code></pre><!--This is an HTTP POST method, indicated by the [`[HttpPost]`](https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/HttpPostAttribute/index.html) attribute. The [`[FromBody]`](https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/FromBodyAttribute/index.html) attribute tells MVC to get the value of the to-do item from the body of the HTTP request.-->
+<p>这是一个 HTTP POST 方法, 用 <a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/HttpPostAttribute/index.html"><code>[HttpPost]</code></a> 标签声明 。<a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/FromBodyAttribute/index.html"><code>[FromBody]</code></a> 标签告诉 MVC 从 HTTP 请求的正文中获取 to-do 项的值 。</p>
+<!--The `CreatedAtRoute` method returns a 201 response, which is the standard response for an HTTP POST method that creates a new resource on the server. `CreatedAtRoute` also adds a Location header to the response. The Location header specifies the URI of the newly created to-do item. See [10.2.2 201 Created](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).-->
+<p>当通过 <code>CreatedAtRoute</code> 方法向服务器发出 HTTP POST 方法以创建新资源时，将返回标准的 201 响应。
+ <code>CreateAtRoute</code> 还把 Location 头信息加入到了响应。 Location 头信息指定新创建的 todo 项的 URI。  查看 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">10.2.2 201 Created</a>.</p>
+<!--### Use Postman to send a Create request-->
+<h3 id="使用-postman-发送一个-create-请求">使用 Postman 发送一个 Create 请求:</h3>
 <p><img src="first-web-api/static/pmc.png" alt="Postman console"></p>
+<!--* Set the HTTP method to `POST`
+* Select the **Body** radio button
+* Select the **raw** radio button
+* Set the type to JSON
+* In the key-value editor, enter a Todo item such as -->
 <ul>
-<li>Set the HTTP method to <code>POST</code></li>
-<li>Select the <strong>Body</strong> radio button</li>
-<li>Select the <strong>raw</strong> radio button</li>
-<li>Set the type to JSON</li>
-<li>In the key-value editor, enter a Todo item such as </li>
+<li>设置 HTTP method 为 <code>POST</code></li>
+<li>选择 <strong>Body</strong> 单选按钮</li>
+<li>选择 <strong>raw</strong> 单选按钮</li>
+<li>设置数据类型为 JSON</li>
+<li>在键值编辑器中，输入一下 Todo 数据项</li>
 </ul>
 <pre><code class="lang-json">{
     &quot;name&quot;:&quot;walk dog&quot;,
     &quot;isComplete&quot;:true
 }
-</code></pre><ul>
-<li><p>Select <strong>Send</strong></p>
-</li>
-<li><p>Select the Headers tab in the lower pane and copy the <strong>Location</strong> header:</p>
-</li>
+</code></pre><!--* Select **Send**-->
+<ul>
+<li>点击 <strong>Send</strong></li>
+</ul>
+<!--* Select the Headers tab in the lower pane and copy the **Location** header:-->
+<ul>
+<li>选择下方窗格中的标题选项卡，并复制 <strong>Location</strong> 标题：</li>
 </ul>
 <p><img src="first-web-api/static/pmget.png" alt="Headers tab of the Postman console"></p>
+<!--You can use the Location header URI to access the resource you just created. Recall the `GetById` method created the `"GetTodo"` named route:-->
 <p>You can use the Location header URI to access the resource you just created. Recall the <code>GetById</code> method created the <code>&quot;GetTodo&quot;</code> named route:</p>
 <pre><code class="lang-csharp">[HttpGet(&quot;{id}&quot;, Name = &quot;GetTodo&quot;)]
 public IActionResult GetById(long id)
@@ -408,11 +452,16 @@ public IActionResult Delete(long id)
 }
 </code></pre><p>The response is <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">204 (No Content)</a>.</p>
 <p><img src="first-web-api/static/pmd.png" alt="Postman console showing 204 (No Content) response"></p>
-<h2 id="next-steps">Next steps</h2>
+<!--## Next steps-->
+<h2 id="后续章节">后续章节</h2>
+<!--* [Routing to Controller Actions](xref:mvc/controllers/routing)
+* For information about deploying your API, see [Publishing and Deployment](xref:publishing/index).
+* [View or download sample code](https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample). See [how to download](xref:tutorials/index#how-to-download-a-sample).
+* [Postman](https://www.getpostman.com/)-->
 <ul>
-<li><a class="xref" href="../mvc/controllers/routing.html">Routing to Controller Actions</a></li>
-<li>For information about deploying your API, see <a class="xref" href="../publishing/index.html">Publishing and Deployment</a>.</li>
-<li><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample">View or download sample code</a>. See <a class="xref" href="index.html#how-to-download-a-sample">how to download</a>.</li>
+<li><a class="xref" href="../mvc/controllers/routing.html">路由到控制器和方法</a></li>
+<li>更多关于如何部署你的 API 的信息， 请参考 <a class="xref" href="../publishing/index.html">发布与部署</a>.</li>
+<li><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample">查看并下载示例代码</a>，参考 <a class="xref" href="index.html#how-to-download-a-sample">如何下载</a>.</li>
 <li><a href="https://www.getpostman.com/">Postman</a></li>
 </ul>
 </article>
@@ -428,7 +477,7 @@ public IActionResult Delete(long id)
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/tutorials/first-web-api.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/pubish/aspnetcore/tutorials/first-web-api.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
                   </li>
                                                   <li>
                                               <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
