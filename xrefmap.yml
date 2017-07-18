@@ -71,7 +71,7 @@ references:
   name: ASP.NET Core MVC 与 EF Core - 更新关联数据 - 7 of 10  | Microsoft 文档（中文文档）
   href: data/ef-mvc/update-related-data.html
 - uid: data/entity-framework-6
-  name: Getting Started with ASP.NET Core and Entity Framework 6 | Microsoft Docs
+  name: 开始使用 ASP.NET Core 与 Entity Framework 6 | Microsoft 文档（中文文档）
   href: data/entity-framework-6.html
 - uid: fundamentals/app-state
   name: Session and application state in ASP.NET Core  | Microsoft Docs
@@ -173,7 +173,7 @@ references:
   name: Migrating from ASP.NET Web API | Microsoft Docs
   href: migration/webapi.html
 - uid: mobile/native-mobile-backend
-  name: Creating Backend Services for Native Mobile Applications | Microsoft Docs
+  name: 为原生移动应用程序创建后端服务 | Microsoft 文档（中文文档）
   href: mobile/native-mobile-backend.html
 - uid: mvc/advanced/custom-model-binding
   name: Custom Model Binding | Microsoft Docs

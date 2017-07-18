@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Getting Started with ASP.NET Core and Entity Framework 6 | Microsoft Docs </title>
+    <title>&#24320;&#22987;&#20351;&#29992; ASP.NET Core &#19982; Entity Framework 6 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Getting Started with ASP.NET Core and Entity Framework 6 | Microsoft Docs ">
+    <meta name="title" content="&#24320;&#22987;&#20351;&#29992; ASP.NET Core &#19982; Entity Framework 6 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
     <meta name="generator" content="docfx 2.18.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -66,17 +66,27 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="data/entity-framework-6">
-<h1 id="getting-started-with-aspnet-core-and-entity-framework-6">Getting started with ASP.NET Core and Entity Framework 6</h1>
+<h1 id="开始使用-aspnet-core-与-entity-framework-6">开始使用 ASP.NET Core 与 Entity Framework 6</h1>
+<!--# Getting started with ASP.NET Core and Entity Framework 6-->
 
-<p>By <a href="https://github.com/pgrudzien12">Paweł Grudzień</a>, <a href="https://github.com/DamienPontifex">Damien Pontifex</a>, and <a href="https://github.com/tdykstra">Tom Dykstra</a></p>
-<p>This article shows how to use Entity Framework 6 in an ASP.NET Core application.</p>
+<p>作者 <a href="https://github.com/pgrudzien12">Paweł Grudzień</a>、 <a href="https://github.com/DamienPontifex">Damien Pontifex</a>、 <a href="https://github.com/tdykstra">Tom Dykstra</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler)</a>  </p>
+<!--This article shows how to use Entity Framework 6 in an ASP.NET Core application.-->
+<p>本文展示在 ASP.NET Core 中如何使用 Entity Framework 6</p>
+<!--## Overview-->
 <h2 id="overview">Overview</h2>
-<p>To use Entity Framework 6, your project has to compile against the full .NET Framework, as Entity Framework 6 does not support .NET Core. If you need cross-platform features you will need to upgrade to <a href="https://docs.efproject.net">Entity Framework Core</a>.</p>
-<p>The recommended way to use Entity Framework 6 in an ASP.NET Core application is to put the EF6 context and model classes in a class library project that targets the full framework. Add a reference to the class library from the ASP.NET Core project. See the sample <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/data/entity-framework-6/sample/">Visual Studio solution with EF6 and ASP.NET Core projects</a>.</p>
-<p>You can&#39;t put an EF6 context in an ASP.NET Core project because .NET Core projects don&#39;t support all of the functionality that EF6 commands such as <em>Enable-Migrations</em> require.</p>
-<p>Regardless of project type in which you locate your EF6 context, only EF6 command-line tools work with an EF6 context. For example, <code>Scaffold-DbContext</code> is only available in Entity Framework Core. If you need to do reverse engineering of a database into an EF6 model, see <a href="https://msdn.microsoft.com/en-us/jj200620">Code First to an Existing Database</a>.</p>
-<h2 id="reference-full-framework-and-ef6-in-the-aspnet-core-project">Reference full framework and EF6 in the ASP.NET Core project</h2>
-<p>Your ASP.NET Core project needs to reference the full .NET framework and EF6. For example, the <em>.csproj</em> file of your ASP.NET Core project will look similar to the following example (only relevant parts of the file are shown).</p>
+<!--To use Entity Framework 6, your project has to compile against the full .NET Framework, as Entity Framework 6 does not support .NET Core. If you need cross-platform features you will need to upgrade to [Entity Framework Core](https://docs.efproject.net).-->
+<p>为了使用 Entity Framework 6，你的项目需要基于完整 .NET Framework 编译，因为 Entity Framework 6 不支持 .NET Core。如果你需要跨平台功能，你需要升级到 <a href="https://docs.efproject.net">Entity Framework Core</a>。</p>
+<!--The recommended way to use Entity Framework 6 in an ASP.NET Core application is to put the EF6 context and model classes in a class library project that targets the full framework. Add a reference to the class library from the ASP.NET Core project. See the sample [Visual Studio solution with EF6 and ASP.NET Core projects](https://github.com/aspnet/Docs/tree/master/aspnetcore/data/entity-framework-6/sample/).-->
+<p>在ASP.NET Core 应用中使用 Entity Framework 6 推荐的方式是将 EF6 上下文和模型类放在一个类库项目（ <em>.csproj</em> 项目文件）作用于整个框架。在 ASP.NET Core 项目添加对类库的引用。参考示例 <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/data/entity-framework-6/sample/">包含 ASP.NET Core 项目与 EF6 的Visual Studio解决方案</a>.</p>
+<!--You can't put an EF6 context in an ASP.NET Core project because .NET Core projects don't support all of the functionality that EF6 commands such as *Enable-Migrations* require.-->
+<p>向  ASP.NET Core 项目添加 EF6 上下文是不可行的，因为.NET Core 项目不支持所有的 EF6 命令功能，如 <code>Enable-Migrations</code> 。</p>
+<!--Regardless of project type in which you locate your EF6 context, only EF6 command-line tools work with an EF6 context. For example, `Scaffold-DbContext` is only available in Entity Framework Core. If you need to do reverse engineering of a database into an EF6 model, see [Code First to an Existing Database](https://msdn.microsoft.com/en-us/jj200620).-->
+<p>添加 EF6 上下文而不区分项目类型的话，则只有 EF6 命令行工具支持 EF6 上下文。例如，<code>Scaffold-DbContext</code> 只在 Entity Framework Core 中有效。如果你需要数据库逆向引擎将数据库转为 EF6 模型，参见 <a href="https://msdn.microsoft.com/en-us/jj200620">已存在数据库情况的下 Code-First</a></p>
+<!--## Reference full framework and EF6 in the ASP.NET Core project-->
+<h2 id="在-aspnet-core-项目中引用完整框架和ef6">在 ASP.NET Core 项目中引用完整框架和EF6</h2>
+<!--Your ASP.NET Core project needs to reference the full .NET framework and EF6. For example, the *.csproj* file of your ASP.NET Core project will look similar to the following example (only relevant parts of the file are shown).-->
+<p>你的  ASP.NET Core  项目需要引用完整的 .NET framework 和 EF6 。例如， <em>.csproj</em> 将看起来类似于下面的示例（只展示了相关的文件部分）。</p>
 <pre><code class="lang-xml" highlight-lines="2">&lt;PropertyGroup&gt;
   &lt;TargetFramework&gt;net452&lt;/TargetFramework&gt;
   &lt;PreserveCompilationContext&gt;true&lt;/PreserveCompilationContext&gt;
@@ -84,15 +94,19 @@
   &lt;OutputType&gt;Exe&lt;/OutputType&gt;
   &lt;PackageId&gt;MVCCore&lt;/PackageId&gt;
 &lt;/PropertyGroup&gt;
-</code></pre><p>If you’re creating a new project, use the <strong>ASP.NET Core Web Application (.NET Framework)</strong> template.</p>
-<h2 id="handle-connection-strings">Handle connection strings</h2>
-<p>The EF6 command-line tools that you&#39;ll use in the EF6 class library project require a default constructor so they can instantiate the context. But you&#39;ll probably want to specify the connection string to use in the ASP.NET Core project, in which case your context constructor must have a parameter that lets you pass in the connection string. Here&#39;s an example.</p>
+</code></pre><!--If you’re creating a new project, use the **ASP.NET Core Web Application (.NET Framework)** template.-->
+<p>如果你创建新项目，请使用 <strong>ASP.NET Core Web Application (.NET Framework)</strong> 模板。</p>
+<!--## Handle connection strings-->
+<h2 id="处理连接字符串">处理连接字符串</h2>
+<!--The EF6 command-line tools that you'll use in the EF6 class library project require a default constructor so they can instantiate the context. But you'll probably want to specify the connection string to use in the ASP.NET Core project, in which case your context constructor must have a parameter that lets you pass in the connection string. Here's an example.-->
+<p>你将要在 EF6 类库项目中使用的 EF6 命令行工具需要默认的构造函数，才能实例化上下文。但你可能想要指明在 ASP.NET Core 项目中使用的连接字符串，这种情况下，你的构造函数必需包含一个参数以能够传入连接字符串。这里有个例子。</p>
 <pre><code class="lang-csharp">public class SchoolContext : DbContext
 {
     public SchoolContext(string connString) : base(connString)
     {
     }
-</code></pre><p>Since your EF6 context doesn&#39;t have a parameterless constructor, your EF6 project has to provide an implementation of <a href="https://msdn.microsoft.com/library/hh506876">IDbContextFactory</a>. The EF6 command-line tools will find and use that implementation so they can instantiate the context. Here&#39;s an example.</p>
+</code></pre><!--Since your EF6 context doesn't have a parameterless constructor, your EF6 project has to provide an implementation of [IDbContextFactory](https://msdn.microsoft.com/library/hh506876). The EF6 command-line tools will find and use that implementation so they can instantiate the context. Here's an example.、-->
+<p>因为你的 EF6 上下文没有无参数构造函数，你的 EF6 项目需要提供 <a href="https://msdn.microsoft.com/library/hh506876">IDbContextFactory</a> 的实现。EF6 命令行工具可以发现并使用这一实现，然后实例化上下文。这里有个例子。</p>
 <pre><code class="lang-csharp">public class SchoolContextFactory : IDbContextFactory&lt;SchoolContext&gt;
 {
     public SchoolContext Create()
@@ -100,16 +114,20 @@
         return new EF6.SchoolContext(&quot;Server=(localdb)\\mssqllocaldb;Database=EF6MVCCore;Trusted_Connection=True;MultipleActiveResultSets=true&quot;);
     }
 }
-</code></pre><p>In this sample code, the <code>IDbContextFactory</code> implementation passes in a hard-coded connection string. This is the connection string that the command-line tools will use. You&#39;ll want to implement a strategy to ensure that the class library uses the same connection string that the calling application uses. For example, you could get the value from an environment variable in both projects.</p>
-<h2 id="set-up-dependency-injection-in-the-aspnet-core-project">Set up dependency injection in the ASP.NET Core project</h2>
-<p>In the Core project&#39;s <em>Startup.cs</em> file, set up the EF6 context for dependency injection (DI) in <code>ConfigureServices</code>. EF context objects should be scoped for a per-request lifetime.</p>
+</code></pre><!--In this sample code, the `IDbContextFactory` implementation passes in a hard-coded connection string. This is the connection string that the command-line tools will use. You'll want to implement a strategy to ensure that the class library uses the same connection string that the calling application uses. For example, you could get the value from an environment variable in both projects.-->
+<p>这个示例代码中， <code>IDbContextFactory</code> 实现传入一个硬编码的连接字符串。这个连接字符串将被命令行工具使用。你将要实现一种策略来确保类库与调用它的应用使用相同的连接字符串。例如，你在同一个项目应该获取环境变量的值。</p>
+<!--## Set up dependency injection in the ASP.NET Core project-->
+<h2 id="在-aspnet-core-项目中建立依赖注入">在 ASP.NET Core 项目中建立依赖注入</h2>
+<!--In the Core project's *Startup.cs* file, set up the EF6 context for dependency injection (DI) in `ConfigureServices`. EF context objects should be scoped for a per-request lifetime.-->
+<p>在 Core 项目的 <em>Startup.cs</em> 文件中，利用 <code>ConfigureServices</code> 建立 EF6 上下文依赖注入。EF6 上下文对象作用域应该以单次请求为生命周期。</p>
 <pre><code class="lang-csharp" highlight-lines="5">public void ConfigureServices(IServiceCollection services)
 {
     // Add framework services.
     services.AddMvc();
     services.AddScoped&lt;SchoolContext&gt;(_ =&gt; new SchoolContext(Configuration.GetConnectionString(&quot;DefaultConnection&quot;)));
 }
-</code></pre><p>You can then get an instance of the context in your controllers by using DI. The code is similar to what you&#39;d write for an EF Core context:</p>
+</code></pre><!--You can then get an instance of the context in your controllers by using DI. The code is similar to what you'd write for an EF Core context:-->
+<p>然后你可以在控制器中通过依赖注入（DI）得到上下文实例。代码与你为 EF Core 上下文所写的代码相似：</p>
 <pre><code class="lang-csharp">public class StudentsController : Controller
 {
     private readonly SchoolContext _context;
@@ -118,36 +136,61 @@
     {
         _context = context;
     }
-</code></pre><h2 id="sample-application">Sample application</h2>
-<p>For a working sample application, see the <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/data/entity-framework-6/sample/">sample Visual Studio solution</a> that accompanies this article.</p>
-<p>This sample can be created from scratch by the following steps in Visual Studio:</p>
+</code></pre><!--## Sample application-->
+<h2 id="示例应用程序">示例应用程序</h2>
+<!--For a working sample application, see the [sample Visual Studio solution](https://github.com/aspnet/Docs/tree/master/aspnetcore/data/entity-framework-6/sample/) that accompanies this article.-->
+<p>至于可运行的示例应用，参见  <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/data/entity-framework-6/sample/">简单的 Visual Studio 解决方案</a>  ，它与本文相互映衬。</p>
+<!--This sample can be created from scratch by the following steps in Visual Studio:-->
+<p>这个示例可使用 Visual Studio 基于下面的步骤基于脚手架创建：</p>
+<!--* Create a solution.-->
 <ul>
-<li><p>Create a solution.</p>
-</li>
-<li><p><strong>Add New Project &gt; Web &gt; ASP.NET Core Web Application (.NET Framework)</strong></p>
-</li>
-<li><p><strong>Add New Project &gt; Windows Classic Desktop &gt; Class Library (.NET Framework)</strong></p>
-</li>
-<li><p>In <strong>Package Manager Console</strong> (PMC) for both projects, run the command <code>Install-Package Entityframework</code>.</p>
-</li>
-<li><p>In the class library project, create data model classes and a context class, and an implementation of <code>IDbContextFactory</code>.</p>
-</li>
-<li><p>In PMC for the class library project, run the commands <code>Enable-Migrations</code> and <code>Add-Migration Initial</code>. If you have set the ASP.NET Core project as the startup project, add <code>-StartupProjectName EF6</code> to these commands.</p>
-</li>
-<li><p>In the Core project, add a project reference to the class library project.</p>
-</li>
-<li><p>In the Core project, in <em>Startup.cs</em>, register the context for DI.</p>
-</li>
-<li><p>In the Core project, in <em>appsettings.json</em>, add the connection string.</p>
-</li>
-<li><p>In the Core project, add a controller and view(s) to verify that you can read and write data. (Note that ASP.NET Core MVC scaffolding won&#39;t work with the EF6 context referenced from the class library.)</p>
-</li>
+<li>创建解决方案。</li>
 </ul>
-<h2 id="summary">Summary</h2>
-<p>This article has provided basic guidance for using Entity Framework 6 in an ASP.NET Core application.</p>
-<h2 id="additional-resources">Additional Resources</h2>
+<!--* **Add New Project > Web > ASP.NET Core Web Application (.NET Framework)**-->
 <ul>
-<li><a href="https://msdn.microsoft.com/en-us/data/jj680699.aspx">Entity Framework - Code-Based Configuration</a></li>
+<li><strong>添加新项目 &gt; Web &gt; ASP.NET Core Web 应用 (.NET Framework)</strong></li>
+</ul>
+<!--* **Add New Project > Windows Classic Desktop > Class Library (.NET Framework)**-->
+<ul>
+<li><strong>添加新项目 &gt; Windows &gt; 类库</strong></li>
+</ul>
+<!--* In **Package Manager Console** (PMC) for both projects, run the command `Install-Package Entityframework`.-->
+<ul>
+<li>在两个项目的 <strong>Package Manager Console</strong> (PMC) , 执行命令  <code>Install-Package Entityframework</code>。</li>
+</ul>
+<!--* In the class library project, create data model classes and a context class, and an implementation of `IDbContextFactory`.-->
+<ul>
+<li>在类库项目，创建数据模型类和上下文类，和一个 <code>IDbContextFactory</code> 实现。</li>
+</ul>
+<!--* In PMC for the class library project, run the commands `Enable-Migrations` and `Add-Migration Initial`. If you have set the ASP.NET Core project as the startup project, add `-StartupProjectName EF6` to these commands.-->
+<ul>
+<li>在类库的 PMC 中执行 <code>Enable-Migrations</code> 和 <code>Add-Migration Initial</code>。 如果你将 ASP.NET Core 设置为启动项目, 添加 <code>-StartupProjectName EF6</code> 到这些命令中。</li>
+</ul>
+<!--* In the Core project, add a project reference to the class library project.-->
+<ul>
+<li>在 Core 项目中，添加一个对类库项目的引用。</li>
+</ul>
+<!--* In the Core project, in *Startup.cs*, register the context for DI.-->
+<ul>
+<li>在 Core 项目的 <em>Startup.cs</em>, 为依赖注入注册上下文。</li>
+</ul>
+<!--* In the Core project, in *appsettings.json*, add the connection string.-->
+<ul>
+<li>在 Core 项目中，添加连接字符串。</li>
+</ul>
+<!--* In the Core project, add a controller and view(s) to verify that you can read and write data. (Note that ASP.NET Core MVC scaffolding won't work with the EF6 context referenced from the class library.)-->
+<ul>
+<li>在 Core 项目中，添加控制器和视图，检验数据读写。（注意 ASP.NET Core MVC 脚手架不能与从类库中引用的 EF6 上下文运行。</li>
+</ul>
+<!--## Summary-->
+<h2 id="结语">结语</h2>
+<!--This article has provided basic guidance for using Entity Framework 6 in an ASP.NET Core application.-->
+<p>这篇文章提供了在 ASP.NET Core 应用中使用 Entity Framework 6 基本的引导。</p>
+<!--## Additional Resources-->
+<h2 id="附加资源">附加资源</h2>
+<!--* [Entity Framework - Code-Based Configuration](https://msdn.microsoft.com/en-us/data/jj680699.aspx)-->
+<ul>
+<li><a href="https://msdn.microsoft.com/en-us/data/jj680699.aspx">Entity Framework - 基于代码的配置</a></li>
 </ul>
 </article>
           </div>
