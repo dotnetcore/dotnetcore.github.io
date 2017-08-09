@@ -569,7 +569,7 @@ references:
   name: ASP.NET Core 部署到 Nano Server | Microsoft 文档（中文文档）
   href: tutorials/nano-server.html
 - uid: tutorials/publish-to-azure-webapp-using-vs
-  name: Publish an ASP.NET Core app to Azure using Visual Studio | Microsoft Docs
+  name: 使用 Visual Studio 把 ASP.NET Core Web 应用程序发布到Azure 云 | Microsoft 文档（中文文档）
   href: tutorials/publish-to-azure-webapp-using-vs.html
 - uid: tutorials/web-api-help-pages-using-swagger
   name: 使用 Swagger 生成 ASP.NET Web API 在线帮助测试文档 | Microsoft 文档（中文文档）

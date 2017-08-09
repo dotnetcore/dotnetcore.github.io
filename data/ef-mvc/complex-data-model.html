@@ -8,7 +8,7 @@
     <title>ASP.NET Core MVC &#19982; EF Core - &#25968;&#25454;&#27169;&#22411; - 5 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#25968;&#25454;&#27169;&#22411; - 5 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
-    <meta name="generator" content="docfx 2.18.2.0">
+    <meta name="generator" content="docfx 2.22.2.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -386,12 +386,12 @@ namespace ContosoUniversity.Models
         public ICollection&lt;Course&gt; Courses { get; set; }
     }
 }
-</code></pre><h3 id="column-特性-1">Column 特性</h3>
+</code></pre><h3 id="column-特性">Column 特性</h3>
 <p>之前你使用 <code>Column</code> 特性来改变列名映射。在 Department 实体代码中， <code>Column</code> 特性被用于更改 SQL 数据类型映射，因此此处的列将在数据库中被定义为使用 SQL Server money 类型：</p>
 <pre><code class="lang-csharp">[Column(TypeName=&quot;money&quot;)]
 public decimal Budget { get; set; }
 </code></pre><p>列映射通常并不是必须的，因为 Entity Framework 会根据你为属性定义的 CLR 类型选择合适的 SQL Server 数据类型。CLR 的 <code>decimal</code> 类型会被映射为 SQL Server 的 <code>decimal</code> 类型。但是在本例中你需要知道该列需要保存的是货币金额，所以在此处使用 SQL Server 的 money 类型更为妥当。</p>
-<h3 id="外键与导航属性-1">外键与导航属性</h3>
+<h3 id="外键与导航属性">外键与导航属性</h3>
 <p>实体中的外键属性和导航属性反映以下关系：</p>
 <p>每个系可以有也可以没有管理员，同时管理员又总是教师。因此 <code>InstructorID</code> 属性被包含在 Instructor 实体中并作为外键，同时 <code>int</code> 类型后面添加一个问号，这表示该属性被标记为可空。该导航属性命名为  <code>Administrator</code> ，但实际上保存的是 Instructor 实体。</p>
 <pre><code class="lang-csharp">public int? InstructorID { get; set; }
@@ -429,7 +429,7 @@ namespace ContosoUniversity.Models
         public Student Student { get; set; }
     }
 }
-</code></pre><h3 id="外键与导航属性-2">外键与导航属性</h3>
+</code></pre><h3 id="外键与导航属性">外键与导航属性</h3>
 <p>实体中的外键属性和导航属性反映以下关系：</p>
 <p>学生注册课程的记录是针对单门课程的，所以需要一个 <code>CourseID</code> 外键属性和 <code>Course</code> 导航属性：</p>
 <pre><code class="lang-csharp">public int CourseID { get; set; }
@@ -957,7 +957,7 @@ You now have a more complex data model and corresponding database. In the follow
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/dev/aspnetcore/data/ef-mvc/complex-data-model.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/data/ef-mvc/complex-data-model.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
                   </li>
                                                   <li>
                                               <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
