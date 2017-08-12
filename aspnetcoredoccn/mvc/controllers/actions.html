@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Handling requests with controllers in ASP.NET MVC Core | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Handling requests with controllers in ASP.NET MVC Core | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="mvc/controllers/actions">
+<h1 id="handling-requests-with-controllers-in-aspnet-mvc-core">Handling requests with controllers in ASP.NET MVC Core</h1>
+
+<p>By <a href="http://ardalis.com">Steve Smith</a></p>
+<p>Controllers, actions, and action results are a fundamental part of how developers build apps using ASP.NET MVC Core.</p>
+<h2 id="what-is-a-controller">What is a Controller</h2>
+<p>In ASP.NET MVC, a <em>Controller</em> is used to define and group a set of actions. An <em>action</em> (or <em>action method</em>) is a method on a controller that handles incoming requests. Controllers provide a logical means of grouping similar actions together, allowing common sets of rules (e.g. routing, caching, authorization) to be applied collectively. Incoming requests are mapped to actions through <a href="routing.html">routing</a>.</p>
+<p>In ASP.NET Core MVC, a controller can be any instantiable class that ends in &quot;Controller&quot; or inherits from a class that ends with &quot;Controller&quot;. Controllers should follow the <a href="http://deviq.com/explicit-dependencies-principle">Explicit Dependencies Principle</a> and request any dependencies their actions require through their constructor using <a href="dependency-injection.html">dependency injection</a>.</p>
+<p>By convention, controller classes:</p>
+<ul>
+<li><p>Are located in the root-level &quot;Controllers&quot; folder</p>
+</li>
+<li><p>Inherit from Microsoft.AspNetCore.Mvc.Controller</p>
+</li>
+</ul>
+<p>These two conventions are not required.</p>
+<p>Within the Model-View-Controller pattern, a Controller is responsible for the initial processing of the request and instantiation of the Model. Generally, business decisions should  be performed within the Model.</p>
+<div class="NOTE"><h5>备注</h5><p>The Model should be a <em>Plain Old CLR Object (POCO)</em>, not a <code>DbContext</code> or database-related type.</p>
+</div>
+<p>The controller takes the result of the model&#39;s processing (if any), returns the proper view along with the associated view data. Learn more: <a href="../overview.html">Overview of ASP.NET Core MVC</a> and <a href="../../tutorials/first-mvc-app/start-mvc.html">Getting started with ASP.NET Core MVC and Visual Studio</a>.</p>
+<div class="TIP"><h5>提示</h5><p>The Controller is a <em>UI level</em> abstraction. Its responsibility is to ensure incoming request data is valid and to choose which view (or result for an API) should be returned. In well-factored apps it will not directly include data access or business logic, but instead will delegate to services handling these responsibilities.</p>
+</div>
+<h2 id="defining-actions">Defining Actions</h2>
+<p>Any public method on a controller type is an action. Parameters on actions are bound to request data and validated using <a href="../models/model-binding.html">model binding</a>.</p>
+<div class="WARNING"><h5>警告</h5><p>Action methods that accept parameters should verify the <code>ModelState.IsValid</code> property is true.</p>
+</div>
+<p>Action methods should contain logic for mapping an incoming request to a business concern. Business concerns should typically be represented as services that your controller accesses through <a href="dependency-injection.html">dependency injection</a>. Actions then map the result of the business action to an application state.
+Actions can return anything, but frequently will return an instance of <code>IActionResult</code> (or <code>Task&lt;IActionResult&gt;</code> for async methods) that produces a response. The action method is responsible for choosing <em>what kind of response</em>; the action result <em>does the responding</em>.</p>
+<h3 id="controller-helper-methods">Controller Helper Methods</h3>
+<p>Although not required, most developers will want to have their controllers inherit from the base <code>Controller</code> class. Doing so provides controllers with access to many properties and helpful methods, including the following helper methods designed to assist in returning various responses:</p>
+<p><strong><a href="../views/index.html">View</a></strong></p>
+<p>Returns a view that uses a model to render HTML. Example: <code>return View(customer);</code></p>
+<p><strong>HTTP Status Code</strong></p>
+<p>Return an HTTP status code. Example: <code>return BadRequest();</code></p>
+<p><strong>Formatted Response</strong></p>
+<p>Return <code>Json</code> or similar to format an object in a specific manner. Example: <code>return Json(customer);</code></p>
+<p><strong>Content negotiated response</strong></p>
+<p>Instead of returning an object directly, an action can return a content negotiated response (using <code>Ok</code>, <code>Created</code>, <code>CreatedAtRoute</code> or <code>CreatedAtAction</code>). Examples: <code>return Ok();</code> or <code>return CreatedAtRoute(&quot;routename&quot;,values,newobject);</code></p>
+<p><strong>Redirect</strong></p>
+<p>Returns a redirect to another action or destination (using <code>Redirect</code>, <code>LocalRedirect</code>, <code>RedirectToAction</code> or <code>RedirectToRoute</code>). Example: <code>return RedirectToAction(&quot;Complete&quot;, new {id = 123});</code></p>
+<p>In addition to the methods above, an action can also simply return an object. In this case, the object will be formatted based on the client&#39;s request. Learn more about <a href="../models/formatting.html">Formatting Response Data</a></p>
+<h3 id="cross-cutting-concerns">Cross-Cutting Concerns</h3>
+<p>In most apps, many actions will share parts of their workflow. For instance, most of an app might be available only to authenticated users, or might benefit from caching. When you want to perform some logic before or after an action method runs, you can use a <em>filter</em>. You can help keep your actions from growing too large by using <a href="filters.html">Filters</a> to handle these cross-cutting concerns. This can help eliminate duplication within your actions, allowing them to follow the <a href="http://deviq.com/don-t-repeat-yourself/">Don&#39;t Repeat Yourself (DRY) principle</a>.</p>
+<p>In the case of authorization and authentication, you can apply the <code>Authorize</code> attribute to any actions that require it. Adding it to a controller will apply it to all actions within that controller. Adding this attribute will ensure the appropriate filter is applied to any request for this action. Some attributes can be applied at both controller and action levels to provide granular control over filter behavior. Learn more: <a href="filters.html">Filters</a>.</p>
+<p>Other examples of cross-cutting concerns in MVC apps may include:</p>
+<ul>
+<li><p><a href="filters.html#exception-filters">Error handling</a></p>
+</li>
+<li><p><a href="../../performance/caching/response.html">Response Caching</a></p>
+</li>
+</ul>
+<div class="NOTE"><h5>备注</h5><p>Many cross-cutting concerns can be handled using filters in MVC apps. Another option to keep in mind that is available to any ASP.NET Core app is custom <a href="../../fundamentals/middleware.html">middleware</a>.</p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/mvc/controllers/actions.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

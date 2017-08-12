@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#20351;&#29992; Swagger &#29983;&#25104; ASP.NET Web API &#22312;&#32447;&#24110;&#21161;&#27979;&#35797;&#25991;&#26723; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#20351;&#29992; Swagger &#29983;&#25104; ASP.NET Web API &#22312;&#32447;&#24110;&#21161;&#27979;&#35797;&#25991;&#26723; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/web-api-help-pages-using-swagger">
+<h1 id="使用-swagger-生成-aspnet-web-api-在线帮助测试文档">使用 Swagger 生成 ASP.NET Web API 在线帮助测试文档</h1>
+<!--# ASP.NET Web API Help Pages using Swagger-->
+
+<p><a name="web-api-help-pages-using-swagger"></a></p>
+<p>作者 <a href="https://twitter.com/spboyer">Shayne Boyer</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler)</a>  </p>
+<p>校对 <a href="https://github.com/SeayXu">许登洋(Seay)</a>  </p>
+<!--Understanding the various methods of an API can be a challenge for a developer when building a consuming application.-->
+<p>对于开发人员来说，构建一个消费应用程序时去了解各种各样的 API 是一个巨大的挑战。</p>
+<!--Generating good documentation and help pages as a part of your Web API using [Swagger](http://swagger.io) with the .NET Core implementation [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) is as easy as adding a couple of NuGet packages and modifying the *Startup.cs*.-->
+<p>在你的 Web API 项目中使用 <a href="http://swagger.io">Swagger</a> 的 .NET Core 封装 <a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore">Swashbuckle.AspNetCore</a> 可以帮助你创建良好的文档和帮助页面。<a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore">Swashbuckle.AspNetCore</a> 可以通过修改 <em>Startup.cs</em> 作为一组 NuGet 包方便的加入项目。</p>
+<!--* [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) is an open source project for generating Swagger documents for Web APIs that are built with ASP.NET Core MVC.-->
+<ul>
+<li><a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore">Swashbuckle.AspNetCore</a> 是一个开源项目，为使用 ASP.NET Core MVC 构建的 Web APIs 生成 Swagger 文档。</li>
+</ul>
+<!--* [Swagger](http://swagger.io) is a machine readable representation of a RESTful API that enables support for interactive documentation, client SDK generation and discoverability.-->
+<ul>
+<li><a href="http://swagger.io">Swagger</a> 是一个机器可读的 RESTful API 表现层，它可以支持交互式文档、客户端 SDK 的生成和可被发现。</li>
+</ul>
+<!--This tutorial builds on the sample on [Building Your First Web API with ASP.NET Core MVC and Visual Studio](first-web-api.md). If you'd like to follow along, download the sample at [https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample](https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample).-->
+<p>本教程基于 <a href="first-web-api.html">Building Your First Web API with ASP.NET Core MVC and Visual Studio</a> 文档的例子构建。如果需要对应的代码，在这里 <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample">https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample</a> 下载示例。</p>
+<!--## Getting Started-->
+<h2 id="开始入门">开始入门</h2>
+<!--There are three main components to Swashbuckle-->
+<p>Swashbuckle 有三个核心的组件</p>
+<!--* *Swashbuckle.AspNetCore.Swagger* : a Swagger object model and middleware to expose SwaggerDocument objects as JSON endpoints.-->
+<ul>
+<li><em>Swashbuckle.AspNetCore.Swagger</em> ： Swagger 对象模型和中间件用把 Swagger 文档对象导出为 JSON 终端。</li>
+</ul>
+<!--* *Swashbuckle.AspNetCore.SwaggerGen* : a Swagger generator that builds SwaggerDocument objects directly from your routes, controllers and models. Typically combined with the Swagger endpoint middleware to automatically expose Swagger JSON.-->
+<ul>
+<li><em>Swashbuckle.AspNetCore.SwaggerGen</em> : Swagger 生成器直接从 路由，控制器和模型构建 SwaggerDocument 对象。 通常会结合 Swagger 端点中间件自动公开 Swagger JSON。</li>
+</ul>
+<!--* *Swashbuckle.AspNetCore.SwaggerUI* : an embedded version of the Swagger UI tool which interprets Swagger JSON to build a rich customizable experience for describing the Web API functionality, and includes built in test harness capabilities for the public methods.-->
+<ul>
+<li><em>Swashbuckle.AspNetCore.SwaggerUI</em> : 是一个嵌入式版本的 Swagger UI 工具，使用 Swagger UI 强大的富文本表现形式来可定制化的来描述 Web API 的功能，并且包含内置的公共方法测试工具。</li>
+</ul>
+<!--## NuGet Packages-->
+<h2 id="nuget-包">NuGet 包</h2>
+<!--You can add Swashbuckle with any of the following approaches:-->
+<p>您可以使用以下任何方法添加 Swashbuckle ：</p>
+<!--* From the Package Manager Console:-->
+<ul>
+<li>在 Package Manager Console（包管理控制台） 中：</li>
+</ul>
+<pre><code class="lang-bash">Install-Package Swashbuckle.AspNetCore
+</code></pre><!--* In Visual Studio:-->
+<ul>
+<li><p>在 Visual Studio 中：</p>
+<p>   &lt;!--* Right click your project in Solution Explorer &gt; Manage NuGet Packages</p>
+<ul>
+<li>Enter Swashbuckle.AspNetCore in the search box</li>
+<li>Set the Package source to nuget.org</li>
+<li>Tap the Swashbuckle.AspNetCore package and then tap Install--&gt;</li>
+<li>右击你的项目 Solution Explorer &gt; Manage NuGet Packages</li>
+<li>在搜索框中输入 Swashbuckle.AspNetCore  </li>
+<li>点击 &quot;Include prerelease&quot;</li>
+<li>设置 Package source 为 nuget.org</li>
+<li>点击 Swashbuckle.AspNetCore 包并点击 Install</li>
+</ul>
+</li>
+</ul>
+<!--## Add and configure Swagger to the middleware-->
+<h2 id="在中间件中添加并配置-swagger">在中间件中添加并配置 Swagger</h2>
+<!--Add SwaggerGen to the services collection in the Configure method, and in the ConfigureServices method, enable the middleware for serving generated JSON document and the SwaggerUI.-->
+<p>在 Configure 方法里面把 SwaggerGen 添加到 services 集合，并且在 ConfigureServices 方法中，允许中间件提供和服务生成 JSON 文档以及 SwaggerUI。</p>
+<!-- literal_block {"ids": [], "linenos": false, "xml:space": "preserve", "language": "csharp", "highlight_args": {"hl_lines": [12, 21, 24]}} -->
+<pre><code class="lang-csharp">public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddMvc();
+
+    services.AddLogging();
+
+    // Add our repository type
+    services.AddSingleton&lt;ITodoRepository, TodoRepository&gt;();
+
+    // Register the Swagger generator, defining one or more Swagger documents
+    services.AddSwaggerGen(c =&gt;
+    {
+        c.SwaggerDoc(&quot;v1&quot;, new Info { Title = &quot;My API&quot;, Version = &quot;v1&quot; });
+    });
+}
+
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    app.UseMvcWithDefaultRoute();
+
+    // Enable middleware to serve generated Swagger as a JSON endpoint.
+    app.UseSwagger();
+
+    // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+    app.UseSwaggerUI(c =&gt;
+    {
+        c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;My API V1&quot;);
+    });
+}
+</code></pre><!--In Visual Studio, press ^F5 to launch the app and navigate to `http://localhost:<random_port>/swagger/v1/swagger.json` to see the document generated that describes the endpoints.-->
+<p>在 Visual Studio 中, 点击 ^F5 启动应用程序并导航到 <code>http://localhost:&lt;random_port&gt;/swagger/v1/swagger.json</code> 页面可以看成生成的终端描述文档。</p>
+<!--> [!NOTE]
+> Microsoft Edge, Google Chrome and Firefox display JSON documents natively.  There are extensions for Chrome that will format the document for easier reading. *Example below reduced for brevity.*-->
+<div class="NOTE"><h5>备注</h5><p>Microsoft Edge，Google Chrome 以及 Firefox 原生支持显示 JSON 文档。 Chrome 的扩展会格式化文档使其更易于阅读。 <em>下面的例子是简化版的。</em></p>
+</div>
+<pre><code class="lang-javascript">{
+   &quot;swagger&quot;: &quot;2.0&quot;,
+   &quot;info&quot;: {
+       &quot;version&quot;: &quot;v1&quot;,
+       &quot;title&quot;: &quot;API V1&quot;
+   },
+   &quot;basePath&quot;: &quot;/&quot;,
+   &quot;paths&quot;: {
+       &quot;/api/Todo&quot;: {
+       &quot;get&quot;: {
+           &quot;tags&quot;: [
+           &quot;Todo&quot;
+           ],
+           &quot;operationId&quot;: &quot;ApiTodoGet&quot;,
+           &quot;consumes&quot;: [],
+           &quot;produces&quot;: [
+           &quot;text/plain&quot;,
+           &quot;application/json&quot;,
+           &quot;text/json&quot;
+           ],
+           &quot;responses&quot;: {
+           &quot;200&quot;: {
+               &quot;description&quot;: &quot;OK&quot;,
+               &quot;schema&quot;: {
+               &quot;type&quot;: &quot;array&quot;,
+               &quot;items&quot;: {
+                   &quot;$ref&quot;: &quot;#/definitions/TodoItem&quot;
+               }
+               }
+           }
+           },
+           &quot;deprecated&quot;: false
+       },
+       &quot;post&quot;: {
+           ...
+       }
+       },
+       &quot;/api/Todo/{id}&quot;: {
+       &quot;get&quot;: {
+           ...
+       },
+       &quot;put&quot;: {
+           ...
+       },
+       &quot;delete&quot;: {
+           ...
+   },
+   &quot;definitions&quot;: {
+       &quot;TodoItem&quot;: {
+       &quot;type&quot;: &quot;object&quot;,
+       &quot;properties&quot;: {
+           &quot;key&quot;: {
+           &quot;type&quot;: &quot;string&quot;
+           },
+           &quot;name&quot;: {
+           &quot;type&quot;: &quot;string&quot;
+           },
+           &quot;isComplete&quot;: {
+           &quot;type&quot;: &quot;boolean&quot;
+           }
+       }
+       }
+   },
+   &quot;securityDefinitions&quot;: {}
+   }
+</code></pre><!--This document is used to drive the Swagger UI which can be viewed by navigating to `http://localhost:<random_port>/swagger`-->
+<p>这个文档用来驱动 Swagger UI，可以通过访问 <code>http://localhost:&lt;random_port&gt;/swagger</code> 页面来查看。</p>
+<p><img src="web-api-help-pages-using-swagger/static/swagger-ui.png" alt="Swagger UI"></p>
+<!--Each of the methods in the ToDo controller can be tested from the UI. Tap a method to expand the section, add any necessary parameters and tap "Try it out!".-->
+<p>所有的 ToDo controller 的方法都是可以在 UI 上面进行测试。点击方法可以展开对应的区域，输入所需的参数并且点击 &quot;Try it out!&quot; 。</p>
+<p><img src="web-api-help-pages-using-swagger/static/get-try-it-out.png" alt="Example Swagger GET test"></p>
+<!--## Customization & Extensibility-->
+<h2 id="自定义与可扩展性">自定义与可扩展性</h2>
+<!--Swagger is not only a simple way to represent the API, but has options for documenting the object model, as well as customizing the interactive UI to match your look and feel or design language.-->
+<p>Swagger 不仅是显示 API 的一个简单方法，而且有可选项：文档对象模型，以及自定义交互 UI 来满足你的视觉感受或者设计语言。</p>
+<!--### API Info and Description-->
+<h3 id="api-信息和描述">API 信息和描述</h3>
+<!--The config. action passed to the `AddSwaggerGen` method can be used to add information such as the author, license, description.-->
+<p>config. action 使用 <code>AddSwaggerGen</code> 方法用来添加文档信息。例如：作者，版权，描述。</p>
+<pre><code class="lang-csharp">services.AddSwaggerGen(c =&gt;
+{
+    c.SwaggerDoc(&quot;v1&quot;, new Info
+    {
+        Version = &quot;v1&quot;,
+        Title = &quot;ToDo API&quot;,
+        Description = &quot;A simple example ASP.NET Core Web API&quot;,
+        TermsOfService = &quot;None&quot;,
+        Contact = new Contact { Name = &quot;Shayne Boyer&quot;, Email = &quot;&quot;, Url = &quot;https://twitter.com/spboyer&quot;},
+        License = new License { Name = &quot;Use under LICX&quot;, Url = &quot;https://example.com/license&quot; }
+    });
+});
+</code></pre><!--The following image shows the Swagger UI displaying the version information added.-->
+<p>下图展示了 Swagger UI 显示添加的版本信息</p>
+<p><img src="web-api-help-pages-using-swagger/static/custom-info.png" alt="Swagger UI with version information: description, author, and see more link"></p>
+<!--### XML Comments-->
+<h3 id="xml-注释">XML 注释</h3>
+<!--To enable XML comments, right click the project in Visual Studio and select **Properties** and then check the **XML Documentation file** box under the **Output Settings** section.-->
+<p>为了启用 XML 注释， 在 Visual Studio 中右击项目并且选择 <strong>Properties</strong> 在 <strong>Output Settings</strong> 区域下面点击 <strong>XML Documentation file</strong> 。</p>
+<p><img src="web-api-help-pages-using-swagger/static/swagger-xml-comments.png" alt="Build tab of project properties"></p>
+<!--Configure Swagger to use the generated XML file.-->
+<p>配置 Swagger 使用生成的 XML 文件。</p>
+<!--> [!NOTE]
+> For Linux or non-Windows operating systems, file names and paths can be case sensitive. So `ToDoApi.XML` would be found on Windows but not CentOS for example.-->
+<div class="NOTE"><h5>备注</h5><p>对于 Linux 或者 非 Windows 操作系统，文件名和路径是大小写敏感的。 所以本例中的 <code>ToDoApi.XML</code> 在 Windows 上可以找到但是 CentOS 就无法找到。</p>
+</div>
+<pre><code class="lang-csharp" name="Main" highlight-lines="29,33">// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddMvc();
+
+    services.AddLogging();
+
+    // Add our repository type.
+    services.AddSingleton&lt;ITodoRepository, TodoRepository&gt;();
+
+ // Register the Swagger generator, defining one or more Swagger documents
+    services.AddSwaggerGen(c =&gt;
+    {
+        c.SwaggerDoc(&quot;v1&quot;, new Info
+        {
+            Version = &quot;v1&quot;,
+            Title = &quot;ToDo API&quot;,
+            Description = &quot;A simple example ASP.NET Core Web API&quot;,
+            TermsOfService = &quot;None&quot;,
+            Contact = new Contact { Name = &quot;Shayne Boyer&quot;, Email = &quot;&quot;, Url = &quot;http://twitter.com/spboyer&quot;},
+            License = new License { Name = &quot;Use under LICX&quot;, Url = &quot;http://url.com&quot; }
+        });
+
+        //Set the comments path for the swagger json and ui.
+        var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+        var xmlPath = Path.Combine(basePath, &quot;TodoApi.xml&quot;); 
+        c.IncludeXmlComments(xmlPath);
+    });
+}
+
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    app.UseStaticFiles();
+
+    app.UseMvcWithDefaultRoute();
+
+    // Enable middleware to serve generated Swagger as a JSON endpoint.
+    app.UseSwagger();
+
+    // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint
+    app.UseSwaggerUi(c =&gt;
+    {
+        c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;My API V1&quot;);
+    });
+}
+</code></pre><!--In the code above, ApplicationBasePath gets the base path of the app, which is needed to set the full path to the XML comments. `TodoApi.xml` only works for this example, the name of the generated XML comments file is based on the name of your application.-->
+<p>在上面的代码中，ApplicationBasePath 获取到应用程序的根路径，是需要设置 XML 注释文件的完整路径。 <code>TodoApi.xml</code> 仅适用于本例，生成的XML注释文件的名称是基于你的应用程序名称。</p>
+<!--Adding the triple slash comments to the method enhances the Swagger UI by adding the description to the header of the section.-->
+<p>为方法添加的三斜线注释（C# 文档注释格式）文字会作为描述显示在 Swagger UI 对应方法的头区域。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="2">/// &lt;summary&gt;
+/// Deletes a specific TodoItem.
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;id&quot;&gt;&lt;/param&gt;
+[HttpDelete(&quot;{id}&quot;)]
+public void Delete(string id)
+{
+    TodoItems.Remove(id);
+}
+</code></pre><p><img src="web-api-help-pages-using-swagger/static/triple-slash-comments.png" alt="Swagger UI showing XML comment &#39;Deletes a specific To do Item&#39; for the DELETE method"></p>
+<!--Note that the UI is driven by the generated JSON file, and these comments are also in that file as well.-->
+<p>请注意，UI 是由生成的 JSON 文件驱动的，这些注释也会包含在文件中。</p>
+<!-- literal_block {"ids": [], "linenos": false, "xml:space": "preserve", "language": "javascript", "highlight_args": {"hl_lines": [5]}} -->
+<pre><code class="lang-javascript">&quot;delete&quot;: {
+  &quot;tags&quot;: [
+    &quot;Todo&quot;
+  ],
+  &quot;summary&quot;: &quot;Deletes a specific TodoItem&quot;,
+  &quot;operationId&quot;: &quot;ApiTodoByIdDelete&quot;,
+  &quot;consumes&quot;: [],
+  &quot;produces&quot;: [],
+  &quot;parameters&quot;: [
+    {
+      &quot;name&quot;: &quot;id&quot;,
+      &quot;in&quot;: &quot;path&quot;,
+      &quot;description&quot;: &quot;&quot;,
+      &quot;required&quot;: true,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  ],
+  &quot;responses&quot;: {
+    &quot;204&quot;: {
+      &quot;description&quot;: &quot;No Content&quot;
+    }
+  },
+  &quot;deprecated&quot;: false
+}
+</code></pre><!--Here is a more robust example, adding `<remarks />` where the content can be just text or adding the JSON or XML object for further documentation of the method.-->
+<p>这是一个更强大的例子，加入 <code>&lt;remarks /&gt;</code> 那里面的内容可以是文字或添加的 JSON 或 XML 对象的方法为进一步描述方法文档而服务。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="4-14">/// &lt;summary&gt;
+/// Creates a TodoItem.
+/// &lt;/summary&gt;
+/// &lt;remarks&gt;
+/// Note that the key is a GUID and not an integer.
+///  
+///     POST /Todo
+///     {
+///        &quot;key&quot;: &quot;0e7ad584-7788-4ab1-95a6-ca0a5b444cbb&quot;,
+///        &quot;name&quot;: &quot;Item1&quot;,
+///        &quot;isComplete&quot;: true
+///     }
+/// 
+/// &lt;/remarks&gt;
+/// &lt;param name=&quot;item&quot;&gt;&lt;/param&gt;
+/// &lt;returns&gt;New Created Todo Item&lt;/returns&gt;
+/// &lt;response code=&quot;201&quot;&gt;Returns the newly created item&lt;/response&gt;
+/// &lt;response code=&quot;400&quot;&gt;If the item is null&lt;/response&gt;
+[HttpPost]
+[ProducesResponseType(typeof(TodoItem), 201)]
+[ProducesResponseType(typeof(TodoItem), 400)]
+public IActionResult Create([FromBody, Required] TodoItem item)
+{
+    if (item == null)
+    {
+        return BadRequest();
+    }
+    TodoItems.Add(item);
+    return CreatedAtRoute(&quot;GetTodo&quot;, new { id = item.Key }, item);
+}
+</code></pre><!--Notice the enhancement of the UI with these additional comments.-->
+<p>请注意下面是这些附加注释的在用户界面的增强效果。</p>
+<p><img src="web-api-help-pages-using-swagger/static/xml-comments-extended.png" alt="Swagger UI with additional comments shown"></p>
+<!--### DataAnnotations-->
+<h3 id="dataannotations">DataAnnotations</h3>
+<!--You can decorate the API controller with `System.ComponentModel.DataAnnotations` to help drive the Swagger UI components.-->
+<p>你可以使用 <code>System.ComponentModel.DataAnnotations</code> 来标注 API controller ，帮助驱动 Swagger UI 组件。</p>
+<!--Adding the `[Required]` annotation to the `Name` property of the `TodoItem` class will change the ModelSchema information in the UI. `[Produces("application/json")]`, `RegularExpression` validators and more will further detail the information delivered in the generated page.  The more metadata that is in the code produces a more desciptive UI or API help page.  -->
+<p>在 TodoItem 类的 <code>Name</code> 属性上添加<code>[Required]</code> 标注会改变 UI 中的模型架构信息。 <code>[Produces(&quot;application/json&quot;)]</code> ，正则表达式验证器将更进一步细化生成页面传递的详细信息。代码中使用的元数据信息越多 API 帮助页面上的描述信息也会越多。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="10">using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace TodoApi.Models
+{
+    public class TodoItem
+    {
+        public string Key { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [DefaultValue(false)]
+        public bool IsComplete { get; set; }
+    }
+}
+</code></pre><!--### Describing Response Types-->
+<h3 id="描述响应类型">描述响应类型</h3>
+<!--Consuming developers are probably most concerned with what is returned; specifically response types, error codes (if not standard). These are handled in the XML comments and DataAnnotations.-->
+<p>API 使用开发者最关心的东西是的返回结果；具体响应类型，错误代码（如果不是标准错误码）。这些都在 XML 注释 和 DataAnnotations 中处理。</p>
+<!--Take the `Create()` method for example, currently it returns only "201 Created" response by default. That is of course if the item is in fact created, or a "204 No Content" if no data is passed in the POST Body.  However, there is no documentation to know that or any other response. That can be fixed by adding the following piece of code.-->
+<p>以 <code>Create()</code> 方法为例，目前它仅仅返回 &quot;201 Created&quot; 默认响应。如果数据实际创建了或者 POST 正文没有传递数据返回 &quot;204 No Content&quot; 错误，这是理所当然的。但是，如果没有文档知道它的存在或者存在任何其他响应，则可以通过添加下面的代码段是修复这个问题。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="17,18,20,21">/// &lt;summary&gt;
+/// Creates a TodoItem.
+/// &lt;/summary&gt;
+/// &lt;remarks&gt;
+/// Note that the key is a GUID and not an integer.
+///  
+///     POST /Todo
+///     {
+///        &quot;key&quot;: &quot;0e7ad584-7788-4ab1-95a6-ca0a5b444cbb&quot;,
+///        &quot;name&quot;: &quot;Item1&quot;,
+///        &quot;isComplete&quot;: true
+///     }
+/// 
+/// &lt;/remarks&gt;
+/// &lt;param name=&quot;item&quot;&gt;&lt;/param&gt;
+/// &lt;returns&gt;New Created Todo Item&lt;/returns&gt;
+/// &lt;response code=&quot;201&quot;&gt;Returns the newly created item&lt;/response&gt;
+/// &lt;response code=&quot;400&quot;&gt;If the item is null&lt;/response&gt;
+[HttpPost]
+[ProducesResponseType(typeof(TodoItem), 201)]
+[ProducesResponseType(typeof(TodoItem), 400)]
+public IActionResult Create([FromBody, Required] TodoItem item)
+{
+    if (item == null)
+    {
+        return BadRequest();
+    }
+    TodoItems.Add(item);
+    return CreatedAtRoute(&quot;GetTodo&quot;, new { id = item.Key }, item);
+}
+</code></pre><p><img src="web-api-help-pages-using-swagger/static/data-annotations-response-types.png" alt="Swagger UI showing POST Response Class description &#39;Returns the newly created Todo item&#39; and &#39;400 - If the item is null&#39; for status code and reason under Response Messages"></p>
+<!--### Customizing the UI-->
+<h3 id="自定义-ui">自定义 UI</h3>
+<!--The stock UI is very functional as well as presentable, however when building documentation pages for your API you want it to represent your brand or look and feel.-->
+<p>stock UI 是一个非常实用的展示方案，如果你想在生成 API 文档页面的时候想把你的标题做的更好看点。</p>
+<!--Accomplishing that task with the Swashbuckle components is simple but requires adding the resources to serve static files that would not normally be included in a Web API project and then building the folder structure to host those files.-->
+<p>完成与 Swashbuckle 组件相关的任务很简单，但服务需要添加的资源来通常不会被包含在 Web API 项目中，所以必须建立对应的的文件夹结构来承载这些静态资源文件。</p>
+<!--Add the `"Microsoft.AspNetCore.StaticFiles": "1.0.0-*"` NuGet package to the project.-->
+<p>在项目中添加 <code>&quot;Microsoft.AspNetCore.StaticFiles&quot;: &quot;1.0.0-*&quot;</code> NuGet 包。</p>
+<!--Enable static files middleware.-->
+<p>在中间件中启用 static files 服务。</p>
+<!-- literal_block {"ids": [], "linenos": false, "xml:space": "preserve", "language": "csharp", "highlight_args": {"hl_lines": [4]}} -->
+<pre><code class="lang-csharp">// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+   public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+   {
+       // Enable static files middleware.
+       app.UseStaticFiles();
+
+       app.UseMvcWithDefaultRoute();
+
+        // Enable middleware to serve generated Swagger as a JSON endpoint.
+        app.UseSwagger();
+
+        // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+        app.UseSwaggerUI(c =&gt;
+        {
+            c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;My API V1&quot;);
+        });
+   }
+</code></pre><!--Acquire the core *index.html* file used for the Swagger UI page from the `Github repository <https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/1.0.0-rc1/test/WebSites/CustomIndexHtml/wwwroot/swagger/index.html>`_ and put that in the `wwwroot/swagger` folder and also create a new `custom.css` file in the same folder.-->
+<p>从 <a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/1.0.0-rc1/test/WebSites/CustomIndexHtml/wwwroot/swagger/index.html">Github repository</a> 上获取 Swagger UI 页面所需的 <em>index.html</em> 核心文件，把他放到 <code>wwwroot/swaggerui</code> 目录下，并在在同一个文件夹创建一个新的 <code>custom.css</code> 文件。</p>
+<p><img src="web-api-help-pages-using-swagger/static/custom-files-folder-view.png" alt="Solution Explorer showing Swagger UI custom css and html files within the wwwroot folder of the application"></p>
+<!--Reference *custom.css* in the *index.html* file.-->
+<p>在 <em>index.html</em> 文件中引用 <em>custom.css</em> 。</p>
+<pre><code class="lang-html">&lt;link href=&#39;custom.css&#39; media=&#39;screen&#39; rel=&#39;stylesheet&#39; type=&#39;text/css&#39; /&gt;
+</code></pre><!--The following CSS provides a simple sample of a custom header title to the page.-->
+<p>下面的 CSS 提供了一个自定义页面标题的简单的示例。</p>
+<!--*custom.css file*-->
+<p><em>custom.css 文件</em></p>
+<pre><code class="lang-css" name="Main">
+.swagger-section #header
+{
+    border-bottom: 1px solid #000000;
+    font-style: normal;
+    font-weight: 400;
+    font-family: &quot;Segoe UI Light&quot;,&quot;Segoe WP Light&quot;,&quot;Segoe UI&quot;,&quot;Segoe WP&quot;,Tahoma,Arial,sans-serif;
+    background-color: black;
+}
+
+.swagger-section #header h1
+{
+    text-align: center;
+    font-size: 20px;
+    color: white;
+}
+
+
+</code></pre><!--*index.html body*-->
+<p><em>index.html 正文</em></p>
+<pre><code class="lang-html">&lt;body class=&quot;swagger-section&quot;&gt;
+   &lt;div id=&quot;header&quot;&gt;
+    &lt;h1&gt;ToDo API Documentation&lt;/h1&gt;
+   &lt;/div&gt;
+
+   &lt;div id=&quot;message-bar&quot; class=&quot;swagger-ui-wrap&quot; data-sw-translate&gt;&amp;nbsp;&lt;/div&gt;
+   &lt;div id=&quot;swagger-ui-container&quot; class=&quot;swagger-ui-wrap&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p><img src="web-api-help-pages-using-swagger/static/custom-header.png" alt="Swagger UI with custom header title"></p>
+<!--There is much more you can do with the page, see the full capabilities for the UI resources at the [Swagger UI Github repository](https://github.com/swagger-api/swagger-ui).-->
+<p>你可以在这个页面有更多改进的东西，请在 <a href="https://github.com/swagger-api/swagger-ui">Swagger UI Github repository</a> 参阅完整的 UI 资源。</p>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/web-api-help-pages-using-swagger.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

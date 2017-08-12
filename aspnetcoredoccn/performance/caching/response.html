@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Response Caching | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Response Caching | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="performance/caching/response">
+<h1 id="response-caching">Response Caching</h1>
+
+<p>By <a href="https://github.com/JunTaoLuo">John Luo</a>, <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, and <a href="http://ardalis.com">Steve Smith</a></p>
+<p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/performance/caching/response/sample">View or download sample code</a></p>
+<h2 id="what-is-response-caching">What is Response Caching</h2>
+<p><em>Response caching</em> adds cache-related headers to responses. These headers specify how you want client, proxy and middleware to cache responses. Response caching can reduce the number of requests a client or proxy makes to the web server. Response caching can also reduce the amount of work the web server performs to generate the response. </p>
+<p>The primary HTTP header used for caching is <code>Cache-Control</code>. See the <a href="https://tools.ietf.org/html/rfc7234#section-5.2">HTTP 1.1 Caching</a> for more information. Common cache directives:</p>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc7234#section-5.2.2.5">public</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7234#section-5.2.2.6">private</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7234#section-5.2.1.4">no-cache</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7234#section-5.4">Pragma</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7231#section-7.1.4">Vary</a></li>
+</ul>
+<p>The web server can cache responses by adding the response caching middleware. See <a href="middleware.html">Response caching middleware</a> for more information.</p>
+<h2 id="responsecache-attribute">ResponseCache Attribute</h2>
+<p>The <code>ResponseCacheAttribute</code> specifies the parameters necessary for setting appropriate headers in response caching. See <a href="https://docs.microsoft.com/en-us/aspnet/core/api/microsoft.aspnetcore.mvc.responsecacheattribute">ResponseCacheAttribute</a>  for a description of the parameters.</p>
+<div class="WARNING"><h5>警告</h5><p>Disable caching for content that contains information for authenticated clients. Caching should only be enabled for content that does not change based on a user&#39;s identity, or whether a user is logged in.</p>
+</div>
+<p><code>VaryByQueryKeys string[]</code> (requires ASP.NET Core 1.1.0 and higher): When set, the response caching middleware will vary the stored response by the values of the given list of query keys. The response caching middleware must be enabled to set the <code>VaryByQueryKeys</code> property, otherwise a runtime exception will be thrown. There is no corresponding HTTP header for the <code>VaryByQueryKeys</code> property. This property is an HTTP feature handled by the response caching middleware. For the middleware to serve a cached response, the query string and query string value must match a previous request. For example, consider the following sequence:</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>http://example.com?key1=value1</code></td>
+<td>returned from server</td>
+</tr>
+<tr>
+<td><code>http://example.com?key1=value1</code></td>
+<td>returned from middleware</td>
+</tr>
+<tr>
+<td><code>http://example.com?key1=value2</code></td>
+<td>returned from server</td>
+</tr>
+</tbody>
+</table>
+<p>The first request is returned by the server and cached in middleware. The second request is returned by middleware because the query string matches the previous request. The third request is not in the middleware cache because the query string value doesn&#39;t match a previous request. </p>
+<p>The <code>ResponseCacheAttribute</code> is used to configure and create (via <code>IFilterFactory</code>) a <code>ResponseCacheFilter</code>. The <code>ResponseCacheFilter</code> performs the work of updating the appropriate HTTP headers and features of the response. The filter:</p>
+<ul>
+<li>Removes any existing headers for <code>Vary</code>, <code>Cache-Control</code>, and <code>Pragma</code>. </li>
+<li>Writes out the appropriate headers based on the properties set in the <code>ResponseCacheAttribute</code>. </li>
+<li>Updates the response caching HTTP feature if <code>VaryByQueryKeys</code> is set.</li>
+</ul>
+<h3 id="vary">Vary</h3>
+<p>This header is only written when the <code>VaryByHeader</code> property is set. It is set to the <code>Vary</code> property&#39;s value. The following sample uses the <code>VaryByHeader</code> property.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1">[ResponseCache(VaryByHeader = &quot;User-Agent&quot;, Duration = 30)]
+public IActionResult About2()
+{
+</code></pre><p>You can view the response headers with your browsers network tools. The following image shows the Edge F12 output on the <strong>Network</strong> tab when the <code>About2</code> action method is refreshed. </p>
+<p><img src="response/static/vary.png" alt="Edge F12 output on the **Network** tab when the `About2` action method is called"></p>
+<h3 id="nostore-and-locationnone">NoStore and Location.None</h3>
+<p><code>NoStore</code> overrides most of the other properties. When this property is set to <code>true</code>, the <code>Cache-Control</code> header will be set to &quot;no-store&quot;. If <code>Location</code> is set to <code>None</code>:</p>
+<ul>
+<li><code>Cache-Control</code> is set to <code>&quot;no-store, no-cache&quot;</code>. </li>
+<li><code>Pragma</code> is set to <code>no-cache</code>. </li>
+</ul>
+<p>If <code>NoStore</code> is <code>false</code> and <code>Location</code> is <code>None</code>,  <code>Cache-Control</code> and <code>Pragma</code> will be set to <code>no-cache</code>.</p>
+<p>You typically set <code>NoStore</code> to <code>true</code> on error pages. For example:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1">[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+public IActionResult Error()
+{
+    return View();
+}
+</code></pre><p>This will result in the following headers:</p>
+<pre><code class="lang-javascript">Cache-Control: no-store,no-cache
+Pragma: no-cache
+</code></pre><h3 id="location-and-duration">Location and Duration</h3>
+<p>To enable caching, <code>Duration</code> must be set to a positive value and <code>Location</code> must be either <code>Any</code> (the default) or <code>Client</code>. In this case, the <code>Cache-Control</code> header will be set to the location value followed by the &quot;max-age&quot; of the response.</p>
+<div class="NOTE"><h5>备注</h5><p><code>Location</code>&#39;s options of <code>Any</code> and <code>Client</code> translate into <code>Cache-Control</code> header values of <code>public</code> and <code>private</code>, respectively. As noted previously, setting <code>Location</code> to <code>None</code> will set both <code>Cache-Control</code> and <code>Pragma</code> headers to <code>no-cache</code>.</p>
+</div>
+<p>Below is an example showing the headers produced by setting <code>Duration</code> and leaving the default <code>Location</code> value.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1">[ResponseCache(Duration = 60)]
+public IActionResult Contact()
+{
+    ViewData[&quot;Message&quot;] = &quot;Your contact page.&quot;;
+
+    return View();
+}
+</code></pre><p>Produces the following headers:</p>
+<pre><code class="lang-javascript">Cache-Control: public,max-age=60
+</code></pre><h3 id="cache-profiles">Cache Profiles</h3>
+<p>Instead of duplicating <code>ResponseCache</code> settings on many controller action attributes, cache profiles can be configured as options when setting up MVC in the <code>ConfigureServices</code> method in <code>Startup</code>. Values found in a referenced cache profile will be used as the defaults by the <code>ResponseCache</code> attribute, and will be overridden by any properties specified on the attribute.</p>
+<p>Setting up a cache profile:</p>
+<pre><code class="lang-csharp" name="Main">public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc(options =&gt;
+    {
+        options.CacheProfiles.Add(&quot;Default&quot;,
+            new CacheProfile()
+            {
+                Duration = 60
+            });
+        options.CacheProfiles.Add(&quot;Never&quot;,
+            new CacheProfile()
+            {
+                Location = ResponseCacheLocation.None,
+                NoStore = true
+            });
+    });
+}
+</code></pre><p>Referencing a cache profile:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1,4">[ResponseCache(Duration = 30)]
+public class HomeController : Controller
+{
+    [ResponseCache(CacheProfileName = &quot;Default&quot;)]
+    public IActionResult Index()
+    {
+        return View();
+    }
+</code></pre><p>The <code>ResponseCache</code> attribute can be applied both to actions (methods) as well as controllers (classes). Method-level attributes will override the settings specified in class-level attributes.</p>
+<p>In the above example, a class-level attribute specifies a duration of 30 seconds while a method-level attributes references a cache profile with a duration set to 60 seconds.</p>
+<p>The resulting header:</p>
+<pre><code>Cache-Control: public,max-age=60
+</code></pre><h3 id="additional-resources">Additional Resources</h3>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc7234#section-3">Caching in HTTP from the specification</a></li>
+<li><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">Cache-Control</a></li>
+</ul>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/performance/caching/response.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

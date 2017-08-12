@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#28155;&#21152;&#26032;&#23383;&#27573; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#28155;&#21152;&#26032;&#23383;&#27573; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app-xplat/new-field">
+<h1 id="添加新字段">添加新字段</h1>
+
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler）</a> </p>
+<p>在这个教程里将会添加一个新的字段到  <code>Movies</code> 表，当我们改动数据库结构（添加一个字段）的时候，我们会删除数据库并重建一个新的库。这个工作流程在早期开发环境且没有任何生产数据要保留的情况下会工作的比较良好。</p>
+<p>一旦你的应用程序部署了并且有生产数据希望保留了，当你修改数据库的结构的时候你就不能删除数据库了，Entity Framework 的 <a href="http://docs.efproject.net/en/latest/platforms/aspnetcore/new-db.html">Code First Migrations</a> 允许你更新数据库结构并迁移数据库不丢失数据。当使用 SQL Server 数据库的时候，Migrations是一个不错的功能，但是 SQLlite 并不支持所有 migration 操作，所以只能使用一些简单的 migration，参考 <a href="https://docs.microsoft.com/ef/core/providers/sqlite/limitations">SQLite Limitations</a>获取更多信息。</p>
+<h2 id="添加一个-rating-字段到-movie-模型">添加一个 Rating 字段到 Movie 模型</h2>
+<p>打开 <em>Models/Movie.cs</em> 文件，添加一个 <code>Rating</code> 属性：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="11">public class Movie
+{
+    public int ID { get; set; }
+    public string Title { get; set; }
+
+    [Display(Name = &quot;Release Date&quot;)]
+    [DataType(DataType.Date)]
+    public DateTime ReleaseDate { get; set; }
+    public string Genre { get; set; }
+    public decimal Price { get; set; }
+    public string Rating { get; set; }
+}
+</code></pre><p>因为你已经在 <code>Movie</code> 类添加了一个新的字段，你还需要更新绑定的白名单，这样这个新的属性将包括在内。为了 <code>Create</code> 和 <code>Edit</code> action 方法包含 <code>Rating</code> 属性需要更新<code>[Bind]</code>特性：</p>
+<pre><code class="lang-csharp">[Bind(&quot;ID,Title,ReleaseDate,Genre,Price,Rating&quot;)]
+</code></pre><p>为了把这个字段显示出来你必须更新视图，在浏览器视图中创建或者编辑一个新的 <code>Rating</code> 属性。</p>
+<p>编辑 <em>/Views/Movies/Index.cshtml</em> 文件并添加一个 <code>Rating</code> 字段：</p>
+<pre><code class="lang-HTML" name="Main" highlight-lines="17,39">&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Title)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].ReleaseDate)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Genre)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Price)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Rating)
+            &lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var item in Model.movies)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Title)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.ReleaseDate)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Genre)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Price)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Rating)
+                &lt;/td&gt;
+                &lt;td&gt;
+</code></pre><p>更新 <em>/Views/Movies/Create.cshtml</em> 文件添加 <code>Rating</code> 字段。</p>
+<p>应用程序无法工作，直到我们更新了数据库包含新的字段。如果你现在运行程序，你将得到下面的 <code>SqlException</code> ：</p>
+<pre><code>SqliteException: SQLite Error 1: &#39;no such column: m.Rating&#39;.
+</code></pre><p>你看到这个错误是因为更新过的 Movie 模型类与数据库中存在的 Movie 的结构是不同的。（数据库表中没有 Rating 列）</p>
+<p>有以下几种方法解决这个错误：</p>
+<ol>
+<li><p>Entity Framework 可以基于新的模型类自动删除并重建数据库结构。在开发环节的早期阶段，当你在测试数据库上积极做开发的时候，这种方式是非常方便的；它可以同时让你快速地更新模型类和数据库结构。但是，缺点是你会丢失数据库中的现有的数据 —— 因此你不想在生产数据库中使用这种方法！使用初始化器自动初始化数据库并填充测试数据，往往是开发应用程序的一个有效方式。</p>
+</li>
+<li><p>显式修改现有数据库的结构使得它与模型类相匹配。这种方法的好处是，你可以保留录入过的数据。你可以手动修改或通过执行一个自动创建的数据库更改脚本进行变更。</p>
+</li>
+<li><p>采用 Code First 迁移来更新数据库结构。</p>
+</li>
+</ol>
+<p>对于本教程，我们采用删除并重建数据库的方式来更新数据库结构。 在终端窗口中运行下面的命令来删除数据库：</p>
+<p><code>dotnet ef database drop</code></p>
+<p>更新 <code>SeedData</code> 类以便于为新的的字段提供填充值。下面展示一个变更的例子，你可能希望将这个变更应用到每个 <code>new Movie</code> 。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="6">new Movie
+{
+    Title = &quot;When Harry Met Sally&quot;,
+    ReleaseDate = DateTime.Parse(&quot;1989-1-11&quot;),
+    Genre = &quot;Romantic Comedy&quot;,
+    Rating = &quot;R&quot;,
+    Price = 7.99M
+},
+</code></pre><p>将 <code>Rating</code> 字段添加到 <code>Edit</code>、<code>Details</code> 和 <code>Delete</code> 视图模板中。</p>
+<p>运行应用程序并验证你可以用 <code>Rating</code> 字段 create/edit/display 电影。</p>
+<div class="step-by-step"><p><a href="search.html">上一节 - 添加搜索</a>
+<a href="validation.html">下一节 - 添加验证</a>  </p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/first-mvc-app-xplat/new-field.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

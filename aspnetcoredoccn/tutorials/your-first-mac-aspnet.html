@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#29992; Visual Studio Code &#22312; mac &#25110;&#32773; linux &#19978;&#21019;&#24314;&#39318;&#20010; ASP.NET Core &#24212;&#29992;&#31243;&#24207; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#29992; Visual Studio Code &#22312; mac &#25110;&#32773; linux &#19978;&#21019;&#24314;&#39318;&#20010; ASP.NET Core &#24212;&#29992;&#31243;&#24207; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/your-first-mac-aspnet">
+<h1 id="用-visual-studio-code-在-mac-或者-linux-上创建首个-aspnet-core-应用程序">用 Visual Studio Code 在 mac 或者 linux 上创建首个 ASP.NET Core 应用程序</h1>
+
+<p>翻译 <a href="https://github.com/rdzzg">赵志刚</a></p>
+<p>校对 <a href="https://github.com/UtilCore">何镇汐</a>、<a href="http://github.com/alexinea">刘怡(AlexLEWIS)</a></p>
+<p>本节将展示如何在 macOS 或者 Linux 平台上创建首个 ASP.NET Core 应用程序。</p>
+<h2 id="配置开发环境">配置开发环境</h2>
+<p>在开发机中下载并安装 <a href="https://microsoft.com/net/core">.NET Core</a> 以及 <a href="https://code.visualstudio.com">Visual Studio Code</a> 并且安装 <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp">C# 扩展</a>.</p>
+<h2 id="使用-dotnet-new-来构建程序基架">使用 dotnet new 来构建程序基架</h2>
+<p>我们可以使用 <code>dotnet new</code> 调用 &quot;Empty Web Template&quot; 模版来生成一个新的 Web 应用程序。 在你的项目中创建一个名为 <em>firstapp</em> 的工作目录。跳转到 <em>firstapp</em>。</p>
+<p>启动 Visual Studio Code 并且代开 <em>firstapp</em> 目录。 点击 Ctrl + &#39;`&#39; (反引号字符) 打开 VS Code 内置终端。 你也可以使用独立终端窗口。
+运行 <code>dotnet new</code> 命令创建一个新闻Web 应用程序， 传递 <code>mvc</code> 参数作为模版类型。</p>
+<pre><code class="lang-console">dotnet new mvc
+</code></pre><p>如果你运行 <code>dotnet new mvc</code> 时遇到错误，安装最新的 <a href="https://microsoft.com/net/core">.NET Core</a>。当 CLI 命令运行完毕以后， 会产生以下输出和文件：</p>
+<pre><code class="lang-console">Content generation time: 79.6691 ms
+The template &quot;Empty ASP.NET Core Web Application&quot; created successfully.
+</code></pre><!-- the ~ format is perferred but not working on DocFX. It does work on OPS. See bug https://mseng.visualstudio.com/DefaultCollection/VSChina/_workitems#_a=edit&id=959814
+[!INCLUDE[template files](~/includes/template-files.md)]
+-->
+<ul>
+<li>Startup.cs : <a href="../fundamentals/startup.html">Startup 类</a> - 配置请求管道的类，处理所有所有由应用程序产生的管道请求。</li>
+<li>Program.cs : <a href="../fundamentals/index.html">Program 类</a> 应用程序的主入口点。</li>
+<li>firstapp.csproj : <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/preview3/tools/csproj">Project 文件</a> ASP.NET Core 应用程序的 MSBuild 格式项目文件。包含项目间的引用， NuGet引用以及其他项目关联项。</li>
+<li>appsettings.json / appsettings.Development.json : 基于环境的应用配置文件。 <a class="xref" href="../fundamentals/configuration.html">参考配置</a>。</li>
+<li>bower.json : 项目 Bower 依赖包。</li>
+<li>.bowerrc : 当 Bower 下载文件时用来定义组件安装位置的配置文件。</li>
+<li>bundleconfig.json : 设置前端 JavaScript 和 CSS 文件压缩绑定的配置文件。</li>
+<li>Views : 包含 Razor 视图，视图是显示应用程序用户界面的组件，用户界面会呈现模型数据。</li>
+<li>Controllers : 包含 MVC 控制器， 默认控制器为 <em>HomeController.cs</em>。控制器是处理请求的类。</li>
+<li>wwwroot : Web 应用程序根目录。</li>
+</ul>
+<p>更多信息请参考 <a class="xref" href="../mvc/overview.html">The MVC 模式</a>.</p>
+<h2 id="使用-visual-studio-code-在-mac-或者-linux-环境下开发-aspnet-core-应用程序">使用 Visual Studio Code 在 Mac 或者 Linux 环境下开发 ASP.NET Core 应用程序</h2>
+<p>使用 Visual Studio Code (VS Code) 打开项目目录选择 <em>Startup.cs</em> 文件。 VS Code 会弹出需要还原项目依赖以及添加 build/debug 依赖。点击 <strong>Yes</strong> 来添加 build 以及 debug 附件，点击 <strong>Restore</strong> 来还原项目依赖。</p>
+<p><img src="your-first-mac-aspnet/static/debug-add-items-prompt.png" alt="Info messages: 2. 2. Required assets to build and debug are missing from your project. Add them?"></p>
+<p>除了 <strong>Restore</strong>， 你也可以在终端使用 <code>dotnet restore</code> 或者像如下所示在VS Code输入 <code>⌘⇧P</code> 或 <code>Ctrl+Shift+P</code> 点击 <code>.NET</code> ：</p>
+<p><img src="your-first-mac-aspnet/static/dot-restore.png" alt="Command bar showing autocompletion option on typing &#39;dot&#39; for &#39;dotnet: Restore Packages&#39;"></p>
+<p>VS Code 提供了一个用于处理文件的流式，简洁的界面和高效的编码环境。</p>
+<p>在右侧导航栏，有5个图标，代表5个面板：</p>
+<ul>
+<li>浏览</li>
+<li>搜索</li>
+<li>Git</li>
+<li>调试</li>
+<li>扩展</li>
+</ul>
+<p>浏览面板提供你打开的文件目录导航。如果你有未保存文件会显示一个徽章。你可以在视图中创建新的文件和文件夹. 当鼠标移动到上面的时候你可以选择 <strong>Save All</strong> 菜单。</p>
+<p>搜索面板允许你查询当前打开的目录树中的文件。 支持检索文件名和文件内容。</p>
+<p>如果你的系统中安装了 GIT <em>VS Code</em> 会自动集成。 你可以在 Git 面板中初始化代码仓库，提交修改，推送变更。</p>
+<p><img src="your-first-mac-aspnet/static/vscode-git.png" alt="GIT sidebar indicating &#39;This workspace isn&#39;t yet under git source control&#39; with an &#39;Initialize git repository&#39; button"></p>
+<p>调试面板支持应用程序的交互式调试。</p>
+<p>VS Code 的编辑器还提供了一些非常棒的特性，比如你会注意到未使用的 using 语句会带有下划线，当出现电灯图标时可使用 <code>⌘ .</code> 或者 <code>Ctrl + .</code> 自动移除之。类和方法同样可显示在本项目中的引用次数。</p>
+<p>更多编辑器请参考 <a href="https://code.visualstudio.com">Visual Studio Code</a>.</p>
+<h2 id="使用-vs-code-调试">使用 VS Code 调试</h2>
+<p>本示例配置使用 <a href="../fundamentals/servers/kestrel.html">Kestrel</a> 作为 Web 服务器。</p>
+<p>在调试面板中运行应用程序：</p>
+<ul>
+<li><p>在右侧面板视图栏点击调试图标</p>
+</li>
+<li><p>点击 &quot;运行 (F5)&quot; 图标来启动程序</p>
+</li>
+</ul>
+<p><img src="your-first-mac-aspnet/static/launch-debugger.png" alt="DEBUG sidebar showing the triangle play button"></p>
+<p>你的浏览器会自动启动并且导航到 <code>http://localhost:5000</code></p>
+<p><img src="your-first-mac-aspnet/static/myfirstapp.png" alt="Browser window"></p>
+<ul>
+<li>停止运行程序， 可以关闭浏览器并点击调试栏的 &quot;停止&quot; 图标</li>
+</ul>
+<p><img src="your-first-mac-aspnet/static/debugger.png" alt="VS Code Debug bar"></p>
+<h3 id="使用-dotnet-命令">使用 dotnet 命令</h3>
+<ul>
+<li><p>运行 <code>dotnet run</code> 命令从 终端/bash 启动应用程序</p>
+</li>
+<li><p>浏览 <code>http://localhost:5000</code></p>
+</li>
+<li><p>按下 <code>⌃+C</code> or <code>Ctrl+C</code> 停止 Web 服务。</p>
+</li>
+</ul>
+<h2 id="发布到--azure">发布到  Azure</h2>
+<p>一旦在 Microsoft Azure 部署了你的应用程序，你便可轻松地通过 Visual Studio Code 中集成的 GIT 功能将产品的更新推送到生产环境。</p>
+<h3 id="初始化-git">初始化 Git</h3>
+<p>为你的工作文件夹初始化 GIT。切换到Git视图 然后点击 Initialize Git repository 按钮。</p>
+<p><img src="your-first-mac-aspnet/static/vscode-git-commit.png" alt="GIT sidebar"></p>
+<p>填写提交信息并点击提交，或点击复选框来提交暂存文件。</p>
+<p><img src="your-first-mac-aspnet/static/init-commit.png" alt="GIT sidebar showing file changes"></p>
+<p>GIT 会跟踪变更，所以如果你更新了文件，Git 面板将显示上次提交之后修改过的文件。</p>
+<h3 id="initialize-azure-website">Initialize Azure Website</h3>
+<p>通过 git 将应用程序直接部署到 Azure。</p>
+<ul>
+<li>如果你没有 Azure 账号，你可以<a href="http://azure.microsoft.com/en-us/pricing/free-trial/">免费创建一个试用账号</a>。</li>
+</ul>
+<p>在 Azure 门户中创建一个 Web 应用来托管你的新的应用程序。</p>
+<p><img src="your-first-mac-aspnet/static/create-web-app.png" alt="Microsoft Azure Portal: New button: Web + Mobile selection in the Marketplace list reveals a Web App button under Featured Apps"></p>
+<p>配置 Azure Web 应用程序支持<a href="https://azure.microsoft.com/en-us/documentation/articles/app-service-deploy-local-git/">使用 Git 持续部署</a>。</p>
+<p>将此 Web 应用程序在 Azure 中的 Git URL 记录下来:</p>
+<p><img src="your-first-mac-aspnet/static/azure-portal.png" alt="Azure Portal for web application: Overview panel"></p>
+<p>在终端窗口中，用之前记下的 Git URL 新建一个名为 <code>azure</code>的远程主机。</p>
+<p><code>git remote add azure https://shayneboyer@myfirstappmac.scm.azurewebsites.net:443/MyFirstAppMac.git</code></p>
+<p>推送到 master 分支。部署： <code>git push azure master</code>。</p>
+<p>   <img src="your-first-mac-aspnet/static/git-push-azure-master.png" alt="Command window showing a successful deployment"></p>
+<p>浏览刚才部署的 Web 应用程序。</p>
+<p><img src="your-first-mac-aspnet/static/azure.png" alt="Browser window"></p>
+<p>在 Azure 门户中查看部署细节，你可以看到每个步骤的时间以及分支被提交了一次。</p>
+<p><img src="your-first-mac-aspnet/static/deployment.png" alt="Azure Portal for web application: Deployment Details"></p>
+<h2 id="其他资源">其他资源</h2>
+<ul>
+<li><a href="https://code.visualstudio.com">Visual Studio Code</a></li>
+<li><a href="../fundamentals/index.html">原理</a></li>
+</ul>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/your-first-mac-aspnet.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

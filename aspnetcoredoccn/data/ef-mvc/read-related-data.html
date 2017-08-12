@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ASP.NET Core MVC &#19982; EF Core - &#35835;&#21462;&#20851;&#32852;&#25968;&#25454; - 6 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#35835;&#21462;&#20851;&#32852;&#25968;&#25454; - 6 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="data/ef-mvc/read-related-data">
+<h1 id="读取关联数据---aspnet-core-mvc-与-ef-core-教程-6-of-10">读取关联数据 - ASP.NET Core MVC 与 EF Core 教程 (6 of 10)</h1>
+
+<p>作者 <a href="https://github.com/tdykstra">Tom Dykstra</a> 、 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="http://github.com/alexinea">刘怡(AlexLEWIS/Forerunner)</a> </p>
+<!--The Contoso University sample web application demonstrates how to create ASP.NET Core 1.1 MVC web applications using Entity Framework Core 1.1 and Visual Studio 2017. For information about the tutorial series, see [the first tutorial in the series](intro.md).-->
+<p>Contoso 大学 Web应用程序演示了如何使用 Entity Framework Core 1.1 以及 Visual Studio 2017 来创建 ASP.NET Core 1.1 MVC Web 应用程序。更多信息请参考 <a href="intro.html">第一节教程</a>.</p>
+<!--In the previous tutorial you completed the School data model. In this tutorial you'll read and display related data -- that is, data that the Entity Framework loads into navigation properties.-->
+<p>在上一篇教程中，你已经完成了 School 数据模型的设计。在本教程中你将读取并显示关联数据——也就是说由 Entity Framework 加载到导航属性中的数据。</p>
+<!--The following illustrations show the pages that you'll work with.-->
+<p>下图展示了你将使用到的页面：</p>
+<p><img src="read-related-data/static/courses-index.png" alt="Courses Index page"></p>
+<p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page"></p>
+<!--## Eager, explicit, and lazy Loading of related data-->
+<h2 id="对关联数据的预加载显式加载与延迟加载">对关联数据的预加载、显式加载与延迟加载</h2>
+<!--There are several ways that Object-Relational Mapping (ORM) software such as Entity Framework can load related data into the navigation properties of an entity:-->
+<p>对象关系映射（ORM）软件（例如 Entity Framework）可以通过多种途径加载关联数据到某实体的导航属性中：</p>
+<!--* Eager loading. When the entity is read, related data is retrieved along with it. This typically results in a single join query that retrieves all of the data that's needed. You specify eager loading in Entity Framework Core by using the `Include` and `ThenInclude` methods.
+
+  ![Eager loading example](read-related-data/_static/eager-loading.png)
+
+  You can retrieve some of the data in separate queries, and EF "fixes up" the navigation properties.  That is, EF automatically adds the separately retrieved entities where they belong in navigation properties of previously retrieved entities. For the query that retrieves related data, you can use the `Load` method instead of a method that returns a list or object, such as `ToList` or `Single`.
+
+  ![Separate queries example](read-related-data/_static/separate-queries.png)
+
+* Explicit loading. When the entity is first read, related data isn't retrieved. You write code that retrieves the related data if it's needed. As in the case of eager loading with separate queries, explicit loading results in multiple queries sent to the database. The difference is that with explicit loading, the code specifies the navigation properties to be loaded. In Entity Framework Core 1.1 you can use the `Load` method to do explicit loading. For example:
+
+  ![Explicit loading example](read-related-data/_static/explicit-loading.png)
+
+* Lazy loading. When the entity is first read, related data isn't retrieved. However, the first time you attempt to access a navigation property, the data required for that navigation property is automatically retrieved. A query is sent to the database each time you try to get data from a navigation property for the first time. Entity Framework Core 1.0 does not support lazy loading.-->
+<ul>
+<li><p>预加载（Eager Loading）。当实体被读取时，关联数据与其一道被检索。这通常会出现在通过单个连接查询检索所有所需数据的情况中。你在使用 Entity Framework Core 的  <code>Include</code> 和 <code>ThenInclude</code> 方法时就会指定使用预加载。</p>
+<p><img src="read-related-data/static/eager-loading.png" alt="Eager loading example"></p>
+<p>你可以在单独的查询中检索一些数据，这样 EF 会「修复」导航属性。这句话的意思是说，在之前检索得出的实体中，EF 会自动为其中的导航属性单独检索，并将所得实体添加到这些导航属性中。对于检索关联数据的查询，你可以使用 <code>Load</code> m方法来代替 <code>ToList</code> 或 <code>Single</code>方法（后者会返回一组或单个结果）。</p>
+<p><img src="read-related-data/static/separate-queries.png" alt="Separate queries example"></p>
+</li>
+<li><p>显示加载（Explicit Loading）。当实体首次读取时，关联数据并没有被检索出来。关联数据由你自己编写代码来检索。与预加载中加载单独查询相比，显式加载通过向数据库发送多个查询来加载结果。两者的区别在于，在使用显式加载时，需要用代码将数据加载到导航属性中。Entity Framework Core 1.0 不提供显式加载 API。</p>
+<p><img src="read-related-data/static/explicit-loading.png" alt="Explicit loading example"></p>
+</li>
+<li><p>延迟加载（Lazy Loading）。当实体首次读取时，关联属性不会被检索。当首次尝试访问导航属性时，将自动检索该导航属性所需的数据。每次尝试获取数据时，只要是首次获取数据都将向数据库发出一次查询。Entity Framework Core 1.0 不支持延迟加载。</p>
+</li>
+</ul>
+<!--### Performance considerations-->
+<h3 id="性能问题">性能问题</h3>
+<!--If you know you need related data for every entity retrieved, eager loading often offers the best performance, because a single query sent to the database is typically more efficient than separate queries for each entity retrieved. For example, suppose that each department has ten related courses. Eager loading of all related data would result in just a single (join) query and a single round trip to the database. A separate query for courses for each department would result in eleven round trips to the database. The extra round trips to the database are especially detrimental to performance when latency is high.-->
+<p>如果你知道你每个检索的得到的实体都需要关联数据，那么使用预加载（Eager Loading）会性能更好，因为向数据库发送单个查询总比每个检索所得的实体单独向数据库发送请求来得高效。举个例子，假设每个部门有十个与之关联的课程。所有关联数据使用预加载去检索的话，只需要一次（连接）查询、往返数据库一次即可。如果是针对每门课程单独查询，那么将导致十一次往返。当延迟较高时，对数据库的额外往返会对访问性能产生不利影响。</p>
+<!--On the other hand, in some scenarios separate queries is more efficient. Eager loading of all related data in one query might cause a very complex join to be generated, which SQL Server can't process efficiently. Or if you need to access an entity's navigation properties only for a subset of a set of the entities you're processing, separate queries might perform better because eager loading of everything up front would retrieve more data than you need. If performance is critical, it's best to test performance both ways in order to make the best choice.-->
+<p>另一方面，在某些情况下单独查询效率则会更高。在一个查询中预加载所有关联数据会导致生成非常复杂的、连 SQL Server 对此的处理都不甚高效的连接语句。或者如果你只需要查询某个实体（正在处理的实体集）的导航属性（该实体集的子集），单独查询的执行效率可能会更好一些，因为事先加载所有数据的预加载对你而言显然数据量显得有些多。如果性能对你很重要，最好对两种方式进行对比测试，选出性能最佳者。</p>
+<!--## Create a Courses page that displays Department name-->
+<h2 id="创建显示-department-名称的-courses-页">创建显示 Department 名称的 Courses 页</h2>
+<!--The Course entity includes a navigation property that contains the Department entity of the department that the course is assigned to. To display the name of the assigned department in a list of courses, you need to get the Name property from the Department entity that is in the `Course.Department` navigation property.-->
+<p>Course 实体所包含的导航属性中含有课程所分配到的部门的 Department 实体。为了显示这些课程所分配到的部门的名称，你需要从 Department 实体中获取 Name 属性，该属性位于 <code>Course.Department</code> 导航属性之中。</p>
+<!--Create a controller named CoursesController for the Course entity type, using the same options for the **MVC Controller with views, using Entity Framework** scaffolder that you did earlier for the Students controller, as shown in the following illustration:-->
+<p>为 Course 实体类型创建名为 CoursesController 的控制器，使用与先前你为 Students 控制器一样配置的<strong>使用 Entity Framework、带有视图的 MVC 控制器</strong>基架，如下图所示：</p>
+<p><img src="read-related-data/static/add-courses-controller.png" alt="Add Courses controller"></p>
+<!--Open *CoursesController.cs* and examine the `Index` method. The automatic scaffolding has specified eager loading for the `Department` navigation property by using the `Include` method.-->
+<p>打开 <em>CourseController.cs</em> 文件，检查 <code>Index</code> 方法。自动化的基架使用 <code>Include</code> 方法来指定针对 <code>Department</code> 导航属性的加载为预加载方式。</p>
+<!--Replace the `Index` method with the following code that uses a more appropriate name for the `IQueryable` that returns Course entities (`courses` instead of `schoolContext`):-->
+<p>用以下代码替换 <code>Index</code> 方法，并使用一个更合适的名称为 <code>IQueryable</code> 回 Course 实体（用 <code>courses</code> 代替 <code>schoolContext</code>）：</p>
+<pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index()
+{
+    var courses = _context.Courses
+        .Include(c =&gt; c.Department)
+        .AsNoTracking();
+    return View(await courses.ToListAsync());
+}
+</code></pre><!--Open *Views/Courses/Index.cshtml* and replace the template code with the following code. The changes are highlighted:-->
+<p>打开 <em>Views/Courses/Index.cshtml</em> 文件，用以下代码代替模板代码。改动高亮部分：</p>
+<pre><code class="lang-html" highlight-lines="4,7,15-17,34-36,44">@model IEnumerable&lt;ContosoUniversity.Models.Course&gt;
+
+@{
+    ViewData[&quot;Title&quot;] = &quot;Courses&quot;;
+}
+
+&lt;h2&gt;Courses&lt;/h2&gt;
+
+&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.CourseID)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.Title)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.Credits)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.Department)
+            &lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var item in Model)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.CourseID)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Title)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Credits)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Department.Name)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@item.CourseID&quot;&gt;Edit&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Details&quot; asp-route-id=&quot;@item.CourseID&quot;&gt;Details&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Delete&quot; asp-route-id=&quot;@item.CourseID&quot;&gt;Delete&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre><!--You've made the following changes to the scaffolded code:-->
+<p>如此，你针对基架代码做了如下变更：</p>
+<!--* Changed the heading from Index to Courses.
+
+* Added a **Number** column that shows the `CourseID` property value. By default, primary keys aren't scaffolded because normally they are meaningless to end users. However, in this case the primary key is meaningful and you want to show it.
+
+* Changed the **Department** column to display the department name. The code displays the `Name` property of the Department entity that's loaded into the `Department` navigation property:-->
+<ul>
+<li><p>将标题从 Index 改成了 Courses。</p>
+</li>
+<li><p>增加了一个用于显示 <code>CourseID</code> 属性值的 <strong>Number</strong> 列。默认情况下，并不显示主键，因为通常情况下队最终用户无意义。不过在本例中主键是有意义的，所以你想把它显示出来。</p>
+</li>
+<li><p>添加 <strong>Department</strong> 列。注意 <strong>Department</strong> 列显示的是被加载到 <code>Department</code> 导航属性的 Department 实体的 <code>Name</code> 属性：</p>
+<pre><code class="lang-html">@Html.DisplayFor(modelItem =&gt; item.Department.Name)
+</code></pre></li>
+</ul>
+<!--Run the page (select the Courses tab on the Contoso University home page) to see the list with department names.-->
+<p>运行页面（在 Contoso University 首页选择 Courses 标签），查看部门名称列表。</p>
+<p><img src="read-related-data/static/courses-index.png" alt="Courses Index page"></p>
+<!--## Create an Instructors page that shows Courses and Enrollments-->
+<h2 id="创建展示-courses-和-enrollments--的-instructors-页">创建展示 Courses 和 Enrollments  的 Instructors 页</h2>
+<!--In this section you'll create a controller and view for the Instructor entity in order to display the Instructors page:-->
+<p>在本节中你将学习为 Instructor 实体创建控制器和视图，用于显示 Instructor 页面：</p>
+<p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page"></p>
+<!--This page reads and displays related data in the following ways:-->
+<p>该页面以以下方式读取并显示关联数据：</p>
+<!--* The list of instructors displays related data from the OfficeAssignment entity. The Instructor and OfficeAssignment entities are in a one-to-zero-or-one relationship. You'll use eager loading for the OfficeAssignment entities. As explained earlier, eager loading is typically more efficient when you need the related data for all retrieved rows of the primary table. In this case, you want to display office assignments for all displayed instructors.
+
+* When the user selects an instructor, related Course entities are displayed. The Instructor and Course entities are in a many-to-many relationship. You'll use eager loading for the Course entities and their related Department entities. In this case, separate queries might be more efficient because you need courses only for the selected instructor. However, this example shows how to use eager loading for navigation properties within entities that are themselves in navigation properties.
+
+* When the user selects a course, related data from the Enrollments entity set is displayed. The Course and Enrollment entities are in a one-to-many relationship. You'll use separate queries for Enrollment entities and their related Student entities.-->
+<ul>
+<li><p>教师列表中显示来自 OfficeAssignment 实体的关联数据。Instructor 和 OfficeAssignment 实体之间的关系是一对零或一的关系。你需要为 OfficeAssignment 使用预加载的方式。如前所述，在你需要为所有从主表中检索出的结果添加关联数据的时候，预加载方式通常会比较高效。在本例中，你希望显示所有教师分配的办公室。</p>
+</li>
+<li><p>当用户选择教师时，与之相关的 Course 实体就会被显示。Instructor 和 Course 实体之间是多对多的关系。你将使用预加载的方式加载 Course 实体以及它相关的 Department 实体。在本例中，单独查询的性能会更好一些，因为你需要的课程信息只是为了选择教师。不过在本例中演示了如何利用预加载的方法加载自己就在当行属性的实体内的导航属性的数据</p>
+</li>
+<li><p>当用户选择一门课程后，来自 Enrollments 实体的关联数据被显示出来。Course 和 Enrollment 实体之间是一对多的关系。你将使用单独查询的方法检索 Enrollment 实体以及与之相关的 Student 实体。</p>
+</li>
+</ul>
+<!--### Create a view model for the Instructor Index view-->
+<h3 id="创建用于-instructor-索引视图的视图模型">创建用于 Instructor 索引视图的视图模型</h3>
+<!--The Instructors page shows data from three different tables. Therefore, you'll create a view model that includes three properties, each holding the data for one of the tables.-->
+<p>Instructors 页面中显示的数据来自三张不同的表。因此，你需要创建一个包含三个属性的视图，每一个属性对用一张表的数据。</p>
+<!--In the *SchoolViewModels* folder, create *InstructorIndexData.cs* and replace the existing code with the following code:-->
+<p>在 <em>SchoolViewModels</em> 文件夹中创建 <em>InstructorIndexData.cs</em> 文件，并用以下代码替换已存在的代码：</p>
+<pre><code class="lang-csharp" name="Main">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ContosoUniversity.Models.SchoolViewModels
+{
+    public class InstructorIndexData
+    {
+        public IEnumerable&lt;Instructor&gt; Instructors { get; set; }
+        public IEnumerable&lt;Course&gt; Courses { get; set; }
+        public IEnumerable&lt;Enrollment&gt; Enrollments { get; set; }
+    }
+}
+</code></pre><!--### Create the Instructor controller and views-->
+<h3 id="创建-instructor-控制器和视图">创建 Instructor 控制器和视图</h3>
+<!--Create an Instructors controller with EF read/write actions as shown in the following illustration:-->
+<p>创建一个带有 EF 读写操作的 Instructors 控制器，如下图所示：</p>
+<p><img src="read-related-data/static/add-instructors-controller.png" alt="Add Instructors controller"></p>
+<!--Open *InstructorsController.cs* and add a using statement for the ViewModels namespace:-->
+<p>打开 <em>InstructorsController.cs</em> 文件并添加添加一句 using 语句来启用视图模型的命名空间：</p>
+<pre><code class="lang-csharp" name="Main">using ContosoUniversity.Models.SchoolViewModels;
+</code></pre><!--Replace the Index method with the following code to do eager loading of related data and put it in the view model.-->
+<p>用以下代码替换 Index 方法中的代码，这段代码将预加载关联数据并将之放入视图模型中。</p>
+<pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index(int? id, int? courseID)
+{
+    var viewModel = new InstructorIndexData();
+    viewModel.Instructors = await _context.Instructors
+          .Include(i =&gt; i.OfficeAssignment)
+          .Include(i =&gt; i.CourseAssignments)
+            .ThenInclude(i =&gt; i.Course)
+                .ThenInclude(i =&gt; i.Enrollments)
+                    .ThenInclude(i =&gt; i.Student)
+          .Include(i =&gt; i.CourseAssignments)
+            .ThenInclude(i =&gt; i.Course)
+                .ThenInclude(i =&gt; i.Department)
+          .AsNoTracking()
+          .OrderBy(i =&gt; i.LastName)
+          .ToListAsync();
+    
+    if (id != null)
+    {
+        ViewData[&quot;InstructorID&quot;] = id.Value;
+        Instructor instructor = viewModel.Instructors.Where(
+            i =&gt; i.ID == id.Value).Single();
+        viewModel.Courses = instructor.CourseAssignments.Select(s =&gt; s.Course);
+    }
+
+    if (courseID != null)
+    {
+        ViewData[&quot;CourseID&quot;] = courseID.Value;
+        viewModel.Enrollments = viewModel.Courses.Where(
+            x =&gt; x.CourseID == courseID).Single().Enrollments;
+    }
+
+    return View(viewModel);
+}
+</code></pre><!--The method accepts optional route data (`id`) and a query string parameter (`courseID`) that provide the ID values of the selected instructor and selected course. The parameters are provided by the **Select** hyperlinks on the page.-->
+<p>方法接受可选的代表所选教师 ID 值的路由数据（<code>id</code>）以及代表所选课程 ID 值的查询字符串参数（<code>courseID</code>）。这些参数都由页面上的 <strong>Select</strong> 超链所提供。</p>
+<!--The code begins by creating an instance of the view model and putting in it the list of instructors. The code specifies eager loading for the `Instructor.OfficeAssignment` and the `Instructor.CourseAssignments` navigation properties. Within the `CourseAssignments` property, the `Course` property is loaded, and within that, the `Enrollments` and `Department` properties are loaded, and within each `Enrollment` entity the `Student` property is loaded.-->
+<p>这段代码首选创建了一个视图模型的示例，而后将教师列表放入其中。代码为 <code>Instructor.CourseAssignments</code> 和<code>Instructor.OfficeAssignment</code> 导航属性指定了预加载的方法。在 <code>CourseAssignments</code> 属性中， <code>Enrollments</code>  和 <code>Department</code> 属性都被加载了，在每一个 <code>Enrollment</code> 实体中e <code>Student</code> 属性也同样被加载了。</p>
+<pre><code class="lang-csharp" name="Main">viewModel.Instructors = await _context.Instructors
+      .Include(i =&gt; i.OfficeAssignment)
+      .Include(i =&gt; i.CourseAssignments)
+        .ThenInclude(i =&gt; i.Course)
+            .ThenInclude(i =&gt; i.Enrollments)
+                .ThenInclude(i =&gt; i.Student)
+      .Include(i =&gt; i.CourseAssignments)
+        .ThenInclude(i =&gt; i.Course)
+            .ThenInclude(i =&gt; i.Department)
+      .AsNoTracking()
+      .OrderBy(i =&gt; i.LastName)
+      .ToListAsync();
+</code></pre><!--Since the view always requires the OfficeAssignment entity, it's more efficient to fetch that in the same query. Course entities are required when an instructor is selected in the web page, so a single query is better than multiple queries only if the page is displayed more often with a course selected than without.-->
+<p>由于视图一直需要 OfficeAssignment 实体，因此在同一个请求中提取它会更有效率。当在页面中选中一个教师时需要 Course 实体，所以当页面会比较频繁地需要显示课程数据，那么单一查询明显优于多个查询。</p>
+<!--The code repeats `CourseAssignments` and `Course` because you need two properties from `Course`. The first string of `ThenInclude` calls gets `CourseAssignment.Course`, `Course.Enrollments`, and `Enrollment.Student`.-->
+<p>代码中的 <code>CourseAssignments</code> 和 <code>Course</code> 重复了，因为您需要 <code>Course</code>中的两个属性。 <code>ThenInclude</code> 的第一个调用得到<code>CourseAssignment.Course</code>, <code>Course.Enrollments</code>, 和 <code>Enrollment.Student</code>.。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="3-6">viewModel.Instructors = await _context.Instructors
+      .Include(i =&gt; i.OfficeAssignment)
+      .Include(i =&gt; i.CourseAssignments)
+        .ThenInclude(i =&gt; i.Course)
+            .ThenInclude(i =&gt; i.Enrollments)
+                .ThenInclude(i =&gt; i.Student)
+      .Include(i =&gt; i.CourseAssignments)
+        .ThenInclude(i =&gt; i.Course)
+            .ThenInclude(i =&gt; i.Department)
+      .AsNoTracking()
+      .OrderBy(i =&gt; i.LastName)
+      .ToListAsync();
+</code></pre><!--At that point in the code, another `ThenInclude` would be for navigation properties of `Student`, which you don't need. But calling `Include` starts over with `Instructor` properties, so you have to go through the chain again, this time specifying `Course.Department` instead of `Course.Enrollments`.-->
+<p>在代码中的那块上，另一个 <code>ThenInclude</code> 将用于 <code>Student</code>的导航属性，您不需要它。 但是，通过 <code>Instructor</code> 属性调用 <code>Include</code> 就可以重新开始，所以你必须重新遍历链接，这次指定 <code>Course.Department</code> 而不是<code>Course.Enrollments</code>。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="7-9">viewModel.Instructors = await _context.Instructors
+      .Include(i =&gt; i.OfficeAssignment)
+      .Include(i =&gt; i.CourseAssignments)
+        .ThenInclude(i =&gt; i.Course)
+            .ThenInclude(i =&gt; i.Enrollments)
+                .ThenInclude(i =&gt; i.Student)
+      .Include(i =&gt; i.CourseAssignments)
+        .ThenInclude(i =&gt; i.Course)
+            .ThenInclude(i =&gt; i.Department)
+      .AsNoTracking()
+      .OrderBy(i =&gt; i.LastName)
+      .ToListAsync();
+</code></pre><!--The following code executes when an instructor was selected. The selected instructor is retrieved from the list of instructors in the view model. The view model's `Courses` property is then loaded with the Course entities from that instructor's `CourseAssignments` navigation property.-->
+<p>当选择了教师时，执行以下代码。 从视图模型中的教师列表中检索选定的讲师。 视图模型的 <code>Courses</code> 属性随后由教师的 <code>CourseAssignments</code> 导航属性加载课程实体。</p>
+<pre><code class="lang-csharp" name="Main">#endregion
+
+if (id != null)
+{
+    ViewData[&quot;InstructorID&quot;] = id.Value;
+    Instructor instructor = viewModel.Instructors.Where(
+        i =&gt; i.ID == id.Value).Single();
+</code></pre><!--The `Where` method returns a collection, but in this case the criteria passed to that method result in only a single Instructor entity being returned. The `Single` method converts the collection into a single Instructor entity, which gives you access to that entity's `CourseAssignments` property. The `CourseAssignments` property contains `CourseAssignment` entities, from which you want only the related `Course` entities.-->
+<p> <code>Where</code> 方法返回一个集合，但在本例中该方法的条件只会返回一个 Instructor 实体。 <code>Single</code> 方法将集合转换为一个单独的 Instructor 实体，供你访问该实体中的  <code>CourseAssignments</code>属性。 <code>CourseAssignments</code>属性包含 <code>CourseAssignment</code> 实体，其中只有你所需的与该数据相关联的 <code>Course</code> 实体。</p>
+<!--You use the `Single` method on a collection when you know the collection will have only one item. The Single method throws an exception if the collection passed to it is empty or if there's more than one item. An alternative is `SingleOrDefault`, which returns a default value (null in this case) if the collection is empty. However, in this case that would still result in an exception (from trying to find a `Courses` property on a null reference), and the exception message would less clearly indicate the cause of the problem. When you call the `Single` method, you can also pass in the Where condition instead of calling the `Where` method separately:-->
+<p>当你知道集合中将只有一项时，你可以对该集合使用  <code>Single</code> 方法。当传入的集合为空（empty）或大于一条记录时，Single 方法会抛出异常。另一种方法叫  <code>SingleOrDefault</code> ，当传如入的集合为空（empty）时返回默认值（本例中为 null）。不过在本例中此处依旧会抛出异常（试图在空引用（null reference）中查找 <code>CourseAssignments</code> 属性），并且异常消息（exception message）也会很不清晰地指示导致该问题的原因。当你调用 <code>Single</code> 方法时，你可以传入 Where 条件，而不是去分别调用  <code>Where</code> 方法。比如用这段代码：</p>
+<pre><code class="lang-csharp">.Single(i =&gt; i.ID == id.Value)
+</code></pre><!--Instead of:-->
+<p>取代这段代码：</p>
+<pre><code class="lang-csharp">.Where(I =&gt; i.ID == id.Value).Single()
+</code></pre><!--Next, if a course was selected, the selected course is retrieved from the list of courses in the view model. Then the view model's `Enrollments` property is loaded with the Enrollment entities from that course's `Enrollments` navigation property.-->
+<p>下一步，如果选中一门课程，则从视图模型的课程列表中检索该门课程。然后视图模型的 <code>Enrollments</code> 属性被加载，其所加载的 Enrollment 实体来自被选课程的导航属性  <code>Enrollments</code> 。</p>
+<pre><code class="lang-csharp" name="Main">}
+
+if (courseID != null)
+{
+    ViewData[&quot;CourseID&quot;] = courseID.Value;
+    viewModel.Enrollments = viewModel.Courses.Where(
+</code></pre><!--### Modify the Instructor Index view-->
+<h3 id="修改-instructor-索引视图">修改 Instructor 索引视图</h3>
+<!--In *Views/Instructors/Index.cshtml*, replace the template code with the following code. The changes are highlighted.-->
+<p>在 <em>Views/Instructor/Index.cshtml</em> 中用下列代码替换模板代码。修改部分为高亮代码。</p>
+<pre><code class="lang-html" highlight-lines="1,3-7,18-19,41-54,56">@model ContosoUniversity.Models.SchoolViewModels.InstructorIndexData
+
+@{
+    ViewData[&quot;Title&quot;] = &quot;Instructors&quot;;
+}
+
+&lt;h2&gt;Instructors&lt;/h2&gt;
+
+&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Last Name&lt;/th&gt;
+            &lt;th&gt;First Name&lt;/th&gt;
+            &lt;th&gt;Hire Date&lt;/th&gt;
+            &lt;th&gt;Office&lt;/th&gt;
+            &lt;th&gt;Courses&lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var item in Model.Instructors)
+        {
+            string selectedRow = &quot;&quot;;
+            if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
+            {
+                selectedRow = &quot;success&quot;;
+            }
+            &lt;tr class=&quot;@selectedRow&quot;&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.LastName)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.FirstMidName)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.HireDate)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @if (item.OfficeAssignment != null)
+                    {
+                        @item.OfficeAssignment.Location
+                    }
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @{
+                        foreach (var course in item.CourseAssignments)
+                        {
+                            @course.Course.CourseID @:  @course.Course.Title &lt;br /&gt;
+                        }
+                    }
+                &lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a asp-action=&quot;Index&quot; asp-route-id=&quot;@item.ID&quot;&gt;Select&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@item.ID&quot;&gt;Edit&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Details&quot; asp-route-id=&quot;@item.ID&quot;&gt;Details&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Delete&quot; asp-route-id=&quot;@item.ID&quot;&gt;Delete&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+           }
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre><!--You've made the following changes to the existing code:-->
+<p>你此时已对代码做了如下变更：</p>
+<!--* Changed the model class to `InstructorIndexData`.
+
+* Changed the page title from **Index** to **Instructors**.
+
+* Added an **Office** column that displays `item.OfficeAssignment.Location` only if `item.OfficeAssignment` is not null. (Because this is a one-to-zero-or-one relationship, there might not be a related OfficeAssignment entity.)-->
+<ul>
+<li><p>将模型类改成了 <code>InstructorIndexData</code>。</p>
+</li>
+<li><p>将页面标题从 <strong>Index</strong> 改成了 <strong>Instructors</strong>。</p>
+</li>
+<li><p>添加了一个 <strong>Office</strong> 列，当且仅当 <code>item.OfficeAssignment.Location</code> 为 null 时方才显示 <code>item.OfficeAssignment</code> （因为这是一对零或一（one-to-zero-or-one）关系，存在没有相关联的 OfficeAssignment 实体的可能）。</p>
+<pre><code class="lang-html">@if (item.OfficeAssignment != null)
+{
+    @item.OfficeAssignment.Location
+}
+</code></pre></li>
+</ul>
+<!--* Added a **Courses** column that displays courses taught by each instructor.-->
+<ul>
+<li>添加 <strong>Courses</strong> 列用于显示每位教师所教授的课程。</li>
+</ul>
+<!--* Added code that dynamically adds `class="success"` to the `tr` element of the selected instructor. This sets a background color for the selected row using a Bootstrap class.-->
+<ul>
+<li><p>添加一段能动态添加 <code>class=&quot;success&quot;</code>到所选教师的 <code>tr</code> 元素中的代码块。该 CSS 样式用于将被选中行的背景颜色设置为一个 Bootstrap 类。</p>
+<pre><code class="lang-html">string selectedRow = &quot;&quot;;
+if (item.ID == (int?)ViewData[&quot;InstructorID&quot;])
+{
+    selectedRow = &quot;success&quot;;
+}
+</code></pre></li>
+</ul>
+<!--* Added a new hyperlink labeled **Select** immediately before the other links in each row, which causes the selected instructor's ID to be sent to the `Index` method.-->
+<ul>
+<li><p>在每行其他链接前添加一个新的标记为 <strong>Select</strong> 的超链，用于向 <code>Index</code> 方法发送所选教师的 ID。</p>
+<pre><code class="lang-html">&lt;a asp-action=&quot;Index&quot; asp-route-id=&quot;@item.ID&quot;&gt;Select&lt;/a&gt; |
+</code></pre></li>
+</ul>
+<!--Run the application and select the Instructors tab. The page displays the Location property of related OfficeAssignment entities and an empty table cell when there's no related OfficeAssignment entity.-->
+<p>运行应用程序并选择 Instructors 标签。当无任何关联 OfficeAssignment 实体时，页面将显示关联 OfficeAssignment 实体的 Location 属性以及空的表格单元格。</p>
+<p><img src="read-related-data/static/instructors-index-no-selection.png" alt="Instructors Index page nothing selected"></p>
+<!--In the *Views/Instructors/Index.cshtml* file, after the closing table element (at the end of the file), add the following code. This code displays a list of courses related to an instructor when an instructor is selected.-->
+<p>在 <em>Views/Instructors/Index.cshtml</em> 文件中，在表格元素之后（也就是这个文件的最后），添加下面这段代码。这段代码的作用是当选择一个教师时，显示该教师关联的课程清单。</p>
+<pre><code class="lang-html">@if (Model.Courses != null)
+{
+    &lt;h3&gt;Courses Taught by Selected Instructor&lt;/h3&gt;
+    &lt;table class=&quot;table&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;/th&gt;
+            &lt;th&gt;Number&lt;/th&gt;
+            &lt;th&gt;Title&lt;/th&gt;
+            &lt;th&gt;Department&lt;/th&gt;
+        &lt;/tr&gt;
+
+        @foreach (var item in Model.Courses)
+        {
+            string selectedRow = &quot;&quot;;
+            if (item.CourseID == (int?)ViewData[&quot;CourseID&quot;])
+            {
+                selectedRow = &quot;success&quot;;
+            }
+            &lt;tr class=&quot;@selectedRow&quot;&gt;
+                &lt;td&gt;
+                    @Html.ActionLink(&quot;Select&quot;, &quot;Index&quot;, new { courseID = item.CourseID })
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @item.CourseID
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @item.Title
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @item.Department.Name
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        }
+
+    &lt;/table&gt;
+}
+</code></pre><!--This code reads the `Courses` property of the view model to display a list of courses. It also provides a **Select** hyperlink that sends the ID of the selected course to the `Index` action method.-->
+<p>这段代码读取视图模型中的 <code>Courses</code> 属性，以便能显示课程列表。它同样提供了一个 <strong>Select</strong> 超链用于像 <code>Index</code> 操作方法发送被选课程的 ID。</p>
+<!--Run the page and select an instructor. Now you see a grid that displays courses assigned to the selected instructor, and for each course you see the name of the assigned department.-->
+<p>运行页面并选择一位教师。此刻你能看到一张显示有被分配给所选教师的课程的表格，以及每门课程被分配的部门的名称。</p>
+<p><img src="read-related-data/static/instructors-index-instructor-selected.png" alt="Instructors Index page instructor selected"></p>
+<!--After the code block you just added, add the following code. This displays a list of the students who are enrolled in a course when that course is selected.-->
+<p>在你刚才所添加的代码块的后面再添加下面这段代码。这段代码的作用是：当你选择了一门课程时，显示这门课程的注册学生的列表。</p>
+<pre><code class="lang-html">@if (Model.Enrollments != null)
+{
+    &lt;h3&gt;
+        Students Enrolled in Selected Course
+    &lt;/h3&gt;
+    &lt;table class=&quot;table&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Grade&lt;/th&gt;
+        &lt;/tr&gt;
+        @foreach (var item in Model.Enrollments)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;
+                    @item.Student.FullName
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Grade)
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/table&gt;
+}
+</code></pre><!--This code reads the Enrollments property of the view model in order to display a list of students enrolled in the course.-->
+<p>这段代码读取视图模型上的 Enrollments 属性，以便在课程中显示注册学生的列表。</p>
+<!--Run the page and select an instructor. Then select a course to see the list of enrolled students and their grades.-->
+<p>运行页面，选择一个教师。然后选择一门课程来查看已注册学生的名单及其成绩。</p>
+<p><img src="read-related-data/static/instructors-index.png" alt="Instructors Index page instructor and course selected"></p>
+<!--## Explicit loading-->
+<h2 id="显式加载">显式加载</h2>
+<!--When you retrieved the list of instructors in *InstructorsController.cs*, you specified eager loading for the `CourseAssignments` navigation property.-->
+<p>当你在<em>InstructorsController.cs</em> 中检索教师列表时，你需要为明确地预加载 <code>CourseAssignments</code> 导航属性。</p>
+<!--Suppose you expected users to only rarely want to see enrollments in a selected instructor and course. In that case, you might want to load the enrollment data only if it's requested. To see an example of how to do explicit loading, replace the `Index` method with the following code, which removes eager loading for Enrollments and loads that property explicitly. The code changes are highlighted.-->
+<p>假设你希望让用户只在选定一门课程和一个教师时才能看到注册。在该种情形下，你可能希望仅在请求时加载注册数据。要查看如何进行显式加载的示例，请使用以下代码替换 <code>Index</code> 方法，这将删除主动加载并显式加载该属性。 代码修改部分高亮显示。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="25-31">public async Task&lt;IActionResult&gt; Index(int? id, int? courseID)
+{
+    var viewModel = new InstructorIndexData();
+    viewModel.Instructors = await _context.Instructors
+          .Include(i =&gt; i.OfficeAssignment)
+          .Include(i =&gt; i.CourseAssignments)
+            .ThenInclude(i =&gt; i.Course)
+                .ThenInclude(i =&gt; i.Department)
+          .OrderBy(i =&gt; i.LastName)
+          .ToListAsync();
+
+    if (id != null)
+    {
+        ViewData[&quot;InstructorID&quot;] = id.Value;
+        Instructor instructor = viewModel.Instructors.Where(
+            i =&gt; i.ID == id.Value).Single();
+        viewModel.Courses = instructor.CourseAssignments.Select(s =&gt; s.Course);
+    }
+
+    if (courseID != null)
+    {
+        ViewData[&quot;CourseID&quot;] = courseID.Value;
+        var selectedCourse = viewModel.Courses.Where(x =&gt; x.CourseID == courseID).Single();
+        await _context.Entry(selectedCourse).Collection(x =&gt; x.Enrollments).LoadAsync();
+        foreach (Enrollment enrollment in selectedCourse.Enrollments)
+        {
+            await _context.Entry(enrollment).Reference(x =&gt; x.Student).LoadAsync();
+        }
+        viewModel.Enrollments = selectedCourse.Enrollments;
+    }
+
+    return View(viewModel);
+}
+</code></pre><!--The new code drops the *ThenInclude* method calls for enrollment data from the code that retrieves instructor entities. If an instructor and course are selected, the highlighted code retrieves Enrollment entities for the selected course, and Student entities for each Enrollment.-->
+<p>新代码从检索 Instructor 实体的代码中删除了对数测数据的 <em>ThenInclude</em> 的方法调用。如果教师和课程都被选择，高亮代码将检索所选课程的 Enrollment 实体。依据这些 Enrollment 实体，代码会预加载 Student 导航属性。</p>
+<!--Run the Instructor Index page now and you'll see no difference in what's displayed on the page, although you've changed how the data is retrieved.-->
+<p>运行 Instructor 索引页，你能看到页面山显示的内容没啥区别，但实际上你已经改变了检索数据的方式。</p>
+<!--## Summary-->
+<h2 id="总结">总结</h2>
+<!--You've now used eager loading with one query and with multiple queries to read related data into navigation properties. In the next tutorial you'll learn how to update related data.-->
+<p>你现在已经对单一查询和多查询使用预加载来读取关联数据到导航属性。下一篇教程你讲学习如何更新关联数据。</p>
+<div class="step-by-step"><p><a href="complex-data-model.html">上一节</a>
+<a href="update-related-data.html">下一节</a>  </p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/data/ef-mvc/read-related-data.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

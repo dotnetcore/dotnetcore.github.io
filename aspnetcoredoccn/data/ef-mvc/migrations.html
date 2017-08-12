@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ASP.NET Core MVC &#19982; EF Core - &#36801;&#31227; - 4 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#36801;&#31227; - 4 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="data/ef-mvc/migrations">
+<h1 id="迁移---aspnet-core-mvc-与-ef-core-教程-4-of-10">迁移 - ASP.NET Core MVC 与 EF Core 教程 (4 of 10)</h1>
+
+<p>作者 <a href="https://github.com/tdykstra">Tom Dykstra</a> 、 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler）</a> </p>
+<p>Contoso 大学 Web应用程序演示了如何使用 Entity Framework Core 1.1 以及 Visual Studio 2017 来创建 ASP.NET Core 1.1 MVC Web 应用程序。更多信息请参考 <a href="intro.html">第一节教程</a>.</p>
+<p>在本教程中，你将开始使用 EF Core 数据迁移功能来管理数据模型的变动。在后续的教程中，会根据数据模型的变动添加更多的迁移。</p>
+<h2 id="数据迁移介绍">数据迁移介绍</h2>
+<p>当你在开发一个新的应用时数据模型是经常变化的，每次数据模型的变动都会与数据库的实际结构产生差异。下面的教程里面，从EF创建新数据库（如果不存在）开始本节的教程。然后，每次增加、删除或者改变实体类以及DbContext类时，你可以先删除数据库，然后EF都会创建按照新要求创建一个新数据库，并且用测试数据进行初始化。</p>
+<p>直到应用部署到生产环境前，该方法都会很好地保持数据库与数据模型建的同步。当应用运行到生产环境中时，通常都会存储大量数据，而你通常期望保留这些数据。例如：当增加一个新列时，你不想失去任何数据。EF Core 迁移功能通过升级数据库 Schema 的方法解决该问题，而不是创建一个新的数据库。</p>
+<h2 id="entity-framework-core-迁移的-nuget-包">Entity Framework Core 迁移的 NuGet 包</h2>
+<p>要使用迁移，可以使用 <strong>Package Manager Console</strong> (PMC) 或者 command-line interface (CLI)。 下面教程显示如何使用CLI命令。 有关PMC的信息是<a href="#pmc">在本教程的末尾</a>.。</p>
+<p>命令行界面（CLI）的EF工具在 <a href="https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools.DotNet">Microsoft.EntityFrameworkCore.Tools.DotNet</a> 包中提供。 要安装此软件包，请将其添加到 <em>.csproj</em> 文件中的 <code>DotNetCliToolReference</code> 集合中，如图所示。 <strong>Note:</strong> 您必须通过编辑 <em>.csproj</em> 文件来安装此软件包。 您不能使用 <code>install-package</code> 命令或包管理器GUI。 您可以通过在 <strong>Solution Explorer</strong>  中右键单击项目名称并选择<strong>Edit ContosoUniversity.csproj</strong>文件。</p>
+<pre><code class="lang-xml" highlight-lines="3">&lt;ItemGroup&gt;
+  &lt;DotNetCliToolReference Include=&quot;Microsoft.VisualStudio.Web.CodeGeneration.Tools&quot; Version=&quot;1.0.0&quot; /&gt;
+  &lt;DotNetCliToolReference Include=&quot;Microsoft.EntityFrameworkCore.Tools.DotNet&quot; Version=&quot;1.0.0&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre><p>(本示例中的版本号是教程编写时的最新版本。) </p>
+<h2 id="修改连接字符串">修改连接字符串</h2>
+<p>在 <em>appsettings.json</em> 文件中, 把连接字符串中的数据库名改为 ContosoUniversity2 或者其他你本机没有使用过的数据库名。</p>
+<pre><code class="lang-json" name="Main">{
+  &quot;ConnectionStrings&quot;: {
+    &quot;DefaultConnection&quot;: &quot;Server=(localdb)\\mssqllocaldb;Database=ContosoUniversity2;Trusted_Connection=True;MultipleActiveResultSets=true&quot;
+  },
+</code></pre><p>这个修改会促使项目初始化时创建一个新数据库。我们在学习迁移时这样做其实并不需要，但是接下来你会看到这样做的好处的。</p>
+<div class="NOTE"><h5>备注</h5><p>除了数据库改名以外， 你也可以直接删除数据库。 使用 <strong>SQL Server Object Explorer</strong> (SSOX) 或者 <code>database drop</code> CLI 命令：</p>
+<pre><code class="lang-console">dotnet ef database drop
+</code></pre><p>后面的章节会展示如何使用 CLI 命令。</p>
+</div>
+<h2 id="创建初始化迁移">创建初始化迁移</h2>
+<p>保存并编译项目。 打开命令行窗口并跳转到项目目录。下面有个便捷的方法：</p>
+<ul>
+<li><p>在 <strong>Solution Explorer</strong> 中， 右击项目右键菜单中选择 <strong>Open in File Explorer</strong> 。</p>
+<p><img src="migrations/static/open-in-file-explorer.png" alt="Open in File Explorer menu item"></p>
+</li>
+<li><p>在地址栏输入 &quot;cmd&quot; 按下回车。</p>
+<p><img src="migrations/static/open-command-window.png" alt="Open command window"></p>
+</li>
+</ul>
+<p>在命令行窗口中输入下述命令：</p>
+<pre><code class="lang-console">dotnet ef migrations add InitialCreate
+</code></pre><p>命令行窗口将会产生以下输出：</p>
+<pre><code class="lang-console">Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:15.63
+Done. To undo this action, use &#39;ef migrations remove&#39;
+</code></pre><div class="NOTE"><h5>备注</h5><p>如果你遇到错误信息 <em>No executable found matching command &quot;dotnet-ef&quot;</em>, 参考 <a href="http://thedatafarm.com/data-access/no-executable-found-matching-command-dotnet-ef/">this blog post</a> 获取问题解决方案。</p>
+</div>
+<p>如果你遇到错误信息 &quot;<em>cannot access the file ... ContosoUniversity.dll because it is being used by another process.</em>&quot;，在系统托盘找到 IIS Express 图标，右键点击， 选择 <strong>ContosoUniversity &gt; Stop Site</strong>。</p>
+<h2 id="examine-the-up-and-down-methods测试上下方法">Examine the Up and Down methods（测试上下方法）</h2>
+<p>当执行 <code>migrations add</code> 命令时，EF将从基架生成创建数据库的代码。这些代码位于 <em>Migrations</em> 文件夹内的<em><timestamp>_InitialCreate.cs</timestamp></em>文件内。 <code>InitialCreate</code> 类的 <code>Up</code> 方法负责创建与数据模型实体集相关的数据库表， <code>Down</code> 方法负责删除这些表，具体代码如下：</p>
+<pre><code class="lang-csharp" name="Main">public partial class InitialCreate : Migration
+{
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.CreateTable(
+            name: &quot;Student&quot;,
+            columns: table =&gt; new
+            {
+                ID = table.Column&lt;int&gt;(nullable: false)
+                    .Annotation(&quot;SqlServer:ValueGenerationStrategy&quot;, SqlServerValueGenerationStrategy.IdentityColumn),
+                EnrollmentDate = table.Column&lt;DateTime&gt;(nullable: false),
+                FirstMidName = table.Column&lt;string&gt;(nullable: true),
+                LastName = table.Column&lt;string&gt;(nullable: true)
+            },
+            constraints: table =&gt;
+            {
+                table.PrimaryKey(&quot;PK_Student&quot;, x =&gt; x.ID);
+            });
+
+        // Additional code not shown
+    }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropTable(
+            name: &quot;Course&quot;);
+        // Additional code not shown
+    }
+}
+</code></pre><p>迁移调用 <code>Up</code> 方法实现数据模型的变化。当你输入命令回滚更新时，则调用 <code>Down</code> 方法。</p>
+<p>这段代码在您输入 <code>migrations add InitialCreate</code> 命令时用于实现初始化迁移。 迁移名称参数（示例中的“InitialCreate”）用于文件名，该文件可以改为任何名称。 最好是选择一个表明具体用途的词语说明迁移的目的。例如，可以将后面一个迁移命名为 &quot;AddDepartmentTable&quot;。</p>
+<p>如果创建初始化迁移的时候数据库已经存在了，创建数据库的代码也会生成，但是并没有实际运行，因为数据库已与数据模型相匹配。当向其它环境实际部署应用时，该部分代码将运行创建数据库，所以首先做一个测试是一个好的方法。这就是早前变更连接字符串中数据库名称的原因，这样就可以迁移工作就可以从基架创建一个新的数据库。</p>
+<h2 id="查看数据模型快照">查看数据模型快照</h2>
+<p>迁移操作的同时也会创建一个现有数据库的 &quot;快照&quot; ，将数据库的结构脚本存储到 <em>Migrations/SchoolContextModelSnapshot.cs</em> 文件中。 代码如下所示：</p>
+<pre><code class="lang-csharp" name="Main">[DbContext(typeof(SchoolContext))]
+partial class SchoolContextModelSnapshot : ModelSnapshot
+{
+    protected override void BuildModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .HasAnnotation(&quot;ProductVersion&quot;, &quot;1.1.1&quot;)
+            .HasAnnotation(&quot;SqlServer:ValueGenerationStrategy&quot;, SqlServerValueGenerationStrategy.IdentityColumn);
+
+        modelBuilder.Entity(&quot;ContosoUniversity.Models.Course&quot;, b =&gt;
+            {
+                b.Property&lt;int&gt;(&quot;CourseID&quot;);
+
+                b.Property&lt;int&gt;(&quot;Credits&quot;);
+
+                b.Property&lt;string&gt;(&quot;Title&quot;);
+
+                b.HasKey(&quot;CourseID&quot;);
+
+                b.ToTable(&quot;Course&quot;);
+            });
+
+        // Additional code for Enrollment and Student tables not shown
+
+        modelBuilder.Entity(&quot;ContosoUniversity.Models.Enrollment&quot;, b =&gt;
+            {
+                b.HasOne(&quot;ContosoUniversity.Models.Course&quot;, &quot;Course&quot;)
+                    .WithMany(&quot;Enrollments&quot;)
+                    .HasForeignKey(&quot;CourseID&quot;)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(&quot;ContosoUniversity.Models.Student&quot;, &quot;Student&quot;)
+                    .WithMany(&quot;Enrollments&quot;)
+                    .HasForeignKey(&quot;StudentID&quot;)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+    }
+}
+</code></pre><p>由于当前数据库结构以代码的形式表示，因此 EF Core 不必与数据库进行交互以创建迁移。 添加迁移时，EF 通过将数据模型与快照文件进行比较来确定更改的内容。 EF 只有在必须更新数据库时才与数据库进行交互。</p>
+<p>因为这些代码反映了最后一次迁移之后的数据库状态，所以不能仅通过删除  <code>&lt;timestamp&gt;_&lt;migrationname&gt;.cs</code> 文件来取消一个迁移操作。如果删除了该文件，剩余的迁移将于数据库快照文件失去同步。要删除最后一次迁移，请使用 <a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet#dotnet-ef-migrations-remove">dotnet ef migrations remove</a> 命令。</p>
+<h2 id="应用迁移到数据库">应用迁移到数据库</h2>
+<p>在命令行窗口输入以下命令来创建数据库对应的表。</p>
+<pre><code class="lang-console">dotnet ef database update
+</code></pre><p>命令行窗体的输出与 <code>migrations add</code> 命令的输出相似。</p>
+<pre><code class="lang-text">Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:17.34
+Done.
+</code></pre><p>和第一个教程一样，使用 <strong>SQL Server Object Explorer</strong> 来查看数据库。你会注意到多了一个 __EFMigrationsHistory 表，该表保存了数据库迁移的踪迹。查看看该表的数据，你将会看到第一次迁移的入口。</p>
+<p><img src="migrations/static/migrations-table.png" alt="Migrations history in SSOX"></p>
+<p>运行应用以测试程序是否正常工作。</p>
+<p><img src="migrations/static/students-index.png" alt="Students Index page"></p>
+<p><a id="pmc"></a></p>
+<h2 id="命令行界面cli与程序包控制台pmc的对比">命令行界面（CLI）与程序包控制台（PMC）的对比</h2>
+<p>在 .NET Core CLI 命令行和 Visual Studio  <strong>Package Manager Console</strong> PMC中的 PowerShell cmdlets 中都可以使用管理迁移的EF工具。在早期版本的工具中，使用 CLI 命令较后者更稳定，所以该教程展示如何使用前者。</p>
+<p>如果你想使用 PMC 命令，请安装 <a href="https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools">Microsoft.EntityFrameworkCore.Tools</a> 包，与 CLI 工具不同，你不需要编辑 <em>.csproj</em> 文件；你可以通过 <strong>Package Manager Console</strong> 或者 <strong>NuGet Package Manager</strong> GUI界面安装。注意，与您为 CLI 安装的包不是一样的：它的名称以 <code>Tools</code>结尾，而不是以 <code>Tools.DotNet</code>结尾的 CLI包名称。</p>
+<p>更多关于 CLI 命令的信息，请参看 <a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet">.NET Core CLI</a>. </p>
+<p>更多关于 PMC 命令的信息，请参看 <a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Package Manager Console (Visual Studio)</a>.</p>
+<h2 id="总结">总结</h2>
+<p>在本教程中，你已经看到如何创建并应用首次迁移。在后续教程中，你将开始看到更多关于数据模型更高级的主题。你将创建并应用其他的迁移。</p>
+<div class="step-by-step"><p><a href="sort-filter-page.html">上一节</a>
+<a href="complex-data-model.html">下一节</a>  </p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/data/ef-mvc/migrations.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

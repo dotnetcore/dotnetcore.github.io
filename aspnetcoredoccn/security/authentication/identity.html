@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Introduction to Identity | Microsoft Docs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Introduction to Identity | Microsoft Docs ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="security/authentication/identity">
+<h1 id="introduction-to-identity">Introduction to Identity</h1>
+
+<p>By <a href="https://github.com/rustd">Pranav Rastogi</a>, <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a>, <a href="https://github.com/tdykstra">Tom Dykstra</a>, Jon Galloway, and <a href="https://github.com/Erikre">Erik Reitan</a></p>
+<p>ASP.NET Core Identity is a membership system which allows you to add login functionality to your application. Users can create an account and login with a user name and password or they can use an external login providers such as Facebook, Google, Microsoft Account, Twitter and more.</p>
+<p>You can configure ASP.NET Core Identity to use a SQL Server database to store user names, passwords, and profile data. Alternatively, you can use your own persistent store to store data in another persistent storage, such as Azure Table Storage.</p>
+<h2 id="overview-of-identity">Overview of Identity</h2>
+<p>In this topic, you&#39;ll learn how to use ASP.NET Core Identity to add functionality to register, log in, and log out a user. You can follow along step by step or just read the details. For more detailed instructions about creating apps using ASP.NET Core Identity, see the Next Steps section at the end of this article.</p>
+<ol>
+<li><p>Create an ASP.NET Core Web Application project in Visual Studio with Individual User Accounts.</p>
+<p>In Visual Studio, select <strong>File</strong> -&gt; <strong>New</strong> -&gt; <strong>Project</strong>. Then, select the <strong>ASP.NET Web Application</strong> from the <strong>New Project</strong> dialog box. Continue by selecting an ASP.NET Core <strong>Web Application</strong> with <strong>Individual User Accounts</strong> as the authentication method.</p>
+<p><img src="identity/static/01-mvc.png" alt="New Project dialog"></p>
+<p>The created project contains the <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> package, which will persist the identity data and schema to SQL Server using <a href="https://docs.efproject.net">Entity Framework Core</a>.</p>
+<div class="NOTE"><h5>备注</h5><p>In Visual Studio, you can view NuGet packages details by selecting <strong>Tools</strong> -&gt; <strong>NuGet Package Manager</strong> -&gt; <strong>Manage NuGet Packages for Solution</strong>.</p>
+</div>
+<p>The identity services are added to the application in the <code>ConfigureServices</code> method in the <code>Startup</code> class:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="10-12">// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddEntityFramework()
+        .AddSqlServer()
+        .AddDbContext&lt;ApplicationDbContext&gt;(options =&gt;
+            options.UseSqlServer(Configuration[&quot;Data:DefaultConnection:ConnectionString&quot;]));
+
+    services.AddIdentity&lt;ApplicationUser, IdentityRole&gt;()
+        .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;()
+        .AddDefaultTokenProviders();
+
+    services.AddMvc();
+
+    // Add application services.
+    services.AddTransient&lt;IEmailSender, AuthMessageSender&gt;();
+    services.AddTransient&lt;ISmsSender, AuthMessageSender&gt;();
+     
+</code></pre><p>These services are then made available to the application through <a href="../../fundamentals/dependency-injection.html">dependency injection</a>.</p>
+<p>Identity is enabled for the application by calling  <code>UseIdentity</code> in the <code>Configure</code> method of the <code>Startup</code> class. This adds cookie-based authentication to the request pipeline.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="22">    services.Configure&lt;IdentityOptions&gt;(options =&gt;
+    {
+        // Password settings
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = false;
+        
+        // Lockout settings
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+        options.Lockout.MaxFailedAccessAttempts = 10;
+        
+        // Cookie settings
+        options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+        options.Cookies.ApplicationCookie.LoginPath = &quot;/Account/LogIn&quot;;
+        options.Cookies.ApplicationCookie.LogoutPath = &quot;/Account/LogOut&quot;;
+        
+        // User settings
+        options.User.RequireUniqueEmail = true;
+    });
+}
+
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    loggerFactory.AddConsole(Configuration.GetSection(&quot;Logging&quot;));
+    loggerFactory.AddDebug();
+
+    if (env.IsDevelopment())
+    {
+        app.UseBrowserLink();
+</code></pre><p>For more information about the application start up process, see <a href="../../fundamentals/startup.html">Application Startup</a>.</p>
+</li>
+<li><p>Creating a user.</p>
+<p>Launch the application from Visual Studio (<strong>Debug</strong> -&gt; <strong>Start Debugging</strong>) and then click on the <strong>Register</strong> link in the browser to create a user. The following image shows the Register page which collects the user name and password.</p>
+<p><img src="identity/static/02-reg.png" alt="Register page with user input fields for Email (Username), Password, and Confirm Password"></p>
+<p>When the user clicks the <strong>Register</strong> link, the <code>UserManager</code> and <code>SignInManager</code> services are injected into the Controller:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="3-4,11-12,17-18">public class AccountController : Controller
+{
+    private readonly UserManager&lt;ApplicationUser&gt; _userManager;
+    private readonly SignInManager&lt;ApplicationUser&gt; _signInManager;
+    private readonly IEmailSender _emailSender;
+    private readonly ISmsSender _smsSender;
+    private static bool _databaseChecked;
+    private readonly ILogger _logger;
+
+    public AccountController(
+        UserManager&lt;ApplicationUser&gt; userManager,
+        SignInManager&lt;ApplicationUser&gt; signInManager,
+        IEmailSender emailSender,
+        ISmsSender smsSender,
+        ILoggerFactory loggerFactory)
+    {
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _emailSender = emailSender;
+        _smsSender = smsSender;
+        _logger = loggerFactory.CreateLogger&lt;AccountController&gt;();
+    }
+
+    //
+    // GET: /Account/Login
+</code></pre><p>Then, the <strong>Register</strong> action creates the user by calling <code>CreateAsync</code> function of the <code>UserManager</code> object, as shown below:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="9">[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; Register(RegisterViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (result.Succeeded)
+        {
+            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+            // Send an email with this link
+            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //var callbackUrl = Url.Action(&quot;ConfirmEmail&quot;, &quot;Account&quot;, new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            //await _emailSender.SendEmailAsync(model.Email, &quot;Confirm your account&quot;,
+            //    &quot;Please confirm your account by clicking this link: &lt;a href=\&quot;&quot; + callbackUrl + &quot;\&quot;&gt;link&lt;/a&gt;&quot;);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            _logger.LogInformation(3, &quot;User created a new account with password.&quot;);
+            return RedirectToAction(nameof(HomeController.Index), &quot;Home&quot;);
+        }
+        AddErrors(result);
+    }
+
+    // If we got this far, something failed, redisplay form
+    return View(model);
+}
+
+</code></pre></li>
+<li><p>Log in.</p>
+<p>If the user was successfully created, the user is logged in by the <code>SignInAsync</code> method, also contained in the <code>Register</code> action. By signing in, the <code>SignInAsync</code> method stores a cookie with the user&#39;s claims.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="18">[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; Register(RegisterViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (result.Succeeded)
+        {
+            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+            // Send an email with this link
+            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //var callbackUrl = Url.Action(&quot;ConfirmEmail&quot;, &quot;Account&quot;, new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            //await _emailSender.SendEmailAsync(model.Email, &quot;Confirm your account&quot;,
+            //    &quot;Please confirm your account by clicking this link: &lt;a href=\&quot;&quot; + callbackUrl + &quot;\&quot;&gt;link&lt;/a&gt;&quot;);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            _logger.LogInformation(3, &quot;User created a new account with password.&quot;);
+            return RedirectToAction(nameof(HomeController.Index), &quot;Home&quot;);
+        }
+        AddErrors(result);
+    }
+
+    // If we got this far, something failed, redisplay form
+    return View(model);
+}
+
+</code></pre><p>The above <code>SignInAsync</code> method calls the below <code>SignInAsync</code> task, which is contained in the <code>SignInManager</code> class.</p>
+<p>If needed, you can access the user&#39;s identity details inside a controller action. For instance, by setting a breakpoint inside the <code>HomeController.Index</code> action method, you can view the <code>User.claims</code> details. By having the user signed-in, you can make authorization decisions. For more information, see <a href="../authorization/index.html">Authorization</a>.</p>
+<p>As a registered user, you can log in to the web app by clicking the <strong>Log in</strong> link.  When a registered user logs in, the <code>Login</code> action of the <code>AccountController</code> is called. Then, the <strong>Login</strong> action signs in the user using the <code>PasswordSignInAsync</code> method contained in the <code>Login</code> action.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="11">[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; Login(LoginViewModel model, string returnUrl = null)
+{
+    ViewData[&quot;ReturnUrl&quot;] = returnUrl;
+    if (ModelState.IsValid)
+    {
+        // This doesn&#39;t count login failures towards account lockout
+        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+        if (result.Succeeded)
+        {
+            _logger.LogInformation(1, &quot;User logged in.&quot;);
+            return RedirectToLocal(returnUrl);
+        }
+        if (result.RequiresTwoFactor)
+        {
+            return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+        }
+        if (result.IsLockedOut)
+        {
+            _logger.LogWarning(2, &quot;User account locked out.&quot;);
+            return View(&quot;Lockout&quot;);
+        }
+        else
+        {
+            ModelState.AddModelError(string.Empty, &quot;Invalid login attempt.&quot;);
+            return View(model);
+        }
+    }
+
+    // If we got this far, something failed, redisplay form
+    return View(model);
+}
+
+</code></pre></li>
+<li><p>Log off.</p>
+<p>Clicking the <strong>Log off</strong> link calls the <code>LogOut</code> action in the account controller.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="5">[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; LogOut()
+{
+    await _signInManager.SignOutAsync();
+    _logger.LogInformation(4, &quot;User logged out.&quot;);
+    return RedirectToAction(nameof(HomeController.Index), &quot;Home&quot;);
+}
+</code></pre><p>The code above shows the <code>SignInManager.SignOutAsync</code> method. The <code>SignOutAsync</code> method clears the users claims stored in a cookie.</p>
+</li>
+<li><p>Configuration.</p>
+<p>Identity has some default behaviors that you can override in your application&#39;s startup class.</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="5">// Configure Identity
+services.Configure&lt;IdentityOptions&gt;(options =&gt;
+{
+    // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = false;
+    
+    // Lockout settings
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+    options.Lockout.MaxFailedAccessAttempts = 10;
+    
+    // Cookie settings
+    options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+    options.Cookies.ApplicationCookie.LoginPath = &quot;/Account/LogIn&quot;;
+    options.Cookies.ApplicationCookie.LogoutPath = &quot;/Account/LogOut&quot;;
+    
+    // User settings
+    options.User.RequireUniqueEmail = true;
+});
+</code></pre><p>For more information about how to configure Identity, see <a href="identity-configuration.html">Configure Identity</a>.</p>
+<p>You also can configure the data type of the primary key, see <a href="identity-primary-key-configuration.html">Configure Identity primary keys data type</a>.</p>
+</li>
+<li><p>View the database.</p>
+<p>After stopping the application, view the user database from Visual Studio by selecting <strong>View</strong> -&gt; <strong>SQL Server Object Explorer</strong>. Then, expand the following within the <strong>SQL Server Object Explorer</strong>:</p>
+<ul>
+<li><p>(localdb)\MSSQLLocalDB</p>
+</li>
+<li><p>Databases</p>
+</li>
+<li><p>aspnet5-&lt;<em>the name of your application</em>&gt;</p>
+</li>
+<li><p>Tables</p>
+</li>
+</ul>
+<p>Next, right-click the <strong>dbo.AspNetUsers</strong> table and select <strong>View Data</strong> to see the properties of the user you created.</p>
+<p><img src="identity/static/04-db.png" alt="Contextual menu on AspNetUsers database table"></p>
+</li>
+</ol>
+<h2 id="identity-components">Identity Components</h2>
+<p>The primary reference assembly for the identity system is <code>Microsoft.AspNetCore.Identity</code>. This package contains the core set of interfaces for ASP.NET Core Identity.</p>
+<p><img src="identity/static/05-dependencies.png" alt="Project references of ASP.NET Core Identity"></p>
+<p>These dependencies are needed to use the identity system in ASP.NET Core applications:</p>
+<ul>
+<li><p><code>EntityFramework.SqlServer</code> - Entity Framework is Microsoft&#39;s recommended data access technology for relational databases.</p>
+</li>
+<li><p><code>Microsoft.AspNetCore.Authentication.Cookies</code> - Middleware that enables an application to use cookie based authentication, similar to ASP.NET&#39;s Forms Authentication.</p>
+</li>
+<li><p><code>Microsoft.AspNetCore.Cryptography.KeyDerivation</code> - Utilities for key derivation.</p>
+</li>
+<li><p><code>Microsoft.AspNetCore.Hosting.Abstractions</code> - Hosting abstractions.</p>
+</li>
+</ul>
+<h2 id="migrating-to-aspnet-core-identity">Migrating to ASP.NET Core Identity</h2>
+<p>For additional information and guidance on migrating your existing identity store see <a href="../../migration/identity.html">Migrating Authentication and Identity</a></p>
+<!-- replace ../../ relative links
+  [Authentication and Identity](../../migration/identity.md)
+with xref links
+ [Authentication and Identity](xref:migration/identity)
+-->
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a class="xref" href="../../migration/identity.html">Migrating Authentication and Identity</a></li>
+<li><a href="accconfirm.html">Account Confirmation and Password Recovery</a></li>
+<li><a href="2fa.html">Two-factor authentication with SMS</a></li>
+<li><a href="social/index.html">Enabling authentication using Facebook, Google and other external providers</a></li>
+</ul>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/security/authentication/identity.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

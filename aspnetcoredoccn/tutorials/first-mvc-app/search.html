@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#28155;&#21152;&#25628;&#32034; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#28155;&#21152;&#25628;&#32034; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/search">
+<h1 id="添加搜索">添加搜索</h1>
+
+<p>作者： <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译： <a href="http://github.com/ChujianA">魏美娟(初见)</a></p>
+<p>校对： <a href="https://github.com/kiler398/">谢炀（Kiler）</a> 、<a href="https://github.com/stoneniqiu">张仁建(第二年.夏)</a>  、<a href="https://github.com/mengshuaiyang">孟帅洋(书缘)</a> 、<a href="https://github.com/jack2gs">高嵩</a> </p>
+<p>在本节中，你可以为 <code>Index</code> 方法添加查询功能，使其能够根据电影的 <em>genre</em> 或 <em>name</em> 进行查找。</p>
+<p>更新 <code>Index</code> 方法来开启搜索功能：</p>
+<!--
+[!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
+-->
+<pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index(string searchString)
+{
+    var movies = from m in _context.Movie
+                 select m;
+
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        movies = movies.Where(s =&gt; s.Title.Contains(searchString));
+    }
+
+    return View(await movies.ToListAsync());
+}
+</code></pre><p> <code>Index</code> 方法的第一行代码创建了一个 <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a> 查询，用来查找符合条件的电影：</p>
+<pre><code class="lang-csharp">var movies = from m in _context.Movie
+             select m;
+</code></pre><p>这个查询 <em>仅仅只是</em> 在这里被定义出来，但是 <strong>并未</strong> 在数据库中执行。</p>
+<p>如果 <code>searchString</code> p参数包含一个字符串，movies 查询将会添加对应查询过滤条件（ <em>译者注</em> 本例为 Title 包含 <code>searchString</code> p查询条件），代码如下：</p>
+<pre><code class="lang-csharp" name="Main">if (!String.IsNullOrEmpty(id))
+{
+    movies = movies.Where(s =&gt; s.Title.Contains(id));
+}
+</code></pre><p>代码中的 <code>s =&gt; s.Title.Contains()</code> 是一个  <a href="http://msdn.microsoft.com/library/bb397687.aspx">Lambda 表达式</a> ，Lambda 表达式被用在基于方法的 <a href="http://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a> 查询（例如：上面代码中的 <code>Where &lt;http://msdn.microsoft.com/en-us/library/system.linq.enumerable.where.aspx&gt;</code>__ 方法 或者 <code>Contains</code>）中当做参数来使用。LINQ 语句在定义或调用类似 <code>Where</code> 、 <code>Contains</code> 或者 <code>OrderBy</code> 的方法进行修改的时候不会执行，相反的，查询会延迟执行，这意味着一个赋值语句直到迭代完成或调用  <code>ToListAsync</code> 方法才具备真正的值。更多关于延时查询的信息。请参考  <a href="http://msdn.microsoft.com/en-us/library/bb738633.aspx">查询执行</a> 。</p>
+<p>Note: <a href="http://msdn.microsoft.com/library/bb155125.aspx">Contains</a> 方法是在数据库中运行的，并非在上面的 C# 代码中。在数据库中， <a href="http://msdn.microsoft.com/library/bb155125.aspx">Contains</a> 方法被翻译为不区分大小写的 <a href="http://msdn.microsoft.com/library/ms179859.aspx">SQL LIKE</a> 脚本。</p>
+<p>运行应用程序，并导航到 <code>/Movies/Index</code>，在 URL 后面添加一个查询字符串，例如 <code>?searchString=Ghost</code> ，被过滤后的电影列表如下：</p>
+<p><img src="search/static/ghost.png" alt="Index view"></p>
+<p>如果你修改 <code>Index</code> 方法签名使得方法包含一个名为 <code>id</code> 的参数，那么 <code>id</code> 参数将会匹配 <em>Startup.cs</em> 文件中的默认路由中的可选项 {id} 。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
+{
+    routes.MapRoute(
+        name: &quot;default&quot;,
+        template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
+});
+</code></pre><p>你可以使用 <strong>rename</strong> 操作快速的把 <code>searchString</code> 参数重命名为 <code>id</code> ，在 <code>searchString</code> 上右击  <strong>&gt; Rename</strong> 。</p>
+<p><img src="search/static/rename.png" alt="Contextual menu"></p>
+<p>会被重命名的代码会高亮显示。</p>
+<p><img src="search/static/rename2.png" alt="Code editor showing the variable highlighted throughout the Index ActionResult method"></p>
+<p>修改参数为 <code>id</code> ，其他引用到 <code>searchString</code> 的地方也会自动变更为 <code>id</code> 。</p>
+<p><img src="search/static/rename3.png" alt="Code editor showing the variable has been changed to id"></p>
+<!--
+[!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
+
+
+[!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Controllers/MoviesController.cs?name=snippet_1stSearch)]
+
+[!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Controllers/MoviesController.cs?name=snippet_SearchNull)]
+
+![Index view](../../tutorials/first-mvc-app/search/_static/ghost.png)
+
+
+[!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Startup.cs?highlight=5&name=snippet_1)]
+
+--> 
+<p>修改前的 <code>Index</code> 方法：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1,8">public async Task&lt;IActionResult&gt; Index(string searchString)
+{
+    var movies = from m in _context.Movie
+                 select m;
+
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        movies = movies.Where(s =&gt; s.Title.Contains(searchString));
+    }
+
+    return View(await movies.ToListAsync());
+}
+</code></pre><p>修改后的带 <code>id</code> 参数的 <code>Index</code> 方法:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1,8">public async Task&lt;IActionResult&gt; Index(string id)
+{
+    var movies = from m in _context.Movie
+                 select m;
+
+    if (!String.IsNullOrEmpty(id))
+    {
+        movies = movies.Where(s =&gt; s.Title.Contains(id));
+    }
+
+    return View(await movies.ToListAsync());
+}
+</code></pre><p>修改完成以后，我们可以通过路由数据（URL 区块）来传递标题搜索条件而非查询字符串：</p>
+<p><img src="search/static/g2.png" alt="Index view with the word ghost added to the Url and a returned movie list of two movies, Ghostbusters and Ghostbusters 2"></p>
+<p>然而，你不能指望用户每次都通过修改URL来查找电影，因此你需要在界面上帮助他们过滤数据。如果你想要修改 <code>Index</code> 方法的签名并测试了路由绑定是如何传递 <code>ID</code> 参数，现在再把它改成原来的参数   <code>searchString</code> 。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1">public async Task&lt;IActionResult&gt; Index(string searchString)
+{
+    var movies = from m in _context.Movie
+                 select m;
+
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        movies = movies.Where(s =&gt; s.Title.Contains(searchString));
+    }
+
+    return View(await movies.ToListAsync());
+}
+</code></pre><p>打开 <em>Views/Movies/Index.cshtml</em> 文件， 添加高亮的 <code>&lt;form&gt;</code> 标签到下面：</p>
+<pre><code class="lang-HTML" name="Main" highlight-lines="10-16">    ViewData[&quot;Title&quot;] = &quot;Index&quot;;
+}
+
+&lt;h2&gt;Index&lt;/h2&gt;
+
+&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;form asp-controller=&quot;Movies&quot; asp-action=&quot;Index&quot;&gt;
+    &lt;p&gt;
+        Title: &lt;input type=&quot;text&quot; name=&quot;SearchString&quot;&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Filter&quot; /&gt;
+    &lt;/p&gt;
+&lt;/form&gt;
+
+&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+</code></pre><p>HTML <code>&lt;form&gt;</code> 标签使用 <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a> 生成，所以当你提交表单的时候，过滤字符串都被传到了 movies 控制器的 <code>Index</code> 方法。保存你的修改并测试过滤。</p>
+<p><img src="search/static/filter.png" alt="Index view with the word ghost typed into the Title filter textbox"></p>
+<p>然而 <code>Index</code> 方法并没有你所希望的 <code>[HttpPost]</code>重载。你也不需要，因为方法并不会修改应用程序的状态，仅仅只是过滤数据。</p>
+<p>你可以添加下面的 <code>[HttpPost] Index</code> 方法。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1">[HttpPost]
+public string Index(string searchString, bool notUsed)
+{
+    return &quot;From [HttpPost]Index: filter on &quot; + searchString;
+}
+</code></pre><p><code>notUsed</code> 参数用创建 <code>Index</code> 方法重载。我们在后续教程中会讨论。</p>
+<p>如果你添加了这个方法。action 会调用匹配 <code>[HttpPost] Index</code> 的方法， <code>[HttpPost] Index</code> 方法运行结果如下所示。</p>
+<p><img src="search/static/fo.png" alt="Browser window with application response of From HttpPost Index: filter on ghost"></p>
+<p>然而，尽管添加了 <code>[HttpPost]</code> 版的 <code>Index</code> 方法，在实现的时候仍然存在一些局限性。设想你想将一个比较详细的查询添加书签，或者你想将查询结果以链接形式发送给朋友以便于你的朋友可以看到同样的过滤结果的电影，注意观察 HTTP POST 请求的时候，URL 是没有改变的（仍然是 localhost:xxxxx/Movies/Index），这个地址本身不包含查询信息。现在，查询信息是作为  <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Sending_and_retrieving_form_data">表单数据</a> 发送到服务器的，你可以通过浏览器开发者工具或者优秀的抓包工具<a href="http://www.telerik.com/fiddler">Fiddler 工具</a>来验证，图片展示了使用Chrome浏览器开发者工具 ：</p>
+<p><img src="search/static/f12_rb.png" alt="Network tab of Developer Tools in Microsoft Edge showing a request body with a searchString value of ghost"></p>
+<p>你可以在请求正文中看到查询参数和上一个教程中提到的 <a href="../../security/anti-request-forgery.html">XSRF</a> 令牌。  <a href="../../mvc/views/working-with-forms.html">Form Tag Helper</a>  生成  <a href="../../security/anti-request-forgery.html">XSRF</a> 反伪造令牌。我们没有修改数据，所以无需在控制器方法中验证令牌。</p>
+<p>因为查询参数在请求正文中而不是 Url 里，所以你在书签里面无法保存查询参数并共享给他人，为了解决这个问题我们必须把请求指定为 <code>HTTP GET</code>。注意智能感知将帮我们更新标签。</p>
+<p>注意智能感知将帮我们更新标签。</p>
+<p><img src="search/static/int_m.png" alt="Intellisense contextual menu with method selected in the list of attributes for the form element"></p>
+<p><img src="search/static/int_get.png" alt="Intellisense contextual menu with get selected in the list of method attribute values"></p>
+<p>请注意， <code>&lt;form&gt;</code> 标签中的专有标记。这种专有标记表示的标签是由 <a href="../../mvc/views/tag-helpers/intro.html">Tag Helpers</a> 支持的。</p>
+<p><img src="search/static/th_font.png" alt="form tag with purple text"></p>
+<!--
+[!code-html[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Views/Shared/_Layout.cshtml?highlight=7,31)]
+
+
+[!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Controllers/MoviesController.cs?name=snippet_1stSearch)]
+
+[!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Controllers/MoviesController.cs?name=snippet_SearchNull)]
+
+![Index view](../../tutorials/first-mvc-app/search/_static/ghost.png)
+
+
+[!code-csharp[Main](../../tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Startup.cs?highlight=5&name=snippet_1)]
+
+--> 
+<p>当你提交检索的时候，URL 包含查询条件，如果存在 <code>HttpGet Index</code> 方法，查询会跳转到 <code>HttpPost Index</code> 方法。</p>
+<p><img src="search/static/search_get.png" alt="Browser window showing the searchString=ghost in the Url and the movies returned, Ghostbusters and Ghostbusters 2, contain the word ghost"></p>
+<p>下面的代码显示如何修改 <code>form</code> 标签：</p>
+<pre><code class="lang-html">&lt;form asp-controller=&quot;Movies&quot; asp-action=&quot;Index&quot; method=&quot;get&quot;&gt;
+</code></pre><h2 id="添加按照-genre-查询">添加按照 Genre 查询</h2>
+<p>在 <em>Models</em> 目录添加下面的 <code>MovieGenreViewModel</code> 类：</p>
+<pre><code class="lang-csharp" name="Main">using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+
+namespace MvcMovie.Models
+{
+    public class MovieGenreViewModel
+    {
+        public List&lt;Movie&gt; movies;
+        public SelectList genres;
+        public string movieGenre { get; set; }
+    }
+}
+</code></pre><p>move-genre 视图模型包含：</p>
+<ul>
+<li>电影列表</li>
+<li>包含 genre 列表的 <code>SelectList</code> 。允许用户从列表中选择 genre 。</li>
+<li><code>movieGenre</code>，包含选中的 genre</li>
+</ul>
+<p>用下面的代码替换 <code>MoviesController.cs</code> 中的 <code>Index</code> 方法：</p>
+<pre><code class="lang-csharp" name="Main">// Requires using Microsoft.AspNetCore.Mvc.Rendering;
+public async Task&lt;IActionResult&gt; Index(string movieGenre, string searchString)
+{
+    // Use LINQ to get list of genres.
+    IQueryable&lt;string&gt; genreQuery = from m in _context.Movie
+                                    orderby m.Genre
+                                    select m.Genre;
+
+    var movies = from m in _context.Movie
+                 select m;
+
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        movies = movies.Where(s =&gt; s.Title.Contains(searchString));
+    }
+
+    if (!String.IsNullOrEmpty(movieGenre))
+    {
+        movies = movies.Where(x =&gt; x.Genre == movieGenre);
+    }
+
+    var movieGenreVM = new MovieGenreViewModel();
+    movieGenreVM.genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+    movieGenreVM.movies = await movies.ToListAsync();
+
+    return View(movieGenreVM);
+}
+</code></pre><p>下面代码是通过 <code>LINQ</code> 语句从数据库中检索所有 genre 数据。</p>
+<pre><code class="lang-csharp" name="Main">// Use LINQ to get list of genres.
+IQueryable&lt;string&gt; genreQuery = from m in _context.Movie
+                                orderby m.Genre
+                                select m.Genre;
+</code></pre><p><code>SelectList</code> 的 genres 通过 Distinct 方法投影查询创建（我们不想选择列表中出现重复的数据）。</p>
+<pre><code class="lang-csharp">movieGenreVM.genres = new SelectList(await genreQuery.Distinct().ToListAsync())
+</code></pre><h2 id="在-index-视图中添加通过-genre-检索">在 Index 视图中添加通过 genre 检索</h2>
+<p>按照下面的方式更新 <code>Index.cshtml</code> ：</p>
+<pre><code class="lang-HTML" name="Main" highlight-lines="1,15,16,17,28,31,34,37,43">@model MvcMovie.Models.MovieGenreViewModel
+
+@{
+    ViewData[&quot;Title&quot;] = &quot;Index&quot;;
+}
+
+&lt;h2&gt;Index&lt;/h2&gt;
+
+&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;form asp-controller=&quot;Movies&quot; asp-action=&quot;Index&quot; method=&quot;get&quot;&gt;
+    &lt;p&gt;
+        &lt;select asp-for=&quot;movieGenre&quot; asp-items=&quot;Model.genres&quot;&gt;
+            &lt;option value=&quot;&quot;&gt;All&lt;/option&gt;
+        &lt;/select&gt;
+
+        Title: &lt;input type=&quot;text&quot; name=&quot;SearchString&quot;&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Filter&quot; /&gt;
+    &lt;/p&gt;
+&lt;/form&gt;
+
+&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Title)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].ReleaseDate)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Genre)
+            &lt;/th&gt;
+            &lt;th&gt;
+                @Html.DisplayNameFor(model =&gt; model.movies[0].Price)
+            &lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var item in Model.movies)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Title)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.ReleaseDate)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Genre)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.Price)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@item.ID&quot;&gt;Edit&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Details&quot; asp-route-id=&quot;@item.ID&quot;&gt;Details&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Delete&quot; asp-route-id=&quot;@item.ID&quot;&gt;Delete&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre><p>测试程序并分别通过 genre 或者电影标题以及两个条件同时进行检索</p>
+<div class="step-by-step"><p><a href="controller-methods-views.html">上一节</a>
+<a href="new-field.html">下一节</a>  </p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/first-mvc-app/search.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

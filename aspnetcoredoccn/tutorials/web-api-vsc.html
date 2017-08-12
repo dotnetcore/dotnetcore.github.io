@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#29992; ASP.NET Core MVC &#21644; Visual Studio Code &#21019;&#24314;&#20320;&#30340;&#31532;&#19968;&#20010; Web API | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#29992; ASP.NET Core MVC &#21644; Visual Studio Code &#21019;&#24314;&#20320;&#30340;&#31532;&#19968;&#20010; Web API | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/web-api-vsc">
+<h1 id="在--linux-macos-以及-windows平台-用-aspnet-core-mvc-和-visual-studio-code-创建你的第一个-web-api">在  Linux, macOS, 以及 Windows平台 用 ASP.NET Core MVC 和 Visual Studio Code 创建你的第一个 Web API</h1>
+
+<!-- WARNING: The code AND images in this doc are used by uid: tutorials/web-api-vsc, tutorials/first-web-api-mac and tutorials/first-web-api. If you change any code/images in this tutorial, update uid: tutorials/web-api-vsc -->
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a> 、 <a href="https://github.com/mikewasson">Mike Wasson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler)</a>  </p>
+<!--HTTP is not just for serving up web pages. It’s also a powerful platform for building APIs that expose services and data. HTTP is flexible and ubiquitous. Almost any platform that you can think of has an HTTP library, so HTTP services can reach a broad range of clients, including browsers, mobile devices, and traditional desktop apps.-->
+<p>HTTP协议 不仅仅提供网页服务. 它也是一个构建公开服务和数据 API 的强大平台。HTTP 协议是简单、灵活、无处不在的。 几乎你能想到的任何平台上都有HTTP支持, 所以HTTP服务能够发送到多种客户端, 包括浏览器，移动设备和传统的桌面应用程序。</p>
+<!--In this tutorial, you’ll build a web API for managing a list of "to-do" items. You won’t build a UI.-->
+<p>在本教程中, 你将创建一个简单的 Web API 来管理一个 &quot;to-do&quot; 列表。在本教程中你无需编写任何 UI 代码.</p>
+<!--ASP.NET Core has built-in support for MVC creating Web APIs.-->
+<p>ASP.NET Core 已经内置了用 MVC 架构 构建 Web API 的支持。</p>
+<!--There are 3 versions of this tutorial:-->
+<p>本教程有以下3个版本:</p>
+<!--* macOS: [Web API with Visual Studio for Mac](xref:tutorials/first-web-api-mac)
+* Windows: [Web API with Visual Studio for Windows](xref:tutorials/first-web-api)
+* macOS, Linux, Windows: [Web API with Visual Studio Code](xref:tutorials/web-api-vsc)-->
+<ul>
+<li>macOS: <a class="xref" href="first-web-api-mac.html">使用 Visual Studio Mac 版本 开发Web API</a></li>
+<li>Windows: <a class="xref" href="first-web-api.html">使用 Visual Studio Windows 版本 开发Web API</a></li>
+<li>macOS, Linux, Windows: <a class="xref" href="web-api-vsc.html">使用 Visual Studio Code 开发Web API</a></li>
+</ul>
+<!--## Overview-->
+<h2 id="总览">总览</h2>
+<!--Here is the API that you’ll create:-->
+<p>这是你需要创建的 API ：</p>
+<!--|API | Description    | Request body    | Response body   |
+|--- | ---- | ---- | ---- |
+|GET /api/todo  | Get all to-do items | None | Array of to-do items|
+|GET /api/todo/{id}  | Get an item by ID | None | To-do item|
+|POST /api/todo | Add a new item | To-do item  | To-do item |
+|PUT /api/todo/{id} | Update an existing item &nbsp;  | To-do item |  None |
+|DELETE /api/todo/{id}  &nbsp;  &nbsp; | Delete an item &nbsp;  &nbsp;  | None  | None|-->
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>描述</th>
+<th>请求正文</th>
+<th>响应正文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /api/todo</td>
+<td>获取所有的to-do items</td>
+<td>无</td>
+<td>Array of to-do items</td>
+</tr>
+<tr>
+<td>GET /api/todo/{id}</td>
+<td>通过ID获取item</td>
+<td>无</td>
+<td>To-do item</td>
+</tr>
+<tr>
+<td>POST /api/todo</td>
+<td>添加一个新的item</td>
+<td>To-do item</td>
+<td>To-do item</td>
+</tr>
+<tr>
+<td>PUT /api/todo/{id}</td>
+<td>更新已经存在的item &nbsp;</td>
+<td>To-do item</td>
+<td>无</td>
+</tr>
+<tr>
+<td>DELETE /api/todo/{id}  &nbsp;  &nbsp;</td>
+<td>删除指定的item。 &nbsp;  &nbsp;</td>
+<td>无</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<!--The following diagram shows the basic design of the app.-->
+<p>下面的图表展示了应用程序的基本设计.</p>
+<p><img src="first-web-api/static/architecture.png" alt="The client is represented by a box on the left and submits a request and receives a response from the application, a box drawn on the right. Within the application box, three boxes represent the controller, the model, and the data access layer. The request comes into the application&#39;s controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response."></p>
+<!--* The client is whatever consumes the web API (mobile app, browser, etc). We aren’t writing a client in this tutorial. We'll use [Postman](https://www.getpostman.com/) or [curl](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html) to test the app.-->
+<ul>
+<li>不管是哪个调用 API 的客户端（浏览器，移动应用，等等）。我们不会在本教程中编写客户端。我们将使用 <a href="https://www.getpostman.com/">Postman</a> 或者 <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html">curl</a> 来测试应用程序。</li>
+</ul>
+<!--* A *model* is an object that represents the data in your application. In this case, the only model is a to-do item. Models are represented as C# classes, also know as **P**lain **O**ld **C**# **O**bject (POCOs).-->
+<ul>
+<li><em>model</em> 是一个代表你应用程序数据的类. 在本案例中, 只有一个模型 to-do 项. 模型表现为简单 C# 类型 (POCOs).</li>
+</ul>
+<!--* A *controller* is an object that handles HTTP requests and creates the HTTP response. This app will have a single controller.-->
+<ul>
+<li><em>controller</em> 是一个处理 HTTP 请求并返回 HTTP 响应的对象. 这个示例程序将只会有一个 controller.</li>
+</ul>
+<!--* To keep the tutorial simple, the app doesn’t use a persistent database. Instead, it stores to-do items in an in-memory database.-->
+<ul>
+<li>为了保证教程简单我们不使用持久化数据库. 作为替代, 我们会把 to-do 项存入内存.</li>
+</ul>
+<!--## Set up your development environment-->
+<h2 id="设置好你的开发环境">设置好你的开发环境</h2>
+<!--Download and install:
+- [.NET Core](https://microsoft.com/net/core)
+- [Visual Studio Code](https://code.visualstudio.com)
+- Visual Studio Code [C# extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp)-->
+<p>下载并安装:</p>
+<ul>
+<li><a href="https://microsoft.com/net/core">.NET Core</a></li>
+<li><a href="https://code.visualstudio.com">Visual Studio Code</a></li>
+<li>Visual Studio Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp">C# 插件</a></li>
+</ul>
+<!--## Create the project-->
+<h2 id="创建项目">创建项目</h2>
+<!--From a console, run the following commands:-->
+<p>在命令行控制台， 运行一下命令：</p>
+<pre><code class="lang-console">mkdir TodoApi
+cd TodoApi
+dotnet new webapi
+</code></pre><!--Open the *TodoApi* folder in Visual Studio Code (VS Code) and select the *Startup.cs* file.-->
+<p>在 Visual Studio Code (VS Code) 中打开 <em>TodoApi</em> 目录并选择 <em>Startup.cs</em> 文件。</p>
+<!--- Select **Yes** to the **Warn** message "Required assets to build and debug are missing from 'TodoApi'. Add them?"
+- Select **Restore** to the **Info** message "There are unresolved dependencies".-->
+<ul>
+<li>当提示 <strong>Warn</strong> 信息 &quot;Required assets to build and debug are missing from &#39;TodoApi&#39;. Add them?&quot; 的时候选择  <strong>Yes</strong>。</li>
+<li>当提示 <strong>Info</strong> 信息 &quot;There are unresolved dependencies&quot; 的时候选择  <strong>Restore</strong>。</li>
+</ul>
+<!-- uid: tutorials/first-mvc-app-xplat/start-mvc uses the pic below. If you change it, make sure it's consistent -->
+<p><img src="web-api-vsc/static/vsc_restore.png" alt="VS Code with Warn Required assets to build and debug are missing from &#39;TodoApi&#39;. Add them? Don&#39;t ask Again, Not Now, Yes and also Info - there are unresolved dependencies  - Restore - Close"></p>
+<!--Press **Debug** (F5) to build and run the program. In a browser navigate to http://localhost:5000/api/values . The following is displayed:-->
+<p>按下 <strong>Debug</strong> (F5) 编译并运行程序。在浏览器中导航到 <a href="http://localhost:5000/api/values">http://localhost:5000/api/values</a> 。显示一下信息：</p>
+<p><code>[&quot;value1&quot;,&quot;value2&quot;]</code></p>
+<!--See [Visual Studio Code help](#visual-studio-code-help) for tips on using VS Code.-->
+<p>参考 <a href="#visual-studio-code-help">Visual Studio Code 帮助</a> 了解更多关于 VS Code 的使用技巧。</p>
+<!--## Add support for Entity Framework Core-->
+<h2 id="添加-entity-framework-core-支持">添加 Entity Framework Core 支持</h2>
+<!--Edit the *TodoApi.csproj* file to install the [Entity Framework Core InMemory](https://docs.microsoft.com/en-us/ef/core/providers/in-memory/) database provider. This database provider allows Entity Framework Core to be used with an in-memory database.-->
+<p>编辑 <em>TodoApi.csproj</em> 文件添加 <a href="https://docs.microsoft.com/en-us/ef/core/providers/in-memory/">Entity Framework Core InMemory</a> database provider。这个 database provider 允许 Entity Framework Core 使用内存数据库。</p>
+<pre><code class="lang-xml" name="Main" highlight-lines="12">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Web&quot;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;ItemGroup&gt;
+    &lt;Folder Include=&quot;wwwroot\&quot; /&gt;
+  &lt;/ItemGroup&gt;
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;Microsoft.AspNetCore&quot; Version=&quot;1.1.1&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.AspNetCore.Mvc&quot; Version=&quot;1.1.2&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Extensions.Logging.Debug&quot; Version=&quot;1.1.1&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.EntityFrameworkCore.InMemory&quot; Version=&quot;1.1.1&quot; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre><!--Run `dotnet restore` to download and install the EF Core InMemory DB provider. You can run `dotnet restore` from the terminal or enter `⌘⇧P` (macOS) or `Ctrl+Shift+P` (Linux) in VS Code and then type **.NET**. Select **.NET: Restore Packages**.-->
+<p>运行 <code>dotnet restore</code> 下载并安装 EF Core InMemory DB provider。你可以在终端运行 <code>dotnet restore</code> 命令或者在 VS Code 里面输入 <code>⌘⇧P</code> (macOS) 或者 <code>Ctrl+Shift+P</code> (Linux) 并输入<strong>.NET</strong>。 选择 <strong>.NET: Restore Packages</strong>。</p>
+<!--## Add a model class-->
+<h2 id="添加模型类">添加模型类</h2>
+<!--A model is an object that represents the data in your application. In this case, the only model is a to-do item.-->
+<p>模型表示应用程序中的数据的对象。在本示例中，唯一使用到的模型是一个 to-do 项</p>
+<!--Add a folder named *Models*. You can put model classes anywhere in your project, but the *Models* folder is used by convention.-->
+<p>添加一个名为  <em>Models</em> 的目录. 你可以把模型类放到项目的任何地方, 但是 <em>Models</em> 是约定的默认目录 。</p>
+<!--Add a `TodoItem` class with the following code:-->
+<p>使用以下代码添加一个 <code>TodoItem</code> 类：</p>
+<pre><code class="lang-csharp" name="Main">namespace TodoApi.Models
+{
+    public class TodoItem
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public bool IsComplete { get; set; }
+    }
+}
+</code></pre><!--## Create the database context-->
+<h2 id="创建数据库上下文">创建数据库上下文</h2>
+<!--The *database context* is the main class that coordinates Entity Framework functionality for a given data model. You create this class by deriving from the `Microsoft.EntityFrameworkCore.DbContext` class.-->
+<p><em>数据库上下文</em> 是 Entity Framework 用来协调数据模型的主要类。您可以从 <code>Microsoft.EntityFrameworkCore.DbContext</code> 类派生来创建此类。</p>
+<!--
+Add a `TodoContext` class in the *Models* folder:-->
+<p>在 <em>Models</em> 文件夹中添加 <code>TodoContext</code> 类：</p>
+<pre><code class="lang-csharp" name="Main">using Microsoft.EntityFrameworkCore;
+
+namespace TodoApi.Models
+{
+    public class TodoContext : DbContext
+    {
+        public TodoContext(DbContextOptions&lt;TodoContext&gt; options)
+            : base(options)
+        {
+        }
+
+        public DbSet&lt;TodoItem&gt; TodoItems { get; set; }
+
+    }
+}
+</code></pre><!--## Register the database context-->
+<h2 id="注册数据库上下文">注册数据库上下文</h2>
+<!--In order to inject the database context into the controller, we need to register it with the [dependency injection](xref:fundamentals/dependency-injection) container. Register the database context with the service container using the built-in support for [dependency injection](xref:fundamentals/dependency-injection). Replace the contents of the *Startup.cs* file with the following:-->
+<p>为了将数据库上下文注入到控制器，我们必须在 <a class="xref" href="../fundamentals/dependency-injection.html">依赖注入</a> 容器中注册它。 把数据库上下文注册服务容器使用内置 <a class="xref" href="../fundamentals/dependency-injection.html">依赖注入</a> 支持。 使用一下代码替换掉 <em>Startup.cs</em> 文件。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="2,4,12">using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using TodoApi.Models;
+
+namespace TodoApi
+{
+    public class Startup
+    {       
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext&lt;TodoContext&gt;(opt =&gt; opt.UseInMemoryDatabase());
+            services.AddMvc();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseMvc();
+        }
+    }
+}
+</code></pre><!--The preceding code:-->
+<p>代码改动部分：</p>
+<!--* Removes the code we're not using.
+* Specifies an in-memory database is injected into the service container.-->
+<ul>
+<li>移除了不需要的 using 语句。</li>
+<li>指定内存数据库注入到服务器容器。</li>
+</ul>
+<!--## Add a controller-->
+<h2 id="添加控制器">添加控制器</h2>
+<!--In the *Controllers* folder, create a class named `TodoController`. Add the following code:-->
+<p>在 <em>Controllers</em> 目录中，创建名为 <code>TodoController</code> 的类。添加以下代码：</p>
+<pre><code class="lang-csharp" name="Main">using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using TodoApi.Models;
+using System.Linq;
+
+namespace TodoApi.Controllers
+{
+    [Route(&quot;api/[controller]&quot;)]
+    public class TodoController : Controller
+    {
+        private readonly TodoContext _context;
+
+        public TodoController(TodoContext context)
+        {
+            _context = context;
+
+            if (_context.TodoItems.Count() == 0)
+            {
+                _context.TodoItems.Add(new TodoItem { Name = &quot;Item1&quot; });
+                _context.SaveChanges();
+            }
+        }       
+    }
+}
+</code></pre><!--The preceding code:-->
+<p>在前面的代码中：</p>
+<!--* Defines an empty controller class. In the next sections, we'll add methods to implement the API.
+* The constructor uses [Dependency Injection](xref:fundamentals/dependency-injection) to inject the database context (`TodoContext `) into the controller. The database context is used in each of the [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) methods in the controller.
+* The constructor adds an item to the in-memory database if one doesn't exist.-->
+<ul>
+<li>定义一个空控制器类。 在接下来的教程中，我们将添加 API 方法的实现。</li>
+<li>控制器使用 <a class="xref" href="../fundamentals/dependency-injection.html">依赖注入</a> 来把数据库上下文 (<code>TodoContext</code>) 注入到控制器。数据库上下文在每个控制器的 <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> 方法中都被用到。</li>
+<li>构造函数将一个数据项添加到内存数据库（如果不存在）。</li>
+</ul>
+<!--## Getting to-do items-->
+<h2 id="获取-to-do-列表">获取 to-do 列表</h2>
+<!--To get to-do items, add the following methods to the `TodoController` class.-->
+<p>为了获取 to-do 项，添加下列方法到 <code>TodoController</code> 类 。</p>
+<pre><code class="lang-csharp" name="Main">[HttpGet]
+public IEnumerable&lt;TodoItem&gt; GetAll()
+{
+    return _context.TodoItems.ToList();
+}
+
+[HttpGet(&quot;{id}&quot;, Name = &quot;GetTodo&quot;)]
+public IActionResult GetById(long id)
+{
+    var item = _context.TodoItems.FirstOrDefault(t =&gt; t.Id == id);
+    if (item == null)
+    {
+        return NotFound();
+    }
+    return new ObjectResult(item);
+}
+</code></pre><!--These methods implement the two GET methods:-->
+<p>代码实现了两个 GET 方法:</p>
+<ul>
+<li><code>GET /api/todo</code></li>
+<li><code>GET /api/todo/{id}</code></li>
+</ul>
+<!--Here is an example HTTP response for the `GetAll` method:-->
+<p>以下是 <code>GetAll</code> 方法 HTTP 响应:</p>
+<pre><code>HTTP/1.1 200 OK
+   Content-Type: application/json; charset=utf-8
+   Server: Microsoft-IIS/10.0
+   Date: Thu, 18 Jun 2015 20:51:10 GMT
+   Content-Length: 82
+
+   [{&quot;Key&quot;:&quot;1&quot;, &quot;Name&quot;:&quot;Item1&quot;,&quot;IsComplete&quot;:false}]
+</code></pre><!--Later in the tutorial I'll show how you can view the HTTP response using [Postman](https://www.getpostman.com/) or or [curl](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html).-->
+<p>在后面的教程中，我将会告诉你如何使用 <a href="https://www.getpostman.com/">Postman</a> 或者 <a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/curl.1.html">curl</a>  工具查看 HTTP 响应。</p>
+<!--### Routing and URL paths-->
+<h3 id="路由和-url-路径">路由和 URL 路径</h3>
+<!--The `[HttpGet]` attribute specifies an HTTP GET method. The URL path for each method is constructed as follows:-->
+<p> <code>[HttpGet]</code> 标签指定这些方法均为 HTTP GET 方法。 每个方法构建的 Url 如下:</p>
+<!--* Take the template string in the controller’s route attribute:
+[!code-csharp[Main](../../tutorials/first-web-api/sample/TodoApi/Controllers/TodoController.cs?name=TodoController&highlight=3)]
+* Replace "[Controller]" with the name of the controller, which is the controller class name minus the "Controller" suffix. For this sample, the controller class name is **Todo**Controller and the root name is "todo". ASP.NET Core [routing](xref:mvc/controllers/routing) is not case sensitive.
+* If the `[HttpGet]` attribute has a route template (such as `[HttpGet("/products")]`, append that to the path. This sample doesn't use a template. See [Attribute routing with Http[Verb] attributes](xref:mvc/controllers/routing#attribute-routing-with-httpverb-attributes) for more information.-->
+<ul>
+<li>替换 controller 模版里面的路由标签:
+<pre><code class="lang-csharp" name="Main" highlight-lines="3">namespace TodoApi.Controllers
+{
+    [Route(&quot;api/[controller]&quot;)]
+    public class TodoController : Controller
+    {
+        private readonly TodoContext _context;
+</code></pre></li>
+<li>把 &quot;[Controller]&quot; 替换为控制器名, 必须是带 &quot;Controller&quot; 后缀的小写名称. 在本示例里面控制器的名字为 &quot;todo&quot;  (不区分大小写). 对于这个例子, controller 的类名是 <strong>Todo</strong>Controller 并且根名是 &quot;todo&quot;. ASP.NET MVC Core <a class="xref" href="../mvc/controllers/routing.html">路由</a> 是需要区分大小写的 。</li>
+<li>如果  <code>[HttpGet]</code>  标签有模版字符串, 附加到路径 。 本示例没有模版字符串 。参考 <a class="xref" href="../mvc/controllers/routing.html#attribute-routing-with-httpverb-attributes">使用 Http [Verb] 属性进行属性路由</a> 获取更多信息。</li>
+</ul>
+<!--In the `GetById` method:-->
+<p>在 <code>GetById</code> 方法中：</p>
+<pre><code class="lang-csharp">[HttpGet(&quot;{id}&quot;, Name = &quot;GetTodo&quot;)]
+public IActionResult GetById(long id)
+</code></pre><!--`"{id}"` is a placeholder variable for the ID of the `todo` item. When `GetById` is invoked, it assigns the value of "{id}" in the URL to the method's `id` parameter.-->
+<p>在实际的 HTTP 请求中<code>&quot;{id}&quot;</code> 是一个占位符, 客户端在运行时会使用 <code>todo</code> 项的 ID 属性, 当  <code>GetById</code>  被调用时候 , 会把 &quot;{id}&quot; 占位符分配到 Url 方法的 <code>id</code> 参数上去 。</p>
+<!--`Name = "GetTodo"` creates a named route and allows you to link to this route in an HTTP Response. I'll explain it with an example later. See [Routing to Controller Actions](xref:mvc/controllers/routing) for detailed information.-->
+<p><code>Name = &quot;GetTodo&quot;</code> creates a named route and allows you to link to this route in an HTTP Response. I&#39;ll explain it with an example later. See <a class="xref" href="../mvc/controllers/routing.html">Routing to Controller Actions</a> for detailed information.</p>
+<!--### Return values-->
+<h3 id="返回值">返回值</h3>
+<!--The `GetAll` method returns an `IEnumerable`. MVC automatically serializes the object to [JSON](http://www.json.org/) and writes the JSON into the body of the response message. The response code for this method is 200, assuming there are no unhandled exceptions. (Unhandled exceptions are translated into 5xx errors.)-->
+<p> <code>GetAll</code> 方法返回一个  <code>IEnumerable</code> 对象 。MVC 自动把对象序列化为 <a href="http://www.json.org/">JSON</a>   并把 JSON 对象写入响应消息正文. 响应状态码为 200, 假设没有未处理异常的情况下。（未处理异常一般会被转化为 5xx 错误。）</p>
+<!--In contrast, the `GetById` method returns the more general `IActionResult` type, which represents a wide range of return types. `GetById` has two different return types:-->
+<p>相反, <code>GetById</code> 将会返回一个 <code>IActionResult</code> 类型, 代表一个更加通用的结果对象. 因为 <code>GetById</code> 有两个不同的返回值:</p>
+<!--* If no item matches the requested ID, the method returns a 404 error.  This is done by returning `NotFound`.-->
+<ul>
+<li>如果没有数据项可以匹配 ID, 方法会返回 404 错误，并最终以返回 <code>NotFound</code>。</li>
+</ul>
+<!--* Otherwise, the method returns 200 with a JSON response body. This is done by returning an `ObjectResult`-->
+<ul>
+<li>否则, 方法会返回 200 以及 JSON 响应正文。并最终以返回 <code>ObjectResult</code>。</li>
+</ul>
+<!--### Launch the app-->
+<h3 id="运行程序">运行程序</h3>
+<!--In VS Code, press F5 to launch the app. Navigate to  http://localhost:5000/api/todo   (The `Todo` controller we just created).-->
+<p>在 VS Code 中， 按下 F5 运行程序。导航到  <a href="http://localhost:5000/api/todo">http://localhost:5000/api/todo</a>   (我们刚刚创建的 <code>Todo</code> 控制)。</p>
+<!--## Implement the other CRUD operations-->
+<h2 id="实现其他的crud操作">实现其他的CRUD操作</h2>
+<!--We'll add `Create`, `Update`, and `Delete` methods to the controller. These are variations on a theme, so I'll just show the code and highlight the main differences. Build the project after adding or changing code.-->
+<p>最后一步是 <code>Create</code>, <code>Update</code>, 以及 <code>Delete</code>方法到 controller 。这些方法都是围绕着一个主题，所以我将只列出代码以及标注出主要的区别。</p>
+<!--### Create-->
+<h3 id="create">Create</h3>
+<pre><code class="lang-csharp" name="Main">[HttpPost]
+public IActionResult Create([FromBody] TodoItem item)
+{
+    if (item == null)
+    {
+        return BadRequest();
+    }
+
+    _context.TodoItems.Add(item);
+    _context.SaveChanges();
+
+    return CreatedAtRoute(&quot;GetTodo&quot;, new { id = item.Id }, item);
+}
+</code></pre><!--This is an HTTP POST method, indicated by the [`[HttpPost]`](https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/HttpPostAttribute/index.html) attribute. The [`[FromBody]`](https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/FromBodyAttribute/index.html) attribute tells MVC to get the value of the to-do item from the body of the HTTP request.-->
+<p>这是一个 HTTP POST 方法, 用 <a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/HttpPostAttribute/index.html"><code>[HttpPost]</code></a> 标签声明 。<a href="https://docs.asp.net/projects/api/en/latest/autoapi/Microsoft/AspNetCore/Mvc/FromBodyAttribute/index.html"><code>[FromBody]</code></a> 标签告诉 MVC 从 HTTP 请求的正文中获取 to-do 项的值 。</p>
+<!--The `CreatedAtRoute` method returns a 201 response, which is the standard response for an HTTP POST method that creates a new resource on the server. `CreatedAtRoute` also adds a Location header to the response. The Location header specifies the URI of the newly created to-do item. See [10.2.2 201 Created](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).-->
+<p>当通过 <code>CreatedAtRoute</code> 方法向服务器发出 HTTP POST 方法以创建新资源时，将返回标准的 201 响应。
+ <code>CreateAtRoute</code> 还把 Location 头信息加入到了响应。 Location 头信息指定新创建的 todo 项的 URI。  查看 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">10.2.2 201 Created</a>.</p>
+<!--### Use Postman to send a Create request-->
+<h3 id="使用-postman-发送一个-create-请求">使用 Postman 发送一个 Create 请求:</h3>
+<p><img src="first-web-api/static/pmc.png" alt="Postman console"></p>
+<!--* Set the HTTP method to `POST`
+* Select the **Body** radio button
+* Select the **raw** radio button
+* Set the type to JSON
+* In the key-value editor, enter a Todo item such as -->
+<ul>
+<li>设置 HTTP method 为 <code>POST</code></li>
+<li>选择 <strong>Body</strong> 单选按钮</li>
+<li>选择 <strong>raw</strong> 单选按钮</li>
+<li>设置数据类型为 JSON</li>
+<li>在键值编辑器中，输入一下 Todo 数据项</li>
+</ul>
+<pre><code class="lang-json">{
+    &quot;name&quot;:&quot;walk dog&quot;,
+    &quot;isComplete&quot;:true
+}
+</code></pre><!--* Select **Send**-->
+<ul>
+<li>点击 <strong>Send</strong></li>
+</ul>
+<!--* Select the Headers tab in the lower pane and copy the **Location** header:-->
+<ul>
+<li>选择下方窗格中的标题选项卡，并复制 <strong>Location</strong> 标题：</li>
+</ul>
+<p><img src="first-web-api/static/pmget.png" alt="Headers tab of the Postman console"></p>
+<!--You can use the Location header URI to access the resource you just created. Recall the `GetById` method created the `"GetTodo"` named route:-->
+<p>你可以使用 Location响应头(Location header URI) 来访问你刚才创建的资源。 重新调用 <code>GetById</code> 方法创建的 <code>&quot;GetTodo&quot;</code> 命名路由：</p>
+<pre><code class="lang-csharp">[HttpGet(&quot;{id}&quot;, Name = &quot;GetTodo&quot;)]
+public IActionResult GetById(long id)
+</code></pre><h3 id="update">Update</h3>
+<pre><code class="lang-csharp" name="Main">[HttpPut(&quot;{id}&quot;)]
+public IActionResult Update(long id, [FromBody] TodoItem item)
+{
+    if (item == null || item.Id != id)
+    {
+        return BadRequest();
+    }
+
+    var todo = _context.TodoItems.FirstOrDefault(t =&gt; t.Id == id);
+    if (todo == null)
+    {
+        return NotFound();
+    }
+
+    todo.IsComplete = item.IsComplete;
+    todo.Name = item.Name;
+
+    _context.TodoItems.Update(todo);
+    _context.SaveChanges();
+    return new NoContentResult();
+}
+</code></pre><!--`Update` is similar to `Create`, but uses HTTP PUT. The response is [204 (No Content)](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html). According to the HTTP spec, a PUT request requires the client to send the entire updated entity, not just the deltas. To support partial updates, use HTTP PATCH.-->
+<p><code>Update</code> 类似于 <code>Create</code> ,但是使用 HTTP PUT 。响应是 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">204 (No Content)</a> 。
+根据 HTTP 规范, PUT 请求要求客户端发送整个实体更新，而不仅仅是增量。为了支持局部更新，请使用 HTTP PATCH 。</p>
+<p><img src="first-web-api/static/pmcput.png" alt="Postman console showing 204 (No Content) response"></p>
+<h3 id="delete">Delete</h3>
+<pre><code class="lang-csharp" name="Main">[HttpDelete(&quot;{id}&quot;)]
+public IActionResult Delete(long id)
+{
+    var todo = _context.TodoItems.First(t =&gt; t.Id == id);
+    if (todo == null)
+    {
+        return NotFound();
+    }
+
+    _context.TodoItems.Remove(todo);
+    _context.SaveChanges();
+    return new NoContentResult();
+}
+</code></pre><!--The response is [204 (No Content)](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html).-->
+<p>方法返回 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">204 (No Content)</a>。 </p>
+<p><img src="first-web-api/static/pmd.png" alt="Postman console showing 204 (No Content) response"></p>
+<!--## Visual Studio Code help-->
+<h2 id="visual-studio-code-帮助">Visual Studio Code 帮助</h2>
+<!--- [Getting started](https://code.visualstudio.com/docs)
+- [Debugging](https://code.visualstudio.com/docs/editor/debugging)
+- [Integrated terminal](https://code.visualstudio.com/docs/editor/integrated-terminal)
+- [Keyboard shortcuts](https://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference)-->
+<ul>
+<li><a href="https://code.visualstudio.com/docs">入门</a></li>
+<li><a href="https://code.visualstudio.com/docs/editor/debugging">调试</a></li>
+<li><a href="https://code.visualstudio.com/docs/editor/integrated-terminal">集成终端</a></li>
+<li><p><a href="https://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference">键盘快捷键</a></p>
+<!--- [Mac keyboard shortcuts](https://go.microsoft.com/fwlink/?linkid=832143)
+- [Linux keyboard shortcuts](https://go.microsoft.com/fwlink/?linkid=832144)
+- [Windows keyboard shortcuts](https://go.microsoft.com/fwlink/?linkid=832145)-->
+<ul>
+<li><a href="https://go.microsoft.com/fwlink/?linkid=832143">Mac 键盘快捷键</a></li>
+<li><a href="https://go.microsoft.com/fwlink/?linkid=832144">Linux 键盘快捷键</a></li>
+<li><a href="https://go.microsoft.com/fwlink/?linkid=832145">Windows 键盘快捷键</a></li>
+</ul>
+</li>
+</ul>
+<!--## Next steps-->
+<h2 id="后续章节">后续章节</h2>
+<!--* [Routing to Controller Actions](xref:mvc/controllers/routing)
+* For information about deploying your API, see [Publishing and Deployment](xref:publishing/index).
+* [View or download sample code](https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample). See [how to download](xref:tutorials/index#how-to-download-a-sample).
+* [Postman](https://www.getpostman.com/)-->
+<ul>
+<li><a class="xref" href="../mvc/controllers/routing.html">路由到控制器和方法</a></li>
+<li>更多关于如何部署你的 API 的信息， 请参考 <a class="xref" href="../publishing/index.html">发布与部署</a>.</li>
+<li><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-web-api/sample">查看并下载示例代码</a>，参考 <a class="xref" href="index.html#how-to-download-a-sample">如何下载</a>.</li>
+<li><a href="https://www.getpostman.com/">Postman</a></li>
+</ul>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/web-api-vsc.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

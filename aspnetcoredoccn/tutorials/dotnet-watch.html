@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#20351;&#29992; dotnet watch &#24320;&#21457; ASP.NET Core &#24212;&#29992;&#31243;&#24207; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#20351;&#29992; dotnet watch &#24320;&#21457; ASP.NET Core &#24212;&#29992;&#31243;&#24207; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/dotnet-watch">
+<h1 id="使用-dotnet-watch-开发-aspnet-core-应用程序">使用 dotnet watch 开发 ASP.NET Core 应用程序</h1>
+
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a> 、 <a href="https://twitter.com/victorhurdugaci">Victor Hurdugaci</a></p>
+<p>翻译 <a href="https://github.com/kiler398/aspnetcore">谢炀（Kiler)</a>  </p>
+<p>校对 <a href="https://github.com/alexinea">刘怡(AlexLEWIS)</a>、<a href="https://github.com/SeayXu">许登洋(Seay)</a></p>
+<p><code>dotnet watch</code> 是一个开发阶段在源文件发生变动的情况下使用 <code>dotnet</code> 命令的工具。 当代码发生变动的时候可以用来执行编译，运行测试，或者发布操作。</p>
+<p>在本教程中，我们将使用一个现有的计算两个数字之和以及乘积的 WebApi 应用程序。示例应用程序故意包含一个错误，作为本教程的一部分我们会修复它。 </p>
+<p>开始下载 <a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/dotnet-watch/sample">示例应用程序</a>。示例程序包含两个项目，  <code>WebApp</code>（Web 应用程序）以及 <code>WebAppTests</code> （Web 应用程序配套的单元测试项目）</p>
+<p>在命令行控制台中，进入下载示例程序的目录并且运行下述命令：</p>
+<ul>
+<li><code>dotnet restore</code></li>
+<li><code>dotnet run</code></li>
+</ul>
+<p>控制台输出将显示如下信息，表明该应用程序正在运行并等待请求：</p>
+<pre><code class="lang-console">$ dotnet run
+Hosting environment: Production
+Content root path: C:/Docs/aspnetcore/tutorials/dotnet-watch/sample/WebApp
+Now listening on: http://localhost:5000
+Application started. Press Ctrl+C to shut down.
+</code></pre><p>在 Web 浏览器中，导航到 <code>http://localhost:5000/api/math/sum?a=4&amp;b=5</code> 页面你会看到结果 <code>9</code> 。</p>
+<p>如果你导航到乘法API页面 (<code>http://localhost:5000/api/math/product?a=4&amp;b=5</code>) 页面，你期望得到结果 <code>20</code>。但是实际上还是返回了 <code>9</code>，我们稍后会修复这个问题 。</p>
+<h2 id="在项目中添加-dotnet-watch">在项目中添加 <code>dotnet watch</code></h2>
+<ul>
+<li><p>添加 <code>Microsoft.DotNet.Watcher.Tools</code> 到 <em>.csproj</em> 文件：</p>
+<pre><code class="lang-xml">&lt;ItemGroup&gt;
+ &lt;DotNetCliToolReference Include=&quot;Microsoft.DotNet.Watcher.Tools&quot; Version=&quot;1.0.0&quot; /&gt;
+&lt;/ItemGroup&gt; 
+</code></pre></li>
+<li><p>运行 <code>dotnet restore</code>。</p>
+</li>
+</ul>
+<h2 id="以-dotnet-watch-的方式运行-dotnet-命令">以 <code>dotnet watch</code> 的方式运行 <code>dotnet</code> 命令</h2>
+<p>任何与 <code>dotnet</code> 有关的命令都可以以 <code>dotnet watch</code> 这样的方式运行：例如：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>watch 方式运行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dotnet run</td>
+<td>dotnet watch run</td>
+</tr>
+<tr>
+<td>dotnet run -f net451</td>
+<td>dotnet watch run -f net451</td>
+</tr>
+<tr>
+<td>dotnet run -f net451 -- --arg1</td>
+<td>dotnet watch run -f net451 -- --arg1</td>
+</tr>
+<tr>
+<td>dotnet test</td>
+<td>dotnet watch test</td>
+</tr>
+</tbody>
+</table>
+<p>在 <code>WebApp</code> 目录里面运行 <code>dotnet watch run</code> 。 控制台输出将显示如下信息，表明  <code>watch</code>（监控工作）已经开始了。</p>
+<h2 id="在-dotnet-watch-模式修改代码">在 <code>dotnet watch</code> 模式修改代码</h2>
+<p>确认 <code>dotnet watch</code> 模式运行中。</p>
+<p>修复 <code>MathController</code> 中的 <code>Product</code> 方法的 bug ，让它返回乘积结果而不是总和。</p>
+<pre><code class="lang-csharp">public static int Product(int a, int b)
+{
+  return a * b;
+} 
+</code></pre><p>保存文件。 控制台输出将显示如下信息，表明 <code>dotnet watch</code> 检测到文件的改变并重启了应用程序。</p>
+<p>验证 <code>http://localhost:5000/api/math/product?a=4&amp;b=5</code> 链接返回正确的结果。</p>
+<h2 id="使用-dotnet-watch-运行测试">使用 <code>dotnet watch</code> 运行测试</h2>
+<ul>
+<li>修改 <code>MathController</code> 中的 <code>Product</code> 方法回到之前的返回总和结果并且保存文件。</li>
+<li>在 windows 命令窗口，导航到 <code>WebAppTests</code> 目录。</li>
+<li>运行 <code>dotnet restore</code></li>
+<li><p>运行 <code>dotnet watch test</code>。你会看到输出显示测试失败并且监控器在等待文件改变：</p>
+<pre><code class="lang-console">Total tests: 2. Passed: 1. Failed: 1. Skipped: 0.
+Test Run Failed.
+</code></pre></li>
+<li>修复 <code>Product</code> 方法代码让他返回乘积结果。保存文件。</li>
+</ul>
+<p><code>dotnet watch</code> 侦测到文件改变并且返回测试。 命令行输出显示测试通过。</p>
+<h2 id="dotnet-watch-github-开源代码">dotnet-watch GitHub 开源代码</h2>
+<p>dotnet-watch 是做为 GitHub 上的 <a href="https://github.com/aspnet/DotNetTools/tree/dev/src/Microsoft.DotNet.Watcher.Tools">DotNetTools repository</a> 开源项目中的一部分。</p>
+<p><a href="https://github.com/aspnet/DotNetTools/blob/dev/src/Microsoft.DotNet.Watcher.Tools/README.md">dotnet-watch 说明</a> 中的 <a href="https://github.com/aspnet/DotNetTools/blob/dev/src/Microsoft.DotNet.Watcher.Tools/README.md#msbuild">MSBuild 章节</a> 中详细解释了如何把 dotnet-watch 配置到 MSBuild 项目文件中来监控文件的变化。 <a href="https://github.com/aspnet/DotNetTools/blob/dev/src/Microsoft.DotNet.Watcher.Tools/README.md">dotnet-watch 说明</a> 一文包含了所有本教程没有提到的 dotnet-watch 信息。</p>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/dotnet-watch.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

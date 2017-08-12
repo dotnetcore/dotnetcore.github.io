@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ASP.NET Core MVC &#19982; EF Core - &#39640;&#32423; - 10 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#39640;&#32423; - 10 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="data/ef-mvc/advanced">
+<h1 id="高级主题---ef-core-与-aspnet-core-mvc-教程-10-of-10">高级主题 - EF Core 与 ASP.NET Core MVC 教程 (10 of 10)</h1>
+
+<p>作者 <a href="https://github.com/tdykstra">Tom Dykstra</a> 和 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="http://github.com/alexinea">刘怡(AlexLEWIS/Forerunner)</a> </p>
+<!--The Contoso University sample web application demonstrates how to create ASP.NET Core 1.0 MVC web applications using Entity Framework Core 1.0 and Visual Studio 2015. For information about the tutorial series, see [the first tutorial in the series](intro.md).-->
+<p>Contoso 大学 Web应用程序演示了如何使用 Entity Framework Core 1.1 以及 Visual Studio 2017 来创建 ASP.NET Core 1.1 MVC Web 应用程序。更多信息请参考 <a href="intro.html">第一节教程</a>.</p>
+<!--In the previous tutorial you implemented table-per-hierarchy inheritance. This tutorial introduces several topics that are useful to be aware of when you go beyond the basics of developing ASP.NET web applications that use Entity Framework Core.-->
+<p>在前一篇教程中我们实现了基于 TPH 的继承。而这篇教程则将介绍几种实用主题，它们将在你掌握利用 Entity Framework Core 开发 ASP.NET Web 应用程序的基础后非常管用。</p>
+<!--## Raw SQL Queries-->
+<h2 id="原生-sql-查询">原生 SQL 查询</h2>
+<!--One of the advantages of using the Entity Framework is that it avoids tying your code too closely to a particular method of storing data. It does this by generating SQL queries and commands for you, which also frees you from having to write them yourself. But there are exceptional scenarios when you need to run specific SQL queries that you have manually created. For these scenarios, the Entity Framework Code First API includes methods that enable you to pass SQL commands directly to the database. You have the following options in EF Core 1.0:-->
+<p>使用 Entity Framework 的一大好处在于能避免代码与存储数据的特定方法之间的耦合。通过生成 SQL 查询和命令，我们也可以避免直接编写这些 SQL 语句。但是也有例外场景，当你需要运行特定 SQL 查询的时候，你就必须手工创建 SQL 查询了。在这些场景下，Entity Framework Code First API 包含直接传递 SQL 命令的方法。在 EF Core 1.0 中你有这些选择：</p>
+<!--* Use the `DbSet.FromSql` method for queries that return entity types. The returned objects must be of the type expected by the `DbSet` object, and they are automatically tracked by the database context unless you [关闭跟踪](crud.md#no-tracking-queries).-->
+<ul>
+<li>为返回实体类型的查询使用 <code>DbSet.FromSql</code> 方法。所返回的对象必须是 <code>DbSet</code> 对象期望获得的类型，并且它们将自动被数据库上下文跟踪，出给你 <a href="crud.html#no-tracking-queries">关闭跟踪</a>。</li>
+</ul>
+<!--* Use the `Database.ExecuteSqlCommand` for non-query commands.-->
+<ul>
+<li>为非查询命令使用  <code>Database.ExecuteSqlCommand</code> 。</li>
+</ul>
+<!--If you need to run a query that returns types that aren't entities, you can use ADO.NET with the database connection provided by EF. The returned data isn't tracked by the database context, even if you use this method to retrieve entity types.-->
+<p>如果你需要运行能返回非实体类型结果的查询，你可以从 EF 中获得数据库连接，而后通过 ADO.NET 来获取。返回的数据将不会被数据库上下文跟踪，即使你检索的是实体类型。</p>
+<!--As is always true when you execute SQL commands in a web application, you must take precautions to protect your site against SQL injection attacks. One way to do that is to use parameterized queries to make sure that strings submitted by a web page can't be interpreted as SQL commands. In this tutorial you'll use parameterized queries when integrating user input into a query.-->
+<p>当你在 Web 应用程序中执行 SQL 命令时，你必须确保采取预防措施保护网站被执行 SQL 注入攻击。其中一种策略是使用参数化查询以确保通过网页提交的字符串不能被解释为 SQL 命令。在本教程中你将使用参数化查询来之兴用于输入的请求。</p>
+<!--## Call a query that returns entities-->
+<h2 id="调用返回实体的请求">调用返回实体的请求</h2>
+<!--The `DbSet<TEntity>` class provides a method that you can use to execute a query that returns an entity of type `TEntity`. To see how this works you'll change the code in the `Details` method of the Department controller.-->
+<p><code>DbSet&lt;TEntity&gt;</code> c类提供了执行查询并返回  <code>TEntity</code>  实体结果的方法。你可以通过修改 Department 控制器中的 <code>Details</code> 方法来查看它的工作原理。</p>
+<!--In *DepartmentsController.cs*, in the `Details` method, replace the code that retrieves a department with a `FromSql` method call, as shown in the following highlighted code:-->
+<p>在 <em>DepartmentController.cs</em> 文件的 <code>Details</code> 方法中，将代码替换为通过调用 <code>FromSql</code> 方法检索系，如下例所示（注意代码高亮处）：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="8,9,10,13">public async Task&lt;IActionResult&gt; Details(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    string query = &quot;SELECT * FROM Department WHERE DepartmentID = {0}&quot;;
+    var department = await _context.Departments
+        .FromSql(query, id)
+        .Include(d =&gt; d.Administrator)
+        .AsNoTracking()
+        .SingleOrDefaultAsync();
+
+    if (department == null)
+    {
+        return NotFound();
+    }
+
+    return View(department);
+}
+</code></pre><!--To verify that the new code works correctly, select the **Departments** tab and then **Details** for one of the departments.-->
+<p>为了验证新代码能正常工作，请选择 <strong>Departments</strong> 标签，然后随意一个系的 <strong>Details</strong>。</p>
+<p><img src="advanced/static/department-details.png" alt="Department Details"></p>
+<h2 id="call-a-query-that-returns-other-types">Call a query that returns other types</h2>
+<h2 id="调用返回其它类型的请求">调用返回其它类型的请求</h2>
+<!--Earlier you created a student statistics grid for the About page that showed the number of students for each enrollment date. You got the data from the Students entity set (`_context.Students`) and used LINQ to project the results into a list of `EnrollmentDateGroup` view model objects. Suppose you want to write the SQL itself rather than using LINQ. To do that you need to run a SQL query that returns something other than entity objects. In EF Core 1.0, one way to do that is write ADO.NET code and get the database connection from EF.-->
+<p>之前你已经在 About 页中创建了用于显示每个学生的入学时间的统计表。你从 Students 实体集（<code>_context.Students</code>）中获取数据并使用 LINQ 将结果转换为  <code>EnrollmentDateGroup</code> 视图模型对象列表。假设你想让它自己编写 SQL 语句而不是使用 LINQ，那么你需要执行一个 SQL 查询并返回一个非实体对象。在 EF Core 1.0 中，有一个办法做到这一点，就是从 EF 中取出数据库连接，然后编写 ADO.NET 代码。</p>
+<!--In *HomeController.cs*, replace the `About` method with the following code:-->
+<p>在 HomeController.cs 文件中，用 ADO.NET 代码替换 <code>About</code> 方法中的 LINQ 语句，并如下高亮处代码所示：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="3-32">public async Task&lt;ActionResult&gt; About()
+{
+    List&lt;EnrollmentDateGroup&gt; groups = new List&lt;EnrollmentDateGroup&gt;();
+    var conn = _context.Database.GetDbConnection();
+    try
+    {
+        await conn.OpenAsync();
+        using (var command = conn.CreateCommand())
+        {
+            string query = &quot;SELECT EnrollmentDate, COUNT(*) AS StudentCount &quot;
+                + &quot;FROM Person &quot;
+                + &quot;WHERE Discriminator = &#39;Student&#39; &quot;
+                + &quot;GROUP BY EnrollmentDate&quot;;
+            command.CommandText = query;
+            DbDataReader reader = await command.ExecuteReaderAsync();
+
+            if (reader.HasRows)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var row = new EnrollmentDateGroup { EnrollmentDate = reader.GetDateTime(0), StudentCount = reader.GetInt32(1) };
+                    groups.Add(row);
+                }
+            }
+            reader.Dispose();
+        }
+    }
+    finally
+    {
+        conn.Close();
+    }
+    return View(groups);
+}
+</code></pre><!--Add a using statement:-->
+<p>添加一个 using 语句：</p>
+<pre><code class="lang-csharp" name="Main">using System.Data.Common;
+</code></pre><!--Run the About page. It displays the same data it did before.-->
+<p>运行 About 页面。它所显示的页面与更改前的别无二致。</p>
+<p><img src="advanced/static/about.png" alt="About page"></p>
+<!--## Call an update query-->
+<h2 id="调用-update-查询">调用 Update 查询</h2>
+<!--Suppose Contoso University administrators want to perform global changes in the database, such as changing the number of credits for every course. If the university has a large number of courses, it would be inefficient to retrieve them all as entities and change them individually. In this section you'll implement a web page that enables the user to specify a factor by which to change the number of credits for all courses, and you'll make the change by executing a SQL UPDATE statement. The web page will look like the following illustration:-->
+<p>假设 Contoso University 的管理员需要在数据库内做全局变更，比如修改每门课程的学分。如果大学里有数量庞大的课程，那么将这些课程以实体的方式逐个检索出并挨个更新它们将是何等低效。在本节中你将实现一个页面，它能让用户为所有课程的学分变更指定一个因数，然后通过执行 SQL UPDATE 语句更新数据。这个网页看上去如下图所示：</p>
+<p><img src="advanced/static/update-credits.png" alt="Update Course Credits page"></p>
+<!--In *CoursesContoller.cs*, add UpdateCourseCredits methods for HttpGet and HttpPost:-->
+<p>在 <em>CoursesContoller.cs</em> 中添加 HttpGet 和 HttpPost 的 UpdateCourseCredits 方法：</p>
+<pre><code class="lang-csharp" name="Main">public IActionResult UpdateCourseCredits()
+{
+    return View();
+}
+</code></pre><pre><code class="lang-csharp" name="Main">[HttpPost]
+public async Task&lt;IActionResult&gt; UpdateCourseCredits(int? multiplier)
+{
+    if (multiplier != null)
+    {
+        ViewData[&quot;RowsAffected&quot;] = 
+            await _context.Database.ExecuteSqlCommandAsync(
+                &quot;UPDATE Course SET Credits = Credits * {0}&quot;,
+                parameters: multiplier);
+    }
+    return View();
+}
+</code></pre><!--When the controller processes an HttpGet request, nothing is returned in `ViewData["RowsAffected"]`, and the view displays an empty text box and a submit button, as shown in the preceding illustration.-->
+<p>当控制器处理 HttpGet 请求时， <code>ViewData[&quot;RowsAffected&quot;]</code> 不返回任何东西，视图会显示一个空文本框和一个提交按钮，如前图所示。</p>
+<!--When the **Update** button is clicked, the HttpPost method is called, and multiplier has the value entered in the text box. The code then executes the SQL that updates courses and returns the number of affected rows to the view in `ViewData`. When the view gets a `RowsAffected` value, it displays the number of rows updated.-->
+<p>点击 <strong>Update</strong> 按钮，调用 HttpPost 方法，然后就会乘上文本框中输入的值。代码将执行 SQL，在视图的 <code>ViewData</code> 中更新课程数据，返回受影响行数并通过  <code>RowsAffected</code> 传递给视图上。视图从该变量获得值后将其显示于页面上。</p>
+<!--In **Solution Explorer**, right-click the *Views/Courses* folder, and then click **Add > New Item**.-->
+<p>在 <strong>Solution Explorer</strong> 中右键点击 <em>Views/Courses</em> 文件夹，然后点击 <strong>Add &gt; New Item</strong>。</p>
+<!--In the **Add New Item** dialog, click **ASP.NET** under **Installed** in the left pane, click **MVC View Page**, and name the new view *UpdateCourseCredits.cshtml*.-->
+<p>在 <strong>Add New Item</strong> 对话框中点击 <strong>ASP.NET</strong>（在左侧栏的 <strong>Installed</strong> 下），点击 <strong>MVC View Page</strong>，将新视图命名为 <em>UpdateCourseCredits.cshtml</em>。</p>
+<!--In *Views/Courses/UpdateCourseCredits.cshtml*, replace the template code with the following code:-->
+<p>用如下代码替换 <em>Views/Courses/UpdateCourseCredits.cshtml</em> 中的模板代码：</p>
+<pre><code class="lang-html" name="Main">@{
+    ViewBag.Title = &quot;UpdateCourseCredits&quot;;
+}
+
+&lt;h2&gt;Update Course Credits&lt;/h2&gt;
+
+@if (ViewData[&quot;RowsAffected&quot;] == null)
+{
+    &lt;form asp-action=&quot;UpdateCourseCredits&quot;&gt;
+        &lt;div class=&quot;form-actions no-color&quot;&gt;
+            &lt;p&gt;
+                Enter a number to multiply every course&#39;s credits by: @Html.TextBox(&quot;multiplier&quot;)
+            &lt;/p&gt;
+            &lt;p&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;Update&quot; class=&quot;btn btn-default&quot; /&gt;
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+}
+@if (ViewData[&quot;RowsAffected&quot;] != null)
+{
+    &lt;p&gt;
+        Number of rows updated: @ViewData[&quot;RowsAffected&quot;]
+    &lt;/p&gt;
+}
+&lt;div&gt;
+    @Html.ActionLink(&quot;Back to List&quot;, &quot;Index&quot;)
+&lt;/div&gt;
+</code></pre><!--Run the `UpdateCourseCredits` method by selecting the **Courses** tab, then adding "/UpdateCourseCredits" to the end of the URL in the browser's address bar (for example: `http://localhost:5813/Course/UpdateCourseCredits)`. Enter a number in the text box:-->
+<p>通过选择 <strong>Courses</strong> 标签页，然后在地址栏的 URL 末尾添加 &quot;/UpdateCourseCredits&quot;  （如 <code>http://localhost:5813/Course/UpdateCourseCredits)</code>），而后应用程序将会运行 <code>UpdateCourseCredits</code> 方法。在文本框中输入一个数字：</p>
+<p><img src="advanced/static/update-credits.png" alt="Update Course Credits page"></p>
+<!--Click **Update**. You see the number of rows affected:-->
+<p>点击 <strong>Update</strong>。你可以看到受影响的行数：</p>
+<p><img src="advanced/static/update-credits-rows-affected.png" alt="Update Course Credits page rows affected"></p>
+<!--Click **Back to List** to see the list of courses with the revised number of credits.-->
+<p>点击 <strong>Back to List</strong>，查看学分修订后的课程列表。</p>
+<p>请注意，生产环境代码将确保更新总是有效的结果数据。 这里显示的简化版的代码可以将信用数量乘以大于5的数字（ <code>Credits</code> 属性具有 <code>[Range(0, 5)]</code> ]特性。）更新查询将工作，但无效数据可能在系统的其他部分导致意外的结果，假设学分数为5或更少。</p>
+<!--Note that production code would ensure that updates always result in valid data. The simplified code shown here could multiply the number of credits enough to result in numbers greater than 5. (The `Credits` property has a `[Range(0, 5)]` attribute.) The update query would work but the invalid data could cause unexpected results in other parts of the system that assume the number of credits is 5 or less.-->
+<!--For more information about raw SQL queries, see [原生 SQL 查询](https://docs.microsoft.com/en-us/ef/core/querying/raw-sql).-->
+<p>更多有关原生 SQL 查询的资料参见 <a href="https://docs.microsoft.com/en-us/ef/core/querying/raw-sql">原生 SQL 查询</a>。</p>
+<!--## Examine SQL sent to the database-->
+<h2 id="检查发送到数据库的-sql-语句">检查发送到数据库的 SQL 语句</h2>
+<!--Sometimes it's helpful to be able to see the actual SQL queries that are sent to the database. Built-in logging functionality for ASP.NET Core is automatically used by EF Core to write logs that contain the SQL for queries and updates. In this section you'll see some examples of SQL logging.-->
+<p>有时，可以看到发送到数据库的实际执行的 SQL 查询是非常有用的。ASP.NET Core 内建日志功能可以由 EF Core 自动使用，用于写入是包括 SQL 查询与更新的日志。本节将提供几个 SQL 日志记录的例子。</p>
+<!--Open *StudentsController.cs* and in the `Details` method set a breakpoint on the `if (student == null)` statement.-->
+<p>打开 <em>StudentController.cs</em>，在 <code>Details</code> 方法的 <code>if (student == null)</code> 语句上设置一个断点。</p>
+<!--Run the application in debug mode, and go to the Details page for a student.-->
+<p>以调试模式运行应用程序，转到某个学生的 Details 页面。</p>
+<!--Go to the **Output** window showing debug output, and you see the query:-->
+<p>转到显示调试输出的 <strong>Output</strong> 窗口，你会看到查询：</p>
+<pre><code>Microsoft.EntityFrameworkCore.Storage.IRelationalCommandBuilderFactory:Information: Executed DbCommand (225ms) [Parameters=[@__id_0=&#39;?&#39;], CommandType=&#39;Text&#39;, CommandTimeout=&#39;30&#39;]
+SELECT [e].[EnrollmentID], [e].[CourseID], [e].[Grade], [e].[StudentID], [c].[CourseID], [c].[Credits], [c].[DepartmentID], [c].[Title]
+FROM [Enrollment] AS [e]
+INNER JOIN (
+    SELECT DISTINCT TOP(2) [s].[ID]
+    FROM [Person] AS [s]
+    WHERE ([s].[Discriminator] = N&#39;Student&#39;) AND ([s].[ID] = @__id_0)
+    ORDER BY [s].[ID]
+) AS [s0] ON [e].[StudentID] = [s0].[ID]
+INNER JOIN [Course] AS [c] ON [e].[CourseID] = [c].[CourseID]
+ORDER BY [s0].[ID]
+</code></pre><!--You'll notice something here that might surprise you: the SQL selects up to 2 rows (`TOP(2)`). The `SingleOrDefaultAsync` method doesn't resolve to one row on the server. If the Where clause matches multiple rows, the method must return null, so EF only has to select a maximum of 2 rows, because if 3 or more match the Where clause, the result from the `SingleOrDefaultAsync` method is the same as if 2 rows match.-->
+<p>你在这里可能会吃惊：SQL 最多选选择 2 行记录（<code>TOP(2)</code>）。 <code>SingleOrDefaultAsync</code> 方法不能解析为服务器上的一行。如果 WHERE 子句命中多行记录，该方法必然返回 null，因此 EF  只能选择最多两行——这是因为不管命中两行还是更多行， <code>SingleOrDefaultAsync</code> 方法返回的结果是一样的。</p>
+<!--Note that you don't have to use debug mode and stop at a breakpoint to get logging output in the **Output** window. It's just a convenient way to stop the logging at the point you want to look at the output. If you don't do that, logging continues and you have to scroll back to find the parts you're interested in.-->
+<p>这里需要注意，你不需要使用调式模式，便能在断点处停下并将日志输出到 <strong>Output</strong> 窗口中。这是一种便捷的在记录日志的地方停下以便查看输出的方法。如果不这么做，日志会继续记录下去，而你必须向后滚动才能找到你所感兴趣的那部分日志。</p>
+<!--## Repository and unit of work patterns-->
+<h2 id="存储库repository与工作单元uow模式">存储库（Repository）与工作单元（UoW）模式</h2>
+<!--Many developers write code to implement the repository and unit of work patterns as a wrapper around code that works with the Entity Framework. These patterns are intended to create an abstraction layer between the data access layer and the business logic layer of an application. Implementing these patterns can help insulate your application from changes in the data store and can facilitate automated unit testing or test-driven development (TDD). However, writing additional code to implement these patterns is not always the best choice for applications that use EF, for several reasons:-->
+<p>许多开发者编写代码来实现存储库（repository）和工作单元（unit of work）模式作为 Entity Framework 的封装。这类模式一般会在应用程序的数据访问层（data access layer）和业务逻辑层（business logic layer）之间创建一层抽象层（abstraction layer）。实现这类模式固然可以是应用程序与数据库存储解耦，并可促进自动化单元测试（automated unit testing）或测试驱动开发（test-driven development，TDD），但通过编写额外的代码来实现这类模式并不是 EF 金科玉律般的最佳时间，因为：</p>
+<!--* The EF context class itself insulates your code from data-store-specific code.-->
+<ul>
+<li>EF 上下文类本身就将你所写的代码与数据库存储特定代码（data-store-specific code）相隔离。</li>
+</ul>
+<!--* The EF context class can act as a unit-of-work class for database updates that you do using EF.-->
+<ul>
+<li>EF 上下文可以充当你利用 EF 更新数据库时的工作单元类。</li>
+</ul>
+<!--* EF includes features for implementing TDD without writing repository code.-->
+<ul>
+<li>EF 包含不编写存储库代码时实现 TDD 的功能。</li>
+</ul>
+<!--For information about how to implement the repository and unit of work patterns, see [Entity Framework 5 系列教程](https://docs.microsoft.com/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application).-->
+<p>有关如何实现存储库与工作单元模式的资料，请参见 <a href="https://docs.microsoft.com/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application">Entity Framework 5 系列教程</a>。</p>
+<!--Entity Framework Core implements an in-memory database provider that can be used for testing. For more information, see [在内存中测试](https://docs.microsoft.com/ef/core/miscellaneous/testing/in-memory).-->
+<p>Entity Framework Core 实现了一种可用于测试的内存数据库提供程序。有关这方面的资料请参见 <a href="https://docs.microsoft.com/ef/core/miscellaneous/testing/in-memory">在内存中测试</a>。</p>
+<!--## Automatic change detection-->
+<h2 id="自动检测变更">自动检测变更</h2>
+<!--The Entity Framework determines how an entity has changed (and therefore which updates need to be sent to the database) by comparing the current values of an entity with the original values. The original values are stored when the entity is queried or attached. Some of the methods that cause automatic change detection are the following:-->
+<p>Entity Framework 确定一个实体是否发生变更（并因此需要将更新发送到数据库）的方法，是通过比较实体当前值与原始值。当实体被查询或附加时，原始植会被保存下来。引发自动变更检测的方法有以下几种：</p>
+<ul>
+<li><p>DbContext.SaveChanges</p>
+</li>
+<li><p>DbContext.Entry</p>
+</li>
+<li><p>ChangeTracker.Entries</p>
+</li>
+</ul>
+<!--If you're tracking a large number of entities and you call one of these methods many times in a loop, you might get significant performance improvements by temporarily turning off automatic change detection using the `ChangeTracker.AutoDetectChangesEnabled` property. For example:-->
+<p>如果你正跟踪大量实体，并且在循环体中多次调用上述列举的方法，那么你可以通过 <code>ChangeTracker.AutoDetectChangesEnabled</code> 属性暂时关闭自动变更检测以获得性能上的提升。例如：</p>
+<pre><code class="lang-csharp">_context.ChangeTracker.AutoDetectChangesEnabled = false;
+</code></pre><!--## Entity Framework Core source code and development plans-->
+<h2 id="entity-framework-core-源码以及开发计划">Entity Framework Core 源码以及开发计划</h2>
+<!--The source code for Entity Framework Core is available at [https://github.com/aspnet/EntityFramework](https://github.com/aspnet/EntityFramework). Besides source code, you can get nightly builds, issue tracking, feature specs, design meeting notes, [the roadmap for future development](https://github.com/aspnet/EntityFramework/wiki/Roadmap), and more. You can file bugs, and you can contribute your own enhancements to the EF source code.-->
+<p>Entty Framework Core 的源代码在 <a href="https://github.com/aspnet/EntityFramework">https://github.com/aspnet/EntityFramework</a>。除了源代码，你还可以得到每日构建、问题跟踪、细节说明、设计会议笔记， <a href="https://github.com/aspnet/EntityFramework/wiki/Roadmap">未来开发发展路线图</a>等。你可以提交 Bug，并且可以贡献自己的增强 EF 源代码。</p>
+<!--Although the source code is open, Entity Framework Core is fully supported as a Microsoft product. The Microsoft Entity Framework team keeps control over which contributions are accepted and tests all code changes to ensure the quality of each release.-->
+<p>虽然很多源码是开放的，Entity Framework Core 是一个完全由微软支持的产品。微软的 Entity Framework 团队保持对所有代码变更贡献的接受和测试的控制权以确保每个释出版本的质量。</p>
+<!--## Reverse engineer from existing database-->
+<h2 id="从现有数据库逆向工程">从现有数据库逆向工程</h2>
+<!--To reverse engineer a data model including entity classes from an existing database, use the [scaffold-dbcontext](https://docs.microsoft.com/ef/core/miscellaneous/cli/powershell#scaffold-dbcontext) command. See the [开始学习](https://docs.microsoft.com/ef/core/get-started/aspnetcore/existing-db).-->
+<p>对包含实体类型的数据模型进行反向工程，请使用 <a href="https://docs.microsoft.com/ef/core/miscellaneous/cli/powershell#scaffold-dbcontext">scaffold-dbcontext</a> command 命令。具体请阅读 <a href="https://docs.microsoft.com/ef/core/get-started/aspnetcore/existing-db">开始学习</a>。</p>
+<p><a id="dynamic-linq"><p>
+<!--## Use dynamic LINQ to simplify sort selection code-->
+<h2 id="使用动态-linq-简化排序选择代码">使用动态 LINQ 简化排序选择代码</h2>
+<!--The [本系列的第三个教程](sort-filter-page.md) shows how to write LINQ code by hard-coding column names in a `switch` statement. With two columns to choose from, this works fine, but if you have many columns the code could get verbose. To solve that problem, you can use the `EF.Property` method to specify the name of the property as a string. To try out this approach, replace the `Index` method in the `StudentsController` with the following code.-->
+<p><a href="sort-filter-page.html">本系列的第三个教程</a> 显示了如何通过在 <code>switch</code> 语句中硬编码列名来编写 LINQ 代码。 有两列可供选择，这可以正常工作，但如果您有很多列，代码可能会更复杂。 要解决这个问题，可以使用 <code>EF.Property</code> 方法来指定属性的名称作为一个字符串。 要尝试这种方法，请使用以下代码替换 <code>StudentsController</code> 中的 <code>Index</code> 方法</p>
+<pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? page)
+{
+    ViewData[&quot;CurrentSort&quot;] = sortOrder;
+    ViewData[&quot;NameSortParm&quot;] = 
+        String.IsNullOrEmpty(sortOrder) ? &quot;LastName_desc&quot; : &quot;&quot;;
+    ViewData[&quot;DateSortParm&quot;] = 
+        sortOrder == &quot;EnrollmentDate&quot; ? &quot;EnrollmentDate_desc&quot; : &quot;EnrollmentDate&quot;;
+
+    if (searchString != null)
+    {
+        page = 1;
+    }
+    else
+    {
+        searchString = currentFilter;
+    }
+
+    ViewData[&quot;CurrentFilter&quot;] = searchString;
+
+    var students = from s in _context.Students
+                   select s;
+    
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        students = students.Where(s =&gt; s.LastName.Contains(searchString)
+                               || s.FirstMidName.Contains(searchString));
+    }
+
+    if (string.IsNullOrEmpty(sortOrder))
+    {
+        sortOrder = &quot;LastName&quot;;
+    }
+
+    bool descending = false;
+    if (sortOrder.EndsWith(&quot;_desc&quot;))
+    {
+        sortOrder = sortOrder.Substring(0, sortOrder.Length - 5);
+        descending = true;
+    }
+
+    if (descending)
+    {
+        students = students.OrderByDescending(e =&gt; EF.Property&lt;object&gt;(e, sortOrder));
+    }
+    else
+    {
+        students = students.OrderBy(e =&gt; EF.Property&lt;object&gt;(e, sortOrder));
+    }
+
+    int pageSize = 3;
+    return View(await PaginatedList&lt;Student&gt;.CreateAsync(students.AsNoTracking(), 
+        page ?? 1, pageSize));
+}
+</code></pre><!--## Next steps-->
+<h2 id="下一步">下一步</h2>
+<!--This completes this series of tutorials on using the Entity Framework Core in an ASP.NET MVC application.-->
+<p>至此，有关在 ASP.NET MVC 应用程序中使用 Entity Framework Core 的系列教程到此结束。</p>
+<!--For more information about EF Core, see the [Entity Framework Core documentation](https://docs.microsoft.com/ef/core). A book is also available: [Entity Framework Core in Action](https://www.manning.com/books/entity-framework-core-in-action).-->
+<p>更多有关 EF Core 的资料请参见  <a href="https://docs.microsoft.com/ef/core">Entity Framework Core 文档</a>。还有这本书 <a href="https://www.manning.com/books/entity-framework-core-in-action">Entity Framework Core in Action</a>。</p>
+<!--For information about how to deploy your web application after you've built it, see [发布与部署](../../publishing/index.md).-->
+<p>有关部署 Web 应用程序的信息，请参见 <a href="../../publishing/index.html">发布与部署</a>.</p>
+<!--For information about other topics related to ASP.NET Core MVC, such as authentication and authorization, see the [ASP.NET Core 文档](https://docs.microsoft.com/aspnet/core/).-->
+<p>有关 ASP.NET Core MVC 的其他话题，比如身份认证与授权等，请参见 <a href="https://docs.microsoft.com/aspnet/core/">ASP.NET Core 文档</a>。</p>
+<h2 id="致谢">致谢</h2>
+<!--Tom Dykstra and Rick Anderson (twitter @RickAndMSFT) wrote this tutorial. Rowan Miller, Diego Vega, and other members of the Entity Framework team assisted with code reviews and helped debug issues that arose while we were writing code for the tutorials.-->
+<p>本教程由 Tom Dykstra 和 Rick Anderson (twitter @RickAndMSFT) 编写，由 dotNET Core Studying Group 翻译为中文。
+Entity Framework 团队的 Rowan Miller、Diego Vega 以及其他诸位同僚帮助我们进行代码审查，并帮我们就本系列教程进行调试。</p>
+<!--## Common errors-->
+<h2 id="常见错误">常见错误</h2>
+<!--### ContosoUniversity.dll used by another process-->
+<h3 id="contosouniversitydll-被另一个进程使用">ContosoUniversity.dll 被另一个进程使用</h3>
+<!--Error message:-->
+<p>错误信息：</p>
+<blockquote><p>Cannot open &#39;...bin\Debug\netcoreapp1.0\ContosoUniversity.dll&#39; for writing -- &#39;The process cannot access the file &#39;...\bin\Debug\netcoreapp1.0\ContosoUniversity.dll&#39; because it is being used by another process.</p>
+</blockquote>
+<!--Solution:-->
+<p>解决方案：</p>
+<!--Stop the site in IIS Express. Go to the Windows System Tray, find IIS Express and right-click its icon, select the Contoso University site, and then click **Stop Site**.-->
+<p>在 IIS Express 中停止站点：转到 Windows System Tray（Windows 系统托盘区），找到 IIS Express 并右键单击图标，选择 Contoso University 站点，然后点击 <strong>Stop Site</strong>。</p>
+<h3 id="migration-scaffolded-with-no-code-in-up-and-down-methods">Migration scaffolded with no code in Up and Down methods</h3>
+<!--Possible cause:-->
+<p>导致原因：</p>
+<!--The EF CLI commands don't automatically close and save code files. If you have unsaved changes when you run the `migrations add` command, EF won't find your changes.-->
+<p>EF CLI 命令不会自动关闭并保存代码文件。如果在你运行 <code>migrations add</code> 命令时没有保存修改，EF 是不会发现你做的修改的。</p>
+<!--Solution:-->
+<p>解决方案：</p>
+<!--Run the `migrations remove` command, save your code changes and rerun the `migrations add` command.-->
+<p>运行 <code>migrations remove</code> 命令，然后保存你的代码，再运行 <code>migrations remove</code> 命令。</p>
+<!--### Errors while running database update-->
+<h3 id="执行数据库更新时发生错误">执行数据库更新时发生错误</h3>
+<!--It's possible to get other errors when making schema changes in a database that has existing data. If you get migration errors you can't resolve, you can either change the database name in the connection string or delete the database. With a new database, there is no data to migrate, and the update-database command is much more likely to complete without errors.-->
+<p>在一个存在数据的数据库中修改架构可能会得到其他错误。如果你得到一个无法处理的迁移错误，你可以：1）修改连接字符串上的数据库名称，2）删除数据库。这样当新的数据库创建时，就不会有数据需要迁移，update-database 命令也就更易无错完成了。</p>
+<!--The simplest approach is to rename the database in *appsettings.json*. The next time you run `database update`, a new database will be created.-->
+<p>最简单的办法是在 <em>appsettings.json</em> 修改数据库的名称。下一次你运行 <code>database update</code>的时候新数据库会被创建。</p>
+<!--To delete a database in SSOX, right-click the database, click **Delete**, and then in the **Delete Database** dialog box select **Close existing connections** and click **OK**.-->
+<p>在 SSOX 中删除数据库的话，右键点击数据库，然后选择 <strong>Delete</strong>，接着在 <strong>Delete Database</strong> 对话框中选择 <strong>Close existing connections</strong> 并点击 <strong>OK</strong>。</p>
+<!--To delete a database by using the CLI, run the `database drop` CLI command:-->
+<p>通过运行 `database drop 这条 CLI 命令删除数据库：</p>
+<pre><code class="lang-console">dotnet ef database drop
+</code></pre><!--### Error locating SQL Server instance-->
+<h3 id="错误定位-sql-server-实例">错误定位 SQL Server 实例</h3>
+<!--Error Message:-->
+<p>错误信息：</p>
+<blockquote><p>A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)</p>
+</blockquote>
+<!--Solution:-->
+<p>解决方案：</p>
+<!--Check the connection string. If you have manually deleted the database file, change the name of the database in the construction string to start over with a new database.-->
+<p>检查连接字符串。如果你手动删除了数据库文件，那么需要修改连接字符串中数据库的名字以便能重新开建一个新的数据库。</p>
+<div class="step-by-step"><p><a href="inheritance.html">上一节</a></p>
+</div>
+</a></article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/data/ef-mvc/advanced.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

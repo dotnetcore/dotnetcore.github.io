@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#20026;&#21407;&#29983;&#31227;&#21160;&#24212;&#29992;&#31243;&#24207;&#21019;&#24314;&#21518;&#31471;&#26381;&#21153; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#20026;&#21407;&#29983;&#31227;&#21160;&#24212;&#29992;&#31243;&#24207;&#21019;&#24314;&#21518;&#31471;&#26381;&#21153; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="mobile/native-mobile-backend">
+<h1 id="为原生移动应用程序创建后端服务">为原生移动应用程序创建后端服务</h1>
+<!--# Creating Backend Services for Native Mobile Applications-->
+
+<p>作者 <a href="http://ardalis.com">Steve Smith</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler)</a>  </p>
+<!--Mobile apps can easily communicate with ASP.NET Core backend services.-->
+<p>移动应用程序可以轻松的与 ASP.NET Core 后端服务通信。</p>
+<!--[View or download sample backend services code](https://github.com/aspnet/Docs/tree/master/aspnetcore/mobile/native-mobile-backend/sample)-->
+<p><a href="https://github.com/aspnet/Docs/tree/master/aspnetcore/mobile/native-mobile-backend/sample">查看下载后端服务示例代码</a></p>
+<!--## The Sample Native Mobile App-->
+<h2 id="原生移动应用程序示例">原生移动应用程序示例</h2>
+<!--This tutorial demonstrates how to create backend services using ASP.NET Core MVC to support native mobile apps. It uses the [Xamarin Forms ToDoRest app](https://developer.xamarin.com/guides/xamarin-forms/web-services/consuming/rest/) as its native client, which includes separate native clients for Android, iOS, Windows Universal, and Window Phone devices. You can follow the linked tutorial to create the native app (and install the necessary free Xamarin tools), as well as download the Xamarin sample solution. The Xamarin sample includes an ASP.NET Web API 2 services project, which this article's ASP.NET Core app replaces (with no changes required by the client).-->
+<p>本教程演示如何使用 ASP.NET Core MVC 创建后端服务来支持原生移动应用程序。 它使用 <a href="https://developer.xamarin.com/guides/xamarin-forms/web-services/consuming/rest/">Xamarin Forms ToDoRest 应用程序</a>作为其原生客户端APP，其中包括用于Android，iOS， Windows通用和Window Phone设备的各种原生客户端APP。 您可以按照链接的教程创建原生客户端APP（需要安装免费 Xamarin 工具），以及下载 Xamarin 示例解决方案。 Xamarin 示例包括一个 ASP.NET Web API 2 服务项目，会被本文的ASP.NET Core 应用程序替换（客户端不需要进行修改）。</p>
+<p><img src="native-mobile-backend/static/todo-android.png" alt="To Do Rest application running on an Android smartphone"></p>
+<!--### Features-->
+<h3 id="功能">功能</h3>
+<!--The ToDoRest app supports listing, adding, deleting, and updating To-Do items. Each item has an ID, a Name, Notes, and a property indicating whether it's been Done yet.-->
+<p>ToDoRest APP 应用程序支持列表、添加、删除、以及 To-Do 数据项。每条数据包含 ID, Name, Notes, 以及一个属性定于该条数据是否完成的字段。</p>
+<!--The main view of the items, as shown above, lists each item's name and indicates if it is done with a checkmark.-->
+<p>如上所示，项目的主视图列出了每个项目的名称，并指示是否使用复选标记。</p>
+<!--Tapping the `+` icon opens an add item dialog:-->
+<p>点击 <code>+</code> 图标打开一个添加项目对话框：</p>
+<p><img src="native-mobile-backend/static/todo-android-new-item.png" alt="Add item dialog"></p>
+<!--Tapping an item on the main list screen opens up an edit dialog where the item's Name, Notes, and Done settings can be modified, or the item can be deleted:-->
+<p>在主列表界面上点击项目将打开一个编辑对话框，可以修改项目的“名称”，“注释”和“完成”设置，或者可以删除该项目：</p>
+<p><img src="native-mobile-backend/static/todo-android-edit-item.png" alt="Edit item dialog"></p>
+<!--This sample is configured by default to use backend services hosted at developer.xamarin.com, which allow read-only operations. To test it out yourself against the ASP.NET Core app created in the next section running on your computer, you'll need to update the app's `RestUrl` constant. Navigate to the `ToDoREST` project and open the *Constants.cs* file. Replace the `RestUrl` with a URL that includes your machine's IP address (not localhost or 127.0.0.1, since this address is used from the device emulator, not from your machine). Include the port number as well (5000). In order to test that your services work with a device, ensure you don't have an active firewall blocking access to this port.-->
+<p>本示例默认配置为使用托管在 developer.xamarin.com 上的后端服务，该服务允许只读操作。为了测试一下接下来你自己在计算机上中创建的 ASP.NET Core 应用程序，您需要更新应用程序的 <code>RestUrl</code> 常量。 导航到 <code>ToDoREST</code> 项目并打开 <em>Constants.cs</em> 文件。 将 <code>RestUrl</code> w替换为包含机器IP地址的URL（不是本地主机或127.0.0.1，因为该地址是从设备模拟器使用的，而不是来自您的机器）。 还包括端口号（5000）。 为了测试您的服务与设备的一致性，请确保您没有主动防火墙阻止对该端口的访问。</p>
+<!-- literal_block {"ids": [], "names": [], "highlight_args": {}, "backrefs": [], "dupnames": [], "linenos": false, "classes": [], "xml:space": "preserve", "language": "csharp"} -->
+<pre><code class="lang-csharp">// URL of REST service (Xamarin ReadOnly Service)
+//public static string RestUrl = &quot;http://developer.xamarin.com:8081/api/todoitems{0}&quot;;
+
+// use your machine&#39;s IP address
+public static string RestUrl = &quot;http://192.168.1.207:5000/api/todoitems/{0}&quot;;
+</code></pre><!--## Creating the ASP.NET Core Project-->
+<h2 id="创建的-aspnet-core-应用程序">创建的 ASP.NET Core 应用程序</h2>
+<!--Create a new ASP.NET Core Web Application in Visual Studio. Choose the Web API template and No Authentication. Name the project *ToDoApi*.-->
+<p>在 Visual Studio 中创建一个新的 ASP.NET Core Web应用程序。 选择 Web API 模板，然后选择无验证。 命名项目 <em>ToDoApi</em>。</p>
+<p><img src="native-mobile-backend/static/web-api-template.png" alt="New ASP.NET Web Application dialog with Web API project template selected"></p>
+<!--The application should respond to all requests made to port 5000. Update *Program.cs* to include `.UseUrls("http://*:5000")` to achieve this:-->
+<p>应用程序会响应所有对端口5000的请求。通过更新 <em>Program.cs</em> 包含 <code>.UseUrls（&quot;http://*:5000&quot;）</code> 来实现：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="3">var host = new WebHostBuilder()
+    .UseKestrel()
+    .UseUrls(&quot;http://*:5000&quot;)
+    .UseContentRoot(Directory.GetCurrentDirectory())
+    .UseIISIntegration()
+    .UseStartup&lt;Startup&gt;()
+    .Build();
+</code></pre><!--> [!NOTE]
+> Make sure you run the application directly, rather than behind IIS Express, which ignores non-local requests by default. Run `dotnet run` from a command prompt, or choose the application name profile from the Debug Target dropdown in the Visual Studio toolbar.-->
+<div class="NOTE"><h5>备注</h5><p>确保您是直接运行应用程序的，而不是在 IIS Express 之后，默认情况下会忽略非本地请求。 在命令提示符运行 <code>dotnet run</code> ，或从 Visual Studio 工具栏的 Debug Target 下拉列表中选择应用程序名称配置文件。</p>
+</div>
+<!--Add a model class to represent To-Do items. Mark required fields using the `[Required]` attribute:-->
+<p>添加一个模型类来表示待办事项。 使用 <code>[Required]</code> 属性来标记必填的字段：</p>
+<pre><code class="lang-csharp" name="Main">using System.ComponentModel.DataAnnotations;
+
+namespace ToDoApi.Models
+{
+    public class ToDoItem
+    {
+        [Required]
+        public string ID { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Notes { get; set; }
+
+        public bool Done { get; set; }
+    }
+}
+</code></pre><!--The API methods require some way to work with data. Use the same `IToDoRepository` interface the original Xamarin sample uses:-->
+<p>API 方法需要一些处理数据的方法。 使用原始 Xamarin 示例使用的相同的 <code>IToDoRepository</code> 接口：</p>
+<pre><code class="lang-csharp" name="Main">using System.Collections.Generic;
+using ToDoApi.Models;
+
+namespace ToDoApi.Interfaces
+{
+    public interface IToDoRepository
+    {
+        bool DoesItemExist(string id);
+        IEnumerable&lt;ToDoItem&gt; All { get; }
+        ToDoItem Find(string id);
+        void Insert(ToDoItem item);
+        void Update(ToDoItem item);
+        void Delete(string id);
+    }
+}
+</code></pre><!--For this sample, the implementation just uses a private collection of items:-->
+<p>对于本示例，实现只使用了私有的项目集合：</p>
+<pre><code class="lang-csharp" name="Main">using System.Collections.Generic;
+using System.Linq;
+using ToDoApi.Interfaces;
+using ToDoApi.Models;
+
+namespace ToDoApi.Services
+{
+    public class ToDoRepository : IToDoRepository
+    {
+        private List&lt;ToDoItem&gt; _toDoList;
+
+        public ToDoRepository()
+        {
+            InitializeData();
+        }
+
+        public IEnumerable&lt;ToDoItem&gt; All
+        {
+            get { return _toDoList; }
+        }
+
+        public bool DoesItemExist(string id)
+        {
+            return _toDoList.Any(item =&gt; item.ID == id);
+        }
+
+        public ToDoItem Find(string id)
+        {
+            return _toDoList.FirstOrDefault(item =&gt; item.ID == id);
+        }
+
+        public void Insert(ToDoItem item)
+        {
+            _toDoList.Add(item);
+        }
+
+        public void Update(ToDoItem item)
+        {
+            var todoItem = this.Find(item.ID);
+            var index = _toDoList.IndexOf(todoItem);
+            _toDoList.RemoveAt(index);
+            _toDoList.Insert(index, item);
+        }
+
+        public void Delete(string id)
+        {
+            _toDoList.Remove(this.Find(id));
+        }
+
+        private void InitializeData()
+        {
+            _toDoList = new List&lt;ToDoItem&gt;();
+
+            var todoItem1 = new ToDoItem
+            {
+                ID = &quot;6bb8a868-dba1-4f1a-93b7-24ebce87e243&quot;,
+                Name = &quot;Learn app development&quot;,
+                Notes = &quot;Attend Xamarin University&quot;,
+                Done = true
+            };
+
+            var todoItem2 = new ToDoItem
+            {
+                ID = &quot;b94afb54-a1cb-4313-8af3-b7511551b33b&quot;,
+                Name = &quot;Develop apps&quot;,
+                Notes = &quot;Use Xamarin Studio/Visual Studio&quot;,
+                Done = false
+            };
+
+            var todoItem3 = new ToDoItem
+            {
+                ID = &quot;ecfa6f80-3671-4911-aabe-63cc442c1ecf&quot;,
+                Name = &quot;Publish apps&quot;,
+                Notes = &quot;All app stores&quot;,
+                Done = false,
+            };
+
+            _toDoList.Add(todoItem1);
+            _toDoList.Add(todoItem2);
+            _toDoList.Add(todoItem3);
+        }
+    }
+}
+</code></pre><!--Configure the implementation in *Startup.cs*:-->
+<p>在 <em>Startup.cs</em> 中的配置实现：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="6">public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddMvc();
+
+    services.AddSingleton&lt;IToDoRepository,ToDoRepository&gt;();
+}
+</code></pre><!--At this point, you're ready to create the *ToDoItemsController*.-->
+<p>此时，您已准备好创建 <em>ToDoItemsController</em>。</p>
+<!--> [!TIP]
+> Learn more about creating web APIs in [Building Your First Web API with ASP.NET Core MVC and Visual Studio](../tutorials/first-web-api.md).-->
+<div class="TIP"><h5>提示</h5><p>了解更多如何创建 web APIs的信息请参考 <a href="../tutorials/first-web-api.html">使用 ASP.NET Core MVC 和 Visual Studio 创建你的第一个 Web API </a>。</p>
+</div>
+<!--## Creating the Controller-->
+<h2 id="创建控制器">创建控制器</h2>
+<!--Add a new controller to the project, *ToDoItemsController*. It should inherit from Microsoft.AspNetCore.Mvc.Controller. Add a `Route` attribute to indicate that the controller will handle requests made to paths starting with `api/todoitems`. The `[controller]` token in the route is replaced by the name of the controller (omitting the `Controller` suffix), and is especially helpful for global routes. Learn more about [routing](../fundamentals/routing.md).-->
+<p>向项目添加一个新的控制器 <em>ToDoItemsController</em>。 它应该继承自 Microsoft.AspNetCore.Mvc.Controller 。 添加一个 <code>Route</code> 属性来指示控制器将处理以 <code>api/todoitems</code> 开头的路径的请求。 路由中的 <code>[controller]</code> 令牌被控制器的名称所取代（省略了 <code>Controller</code> 后缀），对全局路由特别有用。 参考 <a href="../fundamentals/routing.html">routing</a> 了解更多信息。</p>
+<!--The controller requires an `IToDoRepository` to function; request an instance of this type through the controller's constructor. At runtime, this instance will be provided using the framework's support for [dependency injection](../fundamentals/dependency-injection.md).-->
+<p>控制器需要一个 <code>IToDoRepository</code> 才能正常运行; 通过控制器的构造函数请求此类型的实例。 在运行时，将使用框架内置的<a href="../fundamentals/dependency-injection.html">依赖注入</a> 支持来提供此实例。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="9,14">using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using ToDoApi.Interfaces;
+using ToDoApi.Models;
+
+namespace ToDoApi.Controllers
+{
+    [Route(&quot;api/[controller]&quot;)]
+    public class ToDoItemsController : Controller
+    {
+        private readonly IToDoRepository _toDoRepository;
+
+        public ToDoItemsController(IToDoRepository toDoRepository)
+        {
+            _toDoRepository = toDoRepository;
+        }
+</code></pre><!--This API supports four different HTTP verbs to perform CRUD (Create, Read, Update, Delete) operations on the data source. The simplest of these is the Read operation, which corresponds to an HTTP GET request.-->
+<p>该 API 支持四种不同的 HTTP 谓词来对数据源执行 CRUD（创建，读取，更新和删除）操作。 其中最简单的是读操作，它对应于 HTTP GET 请求。</p>
+<!--### Reading Items-->
+<h3 id="读取数据">读取数据</h3>
+<!--Requesting a list of items is done with a GET request to the `List` method. The `[HttpGet]` attribute on the `List` method indicates that this action should only handle GET requests. The route for this action is the route specified on the controller. You don't necessarily need to use the action name as part of the route. You just need to ensure each action has a unique and unambiguous route. Routing attributes can be applied at both the controller and method levels to build up specific routes.-->
+<p>通过对 <code>List</code> 方法的 GET请求来获取项目列表。 <code>List</code> 方法中的 <code>[HttpGet]</code> 属性表示此操作只能处理 GET 请求。 此操作的路由是在控制器上指定。 您不一定需要使用 action 名称作为路径的一部分。 你只需要确保每个action 都有一个独特和明确的路径。 路由属性可以在控制器和方法级别应用，来建立特定的路由。</p>
+<pre><code class="lang-csharp" name="Main">[HttpGet]
+public IActionResult List()
+{
+    return Ok(_toDoRepository.All);
+}
+</code></pre><!--The `List` method returns a 200 OK response code and all of the ToDo items, serialized as JSON.-->
+<p> <code>List</code> 方法返回 200 OK 响应代码和所有 ToDo 项并序列化为JSON。</p>
+<!--You can test your new API method using a variety of tools, such as [Postman](https://www.getpostman.com/docs/), shown here:-->
+<p>您可以使用各种工具测试您的新的 API 方法，例如<a href="https://www.getpostman.com/docs/">Postman</a>，如下所示：</p>
+<p><img src="native-mobile-backend/static/postman-get.png" alt="Postman console showing a GET request for todoitems and the body of the response showing the JSON for three items returned"></p>
+<!--### Creating Items-->
+<h3 id="创建项目">创建项目</h3>
+<!--By convention, creating new data items is mapped to the HTTP POST verb. The `Create` method has an `[HttpPost]` attribute applied to it, and accepts an ID parameter and a `ToDoItem` instance. The HTTP verb attributes, like `[HttpPost]`, optionally accept a route template string (`{id}` in this example). This has the same effect as adding a `[Route]` attribute to the action. Since the `item` argument will be passed in the body of the POST, this parameter is decorated with the `[FromBody]` attribute.-->
+<p>按照惯例，创建新的数据项被映射到 HTTP POST 谓词 <code>Create</code> 方法应用了一个n <code>[HttpPost]</code> 属性，并接受一个ID参数和一个 <code>ToDoItem</code> 对象实例。 HTTP谓词属性，如 <code>[HttpPost]</code> ，可选地接受一个路由模板字符串（在这个例子中为<code>{id}</code>）。 这与将 <code>[Route]</code> 属性添加到操作中具有同样的效果。 由于 <code>item</code> 参数将在POST的主体中传递，所以这个参数用 <code>[FromBody]</code> 属性装饰。</p>
+<!--Inside the method, the item is checked for validity and prior existence in the data store, and if no issues occur, it is added using the repository. Checking `ModelState.IsValid` performs [model validation](../mvc/models/validation.md), and should be done in every API method that accepts user input.-->
+<p>在方法内，检查项目的有效性和数据先前是否存在，如果没有发生问题，则使用存储库添加该项。 检查 <code>ModelState.IsValid</code> 执行<a href="../mvc/models/validation.html">模型验证</a>，并且应该在接受用户输入的每个 API 方法中完成。</p>
+<pre><code class="lang-csharp" name="Main">[HttpPost(&quot;{id}&quot;)]
+public IActionResult Create(string id, [FromBody]ToDoItem item)
+{
+    try
+    {
+        if (item == null || !ModelState.IsValid)
+        {
+            return BadRequest(ErrorCode.TodoItemNameAndNotesRequired.ToString());
+        }
+        bool itemExists = _toDoRepository.DoesItemExist(item.ID);
+        if (itemExists)
+        {
+            return StatusCode(StatusCodes.Status409Conflict, ErrorCode.TodoItemIDInUse.ToString());
+        }
+        _toDoRepository.Insert(item);
+    }
+    catch (Exception)
+    {
+        return BadRequest(ErrorCode.CouldNotCreateItem.ToString());
+    }
+    return Ok(item);
+}
+</code></pre><!--The sample uses an enum containing error codes that are passed to the mobile client:-->
+<p>该示例使用枚举包含错误代码传递给移动客户端：</p>
+<pre><code class="lang-csharp" name="Main">public enum ErrorCode
+{
+    TodoItemNameAndNotesRequired,
+    TodoItemIDInUse,
+    RecordNotFound,
+    CouldNotCreateItem,
+    CouldNotUpdateItem,
+    CouldNotDeleteItem
+}
+</code></pre><!--Test adding new items using Postman by choosing the POST verb providing the new object in JSON format in the Body of the request. You should also add a request header specifying a `Content-Type` of `application/json`.-->
+<p>测试使用 Postman 添加新项目，通过选择在请求正文中以 JSON 格式提供新对象的 POST 谓词。 您还应该添加一个请求头，指定 <code>Content-Type</code> 为  <code>application/json</code>。</p>
+<p><img src="native-mobile-backend/static/postman-post.png" alt="Postman console showing a POST and response"></p>
+<!--The method returns the newly created item in the response.-->
+<p>该方法在响应中返回新创建的项目。</p>
+<!--### Updating Items-->
+<h3 id="更新项目">更新项目</h3>
+<!--Modifying records is done using HTTP PUT requests. Other than this change, the `Edit` method is almost identical to `Create`. Note that if the record isn't found, the `Edit` action will return a `NotFound` (404) response.-->
+<p>使用 HTTP PUT 请求修改记录。 除了这种变化， <code>Edit</code> 方法与 <code>Create</code>几乎相同。 请注意，如果没有找到记录，则 <code>Edit</code> 操作将返回<code>NotFound</code> (404) 响应。</p>
+<pre><code class="lang-csharp" name="Main">[HttpPut(&quot;{id}&quot;)]
+public IActionResult Edit(string id, [FromBody] ToDoItem item)
+{
+    try
+    {
+        if (item == null || !ModelState.IsValid)
+        {
+            return BadRequest(ErrorCode.TodoItemNameAndNotesRequired.ToString());
+        }
+        var existingItem = _toDoRepository.Find(id);
+        if (existingItem == null)
+        {
+            return NotFound(ErrorCode.RecordNotFound.ToString());
+        }
+        _toDoRepository.Update(item);
+    }
+    catch (Exception)
+    {
+        return BadRequest(ErrorCode.CouldNotUpdateItem.ToString());
+    }
+    return NoContent();
+}
+</code></pre><!--To test with Postman, change the verb to PUT and add the ID of the record being updated to the URL. Specify the updated object data in the Body of the request.-->
+<p>要用 Postman 测试，将verb更改为 PUT ，并将要更新的记录的 ID 添加到 URL。 在请求的正文中指定更新的对象数据。</p>
+<p><img src="native-mobile-backend/static/postman-put.png" alt="Postman console showing a PUT and response"></p>
+<!--This method returns a `NoContent` (204) response when successful, for consistency with the pre-existing API.-->
+<p>该方法在成功时返回 <code>NoContent</code> (204) 响应，以便与预先存在的 API 保持一致。</p>
+<!--### Deleting Items-->
+<h3 id="删除项目">删除项目</h3>
+<!--Deleting records is accomplished by making DELETE requests to the service, and passing the ID of the item to be deleted. As with updates, requests for items that don't exist will receive `NotFound` responses. Otherwise, a successful request will get a `NoContent` (204) response.-->
+<p>删除记录是通过对服务执行DELETE请求并传递要删除的项目的ID来实现的。 与更新一样，对不存在的项目的请求将收到 <code>NotFound</code> 响应。 否则，成功的请求将得到一个<code>NoContent</code> (204) 响应。</p>
+<pre><code class="lang-csharp" name="Main">[HttpDelete(&quot;{id}&quot;)]
+public IActionResult Delete(string id)
+{
+    try
+    {
+        var item = _toDoRepository.Find(id);
+        if (item == null)
+        {
+            return NotFound(ErrorCode.RecordNotFound.ToString());
+        }
+        _toDoRepository.Delete(id);
+    }
+    catch (Exception)
+    {
+        return BadRequest(ErrorCode.CouldNotDeleteItem.ToString());
+    }
+    return NoContent();
+}
+</code></pre><!--Note that when testing the delete functionality, nothing is required in the Body of the request.-->
+<p>请注意，在测试删除功能时，请求正文中不需要任何内容。</p>
+<p><img src="native-mobile-backend/static/postman-delete.png" alt="Postman console showing a DELETE and response"></p>
+<!--## Common Web API Conventions-->
+<h2 id="常见的-web-api-约定">常见的 Web API 约定</h2>
+<!--As you develop the backend services for your app, you will want to come up with a consistent set of conventions or policies for handling cross-cutting concerns. For example, in the service shown above, requests for specific records that weren't found received a `NotFound` response, rather than a `BadRequest` response. Similarly, commands made to this service that passed in model bound types always checked `ModelState.IsValid` and returned a `BadRequest` for invalid model types.-->
+<p>当您为你的应用程序开发后端服务时，您将需要制定一套统一的约定或策略来处理横切关注点。 例如，在上面显示的服务中，未找到的特定记录的请求收到 <code>NotFound</code> 响应，而不是 <code>BadRequest</code> 响应。 类似地，通过模型绑定类型传递给该服务的命令总是检查 <code>ModelState.IsValid</code> ，并为无效的模型类型返回一个 <code>BadRequest</code> 。</p>
+<!--Once you've identified a common policy for your APIs, you can usually encapsulate it in a [filter](../mvc/controllers/filters.md). Learn more about [how to encapsulate common API policies in ASP.NET Core MVC applications](https://msdn.microsoft.com/en-us/magazine/mt767699.aspx).-->
+<p>一旦确定好了 API 的通用策略，您可以将其封装在<a href="../mvc/controllers/filters.html">filter</a>中。 了解更多详细信息请参考<a href="https://msdn.microsoft.com/en-us/magazine/mt767699.aspx">如何在 ASP.NET Core MVC 应用程序中封装通用 API 策略</a>。</p>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/mobile/native-mobile-backend.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

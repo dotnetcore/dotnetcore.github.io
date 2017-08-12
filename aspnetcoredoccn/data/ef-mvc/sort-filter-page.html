@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ASP.NET Core MVC &#19982; EF Core - &#25490;&#24207;&#65292; &#36807;&#28388;&#65292; &#20998;&#39029; - 3 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="ASP.NET Core MVC &#19982; EF Core - &#25490;&#24207;&#65292; &#36807;&#28388;&#65292; &#20998;&#39029; - 3 of 10 | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="data/ef-mvc/sort-filter-page">
+<h1 id="排序-过滤-分页与分组---ef-core-与-aspnet-core-mvc-教程-3-of-10">排序， 过滤， 分页与分组 - EF Core 与 ASP.NET Core MVC 教程 (3 of 10)</h1>
+
+<p>作者 <a href="https://github.com/tdykstra">Tom Dykstra</a> ， <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler）</a> </p>
+<p>Contoso 大学 Web应用程序演示了如何使用 Entity Framework Core 1.1 以及 Visual Studio 2017 来创建 ASP.NET Core 1.1 MVC Web 应用程序。更多信息请参考 <a href="intro.html">第一节教程</a>.</p>
+<p>在之前的教程中你实现了一套对 Student实体进行基本 CRUD 操作的 Web 页面。在本教程中，您将为 Index 页添加排序、筛选和分页的功能。您还会创建一个简单的分组页面。</p>
+<p>下图显示了当你完成本教程后的页面截屏。用户可以点击行标题来进行排序，并且多次点击标题可以让你在升序和降序之间切换。</p>
+<p><img src="sort-filter-page/static/paging.png" alt="Students index page"></p>
+<h2 id="将排序链接添加到学生的-index-页">将排序链接添加到学生的 Index 页</h2>
+<p>要为学生 Index 页添加排序功能，你需要往学生控制器中的 <code>Index</code> 方法和学生 Index 视图添加代码。</p>
+<h3 id="在-index-方法中添加排序功能">在 Index 方法中添加排序功能</h3>
+<p>在 <em>StudentsController.cs</em> 代码中，使用下面的代码替换 <code>Index</code> 方法：</p>
+<pre><code class="lang-csharp" name="Main">public async Task&lt;IActionResult&gt; Index(string sortOrder)
+{
+    ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
+    ViewData[&quot;DateSortParm&quot;] = sortOrder == &quot;Date&quot; ? &quot;date_desc&quot; : &quot;Date&quot;;
+    var students = from s in _context.Students
+                   select s;
+    switch (sortOrder)
+    {
+        case &quot;name_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.LastName);
+            break;
+        case &quot;Date&quot;:
+            students = students.OrderBy(s =&gt; s.EnrollmentDate);
+            break;
+        case &quot;date_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.EnrollmentDate);
+            break;
+        default:
+            students = students.OrderBy(s =&gt; s.LastName);
+            break;
+    }
+    return View(await students.AsNoTracking().ToListAsync());
+}
+</code></pre><p>这段代码从 URL 中接收 <code>sortOrder</code> 查询字符串，该字符串是由 ASP.NET MVC 作为参数传递给动作方法的。该参数可以是 ”Name” 或 ”Date” 之一，默认的排序规则是升序。还可以有一条下划线和 ”desc” 来指示这是一个降序排序。</p>
+<p>Index 页面第一次请求时，没有任何查询字符串被传递，学生们按照 LastName 升序排序显示。这是由 <code>switch</code> 语句中的 default 条件指定的，当用户点击某列的标题超链接时，相应的 <code>sortOrder</code> 值通过查询字符串传递到控制器中。</p>
+<p>两个 <code>ViewData</code> 变量 (NameSortParm and DateSortParm)被用于为视图提供合适的查询字符串值</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="3-4">public async Task&lt;IActionResult&gt; Index(string sortOrder)
+{
+    ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
+    ViewData[&quot;DateSortParm&quot;] = sortOrder == &quot;Date&quot; ? &quot;date_desc&quot; : &quot;Date&quot;;
+    var students = from s in _context.Students
+                   select s;
+    switch (sortOrder)
+    {
+        case &quot;name_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.LastName);
+            break;
+        case &quot;Date&quot;:
+            students = students.OrderBy(s =&gt; s.EnrollmentDate);
+            break;
+        case &quot;date_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.EnrollmentDate);
+            break;
+        default:
+            students = students.OrderBy(s =&gt; s.LastName);
+            break;
+    }
+    return View(await students.AsNoTracking().ToListAsync());
+}
+</code></pre><p>这里使用了三元表达式。第一个指定假如 <code>sortOrder</code> 参数为null或为空，则 NameSortParm 应设置为 ”name_desc” ，否则将其设置为空字符串。这两个语句为视图中列标题的超链接提供下列排序规则：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">当前排序规则</th>
+<th style="text-align:center">Last Name 链接</th>
+<th style="text-align:center">Date 链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Last Name ascending</td>
+<td style="text-align:center">descending</td>
+<td style="text-align:center">ascending</td>
+</tr>
+<tr>
+<td style="text-align:center">Last Name descending</td>
+<td style="text-align:center">ascending</td>
+<td style="text-align:center">ascending</td>
+</tr>
+<tr>
+<td style="text-align:center">Date ascending</td>
+<td style="text-align:center">ascending</td>
+<td style="text-align:center">descending</td>
+</tr>
+<tr>
+<td style="text-align:center">Date descending</td>
+<td style="text-align:center">ascending</td>
+<td style="text-align:center">ascending</td>
+</tr>
+</tbody>
+</table>
+<p>该方法使用 LINQ to Entities 来指定要作为排序依据的列。代码在switch语句前创建了一个 <code>IQueryable</code> 变量，然后在 switch 语句中修改它，并在 <code>switch</code> 语句后调用 <code>ToListAsync</code> 方法。当您创建和修改 <code>IQueryable</code> 变量时，没有查询被实际发送到数据库执行。直到您将 <code>IQueryable</code> 对象通过调用一种方法如 <code>ToListAsync</code> 转换为一个集合时才进行真正的查询。因此，直到<code>return View</code> 语句之前，这段代码的查询都不会执行。</p>
+<p>本代码可能会有大量的列。 <a href="advanced.html#dynamic-linq">本系列的最后一个教程</a> 显示了如何编写代码，让您传递字符串变量中的 <code>OrderBy</code> 列的名称。</p>
+<h3 id="为学生-index-视图添加行标题超链接">为学生 Index 视图添加行标题超链接</h3>
+<p>在 <em>Views/Students/Index.cshtml</em>中，使用下面高亮的代码添加列标题链接。</p>
+<pre><code class="lang-html" highlight-lines="16,22">@model IEnumerable&lt;ContosoUniversity.Models.Student&gt;
+
+@{
+    ViewData[&quot;Title&quot;] = &quot;Index&quot;;
+}
+
+&lt;h2&gt;Index&lt;/h2&gt;
+
+&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+                &lt;th&gt;
+                    &lt;a asp-action=&quot;Index&quot; asp-route-sortOrder=&quot;@ViewData[&quot;NameSortParm&quot;]&quot;&gt;@Html.DisplayNameFor(model =&gt; model.LastName)&lt;/a&gt;
+                &lt;/th&gt;
+                &lt;th&gt;
+                    @Html.DisplayNameFor(model =&gt; model.FirstMidName)
+                &lt;/th&gt;
+                &lt;th&gt;
+                    &lt;a asp-action=&quot;Index&quot; asp-route-sortOrder=&quot;@ViewData[&quot;DateSortParm&quot;]&quot;&gt;@Html.DisplayNameFor(model =&gt; model.EnrollmentDate)&lt;/a&gt;
+                &lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+@foreach (var item in Model) {
+        &lt;tr&gt;
+            &lt;td&gt;
+                @Html.DisplayFor(modelItem =&gt; item.LastName)
+            &lt;/td&gt;
+            &lt;td&gt;
+                @Html.DisplayFor(modelItem =&gt; item.FirstMidName)
+            &lt;/td&gt;
+            &lt;td&gt;
+                @Html.DisplayFor(modelItem =&gt; item.EnrollmentDate)
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@item.ID&quot;&gt;Edit&lt;/a&gt; |
+                &lt;a asp-action=&quot;Details&quot; asp-route-id=&quot;@item.ID&quot;&gt;Details&lt;/a&gt; |
+                &lt;a asp-action=&quot;Delete&quot; asp-route-id=&quot;@item.ID&quot;&gt;Delete&lt;/a&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+}
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre><p>这段代码使用 <code>ViewData</code> 的属性来设置超链接和查询字符串值。</p>
+<p>运行该页面，点击 <strong>Last Name</strong> 和 <strong>Enrollment Date</strong> 行标题，观察排序的变化。</p>
+<p><img src="sort-filter-page/static/name-order.png" alt="Students index page in name order"></p>
+<h2 id="向学生-index-页中添加搜索框">向学生 Index 页中添加搜索框</h2>
+<p>要在 Index 页中增加搜索功能，你需要向视图中添加一个文本框及一个提交按钮并在 <code>Index</code>方法中做相应的修改。文本框允许你输入要在名字和姓氏中检索的字符串。</p>
+<h3 id="向-index-方法中添加筛选功能">向 Index 方法中添加筛选功能</h3>
+<p>在 <em>StudentsController.cs</em> 代码中，使用下面的代码替换 <code>Index</code> 方法（高亮部分）：</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1,5,9-13">public async Task&lt;IActionResult&gt; Index(string sortOrder, string searchString)
+{
+    ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
+    ViewData[&quot;DateSortParm&quot;] = sortOrder == &quot;Date&quot; ? &quot;date_desc&quot; : &quot;Date&quot;;
+    ViewData[&quot;CurrentFilter&quot;] = searchString;
+
+    var students = from s in _context.Students
+                   select s;
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        students = students.Where(s =&gt; s.LastName.Contains(searchString)
+                               || s.FirstMidName.Contains(searchString));
+    }
+    switch (sortOrder)
+    {
+        case &quot;name_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.LastName);
+            break;
+        case &quot;Date&quot;:
+            students = students.OrderBy(s =&gt; s.EnrollmentDate);
+            break;
+        case &quot;date_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.EnrollmentDate);
+            break;
+        default:
+            students = students.OrderBy(s =&gt; s.LastName);
+            break;
+    }
+    return View(await students.AsNoTracking().ToListAsync());
+}
+</code></pre><p>您已经将 <code>searchString</code> 参数添加到e <code>Index</code> 方法，搜索字符串是从你将添加到 Index 视图的搜索文本框中输入的，您也已经添加用于在姓名中搜索指定字符串的 Linq 语句。只有在搜索字符串有值时，搜索部分的语句才会执行。</p>
+<div class="NOTE"><h5>备注</h5><p>在这里你调用了 <code>IQueryable</code> 对象的 <code>Where</code> 方法，服务器上会执行筛选操作. 在某些场景你可以在内存对象中作为一个扩展方法调用 <code>Where</code> 。 (例如， 假设您将引用更改为 <code>_context.Students</code> ，而不是使用一个 EF <code>DbSet</code>，它引用一个返回 <code>IEnumerable</code> 集合的存储库方法。) 。一般来说结果是相同的，但在某些情况下可能会有所不同.</p>
+<p>例如，.Net框架中的 <code>Contains</code> 方法默认实现不区分大小写的字符串比对。但是 SQL Server 则是由排序规则决定的。默认不区分大小写。你可以调用 <code>ToUpper</code> 方法来明确的测试区分大小写<em>Where(s =&gt; s.LastName.ToUpper().Contains(searchString.ToUpper())</em> 。这将确保结果保持不变，，如果稍后更改代码以使用返回 <code>IEnumerable</code> 集合而不是 <code>IQueryable</code> 对象的存储库。 （当您在 <code>IEnumerable</code> 集合中调用 <code>Contains</code> 方法时，您将获得 .NET Framework 实现;当您在 <code>IQueryable</code> 对象上调用它时，可以获取数据库提供程序的实现。）但是，这个解决方案有性能损失。 <code>ToUpper</code> 代码会把一个函数放在 TSQL SELECT 语句的 WHERE 子句中。 这将阻止优化器使用索引。 鉴于 SQL 主要是不区分大小写的实现，因此最好避免使用 <code>ToUpper</code> 代码，直到您迁移到区分大小写的数据存储。</p>
+</div>
+<h3 id="向学生-index-视图中添加一个搜索框">向学生 Index 视图中添加一个搜索框</h3>
+<p>在 <em>Views/Student/Index.cshtml</em>中，在table元素之前添加下面高亮的代码以创建一个标题、一个文本框及一个 <strong>搜索</strong> 按钮。</p>
+<pre><code class="lang-html" highlight-lines="5-13">&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;form asp-action=&quot;Index&quot; method=&quot;get&quot;&gt;
+    &lt;div class=&quot;form-actions no-color&quot;&gt;
+        &lt;p&gt;
+            Find by name: &lt;input type=&quot;text&quot; name=&quot;SearchString&quot; value=&quot;@ViewData[&quot;currentFilter&quot;]&quot; /&gt;
+            &lt;input type=&quot;submit&quot; value=&quot;Search&quot; class=&quot;btn btn-default&quot; /&gt; |
+            &lt;a asp-action=&quot;Index&quot;&gt;Back to Full List&lt;/a&gt;
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;table class=&quot;table&quot;&gt;
+</code></pre><p>这段代码使用 <code>&lt;form&gt;</code> <a href="https://docs.asp.net/en/latest/mvc/views/tag-helpers/intro.html">tag helper</a>添加搜索文本框和按钮。 默认情况下， <code>&lt;form&gt;</code> tag helper 使用 POST 提交表单数据，这意味着参数在HTTP消息正文中传递，而不是作为查询字符串传递。 当您指定 HTTP GET 时，表单数据将以 URL 的形式作为查询字符串传递，从而使用户能够将 URL 加入书签。 W3C 指南建议您在操作不会导致更新时使用 GET 。</p>
+<p>运行索引页面，输入搜索字符串并提交，检查搜索功能是否正常工作。</p>
+<p><img src="sort-filter-page/static/filtering.png" alt="Students index page with filtering"></p>
+<p>注意该 URL 中包含搜索字符串</p>
+<pre><code class="lang-html">http://localhost:5813/Students?SearchString=an
+</code></pre><p>如果你把页面加入书签，当你打开书签的时候你会重新获取过滤列表，在 <code>form</code> 标签中添加 <code>method=&quot;get&quot;</code> 会导致生成查询字符串。</p>
+<p>在现阶段，如果你点击表头标题排序链接你会丢失你在 <strong>Search</strong> 输入框中输入的过滤值。你将会在下一节修复这个问题。</p>
+<h2 id="向学生-index-页中添加分页功能">向学生 Index 页中添加分页功能</h2>
+<p>要向 Index 页面添加分页，您需要创建一个 <code>PaginatedList</code> 类并使用它的 <code>Skip</code> 和 <code>Take</code> 语句来过滤服务器上的数据，而不是始终检索数据库表里面的所有行。 然后，您将在 <code>Index</code> 方法中进行其他更改，并将分页按钮添加到 <code>Index</code> 视图。 下图显示了分页按钮。</p>
+<p><img src="sort-filter-page/static/paging.png" alt="Students index page with paging links"></p>
+<p>在项目目录创建 <code>PaginatedList.cs</code> 类， 并把模版代码替换为以下代码。</p>
+<pre><code class="lang-csharp" name="Main">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
+public class PaginatedList&lt;T&gt; : List&lt;T&gt;
+{
+    public int PageIndex { get; private set; }
+    public int TotalPages { get; private set; }
+
+    public PaginatedList(List&lt;T&gt; items, int count, int pageIndex, int pageSize)
+    {
+        PageIndex = pageIndex;
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+        this.AddRange(items);
+    }
+
+    public bool HasPreviousPage
+    {
+        get
+        {
+            return (PageIndex &gt; 1);
+        }
+    }
+
+    public bool HasNextPage
+    {
+        get
+        {
+            return (PageIndex &lt; TotalPages);
+        }
+    }
+
+    public static async Task&lt;PaginatedList&lt;T&gt;&gt; CreateAsync(IQueryable&lt;T&gt; source, int pageIndex, int pageSize)
+    {
+        var count = await source.CountAsync();
+        var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+        return new PaginatedList&lt;T&gt;(items, count, pageIndex, pageSize);
+    }
+}
+</code></pre><p>这段代码中的 <code>CreateAsync</code>方法将使用页面大小和页码，并将适当的 <code>Skip</code> 以及 <code>Take</code> 语句应用于 <code>IQueryable</code>对象。 当 <code>ToListAsync</code>方法 在 <code>IQueryable</code>对象上被调用时，它将返回一个仅包含请求的页面的列表。 属性 <code>HasPreviousPage</code> 和 <code>HasNextPage</code> 用于启用或禁用 <strong>Previous</strong> 和 <strong>Next</strong> 分页按钮。</p>
+<p>使用 <code>CreateAsync</code> 方法代替构造函数来创建 <code>PaginatedList&lt;T&gt;</code> 对象，因为构造函数不能运行异步代码。</p>
+<h2 id="在-index-方法中添加分页功能">在 Index 方法中添加分页功能</h2>
+<p>在 <em>StudentsController.cs</em> 中，使用以下代码替换<code>Index</code>方法。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="1-5,7,11-18,45-46">public async Task&lt;IActionResult&gt; Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? page)
+{
+    ViewData[&quot;CurrentSort&quot;] = sortOrder;
+    ViewData[&quot;NameSortParm&quot;] = String.IsNullOrEmpty(sortOrder) ? &quot;name_desc&quot; : &quot;&quot;;
+    ViewData[&quot;DateSortParm&quot;] = sortOrder == &quot;Date&quot; ? &quot;date_desc&quot; : &quot;Date&quot;;
+
+    if (searchString != null)
+    {
+        page = 1;
+    }
+    else
+    {
+        searchString = currentFilter;
+    }
+
+    ViewData[&quot;CurrentFilter&quot;] = searchString;
+
+    var students = from s in _context.Students
+                   select s;
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        students = students.Where(s =&gt; s.LastName.Contains(searchString)
+                               || s.FirstMidName.Contains(searchString));
+    }
+    switch (sortOrder)
+    {
+        case &quot;name_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.LastName);
+            break;
+        case &quot;Date&quot;:
+            students = students.OrderBy(s =&gt; s.EnrollmentDate);
+            break;
+        case &quot;date_desc&quot;:
+            students = students.OrderByDescending(s =&gt; s.EnrollmentDate);
+            break;
+        default:
+            students = students.OrderBy(s =&gt; s.LastName);
+            break;
+    }
+
+    int pageSize = 3;
+    return View(await PaginatedList&lt;Student&gt;.CreateAsync(students.AsNoTracking(), page ?? 1, pageSize));
+}
+</code></pre><p>此代码向方法签名添加页码参数、当前排序参数和当前过滤参数。</p>
+<pre><code class="lang-csharp">public async Task&lt;IActionResult&gt; Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? page)
+</code></pre><p>页面第一次显示的时候，或者如果用户没有点击分页或排序链接，则所有参数都将为空。 如果点击分页链接，分页变量将包含要显示的页码。</p>
+<p>视图里面的名为 CurrentSort 的 <code>ViewData</code> 变量保存具有当前排序信息，因为这个变量必须包含在分页链接中，以便在分页时保持相同排序。</p>
+<p>视图里面的名为 CurrentFilter 的 <code>ViewData</code> 变量保存当前当前过滤字符串信息。 此值必须包含在分页链接中，以便在分页期间保留过滤字符串，而且并且在重新显示页面时必须将其还原到文本框。</p>
+<p>如果在分页的过程中更改了搜索字符串，则页面当前页码必须重置为1，因为新的过滤字符串可能导致显示不同的数据。 当在文本框中输入值并按下提交按钮时，搜索字符串将被更改。 在这种情况下，<code>searchString</code> 参数不为空。</p>
+<pre><code class="lang-csharp">if (searchString != null)
+{
+    page = 1;
+}
+else
+{
+    searchString = currentFilter;
+}
+</code></pre><p>在 <code>Index</code> 方法的末尾， <code>PaginatedList.CreateAsync</code> 方法将学生查询转换为支持分页的集合类型的单页学生数据。 然后当前页的学生数据被传递给视图。</p>
+<pre><code class="lang-csharp">return View(await PaginatedList&lt;Student&gt;.CreateAsync(students.AsNoTracking(), page ?? 1, pageSize));
+</code></pre><p> <code>PaginatedList.CreateAsync</code> 方法需要一个页码参数。 这两个问号表示合并运算符。 合并运算符定义可空类型的默认值; 表达式 <code>(page ?? 1)</code>表示如果具有值，则返回 <code>page</code> 的值，如果 <code>page</code> 为空，则返回1。</p>
+<h2 id="向学生-index-视图添加分页链接">向学生 Index 视图添加分页链接</h2>
+<p>在 <em>Views/Students/Index.cshtml</em> 中，使用下面的代码替换原来的代码，高亮部分显示了我们所做的更改：</p>
+<pre><code class="lang-html" highlight-lines="1,27,30,33,61-79">@model PaginatedList&lt;ContosoUniversity.Models.Student&gt;
+
+@{
+    ViewData[&quot;Title&quot;] = &quot;Index&quot;;
+}
+
+&lt;h2&gt;Index&lt;/h2&gt;
+
+&lt;p&gt;
+    &lt;a asp-action=&quot;Create&quot;&gt;Create New&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;form asp-action=&quot;Index&quot; method=&quot;get&quot;&gt;
+    &lt;div class=&quot;form-actions no-color&quot;&gt;
+        &lt;p&gt;
+            Find by name: &lt;input type=&quot;text&quot; name=&quot;SearchString&quot; value=&quot;@ViewData[&quot;currentFilter&quot;]&quot; /&gt;
+            &lt;input type=&quot;submit&quot; value=&quot;Search&quot; class=&quot;btn btn-default&quot; /&gt; |
+            &lt;a asp-action=&quot;Index&quot;&gt;Back to Full List&lt;/a&gt;
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                &lt;a asp-action=&quot;Index&quot; asp-route-sortOrder=&quot;@ViewData[&quot;NameSortParm&quot;]&quot; asp-route-currentFilter=&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;&gt;Last Name&lt;/a&gt;
+            &lt;/th&gt;
+            &lt;th&gt;
+                First Name
+            &lt;/th&gt;
+            &lt;th&gt;
+                &lt;a asp-action=&quot;Index&quot; asp-route-sortOrder=&quot;@ViewData[&quot;DateSortParm&quot;]&quot; asp-route-currentFilter=&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;&gt;Enrollment Date&lt;/a&gt;
+            &lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var item in Model)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.LastName)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.FirstMidName)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    @Html.DisplayFor(modelItem =&gt; item.EnrollmentDate)
+                &lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a asp-action=&quot;Edit&quot; asp-route-id=&quot;@item.ID&quot;&gt;Edit&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Details&quot; asp-route-id=&quot;@item.ID&quot;&gt;Details&lt;/a&gt; |
+                    &lt;a asp-action=&quot;Delete&quot; asp-route-id=&quot;@item.ID&quot;&gt;Delete&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? &quot;disabled&quot; : &quot;&quot;;
+    var nextDisabled = !Model.HasNextPage ? &quot;disabled&quot; : &quot;&quot;;
+}
+
+&lt;a asp-action=&quot;Index&quot;
+   asp-route-sortOrder=&quot;@ViewData[&quot;CurrentSort&quot;]&quot;
+   asp-route-page=&quot;@(Model.PageIndex - 1)&quot;
+   asp-route-currentFilter=&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;
+   class=&quot;btn btn-default @prevDisabled&quot;&gt;
+    Previous
+&lt;/a&gt;
+&lt;a asp-action=&quot;Index&quot;
+   asp-route-sortOrder=&quot;@ViewData[&quot;CurrentSort&quot;]&quot;
+   asp-route-page=&quot;@(Model.PageIndex + 1)&quot;
+   asp-route-currentFilter=&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;
+   class=&quot;btn btn-default @nextDisabled&quot;&gt;
+    Next
+&lt;/a&gt;
+</code></pre><p>页面顶部的 <code>@model</code> 语句指示视图现在获取的是 <code>PaginatedList&lt;T&gt;</code> 对象而不是 <code>List&lt;T&gt;</code> 对象。</p>
+<p>列标题链接使用查询字符串将当前搜索字符串传递给控制器，以便用户可以对过滤查询结果进行排序：</p>
+<pre><code class="lang-html">&lt;a asp-action=&quot;Index&quot; asp-route-sortOrder=&quot;@ViewData[&quot;DateSortParm&quot;]&quot; asp-route-currentFilter =&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;&gt;Enrollment Date&lt;/a&gt;
+</code></pre><p>分页按钮由 tag helpers 生成：</p>
+<pre><code class="lang-html">&lt;a asp-action=&quot;Index&quot;
+   asp-route-sortOrder=&quot;@ViewData[&quot;CurrentSort&quot;]&quot;
+   asp-route-page=&quot;@(Model.PageIndex - 1)&quot;
+   asp-route-currentFilter=&quot;@ViewData[&quot;CurrentFilter&quot;]&quot;
+   class=&quot;btn btn-default @prevDisabled btn&quot;&gt;
+   Previous
+&lt;/a&gt;
+</code></pre><p>运行页面。</p>
+<p><img src="sort-filter-page/static/paging.png" alt="Students index page with paging links"></p>
+<p>点击不同排序中的分页链接以确保分页功能工作。 然后输入搜索字符串，然后再次尝试分页，以验证分页也可以正确排序和过滤。</p>
+<h2 id="创建一个显示学生统计信息的-about-页面">创建一个显示学生统计信息的 About 页面</h2>
+<p>对于 Contoso 大学网站的 <strong>About</strong> 页面，将显示每个报名日期有多少学生报名。 这需要对学员进行分组和简单统计计算。 要完成此操作，您将执行以下操作：</p>
+<ul>
+<li><p>为需要传递给视图的数据创建视图模型类。</p>
+</li>
+<li><p>修改 Home 控制器中的 About 方法。</p>
+</li>
+<li><p>修改 About 视图。</p>
+</li>
+</ul>
+<h3 id="创建视图模型">创建视图模型</h3>
+<p>在 <em>Models</em>  目录中创建 <em>SchoolViewModels</em> 目录。</p>
+<p>在新目录中，添加类文件 EnrollmentDateGroup.cs 用下列代码替换掉模版代码。</p>
+<pre><code class="lang-csharp" name="Main">using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace ContosoUniversity.Models.SchoolViewModels
+{
+    public class EnrollmentDateGroup
+    {
+        [DataType(DataType.Date)]
+        public DateTime? EnrollmentDate { get; set; }
+
+        public int StudentCount { get; set; }
+    }
+}
+</code></pre><h3 id="修改-home-控制器">修改 Home 控制器</h3>
+<p>在 <em>HomeController.cs</em> 文件中，在文件顶部添加一下 Using 语句：</p>
+<pre><code class="lang-csharp" name="Main">using Microsoft.EntityFrameworkCore;
+using ContosoUniversity.Data;
+using ContosoUniversity.Models.SchoolViewModels;
+</code></pre><p>在该类的开放大括号之后立即为数据库上下文添加一个类变量，并从ASP.NET Core DI获取上下文的实例：
+Add a class variable for the database context immediately after the opening curly brace for the class, and get an instance of the context from ASP.NET Core DI:</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="3,5,7">public class HomeController : Controller
+{
+    private readonly SchoolContext _context;
+
+    public HomeController(SchoolContext context)
+    {
+        _context = context;
+    }
+</code></pre><p>使用下列代码替换掉 <code>About</code> 方法：</p>
+<pre><code class="lang-csharp" name="Main">public async Task&lt;ActionResult&gt; About()
+{
+    IQueryable&lt;EnrollmentDateGroup&gt; data = 
+        from student in _context.Students
+        group student by student.EnrollmentDate into dateGroup
+        select new EnrollmentDateGroup()
+        {
+            EnrollmentDate = dateGroup.Key,
+            StudentCount = dateGroup.Count()
+        };
+    return View(await data.AsNoTracking().ToListAsync());
+}
+</code></pre><p>LINQ 语句通过报名日期对学生实体进行分组，计算每个组中的实体数，并将结果存储在 <code>EnrollmentDateGroup</code> 视图模型对象的集合中。</p>
+<div class="NOTE"><h5>备注</h5><p>在 1.0 版本的 Entity Framework Core 中，会将整个结果集返回给客户端，并在客户端上进行分组。 这在某些情况下可能会导致性能问题。 确保使用生产数据量测试性能，并在必要时侯使用原始 SQL 在服务器上进行分组。 有关如何使用原始 SQ L的信息，请参阅 <a href="advanced.html">本系列的最后一个教程</a>.</p>
+</div>
+<h3 id="修改-about-视图">修改 About 视图</h3>
+<p>使用下列代码替换掉 <em>Views/Home/About.cshtml</em> 中的代码：</p>
+<pre><code class="lang-html">@model IEnumerable&lt;ContosoUniversity.Models.SchoolViewModels.EnrollmentDateGroup&gt;
+
+@{
+    ViewData[&quot;Title&quot;] = &quot;Student Body Statistics&quot;;
+}
+
+&lt;h2&gt;Student Body Statistics&lt;/h2&gt;
+
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;
+            Enrollment Date
+        &lt;/th&gt;
+        &lt;th&gt;
+            Students
+        &lt;/th&gt;
+    &lt;/tr&gt;
+
+    @foreach (var item in Model)
+    {
+        &lt;tr&gt;
+            &lt;td&gt;
+                @Html.DisplayFor(modelItem =&gt; item.EnrollmentDate)
+            &lt;/td&gt;
+            &lt;td&gt;
+                @item.StudentCount
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    }
+&lt;/table&gt;
+</code></pre><p>运行应用程序，然后单击 <strong>About</strong> 链接。 每个报名日期的学生总数显示在表格中。</p>
+<p><img src="sort-filter-page/static/about.png" alt="About page"></p>
+<h2 id="总结">总结</h2>
+<p>在本教程中，你学会了编写排序、筛选、分页及分组功能，下一节中我们将通过迁移来处理数据模型的变化。</p>
+<div class="step-by-step"><p><a href="crud.html">上一节</a>
+<a href="migrations.html">下一节</a>  </p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/data/ef-mvc/sort-filter-page.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

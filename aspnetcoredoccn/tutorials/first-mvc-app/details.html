@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#26816;&#26597;&#33258;&#21160;&#29983;&#25104;&#30340;Detail&#26041;&#27861;&#21644;Delete&#26041;&#27861; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#26816;&#26597;&#33258;&#21160;&#29983;&#25104;&#30340;Detail&#26041;&#27861;&#21644;Delete&#26041;&#27861; | Microsoft &#25991;&#26723;&#65288;&#20013;&#25991;&#25991;&#26723;&#65289; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="/foo">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tutorials/first-mvc-app/details">
+<h1 id="检查自动生成的detail方法和delete方法">检查自动生成的Detail方法和Delete方法</h1>
+
+<p>作者 <a href="https://twitter.com/RickAndMSFT">Rick Anderson</a></p>
+<p>翻译 <a href="https://github.com/kiler398/">谢炀（Kiler）</a> </p>
+<p>校对 <a href="https://github.com/SeayXu">许登洋(Seay)</a> 、<a href="https://github.com/YaoaY">姚阿勇(Dr.Yao)</a></p>
+<p>打开 Movie 控制器并查看 <code>Details</code> 方法:</p>
+<pre><code class="lang-csharp" name="Main">// GET: Movies/Details/5
+public async Task&lt;IActionResult&gt; Details(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    var movie = await _context.Movie
+        .SingleOrDefaultAsync(m =&gt; m.ID == id);
+    if (movie == null)
+    {
+        return NotFound();
+    }
+
+    return View(movie);
+}
+</code></pre><p>创建这个 action 方法的 MVC 基架引擎添加了一条注释给出了会调用这个方法的 HTTP 请求。在这个例子中是一个有三个URL段的GET请求， <code>Movies</code> 控制器， <code>Details</code>方法和 <code>id</code> 参数值。回顾一下 Startup 里定义的这些段。</p>
+<pre><code class="lang-csharp" name="Main" highlight-lines="5">app.UseMvc(routes =&gt;
+{
+    routes.MapRoute(
+        name: &quot;default&quot;,
+        template: &quot;{controller=Home}/{action=Index}/{id?}&quot;);
+});
+</code></pre><p>EF 使用 <code>SingleOrDefaultAsync</code>方法更易于数据搜索。这个方法包含的一个重要的安全功能，就是在代码尝试用电影记录做任何操作之前确保查找方法已经找到了一条电影记录。例如，黑客可以把产生的链接 URL 从 <code>http://localhost:xxxx/Movies/Details/1</code>  改成类似于 <code>http://localhost:xxxx/Movies/Details/12345</code> （或者其他非实际电影记录的值），从而给网站带来错误。如果你不检查影片是否为空，应用程序将会抛出异常。</p>
+<p>查看 <code>Delete</code> 方法和 <code>DeleteConfirmed</code> 方法</p>
+<pre><code class="lang-csharp" name="Main">// GET: Movies/Delete/5
+public async Task&lt;IActionResult&gt; Delete(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    var movie = await _context.Movie
+        .SingleOrDefaultAsync(m =&gt; m.ID == id);
+    if (movie == null)
+    {
+        return NotFound();
+    }
+
+    return View(movie);
+}
+
+// POST: Movies/Delete/5
+[HttpPost, ActionName(&quot;Delete&quot;)]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; DeleteConfirmed(int id)
+{
+    var movie = await _context.Movie.SingleOrDefaultAsync(m =&gt; m.ID == id);
+    _context.Movie.Remove(movie);
+    await _context.SaveChangesAsync();
+    return RedirectToAction(&quot;Index&quot;);
+}
+</code></pre><p>需要注意的是<code>HTTP GET Delete</code> 方法不删除指定的影片，它返回一个你可以提交 (HttpPost) 删除操作的  Movie 的视图。如果在对 GET 请求的响应中执行删除操作（或者编辑，创建，或任何其他更改数据的操作）将会引入一个安全漏洞。</p>
+<p>真正删除数据的 <code>[HttpPost]</code> 方法被命名为 <code>DeleteConfirmed</code> ，给这个 HTTP POST 方法一个唯一的签名或名称。这两个方法的签名如下：</p>
+<pre><code class="lang-csharp" name="Main">// GET: Movies/Delete/5
+public async Task&lt;IActionResult&gt; Delete(int? id)
+{
+</code></pre><pre><code class="lang-csharp" name="Main">// POST: Movies/Delete/5
+[HttpPost, ActionName(&quot;Delete&quot;)]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; DeleteConfirmed(int id)
+{
+</code></pre><p>公共语言运行时（CLR）要求重载方法有一个唯一的参数签名（相同的方法名，但不同的参数列表）。然而，在这里你需要两个 <code>Delete</code> 方法 – 一个 GET 请求一个 POST 请求 – 并且它们都具有相同的参数签名。（它们都需要接收一个整数作为参数）。</p>
+<p>有两种方案可以解决该问题，其中一种方法是，赋予方法不同的名称。这就是基架机制在前面的例子所做的事情。但是，这个方法引入了一个小问题： ASP.NET 利用名字将 URL 段映射到 action 方法，如果你重命名一个方法，路由通常将无法找到该方法。解决的办法就是你在例子中看到的，就是为 <code>DeleteConfirmed</code> 方法添加 <code>ActionName(&quot;Delete&quot;)</code> 特性。该特性为路由系统执行映射，所以一个 POST 请求的包含 /Delete/ 的 URL 会找到 <code>DeleteConfirmed</code>的方法。</p>
+<p>对于具有相同名称和参数签名的方法，另一种常见的的解决办法是通过人为的改变 POST 方法的签名，即包含一个附加的（未使用）参数。这就是我们在前面文章中已经添加的 <code>notUsed</code> 的参数。在这里你可以对 <code>[HttpPost] Delete</code> 方法采用同样的解决办法：</p>
+<pre><code class="lang-csharp">// POST: Movies/Delete/6
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; Delete(int id, bool notUsed)
+</code></pre><p>感谢您完成了 ASP.NET Core MVC 介绍教程的学习，我们会虚心听取您的建议，接下请学习 <a class="xref" href="../../data/ef-mvc/intro.html">MVC 以及 EF Core 入门</a>。</p>
+<div class="step-by-step"><p><a href="validation.html">上一节</a></p>
+</div>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+                        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/aspnetcore-doc-cn/blob/master/aspnetcore/tutorials/first-mvc-app/details.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                                  <li>
+                                              <span style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="contribution-link"><a class="cloud-tie-join-count" href="#cloudcomment">
+                                                  <span class="icon-comment"></span>
+                                                  <span class="join-count">0</span>
+                                                  <span class="join-text">评论</span>
+                                              </a></span>
+                                          </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+    
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    <script>
+     
+        var url = window.location.href;
+        
+        url = url.replace(window.location.hash,"");
+        url = url.replace(window.location.search, "");
+    
+        var cloudTieConfig = {
+            url: url, 
+            sourceId: "",
+            productKey: "1f2ab3895f9d44a0b3b90ab7a8c4e01b",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+    </script>
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>
