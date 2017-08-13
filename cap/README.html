@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>CAP &#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#20013;&#25991; | CAP &#20013;&#25991;&#25991;&#26723; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="CAP &#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#20013;&#25991; | CAP &#20013;&#25991;&#25991;&#26723; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="搜索" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cap-中文httpsgithubcomdotnetcorecapblobdevelopreadmezh-cnmd">CAP 　　　　　　　　　　　　　　　　　　　　　　<a href="https://github.com/dotnetcore/CAP/blob/develop/README.zh-cn.md">中文</a></h1>
+
+<p><a href="https://travis-ci.org/dotnetcore/CAP"><img src="https://img.shields.io/travis/dotnetcore/CAP/develop.svg?label=travis-ci" alt="Travis branch"></a>
+<a href="https://ci.appveyor.com/project/yuleyule66/cap"><img src="https://ci.appveyor.com/api/projects/status/4mpe0tbu7n126vyw?svg=true" alt="AppVeyor"></a>
+<a href="https://www.nuget.org/packages/DotNetCore.CAP/"><img src="https://img.shields.io/nuget/v/DotNetCore.CAP.svg" alt="NuGet"></a>
+<a href="https://www.nuget.org/packages/DotNetCore.CAP/"><img src="https://img.shields.io/nuget/vpre/DotNetCore.CAP.svg?label=nuget-pre" alt="NuGet Preview"></a>
+<a href="https://github.com/dotnetcore"><img src="https://img.shields.io/badge/member_project_of-.NET_CHINA-red.svg?style=flat&amp;colorB=9E20C8" alt="Member project of .NET China Foundation"></a>
+<a href="https://raw.githubusercontent.com/dotnetcore/CAP/master/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a></p>
+<p>CAP is a .Net Standard library to achieve eventually consistent in distributed architectures system like SOA,MicroService.  It is lightweight,easy to use and efficiently.</p>
+<h2 id="overview">OverView</h2>
+<p>CAP is a library that used in an ASP.NET Core project, Of Course you can ues it in ASP.NET Core with .NET Framework.</p>
+<p>You can think of CAP as an EventBus because it has all the features of EventBus, and CAP provides a easier way to handle the publishing and subscribing than EventBus.</p>
+<p>CAP has the function of Message Persistence, and it makes messages reliability when your service is restarted or down. CAP provides a Publish Service based on Microsoft DI that integrates seamlessly with your business services and supports strong consistency transactions.</p>
+<p>This is a diagram of the CAP working in the ASP.NET Core MicroService architecture:</p>
+<p><img src="http://images2015.cnblogs.com/blog/250417/201707/250417-20170705175827128-1203291469.png" alt=""></p>
+<blockquote><p>The solid line in the figure represents the user code, and the dotted line represents the internal implementation of the CAP.</p>
+</blockquote>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="nuget">NuGet</h3>
+<p>You can run the following command to install the CAP in your project.</p>
+<pre><code>PM&gt; Install-Package DotNetCore.CAP
+</code></pre><p>If your Message Queue is using Kafka, you can：</p>
+<pre><code>PM&gt; Install-Package DotNetCore.CAP.Kafka
+</code></pre><p>If your Message Queue is using RabbitMQ, you can：</p>
+<pre><code>PM&gt; Install-Package DotNetCore.CAP.RabbitMQ
+</code></pre><p>CAP provides EntityFramework as default database store extension (The MySQL version is under development)：</p>
+<pre><code>PM&gt; Install-Package DotNetCore.CAP.SqlServer
+</code></pre><h3 id="configuration">Configuration</h3>
+<p>First,You need to config CAP in your Startup.cs：</p>
+<pre><code class="lang-cs">public void ConfigureServices(IServiceCollection services)
+{
+    ......
+
+    services.AddDbContext&lt;AppDbContext&gt;();
+
+    services.AddCap(x =&gt;
+    {
+        // If your SqlServer is using EF for data operations, you need to add the following configuration：
+        // Notice: You don&#39;t need to config x.UseSqlServer(&quot;&quot;&quot;) again!
+        x.UseEntityFramework&lt;AppDbContext&gt;();
+
+        // If you are using Dapper,you need to add the config：
+        x.UseSqlServer(&quot;Your ConnectionStrings&quot;);
+
+        // If your Message Queue is using RabbitMQ you need to add the config：
+        x.UseRabbitMQ(&quot;localhost&quot;);
+
+        // If your Message Queue is using Kafka you need to add the config：
+        x.UseKafka(&quot;localhost&quot;);
+    });
+}
+
+public void Configure(IApplicationBuilder app)
+{
+    .....
+
+    app.UseCap();
+}
+</code></pre><h3 id="publish">Publish</h3>
+<p>Inject <code>ICapPublisher</code> in your Controller, then use the <code>ICapPublisher</code> to send message</p>
+<pre><code class="lang-cs">public class PublishController : Controller
+{
+    private readonly ICapPublisher _publisher;
+
+    public PublishController(ICapPublisher publisher)
+    {
+        _publisher = publisher;
+    }
+
+
+    [Route(&quot;~/checkAccount&quot;)]
+    public async Task&lt;IActionResult&gt; PublishMessage()
+    {
+        // Specifies the message header and content to be sent
+        await _publisher.PublishAsync(&quot;xxx.services.account.check&quot;, new Person { Name = &quot;Foo&quot;, Age = 11 });
+
+        return Ok();
+    }
+
+    [Route(&quot;~/checkAccountWithTrans&quot;)]
+    public async Task&lt;IActionResult&gt; PublishMessageWithTransaction([FromServices]AppDbContext dbContext)
+    {
+         using (var trans = dbContext.Database.BeginTransaction())
+         {
+            await _publisher.PublishAsync(&quot;xxx.services.account.check&quot;, new Person { Name = &quot;Foo&quot;, Age = 11 });
+
+            trans.Commit();
+         }
+        return Ok();
+    }
+}
+</code></pre><h3 id="subscribe">Subscribe</h3>
+<p><strong>Action Method</strong></p>
+<p>Add the Attribute <code>[CapSubscribe()]</code> on Action to subscribe message:</p>
+<pre><code class="lang-cs">public class PublishController : Controller
+{
+    private readonly ICapPublisher _publisher;
+
+    public PublishController(ICapPublisher publisher)
+    {
+        _publisher = publisher;
+    }
+
+
+    [NoAction]
+    [CapSubscribe(&quot;xxx.services.account.check&quot;)]
+    public async Task CheckReceivedMessage(Person person)
+    {
+        Console.WriteLine(person.Name);
+        Console.WriteLine(person.Age);     
+        return Task.CompletedTask;
+    }
+}
+</code></pre><p><strong>Service Method</strong></p>
+<p>If your subscribe method is not in the Controller,then your subscribe class need to Inheritance <code>ICapSubscribe</code>: </p>
+<pre><code class="lang-cs">
+namespace xxx.Service
+{
+    public interface ISubscriberService
+    {
+        public void CheckReceivedMessage(Person person);
+    }
+
+
+    public class SubscriberService: ISubscriberService, ICapSubscribe
+    {
+        [CapSubscribe(&quot;xxx.services.account.check&quot;)]
+        public void CheckReceivedMessage(Person person)
+        {
+
+        }
+    }
+}
+</code></pre><p>Then inject your  <code>ISubscriberService</code>  class in Startup.cs </p>
+<pre><code class="lang-cs">public void ConfigureServices(IServiceCollection services)
+{
+    services.AddTransient&lt;ISubscriberService,SubscriberService&gt;();
+}
+</code></pre><h2 id="contribute">Contribute</h2>
+<p>One of the easiest ways to contribute is to participate in discussions and discuss issues. You can also contribute by submitting pull requests with code changes.</p>
+<h3 id="license">License</h3>
+<p><a href="https://github.com/dotnetcore/CAP/blob/master/LICENSE.txt">MIT</a></p>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+ 
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/CAP/blob/develop/README.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+     
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

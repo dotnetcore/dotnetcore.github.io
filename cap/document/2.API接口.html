@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>2&#12289;API&#25509;&#21475; | CAP &#20013;&#25991;&#25991;&#26723; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="2&#12289;API&#25509;&#21475; | CAP &#20013;&#25991;&#25991;&#26723; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="搜索" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="2api接口">2、API接口</h2>
+
+<p>CAP 的 API 接口只有一个，就是 <code>ICapPublisher</code> 接口，你可以从 DI 容器中获取到该接口的实例进行调用。</p>
+<h3 id="21-发布发送">2.1 发布/发送</h3>
+<p>你可以使用 <code>ICapPublisher</code> 接口中的 <code>Publish&lt;T&gt;</code> 或者 <code>PublishAsync&lt;T&gt;</code> 方法来发送消息：</p>
+<pre><code class="lang-cs">public class PublishController : Controller
+{
+    private readonly ICapPublisher _publisher;
+
+    //在构造函数中获取接口实例
+    public PublishController(ICapPublisher publisher)
+    {
+        _publisher = publisher;
+    }
+
+
+    [Route(&quot;~/checkAccount&quot;)]
+    public async Task&lt;IActionResult&gt; PublishMessage()
+    {
+        await _publisher.PublishAsync(&quot;xxx.services.account.check&quot;, new Person { Name = &quot;Foo&quot;, Age = 11 });
+
+        return Ok();
+    }
+}
+</code></pre><p>下面是PublishAsync这个接口的签名：</p>
+<p><strong><code>PublishAsync&lt;T&gt;(string name,T object)</code></strong></p>
+<p>默认情况下，在调用此方法的时候 CAP 将在内部创建事务，然后将消息写入到 <code>Cap.Published</code> 这个消息表。</p>
+<h4 id="211--事务">2.1.1  事务</h4>
+<p>事务在 CAP 具有重要作用，它是保证消息可靠性的一个基石。 在发送一条消息到消息队列的过程中，如果不使用事务，我们是没有办法保证我们的业务代码在执行成功后消息已经成功的发送到了消息队列，或者是消息成功的发送到了消息队列，但是业务代码确执行失败。</p>
+<p>这里的失败原因可能是多种多样的，比如连接异常，网络故障等等。</p>
+<p><em>只有业务代码和CAP的Publish代码必须在同一个事务中，才能够保证业务代码和消息代码同时成功或者失败。</em></p>
+<p>以下是两种使用事务进行Publish的代码：</p>
+<ul>
+<li>EntityFramework</li>
+</ul>
+<pre><code class="lang-cs"> using (var transaction = dbContext.Database.BeginTransaction())
+ {
+
+    await _publisher.PublishAsync(&quot;xxx.services.account.check&quot;,
+        new Person { Name = &quot;Foo&quot;, Age = 11 });
+
+    // 你的业务代码。
+
+    transaction.Commit();
+ }
+</code></pre><p>你的业务代码可以位于 Publish 之前或者之后，只需要保证在同一个事务。 </p>
+<p>当CAP检测到 Publish 是在EF事务区域内的时候，将使用当前的事务上下文进行消息的存储。</p>
+<p>其中，发送的内容会序列化为Json存储到消息表中。</p>
+<ul>
+<li>Dapper</li>
+</ul>
+<pre><code class="lang-cs">var connString = &quot;数据库连接字符串&quot;;
+using (var connection = new MySqlConnection(connString))
+{
+    connection.Open();
+    using (var transaction = connection.BeginTransaction())
+    {
+        await _publisher.PublishAsync(&quot;xxx.services.bar&quot;,
+            new Person { Name = &quot;Foo&quot;, Age = 11 }, 
+            connection,
+            transaction);
+
+        // 你的业务代码。
+
+        transaction.Commit();
+    }
+}
+</code></pre><p>在 Dapper 中，由于不能获取到事务上下文，所以需要用户手动的传递事务上下文到CAP中。</p>
+<h3 id="22-订阅消费">2.2 订阅/消费</h3>
+<p><strong>注意：消息端在方法实现的过程中需要实现幂等性。</strong></p>
+<p>使用 <code>CapSubscribeAttribute</code> 来订阅 CAP 发布出去的消息。</p>
+<pre><code>[CapSubscribe(&quot;xxx.services.bar&quot;)]
+public void BarMessageProcessor()
+{
+
+}
+</code></pre><p>这里，你也可以使用多个 <code>CapSubscribe[&quot;&quot;]</code> 来同时订阅多个不同的消息 :</p>
+<pre><code>[CapSubscribe(&quot;xxx.services.bar&quot;)]
+[CapSubscribe(&quot;xxx.services.foo&quot;)]
+public void BarAndFooMessageProcessor()
+{
+
+}
+</code></pre><p>其中，<code>xxx.services.bar</code> 为订阅的消息名称，内部实现上，这个名称在不同的消息队列具有不同的代表。 在 Kafka 中，这个名称即为 Topic Name。 在RabbitMQ 中，为 RouteKey。</p>
+<blockquote><p>RabbitMQ 中的 RouteKey 支持绑定键表达式写法，有两种主要的绑定键：</p>
+<p>*（星号）可以代替一个单词.</p>
+<p># (井号) 可以代替0个或多个单词.</p>
+<p>比如在下面这个图中(P为发送者，X为RabbitMQ中的Exchange，C为消费者，Q为队列)</p>
+<p><img src="http://images2017.cnblogs.com/blog/250417/201708/250417-20170807093230268-283915002.png" alt=""></p>
+<p>在这个示例中，我们将发送一条关于动物描述的消息，也就是说 Name(routeKey) 字段中的内容包含 3 个单词。第一个单词是描述速度的（celerity），第二个单词是描述颜色的（colour），第三个是描述哪种动物的（species），它们组合起来类似：“<celerity>.<colour>.<species>”。<p>
+<p>然后在使用 <code>CapSubscribe</code> 绑定的时候，Q1绑定为 <code>CapSubscribe[&quot;*.orange.*&quot;]</code>, Q2 绑定为  <code>CapSubscribe[&quot;*.*.rabbit&quot;]</code> 和 <code>[CapSubscribe[&quot;lazy.#]</code>。</p>
+<p>那么，当发送一个名为 &quot;quick.orange.rabbit&quot; 消息的时候，这两个队列将会同时收到该消息。同样名为 <code>lazy.orange.elephant</code>的消息也会被同时收到。另外，名为 &quot;quick.orange.fox&quot; 的消息将仅会被发送到Q1队列，名为 &quot;lazy.brown.fox&quot; 的消息仅会被发送到Q2。&quot;lazy.pink.rabbit&quot; 仅会被发送到Q2一次，即使它被绑定了2次。&quot;quick.brown.fox&quot; 没有匹配到任何绑定的队列，所以它将会被丢弃。</p>
+<p>另外一种情况，如果你违反约定，比如使用 4个单词进行组合，例如 &quot;quick.orange.male.rabbit&quot;，那么它将匹配不到任何的队列，消息将会被丢弃。</p>
+<p>但是，假如你的消息名为 &quot;lazy.orange.male.rabbit&quot;，那么他们将会被发送到Q2，因为 #（井号）可以匹配 0 或者多个单词。</p>
+</species></colour></celerity></blockquote>
+<p>在 CAP 中，我们把每一个拥有 <code>CapSubscribe[]</code>标记的方法叫做<strong>订阅者</strong>，你可以把订阅者进行分组。</p>
+<p><strong>组(Group)</strong>，是订阅者的一个集合，每一组可以有一个或者多个消费者，但是一个订阅者只能属于某一个组。同一个组内的订阅者订阅的消息只能被消费一次。</p>
+<p>如果你在订阅的时候没有指定组，CAP会将订阅者设置到一个默认的组 <code>cap.default.group</code>。</p>
+<p>以下是使用组进行订阅的示例：</p>
+<pre><code class="lang-cs">[CapSubscribe(&quot;xxx.services.foo&quot;, Group = &quot;moduleA&quot;)]
+public void FooMessageProcessor()
+{
+
+}
+</code></pre><h4 id="221-例外情况">2.2.1 例外情况</h4>
+<p>这里有几种情况可能需要知道：</p>
+<p><strong>① 消息发布的时候订阅方还未启动</strong></p>
+<p>Kafka:</p>
+<p>当 Kafka 中，发布的消息存储于持久化的日志文件中，所以消息不会丢失，当订阅者所在的程序启动的时候会消费掉这些消息。</p>
+<p>RabbitMQ:</p>
+<p>在 RabbitMQ 中，应用程序<strong>首次启动</strong>会创建具有持久化的 Exchange 和 Queue，CAP 会针对每一个订阅者Group会新建一个消费者队列，<strong>由于首次启动时候订阅者未启动的所以是没有队列的，消息无法进行持久化，这个时候生产者发的消息会丢失</strong>。</p>
+<p>针对RabbitMQ的消息丢失的问题，有两种解决方式：</p>
+<p>i. 部署应用程序之前，在RabbitMQ中手动创建具有durable特性的Exchange和Queue，默认情况他们的名字分别是(cap.default.topic, cap.default.group)。</p>
+<p>ii. 提前运行一遍所有实例，让Exchange和Queue初始化。</p>
+<p>我们建议采用第 ii 种方案，因为很容易做到。</p>
+<p><strong>② 消息没有任何订阅者</strong></p>
+<p>如果你发送了一条个没有被任何订阅者订阅的消息，那么此消息将会被丢弃。</p>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+ 
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/CAP/blob/develop/document/2.API&#25509;&#21475;.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+     
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>

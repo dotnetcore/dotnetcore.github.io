@@ -1,0 +1,229 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/projects/CAP",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "CHANGELOG.md",
+      "output": {
+        ".html": {
+          "relative_path": "CHANGELOG.html",
+          "hash": "j16ZeF6vJxe5k+gUrE8dew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "CODE_OF_CONDUCT.md",
+      "output": {
+        ".html": {
+          "relative_path": "CODE_OF_CONDUCT.html",
+          "hash": "avLvgFQQvysZzaaOEYh0rA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "Index.md",
+      "output": {
+        ".html": {
+          "relative_path": "Index.html",
+          "hash": "qx9ap2aphowCP6rJj8byfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html",
+          "hash": "e5U8iHRAlZKxPjjHJl4h/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "README.zh-cn.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.zh-cn.html",
+          "hash": "166LFgElffrRJjI/NikuUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/1.Getting-Started.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/1.Getting-Started.html",
+          "hash": "+MKzwG6UbJgnvkuIKfwhNg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/2.API接口.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/2.API接口.html",
+          "hash": "V0qBINHjN+sBmeOe4vzmiA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/3.配置.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/3.配置.html",
+          "hash": "HZ6THuMzxm1tN1RYtHlh6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/4.设计原理.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/4.设计原理.html",
+          "hash": "mu4yVuyrQcTqzxGF93aZBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/5.实现.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/5.实现.html",
+          "hash": "rGsunbSw0dz10CpCwjDBcQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/6.分布式事务.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/6.分布式事务.html",
+          "hash": "/FgtmXKWe9QlWSYYGrZF8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "document/7.FAQ.md",
+      "output": {
+        ".html": {
+          "relative_path": "document/7.FAQ.html",
+          "hash": "lzgzqKSLYw+bmkFYIEqwBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "document/images/cap.png",
+      "output": {
+        "resource": {
+          "relative_path": "document/images/cap.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "document/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "document/toc.html",
+          "hash": "hMLQprMW7ly9MG0zuvCKlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "bK09sitxIN73ucwE4wP6+Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "RestApiDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor RestApiDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {}
+}

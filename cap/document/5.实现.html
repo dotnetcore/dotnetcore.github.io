@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>5&#12289;&#23454;&#29616; | CAP &#20013;&#25991;&#25991;&#26723; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="5&#12289;&#23454;&#29616; | CAP &#20013;&#25991;&#25991;&#26723; ">
+    <meta name="generator" content="docfx 2.22.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="搜索" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">显示 / 隐藏目录</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="5实现">5、实现</h2>
+
+<p>CAP 封装了在 ASP.NET Core 中的使用依赖注入来获取 Publisher （<code>ICapPublisher</code>）的接口。而启动方式类似于 “中间件” 的形式，通过在 Startup.cs 配置 <code>ConfigureServices</code> 和 <code>Configure</code> 进行启动。</p>
+<h3 id="51-消息表">5.1 消息表</h3>
+<p>当系统引入CAP之后并首次启动后，CAP会在客户端生成 3 个表，分别是 Cap.Published, Cap.Received, Cap.Queue。注意表名可能在不同的数据库具有不同的大小写区分，如果你在运行项目的时候没有显式的指定数据库生成架构(SQL Server)或者表名前缀(MySql)的话，默认情况下就是以上3个名字。</p>
+<p><strong>Cap.Published</strong>：这个表主要是用来存储 CAP 发送到MQ(Message Queue)的客户端消息，也就是说你使用 <code>ICapPublisher</code> 接口 Publish 的消息内容。</p>
+<p><strong>Cap.Received</strong>：这个表主要是用来存储 CAP 接收到 MQ(Message Queue) 的客户端订阅的消息，也就是使用 <code>CapSubscribe[]</code> 订阅的那些消息。</p>
+<p><strong>Cap.Queue</strong>： 这个表主要是CAP内部用来处理发送和接收消息的一个临时表，通常情况下，如果系统不出现问题，这个表将是空的。</p>
+<p><code>Published</code> 和 <code>Received</code> 表具有 StatusName 字段，这个字段用来标识当前消息的状态。目前共有 Scheduled，Enqueued，Processing，Successed，Failed 等几个状态。CAP 在处理消息的过程中会依次从 Scheduled 到 Successed 来改变这些消息状态的值。如果是状态值为 Successed，代表该消息已经成功的发送到了 MQ 中。如果为 Failed 则代表消息发送失败，消息发送失败后 CAP 会对消息进行重试，直到成功。</p>
+<p><strong>关于数据清理</strong>： CAP 默认情况下会每隔一个小时将消息表的数据进行清理删除，避免数据量过多导致性能的降低。清理规则为 ExpiresAt 不为空并且小于当前时间的数据。</p>
+<h3 id="52-消息格式">5.2 消息格式</h3>
+<p>CAP 采用 JSON 格式进行消息传输，以下是消息的对象模型：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">NAME</th>
+<th style="text-align:left">DESCRIPTION</th>
+<th style="text-align:left">TYPE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Id</td>
+<td style="text-align:left">消息编号</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">Name</td>
+<td style="text-align:left">消息名称</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left">Content</td>
+<td style="text-align:left">内容</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left">Group</td>
+<td style="text-align:left">所属消费组</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left">Added</td>
+<td style="text-align:left">　创建时间</td>
+<td style="text-align:left">DateTime</td>
+</tr>
+<tr>
+<td style="text-align:left">ExpiresAt</td>
+<td style="text-align:left">过期时间</td>
+<td style="text-align:left">DateTime</td>
+</tr>
+<tr>
+<td style="text-align:left">Retries</td>
+<td style="text-align:left">重试次数</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">StatusName</td>
+<td style="text-align:left">状态</td>
+<td style="text-align:left">string</td>
+</tr>
+</tbody>
+</table>
+<blockquote><p>对于 Cap.Received 中的消息，会多一个 <code>Group</code> 字段来标记所属的消费者组。</p>
+</blockquote>
+<h3 id="53-eventbus">5.3 EventBus</h3>
+<p>EventBus 采用 发布-订阅 风格进行组件之间的通讯，它不需要显式在组件中进行注册。</p>
+<p><img src="http://images2017.cnblogs.com/blog/250417/201708/250417-20170804153901240-1774287236.png" alt=""></p>
+<p>上图是EventBus的一个Event的流程，关于 EventBus 的更多信息就不在这里介绍了...</p>
+<p>在 CAP 中，为什么说 CAP 实现了 EventBus 中的全部特性，因为 EventBus 具有的两个大功能就是发布和订阅， 在 CAP 中 使用了另外一种优雅的方式来实现的，另外一个 CAP 提供的强大功能就是消息的持久化，以及在任何异常情况下消息的可靠性，这是EventBus不具有的功能。</p>
+<p><img src="https://camo.githubusercontent.com/452505edb71d41f2c1bd18907275b76291621e46/687474703a2f2f696d61676573323031352e636e626c6f67732e636f6d2f626c6f672f3235303431372f3230313730372f3235303431372d32303137303730353137353832373132382d313230333239313436392e706e67" alt=""></p>
+<p>CAP 里面发送一个消息可以看做是一个 “Event”，一个使用了CAP的ASP.NET Core 应用程序既可以进行发送也可以进行订阅接收。</p>
+<h3 id="54-重试">5.4 重试</h3>
+<p>重试在实现分布式事务中具有重要作用，CAP 中会针对发送失败或者执行失败的消息进行重试。在整个 CAP 的设计过程中有以下几处采用的重试策略。</p>
+<p><strong>① 消息发送重试</strong></p>
+<p>在消息发送过程中，当出现 Broker 宕机或者连接失败的情况亦或者出现异常的情况下，这个时候 CAP 会对发送的重试，重试策略为默认 <strong>15</strong> 次失败重试，当15次过后仍然失败时，CAP会将此消息状态标记为失败。</p>
+<p><strong>② 消息消费重试</strong></p>
+<p>当 Consumer 接收到消息时，会执行消费者方法，在执行消费者方法出现异常时，会进行重试。这个重试策略和 ① 是相同的。</p>
+<p><strong>③ 失败消息重试</strong></p>
+<p>CAP 会定期针对 ① 和 ② 中状态为“失败的”消息进行重试，CAP会对他们进行重新“入队(Enqueue)”，入队时会将消息中的重试次数标记为0，状态置为 Enqueued。</p>
+</article>
+          </div>
+          <div class="col-md-10">
+                    <a name="cloudcomment">
+ 
+                    </a>          
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dotnetcore/CAP/blob/develop/document/5.&#23454;&#29616;.md/#L1" class="contribution-link">&#25913;&#36827;&#25991;&#26723;</a>
+                  </li>
+                                          <li>
+                                              <div style="margin-left: 10px; margin-top: 3px; margin-bottom: 3px;" class="bdsharebuttonbox">
+                                                  <a href="#" class="bds_more" data-cmd="more"></a>
+                                                  <a href="#" class="bds_mshare" data-cmd="mshare" title="分享到一键分享"></a>
+                                                  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                                  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                                  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                                  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                                  <a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a>
+                                              </div>
+                                          </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">返回顶部</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">返回顶部</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+      <script>
+      (function(){
+          var bp = document.createElement('script');
+          var curProtocol = window.location.protocol.split(':')[0];
+          if (curProtocol === 'https'){
+         bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(bp, s);
+      })();
+      </script>    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+     
+    <script type="text/javascript">window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </body>
+</html>
